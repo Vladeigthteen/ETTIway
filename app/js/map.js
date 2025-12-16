@@ -9,6 +9,30 @@ let markersLayer;
 let roomsData = [];
 
 /**
+ * Escape HTML to prevent XSS attacks
+ * @param {string} text - Text to escape
+ * @returns {string} Escaped HTML
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
+ * Validate coordinates
+ * @param {number} lat - Latitude
+ * @param {number} lon - Longitude
+ * @returns {boolean} True if coordinates are valid
+ */
+function isValidCoordinate(lat, lon) {
+    return typeof lat === 'number' && typeof lon === 'number' &&
+           lat >= -90 && lat <= 90 &&
+           lon >= -180 && lon <= 180 &&
+           !isNaN(lat) && !isNaN(lon);
+}
+
+/**
  * Initialize the interactive map using Leaflet
  * Sets up the base map with OpenStreetMap tiles
  */
@@ -31,32 +55,39 @@ function initializeMap() {
 }
 
 /**
- * Create a custom marker for a room
+ * Create a marker for a room
  * @param {Object} room - Room data object
- * @returns {L.Marker} Leaflet marker object
+ * @returns {L.Marker|null} Leaflet marker object or null if invalid coordinates
  */
 function createRoomMarker(room) {
-    // Create marker with custom icon color based on building
+    // Validate coordinates before creating marker
+    if (!isValidCoordinate(room.latitude, room.longitude)) {
+        console.warn(`Invalid coordinates for room ${room.id}: ${room.latitude}, ${room.longitude}`);
+        return null;
+    }
+    
+    // Create marker with room information in options for easy identification
     const marker = L.marker([room.latitude, room.longitude], {
         title: room.name,
-        alt: room.name
+        alt: room.name,
+        roomId: room.id // Store room ID for reliable identification
     });
     
-    // Create popup content with room details
+    // Create popup content with room details (escaped to prevent XSS)
     const popupContent = `
         <div class="popup-content">
-            <div class="popup-title">${room.name}</div>
+            <div class="popup-title">${escapeHtml(room.name)}</div>
             <div class="popup-info">
-                <span class="popup-label">Building:</span> ${room.building}
+                <span class="popup-label">Building:</span> ${escapeHtml(room.building)}
             </div>
             <div class="popup-info">
-                <span class="popup-label">Floor:</span> ${room.floor}
+                <span class="popup-label">Floor:</span> ${escapeHtml(room.floor)}
             </div>
             <div class="popup-info">
-                <span class="popup-label">Capacity:</span> ${room.capacity} people
+                <span class="popup-label">Capacity:</span> ${escapeHtml(String(room.capacity))} people
             </div>
             <div class="popup-info">
-                <span class="popup-label">Type:</span> ${room.type}
+                <span class="popup-label">Type:</span> ${escapeHtml(room.type)}
             </div>
         </div>
     `;
@@ -84,12 +115,16 @@ function loadRoomMarkers(rooms) {
     roomsData = rooms;
     
     // Create and add markers for each room
+    let validMarkers = 0;
     rooms.forEach(room => {
         const marker = createRoomMarker(room);
-        markersLayer.addLayer(marker);
+        if (marker) {
+            markersLayer.addLayer(marker);
+            validMarkers++;
+        }
     });
     
-    console.log(`Loaded ${rooms.length} room markers`);
+    console.log(`Loaded ${validMarkers} room markers out of ${rooms.length} rooms`);
 }
 
 /**
@@ -97,12 +132,18 @@ function loadRoomMarkers(rooms) {
  * @param {Object} room - Room data object
  */
 function focusOnRoom(room) {
+    // Validate coordinates before focusing
+    if (!isValidCoordinate(room.latitude, room.longitude)) {
+        console.warn(`Cannot focus on room ${room.id}: invalid coordinates`);
+        return;
+    }
+    
     // Pan to room location
     campusMap.setView([room.latitude, room.longitude], 18);
     
-    // Find and open the marker popup
+    // Find and open the marker popup using room ID for reliable matching
     markersLayer.eachLayer(layer => {
-        if (layer.options.title === room.name) {
+        if (layer.options.roomId === room.id) {
             layer.openPopup();
         }
     });
@@ -115,32 +156,32 @@ function focusOnRoom(room) {
 function displayRoomDetails(room) {
     const roomDetailsDiv = document.getElementById('room-details');
     
-    // Create HTML for room details
+    // Create HTML for room details (escaped to prevent XSS)
     const detailsHTML = `
         <h3>Room Details</h3>
         <div class="room-info">
             <span class="room-info-label">Name:</span>
-            <span class="room-info-value">${room.name}</span>
+            <span class="room-info-value">${escapeHtml(room.name)}</span>
         </div>
         <div class="room-info">
             <span class="room-info-label">Building:</span>
-            <span class="room-info-value">${room.building}</span>
+            <span class="room-info-value">${escapeHtml(room.building)}</span>
         </div>
         <div class="room-info">
             <span class="room-info-label">Floor:</span>
-            <span class="room-info-value">${room.floor}</span>
+            <span class="room-info-value">${escapeHtml(room.floor)}</span>
         </div>
         <div class="room-info">
             <span class="room-info-label">Capacity:</span>
-            <span class="room-info-value">${room.capacity} people</span>
+            <span class="room-info-value">${escapeHtml(String(room.capacity))} people</span>
         </div>
         <div class="room-info">
             <span class="room-info-label">Type:</span>
-            <span class="room-info-value">${room.type}</span>
+            <span class="room-info-value">${escapeHtml(room.type)}</span>
         </div>
         <div class="room-info">
             <span class="room-info-label">Description:</span>
-            <span class="room-info-value">${room.description}</span>
+            <span class="room-info-value">${escapeHtml(room.description)}</span>
         </div>
     `;
     
