@@ -1,0 +1,122 @@
+{
+  "campus": {
+    "name": "ETTI Campus",
+    "description": "Electronics, Telecommunications and Information Technology Campus",
+    "location": {
+      "latitude": 45.7489,
+      "longitude": 21.2087
+    }
+  },
+  "rooms": [
+    {
+      "id": "room001",
+      "name": "Room C201",
+      "building": "Building C",
+      "floor": "2",
+      "capacity": 50,
+      "type": "Lecture Hall",
+      "description": "Large lecture hall equipped with projector and audio system",
+      "latitude": 45.7492,
+      "longitude": 21.2085
+    },
+    {
+      "id": "room002",
+      "name": "Room C301",
+      "building": "Building C",
+      "floor": "3",
+      "capacity": 30,
+      "type": "Classroom",
+      "description": "Standard classroom for seminars and small lectures",
+      "latitude": 45.7490,
+      "longitude": 21.2083
+    },
+    {
+      "id": "room003",
+      "name": "Lab A101",
+      "building": "Building A",
+      "floor": "1",
+      "capacity": 25,
+      "type": "Computer Lab",
+      "description": "Computer laboratory with 25 workstations",
+      "latitude": 45.7487,
+      "longitude": 21.2089
+    },
+    {
+      "id": "room004",
+      "name": "Lab A102",
+      "building": "Building A",
+      "floor": "1",
+      "capacity": 20,
+      "type": "Electronics Lab",
+      "description": "Electronics laboratory with oscilloscopes and measurement equipment",
+      "latitude": 45.7486,
+      "longitude": 21.2091
+    },
+    {
+      "id": "room005",
+      "name": "Room B205",
+      "building": "Building B",
+      "floor": "2",
+      "capacity": 40,
+      "type": "Lecture Hall",
+      "description": "Medium-sized lecture hall with multimedia equipment",
+      "latitude": 45.7494,
+      "longitude": 21.2088
+    },
+    {
+      "id": "room006",
+      "name": "Library",
+      "building": "Main Building",
+      "floor": "1",
+      "capacity": 100,
+      "type": "Library",
+      "description": "Main campus library with study areas and computer workstations",
+      "latitude": 45.7489,
+      "longitude": 21.2087
+    },
+    {
+      "id": "room007",
+      "name": "Room D101",
+      "building": "Building D",
+      "floor": "1",
+      "capacity": 35,
+      "type": "Classroom",
+      "description": "Classroom with interactive whiteboard",
+      "latitude": 45.7491,
+      "longitude": 21.2090
+    },
+    {
+      "id": "room008",
+      "name": "Amphitheater 1",
+      "building": "Main Building",
+      "floor": "Ground",
+      "capacity": 150,
+      "type": "Amphitheater",
+      "description": "Large amphitheater for conferences and major lectures",
+      "latitude": 45.7488,
+      "longitude": 21.2086
+    },
+    {
+      "id": "room009",
+      "name": "Lab B301",
+      "building": "Building B",
+      "floor": "3",
+      "capacity": 30,
+      "type": "Research Lab",
+      "description": "Research laboratory for telecommunications projects",
+      "latitude": 45.7495,
+      "longitude": 21.2089
+    },
+    {
+      "id": "room010",
+      "name": "Room A202",
+      "building": "Building A",
+      "floor": "2",
+      "capacity": 25,
+      "type": "Seminar Room",
+      "description": "Small seminar room for group discussions",
+      "latitude": 45.7485,
+      "longitude": 21.2088
+    }
+  ]
+}
