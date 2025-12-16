@@ -19,6 +19,7 @@ ETTIway/
 │   ├── css/
 │   │   └── style.css           # Application styles
 │   ├── js/
+│   │   ├── utils.js            # Utility functions
 │   │   ├── main.js             # Main application logic
 │   │   └── map.js              # Map functionality
 │   └── data/

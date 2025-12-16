@@ -11,11 +11,13 @@ let roomsData = [];
 /**
  * Initialize the interactive map using Leaflet
  * Sets up the base map with OpenStreetMap tiles
+ * @param {number} lat - Latitude for map center (optional, defaults to ETTI Campus)
+ * @param {number} lon - Longitude for map center (optional, defaults to ETTI Campus)
+ * @param {number} zoom - Initial zoom level (optional, defaults to 16)
  */
-function initializeMap() {
-    // Create map centered on a default university location
-    // Coordinates: roughly centered on a typical European university campus
-    campusMap = L.map('map').setView([45.7489, 21.2087], 16);
+function initializeMap(lat = 45.7489, lon = 21.2087, zoom = 16) {
+    // Create map centered on specified coordinates
+    campusMap = L.map('map').setView([lat, lon], zoom);
     
     // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
