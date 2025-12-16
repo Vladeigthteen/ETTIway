@@ -3,120 +3,199 @@
     "name": "ETTI Campus",
     "description": "Electronics, Telecommunications and Information Technology Campus",
     "location": {
-      "latitude": 45.7489,
-      "longitude": 21.2087
-    }
+      "latitude": 44.433215,
+      "longitude": 26.056764
+    },
+    "boundary": [
+      [44.434374, 26.054533],
+[44.432133, 26.054506],
+[44.432179, 26.058712],
+[44.433837, 26.058691],
+[44.433845, 26.058465],
+[44.434393, 26.058449]
+    ]
   },
-  "rooms": [
+  "buildings": [
     {
-      "id": "room001",
-      "name": "Room C201",
-      "building": "Building C",
-      "floor": "2",
-      "capacity": 50,
-      "type": "Lecture Hall",
-      "description": "Large lecture hall equipped with projector and audio system",
-      "latitude": 45.7492,
-      "longitude": 21.2085
+      "id": "buildingA",
+      "name": "Corp A ",
+      "description": "Main administrative building and lecture halls.",
+      "points": [
+       [44.433531, 26.057164],
+       [44.433563, 26.056952],
+       [44.433726, 26.056955],
+      [44.433761, 26.057057],
+      [44.433881, 26.057062],
+      [44.433956, 26.057097],
+      [44.433964, 26.057103],
+      [44.434017, 26.057103],
+      [44.434012, 26.057089],
+      [44.434077, 26.057046],
+      [44.434125, 26.057108],
+      [44.434123, 26.057226],
+      [44.434077, 26.057261],
+      [44.434079, 26.057307],
+      [44.434127, 26.057333],
+      [44.434130, 26.057476],
+      [44.434086, 26.057505],
+      [44.434086, 26.057526],
+      [44.434132, 26.057559],
+      [44.434136, 26.057685],
+      [44.434090, 26.057728],
+      [44.434023, 26.057698],
+      [44.434027, 26.057985],
+      [44.434092, 26.057990],
+      [44.434096, 26.058259],
+      [44.433604, 26.058272],
+      [44.433600, 26.057883],
+      [44.433667, 26.057886],
+      [44.433665, 26.057695],
+      [44.433590, 26.057701],
+      [44.433584, 26.057422],
+      [44.433563, 26.057416],
+      [44.433563, 26.057384],
+      [44.433562, 26.057288],
+      [44.433560, 26.057218]
+      ],
+      "color": "#3388ff"
     },
     {
-      "id": "room002",
-      "name": "Room C301",
-      "building": "Building C",
-      "floor": "3",
-      "capacity": 30,
-      "type": "Classroom",
-      "description": "Standard classroom for seminars and small lectures",
-      "latitude": 45.7490,
-      "longitude": 21.2083
+      "id": "buildingB",
+      "name": "Corp B",
+      "description": "Laboratories and research centers.",
+      "points": [
+        [44.433458, 26.057116],
+        [44.433416, 26.057113],
+        [44.433408, 26.056826],
+        [44.432870, 26.056840],
+        [44.432880, 26.057446],
+        [44.433050, 26.057435],
+        [44.433046, 26.057046],
+        [44.433322, 26.057046],
+        [44.433336, 26.058068],
+        [44.433060, 26.058076],
+        [44.433052, 26.057709],
+        [44.432885, 26.057709],
+        [44.432899, 26.058304],
+        [44.433435, 26.058296],
+        [44.433429, 26.057996],
+        [44.433470, 26.057993]
+      ],
+      "color": "#ff7800"
     },
     {
-      "id": "room003",
-      "name": "Lab A101",
-      "building": "Building A",
-      "floor": "1",
-      "capacity": 25,
-      "type": "Computer Lab",
-      "description": "Computer laboratory with 25 workstations",
-      "latitude": 45.7487,
-      "longitude": 21.2089
+      "id": "buildingC",
+      "name": "Camin Leu A",
+      "description": "Student dormitory.",
+      "points": [
+        [44.434111, 26.054780],
+[44.433968, 26.054783],
+[44.433979, 26.055804],
+[44.434127, 26.055799]
+
+      ],
+      "color": "#28a745"
     },
     {
-      "id": "room004",
-      "name": "Lab A102",
-      "building": "Building A",
-      "floor": "1",
-      "capacity": 20,
-      "type": "Electronics Lab",
-      "description": "Electronics laboratory with oscilloscopes and measurement equipment",
-      "latitude": 45.7486,
-      "longitude": 21.2091
+      "id": "buildingD",
+      "name": "Camin Leu B",
+      "description": "Student dormitory.",
+      "points": [
+        [44.433814, 26.054729],
+[44.433395, 26.054745],
+[44.433403, 26.054938],
+[44.433820, 26.054911]
+      ],
+      "color": "#28a745"
     },
     {
-      "id": "room005",
-      "name": "Room B205",
-      "building": "Building B",
-      "floor": "2",
-      "capacity": 40,
-      "type": "Lecture Hall",
-      "description": "Medium-sized lecture hall with multimedia equipment",
-      "latitude": 45.7494,
-      "longitude": 21.2088
+      "id": "buildingE",
+      "name": "Camin Leu C",
+      "description": "Student dormitory.",
+      "points": [
+       [44.434090, 26.055971],
+[44.434098, 26.056108],
+[44.433788, 26.056118],
+[44.433788, 26.056035],
+[44.433370, 26.056043],
+[44.433372, 26.056113],
+[44.433058, 26.056124],
+[44.433054, 26.055984],
+[44.433316, 26.055979],
+[44.433311, 26.055893],
+[44.433837, 26.055890],
+[44.433841, 26.055968]
+      ],
+      "color": "#e74c3c"
     },
     {
-      "id": "room006",
-      "name": "Library",
-      "building": "Main Building",
-      "floor": "1",
-      "capacity": 100,
-      "type": "Library",
-      "description": "Main campus library with study areas and computer workstations",
-      "latitude": 45.7489,
-      "longitude": 21.2087
+      "id": "buildingF",
+      "name": "Camin Leu D",
+      
+      "description": "Student dormitory.",
+      "points": [
+        [44.433157, 26.055011],
+        [44.433161, 26.055166],
+        [44.432981, 26.055177],
+        [44.432977, 26.055255],
+        [44.433027, 26.055260],
+        [44.433031, 26.055408],
+        [44.432518, 26.055424],
+        [44.432514, 26.055276],
+        [44.432866, 26.055260],
+        [44.432864, 26.055016],
+        [44.433159, 26.055008]
+      ],
+      "color": "#2ecc71"
     },
     {
-      "id": "room007",
-      "name": "Room D101",
-      "building": "Building D",
-      "floor": "1",
-      "capacity": 35,
-      "type": "Classroom",
-      "description": "Classroom with interactive whiteboard",
-      "latitude": 45.7491,
-      "longitude": 21.2090
+      "id": "buildingG",
+      "name": "Teren Fotbal",
+      "description": "Football field.",
+      "icon": "Icons/football.svg",
+      "points": [
+        [44.432744, 26.056950],
+        [44.432767, 26.058184],
+        [44.432240, 26.058205],
+        [44.432221, 26.056963]
+      ],
+      "color": "#f1c40f"
     },
     {
-      "id": "room008",
-      "name": "Amphitheater 1",
-      "building": "Main Building",
-      "floor": "Ground",
-      "capacity": 150,
-      "type": "Amphitheater",
-      "description": "Large amphitheater for conferences and major lectures",
-      "latitude": 45.7488,
-      "longitude": 21.2086
+      "id": "buildingH",
+      "name": "Rectorat",
+      "description": "Rector's office.",
+      "points": [
+        [44.4330, 26.0582],
+        [44.4333, 26.0582],
+        [44.4333, 26.0588],
+        [44.4330, 26.0588]
+      ],
+      "color": "#34495e"
     },
     {
-      "id": "room009",
-      "name": "Lab B301",
-      "building": "Building B",
-      "floor": "3",
-      "capacity": 30,
-      "type": "Research Lab",
-      "description": "Research laboratory for telecommunications projects",
-      "latitude": 45.7495,
-      "longitude": 21.2089
+      "id": "buildingI",
+      "name": "Laboratoare",
+      "description": "Research labs annex.",
+      "points": [
+        [44.4335, 26.0582],
+        [44.4338, 26.0582],
+        [44.4338, 26.0588],
+        [44.4335, 26.0588]
+      ],
+      "color": "#1abc9c"
     },
     {
-      "id": "room010",
-      "name": "Room A202",
-      "building": "Building A",
-      "floor": "2",
-      "capacity": 25,
-      "type": "Seminar Room",
-      "description": "Small seminar room for group discussions",
-      "latitude": 45.7485,
-      "longitude": 21.2088
+      "id": "buildingJ",
+      "name": "Cantina",
+      "description": "Campus cafeteria.",
+      "points": [
+        [44.4342, 26.0582],
+        [44.4345, 26.0582],
+        [44.4345, 26.0588],
+        [44.4342, 26.0588]
+      ],
+      "color": "#e67e22"
     }
   ]
 }

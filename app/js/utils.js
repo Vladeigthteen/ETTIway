@@ -4,9 +4,16 @@
  */
 
 // Default map configuration constants
-const DEFAULT_CAMPUS_LAT = 45.7489;
-const DEFAULT_CAMPUS_LON = 21.2087;
-const DEFAULT_ZOOM_LEVEL = 16;
+// Center calculated based on provided bounds: (44.432102 + 44.434329)/2, (26.054500 + 26.059028)/2
+const DEFAULT_CAMPUS_LAT = 44.433215;
+const DEFAULT_CAMPUS_LON = 26.056764;
+const DEFAULT_ZOOM_LEVEL = 18; // Increased zoom since the area is smaller
+
+// Map boundaries (South-West, North-East)
+const MAP_BOUNDS = [
+    [44.432102, 26.054500], // South-West
+    [44.434329, 26.059028]  // North-East
+];
 
 /**
  * Escape HTML to prevent XSS attacks

@@ -7,8 +7,8 @@
 const CAMPUS_DATA_FILE = 'data/campus.sample.json';
 
 /**
- * Load campus room data from JSON file
- * @returns {Promise<Object>} Promise resolving to object with campus info and rooms array
+ * Load campus data from JSON file
+ * @returns {Promise<Object>} Promise resolving to object with campus info and buildings array
  */
 async function loadCampusData() {
     try {
@@ -22,46 +22,46 @@ async function loadCampusData() {
     } catch (error) {
         console.error('Error loading campus data:', error);
         // Return empty object on error
-        return { campus: null, rooms: [] };
+        return { campus: null, buildings: [] };
     }
 }
 
 /**
- * Populate the room list in the sidebar
- * @param {Array} rooms - Array of room objects
+ * Populate the building list in the sidebar
+ * @param {Array} buildings - Array of building objects
  */
-function populateRoomList(rooms) {
-    const roomListContainer = document.getElementById('room-list-container');
+function populateBuildingList(buildings) {
+    const listContainer = document.getElementById('room-list-container');
     
-    if (rooms.length === 0) {
-        roomListContainer.innerHTML = '<p class="info-text">No rooms available</p>';
+    if (!buildings || buildings.length === 0) {
+        listContainer.innerHTML = '<p class="info-text">No buildings available</p>';
         return;
     }
     
     // Clear existing content
-    roomListContainer.innerHTML = '';
+    listContainer.innerHTML = '';
     
-    // Create list items for each room
-    rooms.forEach(room => {
-        const roomItem = document.createElement('div');
-        roomItem.className = 'room-item';
+    // Create list items for each building
+    buildings.forEach(building => {
+        const item = document.createElement('div');
+        item.className = 'room-item'; // Keeping class name for style compatibility
         
         // Use escaped HTML to prevent XSS
-        roomItem.innerHTML = `
-            <div class="room-item-name">${escapeHtml(room.name)}</div>
-            <div class="room-item-building">${escapeHtml(room.building)} - Floor ${escapeHtml(room.floor)}</div>
+        item.innerHTML = `
+            <div class="room-item-name">${escapeHtml(building.name)}</div>
+            <div class="room-item-building">${escapeHtml(building.description)}</div>
         `;
         
-        // Add click handler to focus on room
-        roomItem.addEventListener('click', () => {
-            focusOnRoom(room);
-            displayRoomDetails(room);
+        // Add click handler to focus on building
+        item.addEventListener('click', () => {
+            focusOnBuilding(building);
+            displayBuildingDetails(building);
         });
         
-        roomListContainer.appendChild(roomItem);
+        listContainer.appendChild(item);
     });
     
-    console.log(`Populated room list with ${rooms.length} rooms`);
+    console.log(`Populated list with ${buildings.length} buildings`);
 }
 
 /**
@@ -99,24 +99,23 @@ async function initialize() {
             data.campus.location.longitude
         );
     } else {
-        // Fallback to default coordinates
         initializeMap();
     }
     
-    // Load markers on the map
-    if (data.rooms && data.rooms.length > 0) {
-        loadRoomMarkers(data.rooms);
-        populateRoomList(data.rooms);
-    } else {
-        document.getElementById('room-list-container').innerHTML = 
-            '<p class="info-text">Failed to load room data</p>';
+    // Draw campus boundary if available
+    if (data.campus && data.campus.boundary) {
+        drawCampusBoundary(data.campus.boundary);
     }
     
-    // Initialize search (UI only)
-    initializeSearch();
+    // Load buildings onto the map
+    if (data.buildings) {
+        loadBuildingPolygons(data.buildings);
+        populateBuildingList(data.buildings);
+    }
     
-    console.log('ETTIway application initialized successfully');
+    // Initialize UI components
+    initializeSearch();
 }
 
-// Wait for DOM to be fully loaded before initializing
+// Start application when DOM is ready
 document.addEventListener('DOMContentLoaded', initialize);
