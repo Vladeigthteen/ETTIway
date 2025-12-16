@@ -15,7 +15,7 @@ let roomsData = [];
  * @param {number} lon - Longitude for map center (optional, defaults to ETTI Campus)
  * @param {number} zoom - Initial zoom level (optional, defaults to 16)
  */
-function initializeMap(lat = 45.7489, lon = 21.2087, zoom = 16) {
+function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom = DEFAULT_ZOOM_LEVEL) {
     // Create map centered on specified coordinates
     campusMap = L.map('map').setView([lat, lon], zoom);
     
@@ -51,24 +51,8 @@ function createRoomMarker(room) {
         roomId: room.id // Store room ID for reliable identification
     });
     
-    // Create popup content with room details (escaped to prevent XSS)
-    const popupContent = `
-        <div class="popup-content">
-            <div class="popup-title">${escapeHtml(room.name)}</div>
-            <div class="popup-info">
-                <span class="popup-label">Building:</span> ${escapeHtml(room.building)}
-            </div>
-            <div class="popup-info">
-                <span class="popup-label">Floor:</span> ${escapeHtml(room.floor)}
-            </div>
-            <div class="popup-info">
-                <span class="popup-label">Capacity:</span> ${escapeHtml(String(room.capacity))} people
-            </div>
-            <div class="popup-info">
-                <span class="popup-label">Type:</span> ${escapeHtml(room.type)}
-            </div>
-        </div>
-    `;
+    // Create popup content with room details using shared template
+    const popupContent = createRoomDetailsHtml(room, true);
     
     // Bind popup to marker
     marker.bindPopup(popupContent);
@@ -134,33 +118,14 @@ function focusOnRoom(room) {
 function displayRoomDetails(room) {
     const roomDetailsDiv = document.getElementById('room-details');
     
-    // Create HTML for room details (escaped to prevent XSS)
+    // Create HTML for room details using shared template
     const detailsHTML = `
         <h3>Room Details</h3>
         <div class="room-info">
             <span class="room-info-label">Name:</span>
             <span class="room-info-value">${escapeHtml(room.name)}</span>
         </div>
-        <div class="room-info">
-            <span class="room-info-label">Building:</span>
-            <span class="room-info-value">${escapeHtml(room.building)}</span>
-        </div>
-        <div class="room-info">
-            <span class="room-info-label">Floor:</span>
-            <span class="room-info-value">${escapeHtml(room.floor)}</span>
-        </div>
-        <div class="room-info">
-            <span class="room-info-label">Capacity:</span>
-            <span class="room-info-value">${escapeHtml(String(room.capacity))} people</span>
-        </div>
-        <div class="room-info">
-            <span class="room-info-label">Type:</span>
-            <span class="room-info-value">${escapeHtml(room.type)}</span>
-        </div>
-        <div class="room-info">
-            <span class="room-info-label">Description:</span>
-            <span class="room-info-value">${escapeHtml(room.description)}</span>
-        </div>
+        ${createRoomDetailsHtml(room, false)}
     `;
     
     roomDetailsDiv.innerHTML = detailsHTML;
