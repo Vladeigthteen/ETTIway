@@ -3,23 +3,26 @@
  * Handles initialization, data loading, and UI interactions
  */
 
+// Configuration constants
+const CAMPUS_DATA_FILE = 'data/campus.sample.json';
+
 /**
  * Load campus room data from JSON file
- * @returns {Promise<Array>} Promise resolving to array of room objects
+ * @returns {Promise<Object>} Promise resolving to object with campus info and rooms array
  */
 async function loadCampusData() {
     try {
-        const response = await fetch('data/campus.sample.json');
+        const response = await fetch(CAMPUS_DATA_FILE);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         console.log('Campus data loaded successfully', data);
-        return data.rooms;
+        return data;
     } catch (error) {
         console.error('Error loading campus data:', error);
-        // Return empty array on error
-        return [];
+        // Return empty object on error
+        return { campus: null, rooms: [] };
     }
 }
 
@@ -86,16 +89,24 @@ function initializeSearch() {
 async function initialize() {
     console.log('Initializing ETTIway application...');
     
-    // Initialize the map
-    initializeMap();
+    // Load campus data first
+    const data = await loadCampusData();
     
-    // Load campus data
-    const rooms = await loadCampusData();
+    // Initialize the map with campus center coordinates if available
+    if (data.campus && data.campus.location) {
+        initializeMap(
+            data.campus.location.latitude,
+            data.campus.location.longitude
+        );
+    } else {
+        // Fallback to default coordinates
+        initializeMap();
+    }
     
     // Load markers on the map
-    if (rooms.length > 0) {
-        loadRoomMarkers(rooms);
-        populateRoomList(rooms);
+    if (data.rooms && data.rooms.length > 0) {
+        loadRoomMarkers(data.rooms);
+        populateRoomList(data.rooms);
     } else {
         document.getElementById('room-list-container').innerHTML = 
             '<p class="info-text">Failed to load room data</p>';
