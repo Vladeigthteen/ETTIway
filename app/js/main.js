@@ -24,6 +24,17 @@ async function loadCampusData() {
 }
 
 /**
+ * Escape HTML to prevent XSS attacks
+ * @param {string} text - Text to escape
+ * @returns {string} Escaped HTML
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
  * Populate the room list in the sidebar
  * @param {Array} rooms - Array of room objects
  */
@@ -43,9 +54,10 @@ function populateRoomList(rooms) {
         const roomItem = document.createElement('div');
         roomItem.className = 'room-item';
         
+        // Use escaped HTML to prevent XSS
         roomItem.innerHTML = `
-            <div class="room-item-name">${room.name}</div>
-            <div class="room-item-building">${room.building} - Floor ${room.floor}</div>
+            <div class="room-item-name">${escapeHtml(room.name)}</div>
+            <div class="room-item-building">${escapeHtml(room.building)} - Floor ${escapeHtml(room.floor)}</div>
         `;
         
         // Add click handler to focus on room
