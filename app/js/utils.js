@@ -44,19 +44,19 @@ function createRoomDetailsHtml(room, compact = false) {
         <div class="${compact ? 'popup-content' : ''}">
             ${compact ? `<div class="popup-title">${escapeHtml(room.name)}</div>` : ''}
             <div class="${compact ? 'popup-info' : 'room-info'}">
-                <span class="${compact ? 'popup-label' : 'room-info-label'}">${compact ? 'Building:' : 'Building:'}</span>
+                <span class="${compact ? 'popup-label' : 'room-info-label'}">Building:</span>
                 ${compact ? '' : '<span class="room-info-value">'}${escapeHtml(room.building)}${compact ? '' : '</span>'}
             </div>
             <div class="${compact ? 'popup-info' : 'room-info'}">
-                <span class="${compact ? 'popup-label' : 'room-info-label'}">${compact ? 'Floor:' : 'Floor:'}</span>
+                <span class="${compact ? 'popup-label' : 'room-info-label'}">Floor:</span>
                 ${compact ? '' : '<span class="room-info-value">'}${escapeHtml(room.floor)}${compact ? '' : '</span>'}
             </div>
             <div class="${compact ? 'popup-info' : 'room-info'}">
-                <span class="${compact ? 'popup-label' : 'room-info-label'}">${compact ? 'Capacity:' : 'Capacity:'}</span>
+                <span class="${compact ? 'popup-label' : 'room-info-label'}">Capacity:</span>
                 ${compact ? '' : '<span class="room-info-value">'}${escapeHtml(String(room.capacity))} people${compact ? '' : '</span>'}
             </div>
             <div class="${compact ? 'popup-info' : 'room-info'}">
-                <span class="${compact ? 'popup-label' : 'room-info-label'}">${compact ? 'Type:' : 'Type:'}</span>
+                <span class="${compact ? 'popup-label' : 'room-info-label'}">Type:</span>
                 ${compact ? '' : '<span class="room-info-value">'}${escapeHtml(room.type)}${compact ? '' : '</span>'}
             </div>
             ${!compact && room.description ? `
