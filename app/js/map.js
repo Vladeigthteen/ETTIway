@@ -8,6 +8,14 @@ let campusMap;
 let buildingsLayer;
 let buildingsData = [];
 let entrancesLayer;
+// Layers for paths
+let drawnPathsLayer;    // used in Edit Mode (hidden by default)
+let missingRoadsLayer;  // renders data.paths as solid gray (visible by default)
+// Styling defaults (easy to change)
+const STYLES = {
+    drawn: { color: '#e67e22', border: '#ffffffff', weight: 4, dash: '3,6', opacity: 1.0 },
+    missing: { color: '#ffffffff', border: '#e6e0e0ff', weight: 10, dash: null, opacity: 0.7 }
+};
 
 /**
  * Initialize the interactive map using Leaflet
@@ -36,6 +44,14 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     buildingsLayer = L.layerGroup().addTo(campusMap);
     // Layer for entrances (gates/parking/pedestrian)
     entrancesLayer = L.layerGroup().addTo(campusMap);
+    // Layer for missing roads (from data.paths) - visible by default
+    missingRoadsLayer = L.layerGroup().addTo(campusMap);
+    // Layer for user-drawn paths (edit mode) - not added to map by default
+    drawnPathsLayer = L.layerGroup();
+
+    // expose on window for toggles/UI
+    window.missingRoadsLayer = missingRoadsLayer;
+    window.drawnPathsLayer = drawnPathsLayer;
     
     console.log('Map initialized successfully');
 }
@@ -241,6 +257,55 @@ function drawCampusBoundary(boundaryPoints) {
 // Path Drawing Mode
 // =========================
 
+/**
+ * Helper: create a bordered polyline (two stacked polylines) and return a wrapper
+ * so callers can setLatLngs(...) on it. This gives the visual effect of a stroke
+ * outline (border color) behind the main line.
+ * @param {Array} latlngs initial latlngs
+ * @param {Object} opts options for the main polyline: { color, weight, dashArray, opacity }
+ * @param {String} borderColor color for the border/outline
+ * @param {L.LayerGroup} targetLayer optional layer to add both polylines to
+ * @returns {Object} wrapper with methods: setLatLngs(arr), addTo(layer), remove()
+ */
+function createBorderedPolyline(latlngs = [], opts = {}, borderColor = '#ffffff', targetLayer = null) {
+    // border is drawn first (wider), then the main line on top
+    const borderWeight = (opts.weight || 3) + 2; // slightly thicker
+    const borderPoly = L.polyline(latlngs, {
+        color: borderColor,
+        weight: borderWeight,
+        opacity: (opts.opacity !== undefined ? opts.opacity : 0.9),
+        interactive: false
+    });
+
+    const mainPoly = L.polyline(latlngs, {
+        color: opts.color || '#e67e22',
+        weight: opts.weight || 3,
+        dashArray: opts.dashArray || null,
+        opacity: (opts.opacity !== undefined ? opts.opacity : 1.0)
+    });
+
+    const wrapper = {
+        border: borderPoly,
+        main: mainPoly,
+        setLatLngs(arr) {
+            wrapper.border.setLatLngs(arr);
+            wrapper.main.setLatLngs(arr);
+        },
+        addTo(layer) {
+            if (!layer) return;
+            layer.addLayer(wrapper.border);
+            layer.addLayer(wrapper.main);
+        },
+        remove() {
+            try { wrapper.border.remove(); } catch (e) {}
+            try { wrapper.main.remove(); } catch (e) {}
+        }
+    };
+
+    if (targetLayer) wrapper.addTo(targetLayer);
+    return wrapper;
+}
+
 // Drawing state
 let drawModeEnabled = false;
 let currentPathPoints = [];
@@ -310,8 +375,9 @@ function enableDrawMode() {
     drawModeEnabled = true;
     currentPathPoints = [];
 
-    // create an empty polyline
-    currentPolyline = L.polyline([], { color: '#e67e22', weight: 4, dashArray: '3,6' }).addTo(campusMap);
+    // create an empty bordered polyline and add it to the drawnPathsLayer (edit layer)
+    if (!drawnPathsLayer) drawnPathsLayer = L.layerGroup();
+    currentPolyline = createBorderedPolyline([], { color: STYLES.drawn.color, weight: STYLES.drawn.weight, dashArray: STYLES.drawn.dash, opacity: STYLES.drawn.opacity }, STYLES.drawn.border, drawnPathsLayer);
 
     // click handler
     _mapClickHandler = function(e) {
@@ -375,6 +441,8 @@ async function exportCurrentPath() {
     };
 
     const json = JSON.stringify(payload, null, 2);
+    // Helpful console output for easy copy/paste into data file
+    console.log('// Paste into campus.sample.json -> paths:[...]');
     console.log(json);
 
     // Try copying to clipboard
@@ -392,6 +460,13 @@ async function exportCurrentPath() {
 
     // Optionally disable draw mode after export
     // disableDrawMode();
+
+    // Add exported path to runtime storage and preview on missingRoadsLayer
+    try {
+        addPathObject(payload);
+    } catch (e) {
+        console.warn('Failed to add exported path to runtime', e);
+    }
 }
 
 // Make functions available globally so main.js UI can call them
@@ -400,3 +475,182 @@ window.disableDrawMode = disableDrawMode;
 window.undoLastPoint = undoLastPoint;
 window.clearCurrentPath = clearCurrentPath;
 window.exportCurrentPath = exportCurrentPath;
+/**
+ * renderPathsFromData - render missingRoadsLayer from data.paths
+ * Note: data.paths is kept as the routing network but rendered into missingRoadsLayer
+ * (solid gray) rather than the edit-layer (drawnPathsLayer).
+ * @param {Object} data - campus JSON object
+ */
+function renderPathsFromData(data) {
+    if (!campusMap) return;
+    if (!missingRoadsLayer) missingRoadsLayer = L.layerGroup().addTo(campusMap);
+
+    missingRoadsLayer.clearLayers();
+    // Clear any existing runtime wrappers (we'll recreate them below)
+    try {
+        Object.keys(_runtimePathLayers).forEach(id => {
+            try { _runtimePathLayers[id].remove(); } catch (e) {}
+            delete _runtimePathLayers[id];
+        });
+    } catch (e) {}
+    if (!data || !Array.isArray(data.paths)) return;
+
+    data.paths.forEach(obj => {
+        if (!obj || !Array.isArray(obj.points) || obj.points.length === 0) return;
+        const latlngs = obj.points.map(p => [parseFloat(p[0]), parseFloat(p[1])]);
+           // draw with border for better visual separation
+           const wrapper = createBorderedPolyline(latlngs, { color: STYLES.missing.color, weight: STYLES.missing.weight, opacity: STYLES.missing.opacity }, STYLES.missing.border, missingRoadsLayer);
+           // bind tooltip on the main polyline
+           try { wrapper.main.bindTooltip(obj.id || obj.type || 'path', { permanent: false, direction: 'center' }); } catch (e) {}
+    });
+
+    // Also render persisted/runtime-added paths stored in window.runtimePaths
+    try {
+        const rpaths = window.runtimePaths || [];
+        rpaths.forEach(obj => {
+            if (!obj || !Array.isArray(obj.points) || obj.points.length === 0) return;
+            const latlngs = obj.points.map(p => [parseFloat(p[0]), parseFloat(p[1])]);
+            const wrapper = createBorderedPolyline(latlngs, { color: STYLES.missing.color, weight: STYLES.missing.weight, opacity: STYLES.missing.opacity }, STYLES.missing.border, missingRoadsLayer);
+            try { wrapper.main.bindTooltip(obj.id || obj.type || 'path', { permanent: false, direction: 'center' }); } catch (e) {}
+            _runtimePathLayers[obj.id] = wrapper;
+        });
+    } catch (e) { console.warn('Failed to render runtime paths', e); }
+}
+
+// expose
+window.renderPathsFromData = renderPathsFromData;
+
+// Runtime storage for paths added/removed during the session
+const STORAGE_KEY = 'ettiway.runtimePaths.v1';
+const _runtimePathLayers = {}; // id -> wrapper (border+main)
+
+/**
+ * Load runtime paths from localStorage. If none, return empty array.
+ */
+function loadRuntimePathsFromStorage() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+        return parsed;
+    } catch (e) {
+        console.warn('Failed to load runtime paths from storage', e);
+        return [];
+    }
+}
+
+/**
+ * Save current runtime paths to localStorage
+ */
+function saveRuntimePathsToStorage() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(window.runtimePaths || []));
+    } catch (e) {
+        console.warn('Failed to save runtime paths to storage', e);
+    }
+}
+
+// initialize runtimePaths from storage
+window.runtimePaths = loadRuntimePathsFromStorage();
+
+/**
+ * addPathObject - add a path object to runtime storage and render it into missingRoadsLayer
+ * @param {Object} obj - {id, type, points: [[lat,lng], ...]}
+ */
+function addPathObject(obj) {
+    if (!obj || !Array.isArray(obj.points)) return null;
+    // ensure id
+    if (!obj.id) obj.id = 'path_' + (Date.now());
+
+    // push to runtime storage
+
+    window.runtimePaths.push(obj);
+    // persist runtime paths immediately
+    try { saveRuntimePathsToStorage(); } catch (e) {}
+
+    // ensure layer
+    if (!missingRoadsLayer) missingRoadsLayer = L.layerGroup().addTo(campusMap);
+
+    const latlngs = obj.points.map(p => [parseFloat(p[0]), parseFloat(p[1])]);
+    const wrapper = createBorderedPolyline(latlngs, { color: STYLES.missing.color, weight: STYLES.missing.weight, opacity: STYLES.missing.opacity }, STYLES.missing.border, missingRoadsLayer);
+    try { wrapper.main.bindTooltip(obj.id || obj.type || 'path', { permanent: false, direction: 'center' }); } catch (e) {}
+
+    _runtimePathLayers[obj.id] = wrapper;
+
+
+    // notify listeners (UI) that runtime paths changed
+    try { window.dispatchEvent(new CustomEvent('pathsUpdated')); } catch (e) {}
+
+    return obj.id;
+}
+
+/**
+ * removePathById - remove a runtime path and its layer by id
+ * @param {String} id
+ */
+function removePathById(id) {
+    if (!id) return false;
+    // remove from runtimePaths
+    const idx = (window.runtimePaths || []).findIndex(p => p.id === id);
+    if (idx !== -1) window.runtimePaths.splice(idx, 1);
+
+    // remove layer
+    const wrapper = _runtimePathLayers[id];
+    if (wrapper) {
+        try { wrapper.remove(); } catch (e) {}
+        delete _runtimePathLayers[id];
+    }
+
+    // persist updated runtime paths
+    try { saveRuntimePathsToStorage(); } catch (e) {}
+    // notify UI
+    try { window.dispatchEvent(new CustomEvent('pathsUpdated')); } catch (e) {}
+    return true;
+}
+
+// expose
+window.addPathObject = addPathObject;
+window.removePathById = removePathById;
+
+/**
+ * Export all runtime paths (JSON array) to clipboard and console
+ */
+async function exportAllRuntimePaths() {
+    try {
+        const arr = window.runtimePaths || [];
+        const json = JSON.stringify(arr, null, 2);
+        console.log('// Exported runtime paths (array)');
+        console.log(json);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(json);
+            alert('Toate traseele din sesiune au fost copiate în clipboard');
+        } else {
+            prompt('Copiează manual JSON-ul:', json);
+        }
+    } catch (e) {
+        console.warn('exportAllRuntimePaths failed', e);
+        alert('Export eșuat');
+    }
+}
+
+/**
+ * Clear persisted runtime paths from localStorage and from map/session
+ */
+function clearPersistedRuntimePaths() {
+    try {
+        localStorage.removeItem(STORAGE_KEY);
+    } catch (e) { console.warn('Failed to clear storage', e); }
+    // remove all runtime path layers
+    try {
+        Object.keys(_runtimePathLayers).forEach(id => {
+            try { _runtimePathLayers[id].remove(); } catch (e) {}
+            delete _runtimePathLayers[id];
+        });
+    } catch (e) {}
+    window.runtimePaths = [];
+    try { window.dispatchEvent(new CustomEvent('pathsUpdated')); } catch (e) {}
+}
+
+window.exportAllRuntimePaths = exportAllRuntimePaths;
+window.clearPersistedRuntimePaths = clearPersistedRuntimePaths;
