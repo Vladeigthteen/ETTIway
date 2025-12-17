@@ -7,6 +7,7 @@
 let campusMap;
 let buildingsLayer;
 let buildingsData = [];
+let entrancesLayer;
 
 /**
  * Initialize the interactive map using Leaflet
@@ -33,8 +34,49 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     
     // Create a layer group for buildings (allows easy management)
     buildingsLayer = L.layerGroup().addTo(campusMap);
+    // Layer for entrances (gates/parking/pedestrian)
+    entrancesLayer = L.layerGroup().addTo(campusMap);
     
     console.log('Map initialized successfully');
+}
+
+/**
+ * Draw entrance markers on the map
+ * @param {Array} entrances - Array of entrance objects {id,name,type,coordinates}
+ */
+function drawEntrances(entrances) {
+    if (!entrances || !Array.isArray(entrances) || !campusMap) return;
+
+    // Clear existing entrance markers
+    entrancesLayer.clearLayers();
+
+    entrances.forEach(ent => {
+        if (!ent || !ent.coordinates || ent.coordinates.length < 2) return;
+
+        const latlng = ent.coordinates;
+
+        // Style based on type
+        let fillColor = '#2980b9'; // pedestrian default (blue)
+        if (ent.type === 'vehicle') fillColor = '#27ae60'; // vehicle (green)
+
+        const marker = L.circleMarker(latlng, {
+            radius: 6,
+            fillColor: fillColor,
+            color: '#ffffff',
+            weight: 1,
+            fillOpacity: 0.95
+        });
+
+        const tooltip = ent.name || ent.id || 'Intrare';
+        marker.bindTooltip(tooltip, { direction: 'top', permanent: false, className: 'entrance-tooltip' });
+
+        marker.on('click', () => {
+            // center map on entrance when clicked
+            campusMap.panTo(latlng);
+        });
+
+        entrancesLayer.addLayer(marker);
+    });
 }
 
 /**
@@ -194,3 +236,167 @@ function drawCampusBoundary(boundaryPoints) {
         interactive: false
     }).addTo(campusMap);
 }
+
+// =========================
+// Path Drawing Mode
+// =========================
+
+// Drawing state
+let drawModeEnabled = false;
+let currentPathPoints = [];
+let currentPolyline = null;
+let _mapClickHandler = null;
+let _drawIdCounter = 1;
+
+// Floating panel elements (created on demand)
+let _drawPanel = null;
+
+function _ensureDrawPanel() {
+    if (_drawPanel) return;
+    _drawPanel = document.createElement('div');
+    _drawPanel.id = 'draw-panel';
+    _drawPanel.className = 'draw-panel';
+    _drawPanel.innerHTML = `
+        <div class="draw-header">Draw Mode</div>
+        <div class="draw-status-row">Status: <span id="draw-status">OFF</span></div>
+        <div class="draw-points-row">Points: <span id="draw-points">0</span></div>
+        <div class="draw-last-row">Last: <span id="draw-last">-</span></div>
+        <div id="draw-msg" class="draw-msg" aria-live="polite"></div>
+    `;
+    document.body.appendChild(_drawPanel);
+}
+
+function _updateDrawPanel() {
+    _ensureDrawPanel();
+    const statusEl = document.getElementById('draw-status');
+    const pointsEl = document.getElementById('draw-points');
+    const lastEl = document.getElementById('draw-last');
+    const msgEl = document.getElementById('draw-msg');
+
+    statusEl.textContent = drawModeEnabled ? 'ON' : 'OFF';
+    pointsEl.textContent = currentPathPoints.length;
+    if (currentPathPoints.length > 0) {
+        const p = currentPathPoints[currentPathPoints.length - 1];
+        lastEl.textContent = p.lat.toFixed(6) + ', ' + p.lng.toFixed(6);
+    } else {
+        lastEl.textContent = '-';
+    }
+    // clear transient message after a short delay
+    if (msgEl && msgEl.dataset.timeout) {
+        clearTimeout(msgEl.dataset.timeout);
+        delete msgEl.dataset.timeout;
+    }
+    msgEl.textContent = '';
+}
+
+function _showDrawMessage(text, timeout = 2500) {
+    _ensureDrawPanel();
+    const msgEl = document.getElementById('draw-msg');
+    if (!msgEl) return;
+    msgEl.textContent = text;
+    if (msgEl.dataset.timeout) clearTimeout(msgEl.dataset.timeout);
+    msgEl.dataset.timeout = setTimeout(() => { msgEl.textContent = ''; delete msgEl.dataset.timeout; }, timeout);
+}
+
+/**
+ * enableDrawMode - begin capturing clicks to form a path
+ */
+function enableDrawMode() {
+    if (!campusMap) {
+        console.warn('Map not initialized yet');
+        return;
+    }
+    if (drawModeEnabled) return;
+    drawModeEnabled = true;
+    currentPathPoints = [];
+
+    // create an empty polyline
+    currentPolyline = L.polyline([], { color: '#e67e22', weight: 4, dashArray: '3,6' }).addTo(campusMap);
+
+    // click handler
+    _mapClickHandler = function(e) {
+        const latlng = e.latlng;
+        currentPathPoints.push(latlng);
+        currentPolyline.setLatLngs(currentPathPoints);
+        _updateDrawPanel();
+    };
+
+    campusMap.on('click', _mapClickHandler);
+    _ensureDrawPanel();
+    _updateDrawPanel();
+}
+
+/**
+ * disableDrawMode - stop capturing clicks
+ */
+function disableDrawMode() {
+    if (!drawModeEnabled) return;
+    drawModeEnabled = false;
+    if (_mapClickHandler && campusMap) campusMap.off('click', _mapClickHandler);
+    _mapClickHandler = null;
+    _updateDrawPanel();
+}
+
+/**
+ * undoLastPoint - remove last point from current path
+ */
+function undoLastPoint() {
+    if (!currentPathPoints || currentPathPoints.length === 0) return;
+    currentPathPoints.pop();
+    if (currentPolyline) currentPolyline.setLatLngs(currentPathPoints);
+    _updateDrawPanel();
+}
+
+/**
+ * clearCurrentPath - clear current path points and polyline
+ */
+function clearCurrentPath() {
+    currentPathPoints = [];
+    if (currentPolyline) {
+        currentPolyline.setLatLngs([]);
+    }
+    _updateDrawPanel();
+}
+
+/**
+ * exportCurrentPath - build JSON and copy to clipboard (try)
+ */
+async function exportCurrentPath() {
+    if (!currentPathPoints || currentPathPoints.length === 0) {
+        _showDrawMessage('No points to export');
+        return;
+    }
+
+    const id = 'path_' + _drawIdCounter++;
+    const payload = {
+        id: id,
+        type: 'pedestrian',
+        points: currentPathPoints.map(p => [parseFloat(p.lat.toFixed(6)), parseFloat(p.lng.toFixed(6))])
+    };
+
+    const json = JSON.stringify(payload, null, 2);
+    console.log(json);
+
+    // Try copying to clipboard
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(json);
+            _showDrawMessage('Path exported and copied to clipboard');
+        } else {
+            _showDrawMessage('Path exported (clipboard not available)');
+        }
+    } catch (err) {
+        console.warn('Clipboard write failed', err);
+        _showDrawMessage('Exported but clipboard copy failed');
+    }
+
+    // Optionally disable draw mode after export
+    // disableDrawMode();
+}
+
+// Make functions available globally so main.js UI can call them
+window.enableDrawMode = enableDrawMode;
+window.disableDrawMode = disableDrawMode;
+window.undoLastPoint = undoLastPoint;
+window.clearCurrentPath = clearCurrentPath;
+window.exportCurrentPath = exportCurrentPath;

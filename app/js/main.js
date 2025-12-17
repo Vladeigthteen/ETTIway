@@ -112,9 +112,70 @@ async function initialize() {
         loadBuildingPolygons(data.buildings);
         populateBuildingList(data.buildings);
     }
+
+    // Draw entrances (gates, parking access) if present in the data
+    if (data.entrances) {
+        try {
+            drawEntrances(data.entrances);
+        } catch (e) {
+            console.warn('Error drawing entrances:', e);
+        }
+    }
     
     // Initialize UI components
     initializeSearch();
+
+    // Create draw controls in the sidebar
+    createDrawControls();
+}
+
+/**
+ * createDrawControls - add drawing buttons to the sidebar and wire them
+ */
+function createDrawControls() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    // Create container
+    const container = document.createElement('div');
+    container.id = 'draw-controls';
+    container.className = 'draw-controls';
+
+    container.innerHTML = `
+        <h3 style="padding:12px 20px; color:#bdc3c7;">Path Drawing</h3>
+        <div class="draw-buttons" style="padding:0 20px 20px 20px; display:flex; gap:8px; flex-wrap:wrap;">
+            <button id="btn-start" class="draw-btn">Start drawing</button>
+            <button id="btn-stop" class="draw-btn">Stop drawing</button>
+            <button id="btn-undo" class="draw-btn">Undo</button>
+            <button id="btn-clear" class="draw-btn">Clear</button>
+            <button id="btn-export" class="draw-btn">Finish & Export</button>
+        </div>
+    `;
+
+    // Insert near top but after search container
+    const search = document.querySelector('.search-container');
+    if (search && search.parentNode) {
+        search.parentNode.insertBefore(container, search.nextSibling);
+    } else {
+        sidebar.insertBefore(container, sidebar.firstChild);
+    }
+
+    // Wire up buttons
+    document.getElementById('btn-start').addEventListener('click', () => {
+        if (window.enableDrawMode) window.enableDrawMode();
+    });
+    document.getElementById('btn-stop').addEventListener('click', () => {
+        if (window.disableDrawMode) window.disableDrawMode();
+    });
+    document.getElementById('btn-undo').addEventListener('click', () => {
+        if (window.undoLastPoint) window.undoLastPoint();
+    });
+    document.getElementById('btn-clear').addEventListener('click', () => {
+        if (window.clearCurrentPath) window.clearCurrentPath();
+    });
+    document.getElementById('btn-export').addEventListener('click', () => {
+        if (window.exportCurrentPath) window.exportCurrentPath();
+    });
 }
 
 // Start application when DOM is ready
