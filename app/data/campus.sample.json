@@ -175,13 +175,14 @@
     },
     {
       "id": "buildingI",
-      "name": "Laboratoare",
+      "name": "Baschet",
+      "icon": "Icons/basketball-ball-variant (1).svg",
       "description": "Research labs annex.",
       "points": [
-        [44.4335, 26.0582],
-        [44.4338, 26.0582],
-        [44.4338, 26.0588],
-        [44.4335, 26.0588]
+        [44.433175, 26.055641],
+  [44.433171, 26.055314],
+  [44.433278, 26.055308],
+  [44.433278, 26.055638]
       ],
       "color": "#1abc9c"
     },
