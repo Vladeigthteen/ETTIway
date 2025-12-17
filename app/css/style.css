@@ -210,3 +210,36 @@ body {
     font-size: 24px;
     text-shadow: 0 0 3px white;
 }
+
+/* Drawing UI */
+.draw-controls {
+    background-color: #2f3f4f;
+    border-top: 1px solid #253241;
+}
+.draw-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.draw-btn:hover { background-color: #2a86c7; }
+
+.draw-panel {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(44,62,80,0.95);
+    color: #ecf0f1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 1200;
+    font-size: 13px;
+    min-width: 180px;
+}
+.draw-panel .draw-header { font-weight:700; margin-bottom:6px; color:#ffd580; }
+.draw-panel .draw-status-row, .draw-panel .draw-points-row, .draw-panel .draw-last-row { margin-bottom:6px; }
+.draw-msg { margin-top:6px; color:#a9dfbf; font-size:12px; }

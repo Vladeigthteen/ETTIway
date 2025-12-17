@@ -163,13 +163,13 @@
     },
     {
       "id": "buildingH",
-      "name": "Rectorat",
-      "description": "Rector's office.",
+      "name": "Cantina",
+      "description": "Campus cafeteria.",
       "points": [
-        [44.4330, 26.0582],
-        [44.4333, 26.0582],
-        [44.4333, 26.0588],
-        [44.4330, 26.0588]
+       [44.432652, 26.056207],
+[44.432665, 26.056781],
+[44.432336, 26.056789],
+[44.432324, 26.056218]
       ],
       "color": "#34495e"
     },
@@ -196,6 +196,50 @@
         [44.4342, 26.0588]
       ],
       "color": "#e67e22"
+    }
+  ],
+  "entrances": [
+    {
+      "id": "entrance_north_center",
+      "name": "Intrare nord (Bulevardul Iuliu Maniu)",
+      "type": "pedestrian",
+      "coordinates": [44.43422, 26.05685]
+    },
+    {
+      "id": "entrance_north_east",
+      "name": "Intrare nord-est (Bulevardul Iuliu Maniu)",
+      "type": "pedestrian",
+      "coordinates": [44.43430, 26.05800]
+    },
+    {
+      "id": "entrance_west_bus",
+      "name": "Intrare vest (Bulevardul Vasile Milea) - statii RATB",
+      "type": "vehicle",
+      "coordinates": [44.43300, 26.05453]
+    },
+    {
+      "id": "entrance_west_south",
+      "name": "Intrare vest-sud (Bulevardul Vasile Milea)",
+      "type": "pedestrian",
+      "coordinates": [44.43260, 26.05455]
+    },
+    {
+      "id": "entrance_east_parking_top",
+      "name": "Intrare parcare est (Bulevardul Geniului) - nord",
+      "type": "vehicle",
+      "coordinates": [44.43405, 26.05840]
+    },
+    {
+      "id": "entrance_east_parking_bottom",
+      "name": "Intrare parcare est (Bulevardul Geniului) - sud",
+      "type": "vehicle",
+      "coordinates": [44.43310, 26.05840]
+    },
+    {
+      "id": "entrance_south_center",
+      "name": "Intrare sud-centrală",
+      "type": "pedestrian",
+      "coordinates": [44.43220, 26.05685]
     }
   ]
 }
