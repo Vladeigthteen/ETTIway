@@ -243,3 +243,13 @@ body {
 .draw-panel .draw-header { font-weight:700; margin-bottom:6px; color:#ffd580; }
 .draw-panel .draw-status-row, .draw-panel .draw-points-row, .draw-panel .draw-last-row { margin-bottom:6px; }
 .draw-msg { margin-top:6px; color:#a9dfbf; font-size:12px; }
+
+/* Runtime paths list in sidebar */
+#runtime-paths { border-top: 1px solid #253241; }
+.runtime-paths .runtime-item { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:#34495e; margin-bottom:8px; border-radius:4px; }
+.runtime-paths .runtime-item-title { color:#ecf0f1; font-weight:600; font-size:13px; }
+.runtime-paths .runtime-item-actions { display:flex; gap:8px; }
+.runtime-btn { background:#2980b9; color:white; border:none; padding:6px 8px; border-radius:4px; cursor:pointer; font-size:12px; }
+.runtime-btn:hover { background:#2474a8; }
+.runtime-delete { background:#c0392b; }
+.runtime-delete:hover { background:#a92f24; }
