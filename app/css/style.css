@@ -211,6 +211,13 @@ body {
     text-shadow: 0 0 3px white;
 }
 
+/* Marker icon placed on the map (fixed pixel size via Leaflet iconSize) */
+.building-map-icon {
+    filter: drop-shadow(0 0 2px white);
+    /* ensure it doesn't capture mouse events so polygon clicks still work */
+    pointer-events: none;
+}
+
 /* Drawing UI */
 .draw-controls {
     background-color: #2f3f4f;
