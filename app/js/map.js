@@ -115,29 +115,42 @@ function createBuildingPolygon(building) {
         buildingId: building.id // Store building ID for reliable identification
     });
     
-    // Add permanent label or icon
-    let labelContent = building.name;
-    let labelClass = "building-label";
-
-    // If building has an icon, use it instead of name
-    if (building.icon) {
-        // Check if it looks like an image URL
-        if (building.icon.match(/\.(jpeg|jpg|gif|png|svg)$/i) || building.icon.startsWith('http')) {
-            labelContent = `<img src="${building.icon}" class="building-icon-img" alt="${building.name}">`;
-            labelClass = "building-label-icon";
-        } else {
-            // Assume it's an emoji or text icon
-            labelContent = `<span class="building-icon-text">${building.icon}</span>`;
-            labelClass = "building-label-icon";
-        }
-    }
-
+    // Add permanent text label by default (keeps map readable)
+    const labelContent = building.name || '';
     if (labelContent) {
         polygon.bindTooltip(labelContent, {
             permanent: true,
             direction: "center",
-            className: labelClass
+            className: "building-label"
         });
+    }
+
+    // If building has an image icon path, create a separate Leaflet marker
+    // positioned at the polygon centroid. Using a marker (L.icon or L.divIcon)
+    // ensures the icon remains a fixed pixel size on screen and doesn't scale
+    // when the user zooms the map.
+    if (building.icon && (building.icon.match(/\.(jpeg|jpg|gif|png|svg)$/i) || building.icon.startsWith('http'))) {
+        // compute a sensible center for the icon (centroid of polygon bounds)
+        // polygon must be added to map to compute pixel accurate center; use bounds center
+        const center = L.latLngBounds(building.points).getCenter();
+
+        // create a pixel-sized icon (adjust size as needed)
+        const ICON_SIZE = [32, 32];
+        const icon = L.icon({
+            iconUrl: building.icon,
+            iconSize: ICON_SIZE,
+            iconAnchor: [ICON_SIZE[0] / 2, ICON_SIZE[1] / 2],
+            className: 'building-map-icon' // allows further CSS if desired
+        });
+
+        // create marker and add it to the same layer group as the polygon so
+        // it is managed together. Make it non-interactive so it doesn't block
+        // polygon clicks (we still have polygon click handler above).
+        const imgMarker = L.marker(center, { icon: icon, interactive: false });
+        // store a reference on the polygon so callers can remove or identify
+        // related marker if needed
+        polygon._iconMarker = imgMarker;
+        buildingsLayer.addLayer(imgMarker);
     }
     
     // Add interactions
