@@ -39,6 +39,17 @@
                 <p class="info-text">Loading buildings...</p>
             </div>
         </div>
+
+        <!-- OSM Controls -->
+        <div id="osm-controls" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+            <h3>OSM Data</h3>
+            <button id="btn-load-osm" class="btn-primary" style="width: 100%; margin-bottom: 10px; padding: 8px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 4px;">Încarcă drumuri OSM</button>
+            <div style="display: flex; align-items: center;">
+                <input type="checkbox" id="chk-show-osm" style="margin-right: 8px; cursor: pointer;">
+                <label for="chk-show-osm" style="cursor: pointer; user-select: none;">Afișează drumuri OSM</label>
+            </div>
+            <p id="osm-status" class="info-text" style="margin-top: 5px; font-size: 12px;"></p>
+        </div>
     </div>
     
     <!-- Map container -->

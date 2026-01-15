@@ -11,10 +11,12 @@ let entrancesLayer;
 // Layers for paths
 let drawnPathsLayer;    // used in Edit Mode (hidden by default)
 let missingRoadsLayer;  // renders data.paths as solid gray (visible by default)
+let existingRoadsLayer; // Extracted from OSM
 // Styling defaults (easy to change)
 const STYLES = {
     drawn: { color: '#e67e22', border: '#ffffffff', weight: 4, dash: '3,6', opacity: 1.0 },
-    missing: { color: '#ffffffff', border: '#e6e0e0ff', weight: 10, dash: null, opacity: 0.7 }
+    missing: { color: '#ffffffff', border: '#e6e0e0ff', weight: 10, dash: null, opacity: 0.7 },
+    osm: { color: '#666666', weight: 2, opacity: 0.7 }
 };
 
 /**
@@ -48,6 +50,8 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     missingRoadsLayer = L.layerGroup().addTo(campusMap);
     // Layer for user-drawn paths (edit mode) - not added to map by default
     drawnPathsLayer = L.layerGroup();
+    // Layer for OSM roads
+    existingRoadsLayer = L.layerGroup();
 
     // expose on window for toggles/UI
     window.missingRoadsLayer = missingRoadsLayer;
@@ -666,4 +670,164 @@ function clearPersistedRuntimePaths() {
 }
 
 window.exportAllRuntimePaths = exportAllRuntimePaths;
+
+/**
+ * Compute bounding box from a list of points
+ * @param {Array<Array<number>>} points - Array of [lat, lng]
+ * @returns {Object} {south, west, north, east}
+ */
+function getBoundingBox(points) {
+    if (!points || points.length === 0) return null;
+    let minLat = Infinity, maxLat = -Infinity;
+    let minLng = Infinity, maxLng = -Infinity;
+
+    points.forEach(([lat, lng]) => {
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+        if (lng < minLng) minLng = lng;
+        if (lng > maxLng) maxLng = lng;
+    });
+
+    return { south: minLat, west: minLng, north: maxLat, east: maxLng };
+}
+
+/**
+ * Fetch and visualize OSM roads
+ * @param {Array<Array<number>>} boundary - Campus boundary [lat, lng] points
+ */
+async function loadOsmRoads(boundary) {
+    const statusEl = document.getElementById('osm-status');
+    const updateStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+    if (!boundary) {
+        updateStatus("No boundary data available.");
+        return;
+    }
+
+    const CACHE_KEY = "ettiway_osm_roads_cache";
+    const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+
+    updateStatus("Loading OSM data...");
+
+    try {
+        let osmData = null;
+        let cached = null;
+        try {
+             cached = localStorage.getItem(CACHE_KEY);
+        } catch(e) {}
+        
+        const now = Date.now();
+
+        // Check cache
+        if (cached) {
+            try {
+                const parsedCache = JSON.parse(cached);
+                if (now - parsedCache.timestamp < CACHE_DURATION) {
+                    console.log("Using cached OSM data.");
+                    osmData = parsedCache.data;
+                }
+            } catch (e) {
+                console.warn("Invalid OSM cache, refetching.");
+            }
+        }
+
+        // Fetch if not in cache
+        if (!osmData) {
+            const bbox = getBoundingBox(boundary);
+            // Overpass QL: South, West, North, East
+            const bboxStr = `${bbox.south},${bbox.west},${bbox.north},${bbox.east}`;
+            
+            const query = `[out:json][timeout:25];(way["highway"~"footway|path|pedestrian|residential|service|living_street"](${bboxStr}););out body;>;out skel qt;`;
+
+            const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+            
+            console.log("Fetching from Overpass API:", url);
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`Overpass API error: ${response.status}`);
+            }
+
+            osmData = await response.json();
+            
+            // Save to cache
+            try {
+                localStorage.setItem(CACHE_KEY, JSON.stringify({
+                    timestamp: now,
+                    data: osmData
+                }));
+            } catch (e) {
+                console.warn("Could not save to localStorage (quota exceeded?)", e);
+            }
+        }
+
+        // Process and draw
+        processAndDrawOsmData(osmData);
+        updateStatus("OSM loaded.");
+        
+        // Auto-check the checkbox if it's not already
+        const checkbox = document.getElementById('chk-show-osm');
+        if (checkbox && !checkbox.checked) {
+            checkbox.checked = true;
+            toggleOsmLayer(true);
+        }
+
+    } catch (error) {
+        console.error("Failed to load OSM roads:", error);
+        updateStatus("Error loading OSM.");
+    }
+}
+
+/**
+ * Parse Overpass JSON and draw polylines
+ * @param {Object} data - Overpass JSON response
+ */
+function processAndDrawOsmData(data) {
+    if (typeof existingRoadsLayer === 'undefined' || !existingRoadsLayer) return;
+    existingRoadsLayer.clearLayers();
+
+    const nodes = new Map();
+    const ways = [];
+
+    // First pass: collect nodes
+    data.elements.forEach(el => {
+        if (el.type === 'node') {
+            nodes.set(el.id, { lat: el.lat, lng: el.lon });
+        } else if (el.type === 'way') {
+            ways.push(el);
+        }
+    });
+
+    // Second pass: build geometries for ways
+    ways.forEach(way => {
+        const latLngs = way.nodes.map(nodeId => {
+            const node = nodes.get(nodeId);
+            return node ? [node.lat, node.lng] : null;
+        }).filter(coord => coord !== null);
+
+        if (latLngs.length > 1) {
+            L.polyline(latLngs, STYLES.osm).addTo(existingRoadsLayer);
+        }
+    });
+
+    // Now connect entrances
+    processEntrances();
+}
+
+/**
+ * Toggle the visibility of the OSM roads layer
+ * @param {boolean} show - Whether to show the layer
+ */
+function toggleOsmLayer(show) {
+    if (typeof campusMap === 'undefined' || !campusMap || typeof existingRoadsLayer === 'undefined' || !existingRoadsLayer) return;
+    if (show) {
+        if (!campusMap.hasLayer(existingRoadsLayer)) {
+            campusMap.addLayer(existingRoadsLayer);
+        }
+    } else {
+        if (campusMap.hasLayer(existingRoadsLayer)) {
+            campusMap.removeLayer(existingRoadsLayer);
+        }
+    }
+}
 window.clearPersistedRuntimePaths = clearPersistedRuntimePaths;

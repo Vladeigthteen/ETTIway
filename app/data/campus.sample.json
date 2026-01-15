@@ -150,7 +150,7 @@
     },
     {
       "id": "buildingG",
-      "name": "Teren Fotbal",
+      
       "description": "Football field.",
       "icon": "Icons/football.svg",
       "points": [
@@ -175,7 +175,7 @@
     },
     {
       "id": "buildingI",
-      "name": "Baschet",
+      
       "icon": "Icons/basketball-ball-variant (1).svg",
       "description": "Research labs annex.",
       "points": [
@@ -185,19 +185,8 @@
   [44.433278, 26.055638]
       ],
       "color": "#1abc9c"
-    },
-    {
-      "id": "buildingJ",
-      "name": "Cantina",
-      "description": "Campus cafeteria.",
-      "points": [
-        [44.4342, 26.0582],
-        [44.4345, 26.0582],
-        [44.4345, 26.0588],
-        [44.4342, 26.0588]
-      ],
-      "color": "#e67e22"
     }
+    
   ],
   "paths": [
     { "type":"pedestrian","points":[
@@ -230,6 +219,18 @@
       "name": "Intrare Spate",
       "type": "pedestrian",
       "coordinates": [44.43213881097606, 26.05846813634475]
+    },
+    {
+      "id": "intrare CORP A",
+      "name": "intrare CORP A",
+      "type": "pedestrian",
+      "coordinates": [44.43365533724534, 26.05698077164605]
+    },
+    {
+      "id": "intrare CORP B",
+      "name": "intrare CORP B",
+      "type": "pedestrian",
+      "coordinates": [44.433404, 26.056939]
     }
   
   ]
