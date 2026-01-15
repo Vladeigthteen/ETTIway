@@ -121,6 +121,12 @@ async function initialize() {
             console.warn('Error drawing entrances:', e);
         }
     }
+
+    // Setup OSM interactions
+    if (data.campus && data.campus.boundary) {
+        setupOsmControls(data.campus.boundary);
+    }
+
     // Render missing roads (data.paths) into missingRoadsLayer for routing/visualization
     try {
         if (window.renderPathsFromData) window.renderPathsFromData(data);
@@ -137,6 +143,42 @@ async function initialize() {
     createLayerToggles();
     // Create runtime-added paths list UI
     createRuntimePathList();
+}
+
+function createDrawControls() {
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
+    // Create container
+    const container = document.createElement('div');
+    container.className = 'draw-controls';
+    
+    // ...existing code...
+}
+
+/**
+ * Setup event listeners for OSM controls
+ * @param {Array} boundary - Campus boundary coordinates
+ */
+function setupOsmControls(boundary) {
+    const btnLoad = document.getElementById('btn-load-osm');
+    const chkShow = document.getElementById('chk-show-osm');
+
+    if (btnLoad) {
+        btnLoad.addEventListener('click', () => {
+            if (boundary) {
+                loadOsmRoads(boundary);
+            } else {
+                alert("Campus boundary data is missing.");
+            }
+        });
+    }
+
+    if (chkShow) {
+        chkShow.addEventListener('change', (e) => {
+            toggleOsmLayer(e.target.checked);
+        });
+    }
 }
 
 /**
