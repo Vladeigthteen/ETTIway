@@ -174,6 +174,11 @@ function createBuildingPolygon(building) {
 
     polygon.on('click', function() {
         displayBuildingDetails(building);
+        
+        // Open indoor map for Corp B
+        if (building.id === 'buildingB' && typeof openIndoor === 'function') {
+            openIndoor(building.id);
+        }
     });
     
     return polygon;

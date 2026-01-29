@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "doors",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 1, "id": "usa 04A", "room_id": "04Ba", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1440.572925060427451, -2976.747461724415643 ] } },
+{ "type": "Feature", "properties": { "fid": 2, "id": "usa04B", "room_id": "04B", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1856.76889605156498, -2940.074456083803398 ] } },
+{ "type": "Feature", "properties": { "fid": 3, "id": "usa 02", "room_id": "02mijloc", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1585.559226430291574, -2505.115551974213304 ] } },
+{ "type": "Feature", "properties": { "fid": 4, "id": "usa01", "room_id": "01mijloc", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1568.50201450442546, -1701.720870265912254 ] } },
+{ "type": "Feature", "properties": { "fid": 5, "id": "usa baie", "room_id": "toaleta", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1662.316680096689879, -1389.573892022559448 ] } },
+{ "type": "Feature", "properties": { "fid": 6, "id": "usa 03b", "room_id": "03b", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1670.845286059623049, -1642.020628525380289 ] } },
+{ "type": "Feature", "properties": { "fid": 7, "id": "usa 03 a", "room_id": "03a", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1675.962449637382861, -1822.827074939562635 ] } },
+{ "type": "Feature", "properties": { "fid": 8, "id": "usa 03", "room_id": "03", "corr_id": "principal", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 1686.196776792902483, -2349.894923448830468 ] } },
+{ "type": "Feature", "properties": { "fid": 9, "id": "usa034", "room_id": "034", "corr_id": "Hol_spre_stanga", "level": 0, "type": "usa" }, "geometry": { "type": "Point", "coordinates": [ 995.379693795319554, -3226.6356164383551 ] } }
+]
+}
