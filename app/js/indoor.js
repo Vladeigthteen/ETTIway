@@ -191,7 +191,11 @@ async function loadFloor(floorConfig) {
     };
 
     // --- Styling ---
-    const roomStyle = { color: '#000', weight: 1, fillColor: '#d8b4e2', fillOpacity: 0.6 };
+    const roomStyle = { fillColor: "#f5f5f5",
+        fillOpacity: 1,
+        color: "#000",
+        weight: 2
+        };
     const corridorStyle = { color: '#444', weight: 5, opacity: 0.8 };
     const doorMarker = (feature, latlng) => L.circleMarker(latlng, { radius: 3, fillColor: '#000', color: '#fff', weight: 1, fillOpacity: 1 });
     const stairMarker = (feature, latlng) => L.circleMarker(latlng, { radius: 8, fillColor: '#ff4500', color: '#fff', weight: 2, fillOpacity: 1 }).bindTooltip("Stairs", { offset: [0, -5] });
