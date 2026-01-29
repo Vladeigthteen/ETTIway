@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "holuri",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 3, "id": "principal", "level": 0, "type": "Hol" }, "geometry": { "type": "LineString", "coordinates": [ [ 1570.634165995160402, -3402.751329572926807 ], [ 1568.075584206280382, -3158.833199033039818 ], [ 1646.538759065265367, -3160.538920225626043 ], [ 1602.616438356159051, -1311.110717163576282 ] ] } },
+{ "type": "Feature", "properties": { "fid": 4, "id": "Scari", "level": 0, "type": "Hol" }, "geometry": { "type": "LineString", "coordinates": [ [ 1646.538759065263548, -3160.538920225625589 ], [ 1763.807091055594128, -3161.391780821918928 ], [ 1765.512812248180808, -3229.194198227237393 ] ] } },
+{ "type": "Feature", "properties": { "fid": 5, "id": "Hol_spre_stanga", "level": 0, "type": "Hol" }, "geometry": { "type": "LineString", "coordinates": [ [ 1568.92844480257213, -3159.259629331185351 ], [ 952.736663980652679, -3156.701047542304423 ] ] } }
+]
+}
