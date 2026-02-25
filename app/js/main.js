@@ -93,13 +93,14 @@ async function initialize() {
     const data = await loadCampusData();
     
     // Initialize the map with campus center coordinates if available
+    let mapInstance;
     if (data.campus && data.campus.location) {
-        initializeMap(
+        mapInstance = initializeMap(
             data.campus.location.latitude,
             data.campus.location.longitude
         );
     } else {
-        initializeMap();
+        mapInstance = initializeMap();
     }
     
     // Draw campus boundary if available
