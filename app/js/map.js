@@ -17,6 +17,7 @@ const STYLES = {};
  * @param {number} lat - Latitude for map center (optional, defaults to ETTI Campus)
  * @param {number} lon - Longitude for map center (optional, defaults to ETTI Campus)
  * @param {number} zoom - Initial zoom level (optional, defaults to 16)
+ * @returns {Object} Map instance and editor controls
  */
 function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom = DEFAULT_ZOOM_LEVEL) {
     // Create map centered on specified coordinates with boundary restrictions
@@ -39,7 +40,20 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     // Layer for entrances (gates/parking/pedestrian)
     entrancesLayer = L.layerGroup().addTo(campusMap);
     
+    // -- Map Editor --
+    const drawnGroup = L.featureGroup().addTo(campusMap);
+    if (typeof initGraphEditor === 'function') {
+        initGraphEditor(campusMap, drawnGroup);
+    } else {
+        console.warn('Graph Editor script not found');
+    }
+    
     console.log('Map initialized successfully');
+
+    return { 
+        map: campusMap, 
+        drawnGroup: drawnGroup,
+    };
 }
 
 /**
