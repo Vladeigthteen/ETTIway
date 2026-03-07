@@ -42,47 +42,54 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     
     // -- Map Editor --
     const drawnGroup = L.featureGroup().addTo(campusMap);
-    if (typeof initGraphEditor === 'function') {
+    
+    // Check for edit mode
+    const urlParams = new URLSearchParams(window.location.search);
+    const isEditMode = urlParams.get('edit') === '1';
+
+    if (isEditMode && typeof initGraphEditor === 'function') {
         initGraphEditor(campusMap, drawnGroup);
-    } else {
-        console.warn('Graph Editor script not found');
+    } else if (!isEditMode) {
+        // Hide graph editor if not in edit mode (though initGraphEditor might control this internally too)
     }
 
-    // Add Floor Manager Control (Always visible)
-    const FloorControl = L.Control.extend({
-        options: { position: 'topleft' },
-        onAdd: function() {
-            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-            container.style.backgroundColor = 'white';
-            container.style.cursor = 'pointer';
-            
-            const btn = document.createElement('a');
-            btn.innerHTML = '🏢'; 
-            btn.title = 'Editare Etaje';
-            btn.style.display = 'flex';
-            btn.style.justifyContent = 'center';
-            btn.style.alignItems = 'center';
-            btn.style.width = '30px';
-            btn.style.height = '30px';
-            btn.style.textDecoration = 'none';
-            btn.style.color = '#333';
-            btn.style.fontSize = '18px';
-            
-            btn.onclick = (e) => {
-                L.DomEvent.stop(e);
-                if (window.openFloorManager) {
-                    window.openFloorManager();
-                } else {
-                    console.error("Indoor Manager logic not loaded.");
-                    alert("Eroare: Modulul de editare etaje nu este incarcat.");
-                }
-            };
-            
-            container.appendChild(btn);
-            return container;
-        }
-    });
-    campusMap.addControl(new FloorControl());
+    // Add Floor Manager Control (Only visible in Edit Mode)
+    if (isEditMode) {
+        const FloorControl = L.Control.extend({
+            options: { position: 'topleft' },
+            onAdd: function() {
+                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                container.style.backgroundColor = 'white';
+                container.style.cursor = 'pointer';
+                
+                const btn = document.createElement('a');
+                btn.innerHTML = '🏢'; 
+                btn.title = 'Editare Etaje';
+                btn.style.display = 'flex';
+                btn.style.justifyContent = 'center';
+                btn.style.alignItems = 'center';
+                btn.style.width = '30px';
+                btn.style.height = '30px';
+                btn.style.textDecoration = 'none';
+                btn.style.color = '#333';
+                btn.style.fontSize = '18px';
+                
+                btn.onclick = (e) => {
+                    L.DomEvent.stop(e);
+                    if (window.openFloorManager) {
+                        window.openFloorManager();
+                    } else {
+                        console.error("Indoor Manager logic not loaded.");
+                        alert("Eroare: Modulul de editare etaje nu este incarcat.");
+                    }
+                };
+                
+                container.appendChild(btn);
+                return container;
+            }
+        });
+        campusMap.addControl(new FloorControl());
+    }
     
     console.log('Map initialized successfully');
 
