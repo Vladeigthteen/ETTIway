@@ -12,6 +12,13 @@ const API_ENDPOINT = '/api/graph'; // Backend endpoint
  * @param {L.FeatureGroup} drawnItems - Feature group to store graph elements
  */
 function initGraphEditor(map, drawnItems) {
+    // Check for edit mode
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('edit') !== '1') {
+        console.log("Graph Editor disabled (edit mode off)");
+        return;
+    }
+
     // 1. Configure Geoman for Graph Editing (Strict snapping)
     map.pm.setGlobalOptions({
         layerGroup: drawnItems,
