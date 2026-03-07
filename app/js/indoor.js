@@ -8,6 +8,10 @@ window.floorData = window.floorData || {};
 
 function initIndoorManager() {
     console.log("Indoor Manager Initialized");
+    
+    // Load persisted data if available
+    loadIndoorData();
+
     // Ensure modal is hidden initially
     const modal = document.getElementById('floor-manager-modal');
     if (modal) {
@@ -379,9 +383,49 @@ function saveCurrentFloorPlan() {
         if (floorObj) {
             floorObj.geoJson = geoJson;
             console.log("Saved floor plan:", floorObj);
-            alert("Plan salvat cu succes!");
+            
+            // Ask user if they want to download the updated JSON
+            if (confirm("Planul a fost actualizat in memorie. Vrei sa descarci fisierul JSON pentru a salva permanent modificarile? (Trebuie sa inlocuiesti manual 'data/indoor-data.json' cu acest fisier)")) {
+                exportIndoorData();
+            } else {
+                alert("Plan salvat in memorie! Atentie: Modificarile se vor pierde la refresh daca nu descarci JSON-ul.");
+            }
         }
     }
+}
+
+function exportIndoorData() {
+    const dataStr = JSON.stringify(window.floorData, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "indoor-data.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function loadIndoorData() {
+    fetch('data/indoor-data.json')
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+        })
+        .then(data => {
+            if (data && Object.keys(data).length > 0) {
+                console.log("Loaded indoor data from file:", data);
+                // Merge with existing window.floorData if needed, or just overwrite
+                window.floorData = data;
+            }
+        })
+        .catch(error => {
+            console.log("No existing indoor data found or error loading:", error);
+            // Verify if window.floorData is initialized
+            if (!window.floorData) window.floorData = {};
+        });
 }
 
 function loadFloorData(buildingName, floorIndex) {
@@ -404,6 +448,14 @@ function loadFloorData(buildingName, floorIndex) {
 window.openFloorManager = openFloorManager;
 window.closeFloorManager = closeFloorManager;
 window.initIndoorManager = initIndoorManager;
+
+// Initialization on load
+document.addEventListener('DOMContentLoaded', () => {
+    // Start loading data immediately
+    loadIndoorData();
+    // Setup initial UI states
+    initIndoorManager();
+});
 window.closeIndoor = function() {
     const modal = document.getElementById('indoor-modal');
     if (modal) {
