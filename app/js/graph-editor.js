@@ -95,9 +95,23 @@ function addCustomControls(map, drawnItems) {
                 L.DomEvent.stop(e);
                 loadGraph(drawnItems);
             };
+
+            const floorBtn = document.createElement('button');
+            floorBtn.innerText = 'Editare Etaje';
+            floorBtn.style.cursor = 'pointer';
+            floorBtn.onclick = (e) => {
+                L.DomEvent.stop(e);
+                if (window.openFloorManager) {
+                    window.openFloorManager();
+                } else {
+                    console.error("Indoor Manager logic (indoor.js) not loaded or initialized.");
+                    alert("Eroare: Modulul de editare etaje nu este incarcat.");
+                }
+            };
             
             container.appendChild(saveBtn);
             container.appendChild(loadBtn);
+            container.appendChild(floorBtn);
 
             L.DomEvent.disableClickPropagation(container);
             return container;

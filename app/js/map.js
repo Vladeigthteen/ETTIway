@@ -47,6 +47,42 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     } else {
         console.warn('Graph Editor script not found');
     }
+
+    // Add Floor Manager Control (Always visible)
+    const FloorControl = L.Control.extend({
+        options: { position: 'topleft' },
+        onAdd: function() {
+            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+            container.style.backgroundColor = 'white';
+            container.style.cursor = 'pointer';
+            
+            const btn = document.createElement('a');
+            btn.innerHTML = '🏢'; 
+            btn.title = 'Editare Etaje';
+            btn.style.display = 'flex';
+            btn.style.justifyContent = 'center';
+            btn.style.alignItems = 'center';
+            btn.style.width = '30px';
+            btn.style.height = '30px';
+            btn.style.textDecoration = 'none';
+            btn.style.color = '#333';
+            btn.style.fontSize = '18px';
+            
+            btn.onclick = (e) => {
+                L.DomEvent.stop(e);
+                if (window.openFloorManager) {
+                    window.openFloorManager();
+                } else {
+                    console.error("Indoor Manager logic not loaded.");
+                    alert("Eroare: Modulul de editare etaje nu este incarcat.");
+                }
+            };
+            
+            container.appendChild(btn);
+            return container;
+        }
+    });
+    campusMap.addControl(new FloorControl());
     
     console.log('Map initialized successfully');
 
@@ -171,9 +207,12 @@ function createBuildingPolygon(building) {
     polygon.on('click', function() {
         displayBuildingDetails(building);
         
-        // Open indoor map for Corp B
-        if (building.id === 'buildingB' && typeof openIndoor === 'function') {
-            openIndoor(building.id);
+        // Open indoor viewing mode directly
+        if (typeof window.openFloorPlanViewer === 'function') {
+            // Default to floor 0
+            window.openFloorPlanViewer(building.name, 0);
+        } else {
+            console.warn("Indoor Viewer not available");
         }
     });
     

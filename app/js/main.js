@@ -91,6 +91,7 @@ async function initialize() {
     
     // Load campus data first
     const data = await loadCampusData();
+    window.campusData = data; // Expose globally for other modules (e.g., indoor.js)
     
     // Initialize the map with campus center coordinates if available
     let mapInstance;
