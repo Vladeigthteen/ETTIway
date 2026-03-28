@@ -42,6 +42,33 @@ body {
     opacity: 0.9;
 }
 
+.logged-user {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #ecf0f1;
+    opacity: 0.95;
+    word-break: break-word;
+}
+
+.logout-form {
+    margin-top: 12px;
+}
+
+.logout-btn {
+    background: transparent;
+    color: #ecf0f1;
+    border: 1px solid #ecf0f1;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: rgba(236, 240, 241, 0.15);
+}
+
 /* Search container */
 .search-container {
     padding: 20px;

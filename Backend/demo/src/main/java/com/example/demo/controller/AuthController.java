@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +40,24 @@ public class AuthController {
 
         userRepository.save(user);
         return "Cont creat cu succes ca " + (isAdmin ? "Admin" : "User") + "!";
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getName())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("authenticated", false));
+        }
+
+        String role = authentication.getAuthorities().stream()
+            .findFirst()
+            .map(grantedAuthority -> grantedAuthority.getAuthority())
+            .orElse("ROLE_USER");
+
+        return ResponseEntity.ok(Map.of(
+            "authenticated", true,
+            "username", authentication.getName(),
+            "role", role
+        ));
     }
 }

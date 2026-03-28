@@ -54,6 +54,20 @@
             color: #bdc3c7;
         }
 
+        .error-message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            background-color: #c0392b;
+            color: #ecf0f1;
+            font-size: 14px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -156,6 +170,8 @@
                 <p>Sign in to your account</p>
             </div>
 
+            <div id="login-error" class="error-message">User sau parola gresit</div>
+
             <form action="/login" method="POST">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -192,5 +208,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('error') === 'true' || params.has('error')) {
+            document.getElementById('login-error').classList.add('show');
+        }
+    </script>
 </body>
 </html>

@@ -30,9 +30,16 @@ public class SecurityConfig {
     .loginPage("/login.html") // <--- Calea către fișierul tău HTML din folderul 'static'
     .loginProcessingUrl("/login") // <--- Endpoint-ul intern pe care Spring îl folosește pentru a procesa datele (nu trebuie modificat)
     .defaultSuccessUrl("/success", true) // <--- Unde trimite utilizatorul după login (am făcut ruta asta în AdminController)
+    .failureUrl("/login.html?error=true")
     .permitAll() // <--- Permite tuturor să vadă pagina de login
 )
-            .logout(withDefaults());
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login.html")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
 
         return http.build();
     }

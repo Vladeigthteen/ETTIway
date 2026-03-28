@@ -22,9 +22,8 @@
         <div class="sidebar-header">
             <h1>ETTIway</h1>
             <p class="subtitle">Campus Navigation</p>
-            <p id="logged-user" class="logged-user" style="display: none;"></p>
-            <form action="/logout" method="post" class="logout-form">
-                <button type="submit" class="logout-btn">Logout</button>
+            <form action="/logout" method="post" style="margin-top: 10px;">
+                <button type="submit" style="background: transparent; border: 1px solid #ecf0f1; color: #ecf0f1; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Logout</button>
             </form>
         </div>
         
@@ -113,33 +112,6 @@
     <!-- Custom JavaScript -->
     <script src="js/utils.js"></script>
     <script src="js/indoor.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        async function loadLoggedUser() {
-            try {
-                const response = await fetch('/api/auth/me', {
-                    method: 'GET',
-                    credentials: 'same-origin'
-                });
-
-                if (!response.ok) {
-                    return;
-                }
-
-                const data = await response.json();
-                if (data && data.authenticated && data.username) {
-                    const userEl = document.getElementById('logged-user');
-                    const role = (data.role || 'ROLE_USER').replace('ROLE_', '');
-                    userEl.textContent = 'Logat ca: ' + data.username + ' (' + role + ')';
-                    userEl.style.display = 'block';
-                }
-            } catch (error) {
-                console.warn('Nu am putut încărca utilizatorul curent.', error);
-            }
-        }
-
-        loadLoggedUser();
-    </script>
+    <script src="js/map.js"></script>    <script src="js/main.js"></script>
 </body>
 </html>
