@@ -25,7 +25,13 @@ public class SecurityConfig {
                 .requestMatchers(request -> "1".equals(request.getParameter("edit"))).authenticated()
                 .anyRequest().permitAll()
             )
-            .formLogin(withDefaults())
+            // În SecurityConfig.java
+.formLogin(form -> form
+    .loginPage("/login.html") // <--- Calea către fișierul tău HTML din folderul 'static'
+    .loginProcessingUrl("/login") // <--- Endpoint-ul intern pe care Spring îl folosește pentru a procesa datele (nu trebuie modificat)
+    .defaultSuccessUrl("/success", true) // <--- Unde trimite utilizatorul după login (am făcut ruta asta în AdminController)
+    .permitAll() // <--- Permite tuturor să vadă pagina de login
+)
             .logout(withDefaults());
 
         return http.build();
