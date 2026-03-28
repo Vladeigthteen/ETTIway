@@ -82,6 +82,66 @@ function initializeSearch() {
     console.log('Search input initialized (UI only)');
 }
 
+function initializeSidebarToggle(mapRef) {
+    const body = document.body;
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const overlay = document.getElementById('sidebar-overlay');
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    let desktopCollapsed = false;
+
+    if (!toggleBtn) {
+        return;
+    }
+
+    function refreshMapSize() {
+        if (!mapRef) return;
+        setTimeout(() => {
+            mapRef.invalidateSize();
+        }, 280);
+    }
+
+    function syncToggleLabel() {
+        if (mobileQuery.matches) {
+            toggleBtn.textContent = body.classList.contains('sidebar-open') ? '✕' : '☰';
+            return;
+        }
+        toggleBtn.textContent = desktopCollapsed ? '☰' : '✕';
+    }
+
+    function applyLayoutMode() {
+        if (mobileQuery.matches) {
+            body.classList.remove('sidebar-collapsed');
+        } else {
+            body.classList.remove('sidebar-open');
+            body.classList.toggle('sidebar-collapsed', desktopCollapsed);
+        }
+        syncToggleLabel();
+        refreshMapSize();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+        if (mobileQuery.matches) {
+            body.classList.toggle('sidebar-open');
+        } else {
+            desktopCollapsed = !desktopCollapsed;
+            body.classList.toggle('sidebar-collapsed', desktopCollapsed);
+        }
+        syncToggleLabel();
+        refreshMapSize();
+    });
+
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            body.classList.remove('sidebar-open');
+            syncToggleLabel();
+            refreshMapSize();
+        });
+    }
+
+    window.addEventListener('resize', applyLayoutMode);
+    applyLayoutMode();
+}
+
 /**
  * Main initialization function
  * Called when the DOM is fully loaded
@@ -126,6 +186,7 @@ async function initialize() {
 
     // Initialize UI components
     initializeSearch();
+    initializeSidebarToggle(mapInstance.map);
 }
 
 function createDrawControls() {
