@@ -22,15 +22,20 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .csrf(csrf -> csrf.disable()) // Dezactivăm CSRF pentru simplitate în faza de dev
         .authorizeHttpRequests(auth -> auth
-            // 1. Permitem tuturor să vadă pagina de login și fișierele de stil/imagini
-            .requestMatchers("/login.html", "/auth.html","/api/auth/**", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
-            // 2. Orice altă pagină (inclusiv index.html cu harta) cere logare
-            .anyRequest().authenticated()
-        )
+    // 1. Publice
+    .requestMatchers("/login.html", "/auth.html", "/api/auth/**", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
+    
+    // 2. DOAR PENTRU ADMIN (Adaugă linia asta!)
+    // Aceasta va proteja fișierul și orice parametru gen ?edit=1
+    .requestMatchers("/api/admin/**").hasRole("ADMIN") 
+    
+    // 3. Restul paginilor (index.html etc.) cer doar să fii logat
+    .anyRequest().authenticated()
+)
         .formLogin(form -> form
             .loginPage("/login.html") // Fișierul tău din folderul static
             .loginProcessingUrl("/login") // Endpoint-ul intern Spring
-            .defaultSuccessUrl("/index.html", true) // Unde te trimite după succes
+            .defaultSuccessUrl("/success", true) // Trimite-l la metoda care VERIFICĂ rolul, nu direct la fișier
             .permitAll()
         )
         .logout(logout -> logout
