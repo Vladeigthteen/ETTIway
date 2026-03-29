@@ -18,29 +18,27 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(request -> "1".equals(request.getParameter("edit"))).authenticated()
-                .anyRequest().permitAll()
-            )
-            // În SecurityConfig.java
-.formLogin(form -> form
-    .loginPage("/login.html") // <--- Calea către fișierul tău HTML din folderul 'static'
-    .loginProcessingUrl("/login") // <--- Endpoint-ul intern pe care Spring îl folosește pentru a procesa datele (nu trebuie modificat)
-    .defaultSuccessUrl("/success", true) // <--- Unde trimite utilizatorul după login (am făcut ruta asta în AdminController)
-    .failureUrl("/login.html?error=true")
-    .permitAll() // <--- Permite tuturor să vadă pagina de login
-)
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login.html")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            );
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable()) // Dezactivăm CSRF pentru simplitate în faza de dev
+        .authorizeHttpRequests(auth -> auth
+            // 1. Permitem tuturor să vadă pagina de login și fișierele de stil/imagini
+            .requestMatchers("/login.html", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
+            // 2. Orice altă pagină (inclusiv index.html cu harta) cere logare
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/login.html") // Fișierul tău din folderul static
+            .loginProcessingUrl("/login") // Endpoint-ul intern Spring
+            .defaultSuccessUrl("/index.html", true) // Unde te trimite după succes
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login.html")
+            .permitAll()
+        );
 
-        return http.build();
-    }
+    return http.build();
+}
 }
