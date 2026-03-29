@@ -23,7 +23,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .csrf(csrf -> csrf.disable()) // Dezactivăm CSRF pentru simplitate în faza de dev
         .authorizeHttpRequests(auth -> auth
             // 1. Permitem tuturor să vadă pagina de login și fișierele de stil/imagini
-            .requestMatchers("/login.html", "/auth.html", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
+            .requestMatchers("/login.html", "/auth.html","/api/auth/**", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
             // 2. Orice altă pagină (inclusiv index.html cu harta) cere logare
             .anyRequest().authenticated()
         )
