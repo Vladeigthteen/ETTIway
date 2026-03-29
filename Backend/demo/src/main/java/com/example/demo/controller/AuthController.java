@@ -22,25 +22,26 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signup")
-    public String signup(@RequestBody Map<String, String> data) {
-        String username = data.get("username");
-        String password = data.get("password");
-        boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
+public ResponseEntity<?> signup(@RequestBody Map<String, String> data) {
+    String username = data.get("username");
+    String password = data.get("password");
+    boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
 
-        if (userRepository.findByUsername(username).isPresent()) {
-            return "Eroare: Utilizatorul exista deja!";
-        }
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password)); // Criptăm parola neapărat!
-        
-        // Dacă bifa e pusă, primește ROLE_ADMIN, altfel ROLE_USER
-        user.setRole(isAdmin ? "ROLE_ADMIN" : "ROLE_USER");
-
-        userRepository.save(user);
-        return "Cont creat cu succes ca " + (isAdmin ? "Admin" : "User") + "!";
+    if (userRepository.findByUsername(username).isPresent()) {
+        // Returnăm un JSON cu cheia "message"
+        return ResponseEntity.badRequest().body(Map.of("message", "Eroare: Utilizatorul exista deja!"));
     }
+
+    User user = new User();
+    user.setUsername(username);
+    user.setPassword(passwordEncoder.encode(password));
+    user.setRole(isAdmin ? "ROLE_ADMIN" : "ROLE_USER");
+
+    userRepository.save(user);
+    
+    // Returnăm un JSON de succes
+    return ResponseEntity.ok(Map.of("message", "Cont creat cu succes!"));
+}
 
     @GetMapping("/me")
     public ResponseEntity<?> me(Authentication authentication) {
