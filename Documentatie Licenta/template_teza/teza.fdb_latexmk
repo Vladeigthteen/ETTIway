@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex teza"] 1775026107.38711 "teza.aux" "teza.bbl" "teza" 1775026108.94101 0
+["bibtex teza"] 1775026107.38711 "teza.aux" "teza.bbl" "teza" 1775030303.5938 0
   "./referinte.bib" 1775024023 812 a6dd007e08634473f8865b953d69fd7d ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/unsrt.bst" 1291864736 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "teza.aux" 1775026108 2338 ce155f3078a92f1eedbc13584d8405ef "pdflatex"
+  "teza.aux" 1775030303 9345 cee9d9213e7354e27179949e16292e85 "pdflatex"
   (generated)
   "teza.bbl"
   "teza.blg"
   (rewritten before read)
-["pdflatex"] 1775026107.62628 "c:/Users/frati/Downloads/template_teza/template_teza/teza.tex" "teza.pdf" "teza" 1775026108.94145 0
+["pdflatex"] 1775030302.62902 "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" "teza.pdf" "teza" 1775030303.59423 2
   "C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775026102 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/frati/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1775026104 14064 98ee861a7a77ea34dc140bd2e9909b35 ""
   "C:/Users/frati/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775026023 13333486 a381912a9294aedfa68dc0cc00863923 ""
@@ -108,16 +108,17 @@
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/ucs/utf8x.def" 1700127473 8944 e3433baec74c4b7b278c6b6a547ff9ec ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "Cod/Cod.m" 1775024023 374 26db57fcd8efa53e0bc78f9670255f7f ""
-  "c:/Users/frati/Downloads/template_teza/template_teza/teza.tex" 1775024023 20002 81c97547ae723c5d9298d956083d3f4b ""
+  "c:/Users/frati/Downloads/template_teza/template_teza/teza.tex" 0 -1 0 ""
+  "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" 1775030300 33188 510413b9cca0f28e71e826e34af5b0c9 ""
   "figuri/punguta.jpg" 1775024023 4990 1016d96e4c7fda8578e8161875b2d0e6 ""
   "teza-upb.cls" 1775024023 25779 de9c5af32ecbfc815def0ddfdb097f3b ""
-  "teza.aux" 1775026108 2338 ce155f3078a92f1eedbc13584d8405ef "pdflatex"
+  "teza.aux" 1775030303 9345 cee9d9213e7354e27179949e16292e85 "pdflatex"
   "teza.bbl" 1775026107 353 0d939d358f043fe5ded865400e01a97c "bibtex teza"
-  "teza.lof" 1775026108 147 4b66c02efb58698ad42ca80d3f039d96 "pdflatex"
-  "teza.lot" 1775026108 114 a3366f914ad4a704cbd6c73d8caed661 "pdflatex"
-  "teza.out" 1775026108 1840 b52df1c6f1dce491516cfa17908e0a73 "pdflatex"
-  "teza.tex" 1775024023 20002 81c97547ae723c5d9298d956083d3f4b ""
-  "teza.toc" 1775026108 925 76119b911c37bd391ef426b16884400c "pdflatex"
+  "teza.lof" 1775030303 31 2361facdbb248a90b42950105217ae1f "pdflatex"
+  "teza.lot" 1775030303 216 9bd98a10f40d889801157a99121828b2 "pdflatex"
+  "teza.out" 1775030303 11229 5960111a06bca00483fa0148c3c5916b "pdflatex"
+  "teza.tex" 1775030300 33188 510413b9cca0f28e71e826e34af5b0c9 ""
+  "teza.toc" 1775030303 5860 e9ad3c4de958cd493726fc3a0b04c011 "pdflatex"
   (generated)
   "teza.aux"
   "teza.lof"

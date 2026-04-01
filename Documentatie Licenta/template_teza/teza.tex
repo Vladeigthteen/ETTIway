@@ -50,9 +50,9 @@
 
 \begin{document}
 
-\author{Ion Creangă}
+\author{Fraticiu Vlad}
 
-\title{Basmele românilor}
+\title{ETTIway - Sistem de Navigare Interactivă Campus}
 
 
 \facultatea{Facultatea de Electronică, Telecomunicații și Tehnologia Informației}
@@ -61,13 +61,13 @@
 \domeniu{Electronică, Telecomunicații și Tehnologia Informației}
 \catedra{Telecomunicații}
 \campus{Leu} 
-\program{Povești}
+\program{Ingineria Sistemelor de Calcul}
 \titlulobtinut{Inginer}
 %\titlulobtinut{Master}
-\director{Mihail Kogălniceanu} 
+\director{[Profesor Îndrumător]} 
 
 \submissionmonth{Iunie} 
-\submissionyear{2011} 
+\submissionyear{2025} 
 
 \beforepreface
 \listoffigures
@@ -83,73 +83,485 @@
 
 \chapter{Introducere}
 
+\section{Contextul Proiectului}
 
-   Pentru facilitarea formatării tezei de licență/dizertație în
-   \LaTeX{}, se furnizează fișierul clasă ``upb\_thesis.cls'' și un model de
-   folosire ``exemplu\_teza.tex''.  Utilizarea comenzilor standard
-   \verb=\documentclass=, \verb=usepackage=, \verb=setcounter=,
-   etc. nu este diferită de utilizarea lor în orice alt context
-   \LaTeX{}. Comenzile standard sau cele specifice {UPB}
-   apar într-o secvență care trebuie respectată pentru a obține documentul în formatul
-   acceptat de universitate.  Pentru redactarea tezei, este
-   obligatorie folosirea următoarelor comenzi:
+ETTIway este o aplicație web interactivă și inovatoare pentru navigarea în campus-ul universitar. Proiectul a fost conceput pentru a facilita deplasarea studenților și vizitatorilor prin facilitățile universitare prin intermediul unei hărți digitale interactive cu funcționalități avansate de căutare și vizualizare.
 
-\verb=\singlespacing= specifică spațierea pentru întregul document.
+\section{Motivația și Obiectivele}
 
-\verb=\author{Ion Creangă}= numele studentului va fi inserat pe pagina de titlu și în declarația de onestitate.  
-
-\verb=\title{Basmele românilor}= titlul tezei 
-
-\verb=\facultatea{Facultatea de Electronică, Telecomunicații și Tehnologia= \\
-\verb=Informației}=
-
-\verb=\tiplucrare{licență}= parametrul trebuie să fie ``licență'' sau ``dizertație''
-
-\verb=\domeniu{Electronică, Telecomunicații și Tehnologia Informației}=
-
-\verb=\catedra{}=Conform anexei 4 din ghidula absolventului. 
-
-\verb=\program{Povești}= numele specializării
-
-\verb=\titlulobtinut{Inginer}= parametrul trebuie să fie ``Inginer'' sau ``Master''
-
-\verb=\director{Mihail Kogălniceanu}= numele îndrumătorului de
-proiect. Dacă sunt mai mulți, se vor separate cu doi backslash și un spațiu: 
-
-\verb=\director{Mihail Kogălniceanu\\ Titu Maiorescu}=
-
-\verb=\submissionmonth{Iunie}=
-
-\verb=\submissionyear{2011}= data care apare pe pagina de titlu
-
-Listele opționale de figuri, tabele, și abrevieri trebuie incluse în secvența \\
-\verb=\beforepreface= - \verb=\afterpreface=: 
-\begin{verbatim}
-\beforepreface
-\listoffigures
-\listoftables
-\abbreviations{
-}
-\afterpreface
-\end{verbatim}
-\section{Alte recomandări}
+Navigarea în cadrul unui campus mare și complex poate fi dificilă pentru studenți noi, vizitatori și oaspeți. ETTIway urmărește să:
 \begin{itemize}
-\item Se recomandă folosirea pachetului aspell (pachetul \verb=aspell-ro= în
-Debian/Ubuntu) pentru verificarea ortografiei, cu comanda:
-{\small \begin{verbatim}aspell --lang=ro -t check  ./exemplu_teza.tex\end{verbatim}}
-
-\item Se recomandă verificarea fonturilor în PDF-ul produs - este preferabil
-să nu se folosească decât ``Type 1'' sau ``Truetype'', nu ``Type 3''. 
+    \item Ofere o interfață interactivă și ușor de utilizat pentru explorarea campus-ului
+    \item Furnizeze informații detaliate despre clădiri, săli și alte locații importante
+    \item Permită utilizatorilor să caute rapid clădiri și servicii specifice
+    \item Facilitate navigația prin intermediul unui sistem de rutare
+    \item Integreze date geografice din OpenStreetMap pentru acuratețe și completitudine
+    \item Suporte planuri interioare (floor plans) pentru o înțelegere mai bună a spațiilor
 \end{itemize}
 
-\chapter{Basme}
-\section{Punguța cu doi bani}
+\section{Structura Documentului}
 
+Documentul este organizat după cum urmează:
+\begin{itemize}
+    \item Capitolul 2 prezintă arhitectura sistemului și componentele principale
+    \item Capitolul 3 detaliază tehnologiile și framework-urile utilizate
+    \item Capitolul 4 descrie funcționalitățile implementate și în curs de dezvoltare
+    \item Capitolul 5 prezintă structura bazei de date
+    \item Capitolul 6 conține concluzii și direcții viitoare de dezvoltare
+\end{itemize}
 
-Era odată o babă și un moșneag. Baba avea o găină, și
-moșneagul un cucoș; găina babei se oua de câte două ori pe fiecare zi
-și baba mânca o mulțime de ouă; iar moșneagului nu-i da nici
-unul. Moșneagul într-o zi perdu răbdarea și zise:
+\chapter{Arhitectura Sistemului}
+
+\section{Descriere Generală}
+
+ETTIway este o aplicație web cu o arhitectură client-server constând din:
+\begin{itemize}
+    \item \textbf{Frontend}: Aplicație web responsivă construită cu HTML5, CSS3 și JavaScript Vanilla
+    \item \textbf{Backend}: Server API construit cu Spring Boot 4.0.5
+    \item \textbf{Bază de Date}: PostgreSQL pentru stocarea datelor persistente
+    \item \textbf{Hartă Interactivă}: Leaflet.js pentru afișarea și interacțiunea cu harta
+\end{itemize}
+
+\section{Componente Principale}
+
+\subsection{Frontend}
+
+Frontend-ul constă din mai multe componente:
+
+\subsubsection{Pagina Principală (index.html)}
+Pagina principală conține elementele principale ale interfeței:
+\begin{itemize}
+    \item Hartă interactivă cu Leaflet.js
+    \item Sidebar-ul lateral cu controale și informații
+    \item Sistemi de navigație și meniu
+    \item Interfață responsive adaptată pentru diverse dimensiuni de ecran
+\end{itemize}
+
+\subsubsection{Stiluri CSS}
+\begin{itemize}
+    \item \textbf{style.css}: Stiluri principale ale aplicației
+    \item Design responsiv care se adapteaza la desktop, tabletă și telefon
+    \item Palete de culori coerente și interfață ușor de utilizat
+\end{itemize}
+
+\subsubsection{Module JavaScript}
+
+\begin{verbatim}
+- main.js: Punct de intrare al aplicației
+- map.js: Gestionarea hărții interactive
+- graph-editor.js: Editor pentru date grafice
+- indoor.js: Gestiunea planurilor interioare
+- routing.js: Calculul și afișarea rutelor
+- utils.js: Funcții utilitare
+\end{verbatim}
+
+\subsection{Backend}
+
+Backend-ul este construit cu Spring Boot și oferă:
+
+\subsubsection{Dependențe Principale}
+\begin{itemize}
+    \item \textbf{Spring Boot Starter Data JPA}: ORM pentru accesul la baze de date
+    \item \textbf{Spring Boot Starter Security}: Autentificare și autorizare
+    \item \textbf{Spring Boot Starter Web MVC}: Framework web pentru crearea API-urilor
+    \item \textbf{PostgreSQL Driver}: Conectivitate la baza de date
+\end{itemize}
+
+\subsubsection{Structura Aplicației}
+\begin{verbatim}
+Backend/demo/src/main/java/com/example/demo/
+├── config/        # Configurații Spring
+├── controller/    # Controllere pentru API endpoints
+├── entity/        # Entități JPA
+├── repository/    # Interfețe Repository
+└── service/       # Logica de business
+\end{verbatim}
+
+\subsection{Date și Integrations}
+
+\subsubsection{Fișiere de Date JSON}
+\begin{itemize}
+    \item \textbf{campus.sample.json}: Date exemple despre clădiri campus
+    \item \textbf{graph\_data.json}: Date pentru graful de conectivitate
+    \item \textbf{indoor-data.json}: Date despre planuri interioare
+\end{itemize}
+
+\subsubsection{Integrări}
+\begin{itemize}
+    \item OpenStreetMap (OSM) pentru date geografice și hărți de bază
+    \item QGIS cu GeoPackage și GeoJSON pentru gestiunea datelor spațiale
+\end{itemize}
+
+\chapter{Tehnologii și Tool-uri Utilizate}
+
+\section{Frontend Stack}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Tehnologie} & \textbf{Versiune} & \textbf{Utilizare} \\
+\hline
+HTML5 & - & Structura paginilor\\
+CSS3 & - & Stiluri și layout responsiv\\
+JavaScript & ES6+ & Logica și interactivitate\\
+Leaflet.js & - & Hărți interactive\\
+\hline
+\end{tabular}
+\caption{Tehnologiile Frontend}
+\label{tab:frontend}
+\end{table}
+
+\section{Backend Stack}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Tehnologie} & \textbf{Versiune} & \textbf{Utilizare} \\
+\hline
+Spring Boot & 4.0.5 & Framework web și ORM\\
+Java & 17 & Limbaj de programare\\
+Spring Security & - & Autentificare/Autorizare\\
+Spring Data JPA & - & Acces la baza de date\\
+PostgreSQL & - & Bază de date\\
+Maven & - & Build tool și dependency manager\\
+\hline
+\end{tabular}
+\caption{Tehnologiile Backend}
+\label{tab:backend}
+\end{table}
+
+\section{Instrumente de Dezvoltare}
+
+\begin{itemize}
+    \item \textbf{Git}: Versionare și control al codului
+    \item \textbf{GitHub}: Repository și colaborare
+    \item \textbf{VS Code}: Editor de cod
+    \item \textbf{IntelliJ IDEA}: IDE pentru Java/Spring Boot
+    \item \textbf{Postman}: Testare API
+    \item \textbf{QGIS}: Editare și vizualizare date spațiale
+\end{itemize}
+
+\chapter{Funcționalități Implementate}
+
+\section{Funcționalități Completed}
+
+\subsection{Hartă Interactivă}
+\begin{itemize}
+    \item Hartă bazată pe Leaflet.js cu suport pentru zoom și pan
+    \item Integrare cu OpenStreetMap pentru date geografice de bază
+    \item Afișarea corectă a pozițiilor GPS și a clădirilor
+    \item Suport pentru diferite layer-e de hartă
+\end{itemize}
+
+\subsection{Interfață Sidebar}
+\begin{itemize}
+    \item Panoul lateral pentru controale și informații
+    \item Afișare dinamică a detaliilor clădirilor
+    \item Lista clădirilor disponibile
+    \item Controale pentru OSM data
+    \item Cărări responsive care se ascunde pe ecrane mici
+\end{itemize}
+
+\subsection{Sistem Planuri Interioare}
+\begin{itemize}
+    \item Suport pentru afișarea planurilor interioare (floor plans)
+    \item Fișiere GeoPackage și GeoJSON pentru data management
+    \item Integrare cu QGIS pentru editarea datelor
+    \item Afișarea informatiilor despre săli și holuri
+\end{itemize}
+
+\subsection{Repository și Control Versioning}
+\begin{itemize}
+    \item Creat repository GitHub cu structura de proiect
+    \item Sistem de versionare și tracking pentru modificări
+    \item Documentație completă în README.md
+\end{itemize}
+
+\section{Funcționalități în Dezvoltare}
+
+\subsection{Căutare Avansată}
+\begin{itemize}
+    \item Câmp de căutare în sidebar
+    \item Filtrare dinamică a clădirilor
+    \item Sugestii în timp real
+    \item Highlight rezultate pe hartă
+\end{itemize}
+
+\subsection{Localizare Utilizator}
+\begin{itemize}
+    \item Determina poziția utilizatorului prin GPS
+    \item Afișare locației curente pe hartă
+    \item Permisiuni de acces la locație
+\end{itemize}
+
+\subsection{Sistem de Rutare}
+\begin{itemize}
+    \item Calculul rutei optime între două puncte
+    \item Direcții pas cu pas
+    \item Estimarea timpului de deplasare
+    \item Rute alternative
+\end{itemize}
+
+\subsection{Sistem de Markere}
+\begin{itemize}
+    \item Markere personalizate pe hartă
+    \item Cluster-are markere pentru o mai bună vizibilitate
+    \item Click handlers pentru detalii
+\end{itemize}
+
+\chapter{Structura Bazei de Date}
+
+\section{Entități Principale}
+
+Baza de date PostgreSQL va conține următoarele entități:
+
+\subsection{Building (Clădire)}
+\begin{verbatim}
+- id: Identificator unic
+- name: Nume clădire
+- description: Descriere
+- coordinates: Lat/Long
+- address: Adresă
+- floors: Număr etaje
+- services: Servicii disponibile
+\end{verbatim}
+
+\subsection{Room (Sală)}
+\begin{verbatim}
+- id: Identificator unic
+- building_id: Referință la clădire
+- room_number: Numărul sălii
+- type: Tip sală (clasă, laborator, etc.)
+- capacity: Capacitate persoane
+- description: Descriere
+\end{verbatim}
+
+\subsection{Floor (Etaj)}
+\begin{verbatim}
+- id: Identificator unic
+- building_id: Referință la clădire
+- floor_number: Numărul etajului
+- floor_plan_url: Link la planul etajului
+\end{verbatim}
+
+\chapter{Concluzii și Direcții Viitoare}
+
+\section{Realizări}
+
+În cadrul acestui proiect, au fost implementate:
+\begin{itemize}
+    \item O aplicație web responsivă și interactivă
+    \item Integrare cu Leaflet.js pentru hărți de înaltă calitate
+    \item Backend robusto cu Spring Boot 4.0.5
+    \item Sistem de securitate și autentificare
+    \item Suport pentru planuri interioare și date spațiale
+    \item Documentație completă a proiectului
+\end{itemize}
+
+\section{Provocări și Soluții}
+
+Principalele provocări întâmpinate:
+\begin{itemize}
+    \item Integrarea complexă a datelor geografice - rezolvată prin QGIS și GeoJSON
+    \item Performanța hărții cu mulți markeri - optimizată prin clustering
+    \item Cross-browser compatibility - asigurată prin testare pe mai browsere
+\end{itemize}
+
+\section{Direcții Viitoare}
+
+Capabilitățile propuse pentru versiuni viitoare:
+\begin{itemize}
+    \item Implementare completă a funcționalității de căutare
+    \item Sistem de rutare pe bază de algoritmi de grafuri
+    \item Localizare precisă în timp real
+    \item Suport pentru mai multe limbi
+    \item Integrare social media (share locații)
+    \item Aplicație mobilă native
+    \item Sistem de notificări și alertă
+    \item Analytics și tracking comportament utilizatori
+\end{itemize}
+
+\section{Lecții Învățate}
+
+\begin{itemize}
+    \item Importanța planificării arhitecturii înainte de codare
+    \item Valoarea testării progressive și feedback-ului utilizatorilor
+    \item Necesitatea documentației bune pentru mentenabilitate
+    \item Beneficiile utilizării de tool-uri moderne de development
+    \item Importanța versionării codului și colaborării eficiente
+\end{itemize}
+
+\appendix
+
+\chapter{Resurse și Referințe}
+
+\section{Biblioteca JavaScript - Leaflet.js}
+
+Leaflet.js este o bibliotecă JavaScript lightweight și open-source pentru hărți web interactive. 
+Documentația este disponibilă la \url{https://leafletjs.com/}.
+
+\section{Framework Backend - Spring Boot}
+
+Spring Boot este un framework Java modern care simplifică crearea aplicațiilor web și REST APIs.
+Documentația oficială: \url{https://spring.io/projects/spring-boot}.
+
+\section{OpenStreetMap}
+
+OpenStreetMap este o hartă deschisă și colaborativă a lumii. Datele sunt disponibile la 
+\url{https://www.openstreetmap.org/}.
+
+\section{QGIS - Quantum GIS}
+
+QGIS este o aplicație GIS open-source pentru procesarea și editarea datelor spațiale.
+Disponibil la \url{https://www.qgis.org/}.
+
+\chapter{Instalare și Configurare}
+
+\section{Cerințe de Sistem}
+
+\begin{itemize}
+    \item Browser web modern (Chrome, Firefox, Safari, Edge)
+    \item Java 17 sau mai nou (pentru backend)
+    \item Maven 3.6+ (pentru build)
+    \item PostgreSQL 12+ (pentru baza de date)
+    \item Node.js și npm (opțional, pentru development tools)
+\end{itemize}
+
+\section{Pași de Instalare Backend}
+
+\begin{enumerate}
+    \item Clonează repository-ul: \verb|git clone https://github.com/Vladeigthteen/ETTIway|
+    \item Navigează la folderul Backend: \verb|cd Backend/demo|
+    \item Configurează baza de date PostgreSQL
+    \item Compilează proiectul: \verb|mvn clean install|
+    \item Pornește serverul: \verb|mvn spring-boot:run|
+\end{enumerate}
+
+\section{Pași de Instalare Frontend}
+
+\begin{enumerate}
+    \item Navigează la folderul Frontend: \verb|cd Frontend/app|
+    \item Deschide \verb|index.html| în browser sau pornește un server local
+    \item Pentru server local cu Python: \verb|python -m http.server 8000|
+    \item Accesează \verb|http://localhost:8000| în browser
+\end{enumerate}
+
+\chapter{Exemple de Integrare API}
+
+\section{Endpoint-uri Backend Propuse}
+
+\subsection{Buildings API}
+\begin{verbatim}
+GET  /api/buildings           - Lista toate clădirile
+GET  /api/buildings/{id}      - Obține detalii clădire
+POST /api/buildings           - Crează nouă clădire
+PUT  /api/buildings/{id}      - Actualizează clădire
+DELETE /api/buildings/{id}    - Șterge clădire
+\end{verbatim}
+
+\subsection{Rooms API}
+\begin{verbatim}
+GET  /api/rooms               - Lista toate sălile
+GET  /api/rooms/{id}          - Obține detalii sală
+POST /api/rooms               - Crează nouă sală
+PUT  /api/rooms/{id}          - Actualizează sală
+DELETE /api/rooms/{id}        - Șterge sală
+\end{verbatim}
+
+\section{Exemplu Request/Response}
+
+\subsection{GET /api/buildings - Response Example}
+\begin{verbatim}
+[
+  {
+    "id": 1,
+    "name": "Corp B",
+    "description": "Clădire academică",
+    "latitude": 44.405,
+    "longitude": 26.102,
+    "address": "Strada Politehnicii, București",
+    "floors": 4
+  },
+  {
+    "id": 2,
+    "name": "Biblioteca",
+    "description": "Biblioteca centrală",
+    "latitude": 44.406,
+    "longitude": 26.103,
+    "address": "Strada Doamnei, București",
+    "floors": 3
+  }
+]
+\end{verbatim}
+
+\chapter{Fișiere de Configurare Sursă}
+
+\section{Structura Fișierelor Frontend}
+
+Aplicația frontend are următoarele fișiere principale:
+
+\subsection{HTML}
+\begin{verbatim}
+Frontend/app/
+├── index.html              - Pagina principală
+├── login.html             - Pagina de login
+├── admin_test.html        - Pagina admin test
+└── user_test.html         - Pagina user test
+\end{verbatim}
+
+\subsection{CSS}
+\begin{verbatim}
+Frontend/app/css/
+└── style.css              - Stiluri principale
+\end{verbatim}
+
+\subsection{JavaScript}
+\begin{verbatim}
+Frontend/app/js/
+├── main.js                - Punct de intrare
+├── map.js                 - Gestiune hartă
+├── indoor.js              - Planuri interioare
+├── routing.js             - Algoritm de rutare
+├── graph-editor.js        - Editor grafuri
+└── utils.js               - Funcții utilitare
+\end{verbatim}
+
+\subsection{Date}
+\begin{verbatim}
+Frontend/app/data/
+├── campus.sample.json     - Date campus
+├── indoor-data.json       - Date interioare
+└── graph_data.json        - Date grafuri
+
+Frontend/app/indoor/CorpB/
+├── Parter dreapta/        - Planuri etaj
+│   ├── doors.geojson
+│   ├── rooms.geojson
+│   ├── stairs.geojson
+│   └── floor.gpkg
+\end{verbatim}
+
+\chapter{Diagrama Arhitecturii}
+
+\section{Diagrama Componentelor}
+
+Arhitectura sistemului ETTIway este prezentată în figura de mai jos:
+
+\section{Flow-ul Datelor}
+
+\begin{enumerate}
+    \item Utilizatorul interacționează cu interfața frontend
+    \item Frontend trimite cereri API la backend
+    \item Backend procesează cerența și acceseaza baza de date
+    \item Backend returnează date în format JSON
+    \item Frontend procesează datele și le afișează pe hartă
+    \item Hartă folosește Leaflet.js pentru rendering
+    \item Utilizatorul vede poziții actualizate în timp real
+\end{enumerate}
+
+\end{document}
 
 — Măi babă, mănânci ca în târgul lui Cremene. Ia dă-mi și mie niște
 ouă, ca să-mi prind pofta măcar. — Da' cum nu! zise baba, care era
