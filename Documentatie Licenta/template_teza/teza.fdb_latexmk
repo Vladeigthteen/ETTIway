@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1775059228.48348 "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" "teza.pdf" "teza" 1775059230.13745 2
+["pdflatex"] 1775123835.56696 "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" "teza.pdf" "teza" 1775123836.50203 0
   "C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775026102 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/frati/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1200.pk" 1775026104 14064 98ee861a7a77ea34dc140bd2e9909b35 ""
   "C:/Users/frati/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775026023 13333486 a381912a9294aedfa68dc0cc00863923 ""
@@ -26,6 +26,7 @@
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx6.pfb" 1247596666 32378 2b20eba6bb36c716382b6d96240eaa69 ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx7.pfb" 1247596667 32007 e8fa0078355f39467039935974716569 ""
+  "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1247596667 36741 0ee9e374ec3e30da87cdfb0ea3575226 ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1247596667 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1247596667 32734 69e00a6b65cedb993666e42eedb3d48f ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
@@ -92,14 +93,14 @@
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1761901070 15651 9d7c62df82cb29a555c00550babfe364 ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/ucs/utf8x.def" 1700127473 8944 e3433baec74c4b7b278c6b6a547ff9ec ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" 1775059223 34024 510413b9cca0f28e71e826e34af5b0c9 ""
+  "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" 1775123834 33741 a31bb4ff183d1d0a198b0e2f768bdda9 ""
   "teza-upb.cls" 1775059223 26437 de9c5af32ecbfc815def0ddfdb097f3b ""
-  "teza.aux" 1775059229 9345 cee9d9213e7354e27179949e16292e85 "pdflatex"
-  "teza.lof" 1775059229 31 2361facdbb248a90b42950105217ae1f "pdflatex"
-  "teza.lot" 1775059229 216 9bd98a10f40d889801157a99121828b2 "pdflatex"
-  "teza.out" 1775059229 11229 5960111a06bca00483fa0148c3c5916b "pdflatex"
-  "teza.tex" 1775059223 34024 510413b9cca0f28e71e826e34af5b0c9 ""
-  "teza.toc" 1775059229 5860 e9ad3c4de958cd493726fc3a0b04c011 "pdflatex"
+  "teza.aux" 1775123836 9345 b7e4da47d3a438c3c0738e5add2ce243 "pdflatex"
+  "teza.lof" 1775123836 31 2361facdbb248a90b42950105217ae1f "pdflatex"
+  "teza.lot" 1775123836 216 9bd98a10f40d889801157a99121828b2 "pdflatex"
+  "teza.out" 1775123836 11229 5960111a06bca00483fa0148c3c5916b "pdflatex"
+  "teza.tex" 1775123834 33741 a31bb4ff183d1d0a198b0e2f768bdda9 ""
+  "teza.toc" 1775123836 5860 e9ad3c4de958cd493726fc3a0b04c011 "pdflatex"
   (generated)
   "teza.aux"
   "teza.lof"

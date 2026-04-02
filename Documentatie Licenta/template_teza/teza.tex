@@ -170,11 +170,11 @@ Backend-ul este construit cu Spring Boot și oferă:
 \subsubsection{Structura Aplicației}
 \begin{verbatim}
 Backend/demo/src/main/java/com/example/demo/
-├── config/        # Configurații Spring
-├── controller/    # Controllere pentru API endpoints
-├── entity/        # Entități JPA
-├── repository/    # Interfețe Repository
-└── service/       # Logica de business
+ config/        # Configurații Spring
+controller/    # Controllere pentru API endpoints
+entity/        # Entități JPA
+repository/    # Interfețe Repository
+service/       # Logica de business
 \end{verbatim}
 
 \subsection{Date și Integrations}
@@ -505,42 +505,41 @@ Aplicația frontend are următoarele fișiere principale:
 \subsection{HTML}
 \begin{verbatim}
 Frontend/app/
-├── index.html              - Pagina principală
-├── login.html             - Pagina de login
-├── admin_test.html        - Pagina admin test
-└── user_test.html         - Pagina user test
+ index.html              - Pagina principală
+ login.html             - Pagina de login
+ admin_test.html        - Pagina admin test
+ user_test.html         - Pagina user test
 \end{verbatim}
 
 \subsection{CSS}
 \begin{verbatim}
 Frontend/app/css/
-└── style.css              - Stiluri principale
+ style.css              - Stiluri principale
 \end{verbatim}
 
 \subsection{JavaScript}
 \begin{verbatim}
 Frontend/app/js/
-├── main.js                - Punct de intrare
-├── map.js                 - Gestiune hartă
-├── indoor.js              - Planuri interioare
-├── routing.js             - Algoritm de rutare
-├── graph-editor.js        - Editor grafuri
-└── utils.js               - Funcții utilitare
+ main.js                - Punct de intrare
+ map.js                 - Gestiune hartă
+ indoor.js              - Planuri interioare
+ routing.js             - Algoritm de rutare
+ utils.js               - Funcții utilitare
 \end{verbatim}
 
 \subsection{Date}
 \begin{verbatim}
 Frontend/app/data/
-├── campus.sample.json     - Date campus
-├── indoor-data.json       - Date interioare
-└── graph_data.json        - Date grafuri
+ campus.sample.json     - Date campus
+ indoor-data.json       - Date interioare
+ graph_data.json        - Date grafuri
 
 Frontend/app/indoor/CorpB/
-├── Parter dreapta/        - Planuri etaj
-│   ├── doors.geojson
-│   ├── rooms.geojson
-│   ├── stairs.geojson
-│   └── floor.gpkg
+ Parter dreapta/        - Planuri etaj
+ doors.geojson
+  rooms.geojson
+ stairs.geojson
+   floor.gpkg
 \end{verbatim}
 
 \chapter{Diagrama Arhitecturii}
