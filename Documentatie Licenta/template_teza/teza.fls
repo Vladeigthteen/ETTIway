@@ -134,6 +134,9 @@ INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.s
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
+INPUT .\teza.aux
+INPUT .\teza.aux
+INPUT teza.aux
 OUTPUT teza.aux
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\context\base\mkii\supp-pdf.mkii

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  1 APR 2026 10:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  1 APR 2026 19:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -676,8 +676,7 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 ) (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count306
-)
-No file teza.aux.
+) (teza.aux)
 \openout1 = `teza.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
@@ -698,7 +697,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
-(C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+ (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count307
 \scratchdimen=\dimen162
@@ -1917,10 +1916,10 @@ Package rerunfilecheck Info: Checksums for `teza.out':
 (rerunfilecheck)             After:  5960111A06BCA00483FA0148C3C5916B;11229.
  ) 
 Here is how much of TeX's memory you used:
- 11391 strings out of 467871
- 180684 string characters out of 5418377
+ 11394 strings out of 467871
+ 180767 string characters out of 5418377
  797704 words of memory out of 5000000
- 40025 multiletter control sequences out of 15000+600000
+ 40026 multiletter control sequences out of 15000+600000
  637987 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,15n,79p,409b,644s stack positions out of 10000i,1000n,20000p,200000b,200000s
