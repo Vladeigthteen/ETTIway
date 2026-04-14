@@ -1,835 +1,148 @@
-
-\documentclass[12pt, a4paper, oneside, romanian]{teza-upb}
+﻿\documentclass[12pt, a4paper, twoside, romanian]{teza-upb} % twoside conform regulament
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
-\usepackage{babel}
 \usepackage{graphicx}
-\usepackage{babel}
+% Marginile de fix 2cm conform regulamentului ETTI 2024
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm, headsep=1cm, footskip=1cm]{geometry}
+\usepackage[romanian]{babel}
+\usepackage{ragged2e}
 \usepackage{color}
-\usepackage{graphicx}
+\usepackage{pdfpages} % Necesar pentru inserarea Anexei 1
 \usepackage[
   bookmarks,
   bookmarksopen=true,
-  pdftitle={Dizertatie},
+  pdftitle={Lucrare de licenta - ETTIway},
   linktocpage]{hyperref}
 
+% Setează spațierea la 1.1 (maxim 1.2 conform regulament)
+\linespread{1.1}
+\AtBeginDocument{\justifying}
 
-\singlespacing
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%cod colorat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cod colorat
 \usepackage{listings}
-\usepackage{color}
- 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{mystyle}{
-	language=Matlab,
- %   backgroundcolor=\color{backcolour},   
+    language=Matlab,
     commentstyle=\color{codegreen},
     keywordstyle=\color{blue},
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
-	basicstyle=\ttfamily\scriptsize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
-    showstringspaces=false,
-    showtabs=false,                  
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    captionpos=b,
+    numbers=left,
     tabsize=2
 }
- 
 \lstset{style=mystyle}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Început document
 \begin{document}
 
-\author{Fraticiu Vlad}
-
+\author{Fraticiu Vlad-Alexandru} % Numele exact din Anexa 1
 \title{ETTIway - Sistem de Navigare Interactivă Campus}
-
 
 \facultatea{Facultatea de Electronică, Telecomunicații și Tehnologia Informației}
 \tiplucrare{licență}
-%\tiplucrare{dizertație}
 \domeniu{Electronică, Telecomunicații și Tehnologia Informației}
 \catedra{Telecomunicații}
 \campus{Leu} 
-\program{Ingineria Sistemelor de Calcul}
+\program{Retele si Software de Telecomunicatii}
 \titlulobtinut{Inginer}
-%\titlulobtinut{Master}
-\director{[Profesor Îndrumător]} 
-
+\director{Ș.l. dr. ing. Laurențiu BOICESCU} % Grad corect: Ș.l. (Șef de lucrări)
 \submissionmonth{Iunie} 
-\submissionyear{2025} 
+\submissionyear{2026} 
 
-\beforepreface
-\listoffigures
-\listoftables
+% --- SECȚIUNEA DE ÎNCEPUT (MODIFICATĂ PENTRU POZIȚIONARE) ---
+
+\pagenumbering{roman}
+\pagestyle{empty}
+
+% 1. Pagina de titlu
+\titlep 
+
+% 2. Anexa 1 (Tema de licență) - Fix după titlu
+\includepdf[pages={1,2}]{Anexa1.2.pdf} 
+
+% 3. Declarația de onestitate (Anexa 5)
+\declaratiep 
+
+% 4. Cuprinsul
+\tableofcontents 
+
+% Resetăm numerotarea paginilor (Anexele și titlul au ocupat deja câteva pagini)
+\pagestyle{plain}
+
+% 5. Lista de acronime (opțional)
 \abbreviations{ 
-  HA = Harap Alb\\
-  PLL =  Păsări-Lăți-Lungilă\\
-  Sp  = Spânul 
-  
+    API = Application Programming Interface (Interfață de Programare a Aplicațiilor)\\
+    OSM = OpenStreetMap\\
+    GPS = Global Positioning System (Sistem de Poziționare Globală)\\
+    QGIS = Quantum Geographic Information System
 }
-%\preface{}
-\afterpreface 
 
-\chapter{Introducere}
+% Comanda care încheie zona de prefață și începe numerotarea arabă de la 1
+\afterpreface 
+\pagestyle{plain}
+
+% --- CONȚINUTUL LUCRĂRII ---
+
+\chapter*{Introducere}
+\addcontentsline{toc}{chapter}{Introducere}
 
 \section{Contextul Proiectului}
-
-ETTIway este o aplicație web interactivă și inovatoare pentru navigarea în campus-ul universitar. Proiectul a fost conceput pentru a facilita deplasarea studenților și vizitatorilor prin facilitățile universitare prin intermediul unei hărți digitale interactive cu funcționalități avansate de căutare și vizualizare.
+ Problema principala care apare frecvent într-un campus universiatar este de a integra navigatia exterioara cu cea interioara in corpuri, sali si laboaratoare,
+ intr-un singur flux digital coerent. Plecand de la aceasta problema, lucrarea propune ETTIway, o platfomra construita pentru a aduce la un loc navigarea exterioara 
+ cat si pe cea interoara într-o experienta unitară atât pentru studenți, cât și pentru personalul universitar.Obiectivul principal a
+fost dezvoltarea unei soluții capabile să ofere localizare contextuală, căutare rapidă a punctelor de
+interes și suport pentru rutare între locații relevante din campus. Arhitectura tehnică îmbină un backend
+realizat cu Spring Boot, responsabil de expunerea serviciilor și gestionarea datelor, cu o interfață web
+interactivă construită cu JavaScript și Leaflet, orientată spre claritate vizuală și timp de răspuns redus.
+O contribuție practică importantă este integrarea stratului de date spațiale provenit din OpenStreetMap, care permite reprezentarea fidelă a infrastructurii campusului și extinderea facilă către noi zone.
+În completarea funcțiilor de bază, platforma include mecanisme de afișare contextuală a informațiilor
+despre clădiri și spații, precum și o bază pentru rutare inteligentă între puncte selectate. Din perspectivă
+operațională, soluția oferă și suport pentru administrarea datelor geografice, astfel încât actualizarea
+hărților, a denumirilor și a punctelor de interes să poată fi realizată rapid, cu impact minim asupra
+utilizatorului final.
 
 \section{Motivația și Obiectivele}
-
-Navigarea în cadrul unui campus mare și complex poate fi dificilă pentru studenți noi, vizitatori și oaspeți. ETTIway urmărește să:
-\begin{itemize}
-    \item Ofere o interfață interactivă și ușor de utilizat pentru explorarea campus-ului
-    \item Furnizeze informații detaliate despre clădiri, săli și alte locații importante
-    \item Permită utilizatorilor să caute rapid clădiri și servicii specifice
-    \item Facilitate navigația prin intermediul unui sistem de rutare
-    \item Integreze date geografice din OpenStreetMap pentru acuratețe și completitudine
-    \item Suporte planuri interioare (floor plans) pentru o înțelegere mai bună a spațiilor
-\end{itemize}
-
-\section{Structura Documentului}
-
-Documentul este organizat după cum urmează:
-\begin{itemize}
-    \item Capitolul 2 prezintă arhitectura sistemului și componentele principale
-    \item Capitolul 3 detaliază tehnologiile și framework-urile utilizate
-    \item Capitolul 4 descrie funcționalitățile implementate și în curs de dezvoltare
-    \item Capitolul 5 prezintă structura bazei de date
-    \item Capitolul 6 conține concluzii și direcții viitoare de dezvoltare
-\end{itemize}
-
-\chapter{Arhitectura Sistemului}
-
-\section{Descriere Generală}
-
-ETTIway este o aplicație web cu o arhitectură client-server constând din:
-\begin{itemize}
-    \item \textbf{Frontend}: Aplicație web responsivă construită cu HTML5, CSS3 și JavaScript Vanilla
-    \item \textbf{Backend}: Server API construit cu Spring Boot 4.0.5
-    \item \textbf{Bază de Date}: PostgreSQL pentru stocarea datelor persistente
-    \item \textbf{Hartă Interactivă}: Leaflet.js pentru afișarea și interacțiunea cu harta
-\end{itemize}
-
-\section{Componente Principale}
-
-\subsection{Frontend}
-
-Frontend-ul constă din mai multe componente:
-
-\subsubsection{Pagina Principală (index.html)}
-Pagina principală conține elementele principale ale interfeței:
-\begin{itemize}
-    \item Hartă interactivă cu Leaflet.js
-    \item Sidebar-ul lateral cu controale și informații
-    \item Sistemi de navigație și meniu
-    \item Interfață responsive adaptată pentru diverse dimensiuni de ecran
-\end{itemize}
-
-\subsubsection{Stiluri CSS}
-\begin{itemize}
-    \item \textbf{style.css}: Stiluri principale ale aplicației
-    \item Design responsiv care se adapteaza la desktop, tabletă și telefon
-    \item Palete de culori coerente și interfață ușor de utilizat
-\end{itemize}
-
-\subsubsection{Module JavaScript}
-
-\begin{verbatim}
-- main.js: Punct de intrare al aplicației
-- map.js: Gestionarea hărții interactive
-- graph-editor.js: Editor pentru date grafice
-- indoor.js: Gestiunea planurilor interioare
-- routing.js: Calculul și afișarea rutelor
-- utils.js: Funcții utilitare
-\end{verbatim}
-
-\subsection{Backend}
-
-Backend-ul este construit cu Spring Boot și oferă:
-
-\subsubsection{Dependențe Principale}
-\begin{itemize}
-    \item \textbf{Spring Boot Starter Data JPA}: ORM pentru accesul la baze de date
-    \item \textbf{Spring Boot Starter Security}: Autentificare și autorizare
-    \item \textbf{Spring Boot Starter Web MVC}: Framework web pentru crearea API-urilor
-    \item \textbf{PostgreSQL Driver}: Conectivitate la baza de date
-\end{itemize}
-
-\subsubsection{Structura Aplicației}
-\begin{verbatim}
-Backend/demo/src/main/java/com/example/demo/
- config/        # Configurații Spring
-controller/    # Controllere pentru API endpoints
-entity/        # Entități JPA
-repository/    # Interfețe Repository
-service/       # Logica de business
-\end{verbatim}
-
-\subsection{Date și Integrations}
-
-\subsubsection{Fișiere de Date JSON}
-\begin{itemize}
-    \item \textbf{campus.sample.json}: Date exemple despre clădiri campus
-    \item \textbf{graph\_data.json}: Date pentru graful de conectivitate
-    \item \textbf{indoor-data.json}: Date despre planuri interioare
-\end{itemize}
-
-\subsubsection{Integrări}
-\begin{itemize}
-    \item OpenStreetMap (OSM) pentru date geografice și hărți de bază
-    \item QGIS cu GeoPackage și GeoJSON pentru gestiunea datelor spațiale
-\end{itemize}
-
-\chapter{Tehnologii și Tool-uri Utilizate}
-
-\section{Frontend Stack}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Tehnologie} & \textbf{Versiune} & \textbf{Utilizare} \\
-\hline
-HTML5 & - & Structura paginilor\\
-CSS3 & - & Stiluri și layout responsiv\\
-JavaScript & ES6+ & Logica și interactivitate\\
-Leaflet.js & - & Hărți interactive\\
-\hline
-\end{tabular}
-\caption{Tehnologiile Frontend}
-\label{tab:frontend}
-\end{table}
-
-\section{Backend Stack}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Tehnologie} & \textbf{Versiune} & \textbf{Utilizare} \\
-\hline
-Spring Boot & 4.0.5 & Framework web și ORM\\
-Java & 17 & Limbaj de programare\\
-Spring Security & - & Autentificare/Autorizare\\
-Spring Data JPA & - & Acces la baza de date\\
-PostgreSQL & - & Bază de date\\
-Maven & - & Build tool și dependency manager\\
-\hline
-\end{tabular}
-\caption{Tehnologiile Backend}
-\label{tab:backend}
-\end{table}
-
-\section{Instrumente de Dezvoltare}
-
-\begin{itemize}
-    \item \textbf{Git}: Versionare și control al codului
-    \item \textbf{GitHub}: Repository și colaborare
-    \item \textbf{VS Code}: Editor de cod
-    \item \textbf{IntelliJ IDEA}: IDE pentru Java/Spring Boot
-    \item \textbf{Postman}: Testare API
-    \item \textbf{QGIS}: Editare și vizualizare date spațiale
-\end{itemize}
-
-\chapter{Funcționalități Implementate}
-
-\section{Funcționalități Completed}
-
-\subsection{Hartă Interactivă}
-\begin{itemize}
-    \item Hartă bazată pe Leaflet.js cu suport pentru zoom și pan
-    \item Integrare cu OpenStreetMap pentru date geografice de bază
-    \item Afișarea corectă a pozițiilor GPS și a clădirilor
-    \item Suport pentru diferite layer-e de hartă
-\end{itemize}
-
-\subsection{Interfață Sidebar}
-\begin{itemize}
-    \item Panoul lateral pentru controale și informații
-    \item Afișare dinamică a detaliilor clădirilor
-    \item Lista clădirilor disponibile
-    \item Controale pentru OSM data
-    \item Cărări responsive care se ascunde pe ecrane mici
-\end{itemize}
-
-\subsection{Sistem Planuri Interioare}
-\begin{itemize}
-    \item Suport pentru afișarea planurilor interioare (floor plans)
-    \item Fișiere GeoPackage și GeoJSON pentru data management
-    \item Integrare cu QGIS pentru editarea datelor
-    \item Afișarea informatiilor despre săli și holuri
-\end{itemize}
-
-\subsection{Repository și Control Versioning}
-\begin{itemize}
-    \item Creat repository GitHub cu structura de proiect
-    \item Sistem de versionare și tracking pentru modificări
-    \item Documentație completă în README.md
-\end{itemize}
-
-\section{Funcționalități în Dezvoltare}
-
-\subsection{Căutare Avansată}
-\begin{itemize}
-    \item Câmp de căutare în sidebar
-    \item Filtrare dinamică a clădirilor
-    \item Sugestii în timp real
-    \item Highlight rezultate pe hartă
-\end{itemize}
-
-\subsection{Localizare Utilizator}
-\begin{itemize}
-    \item Determina poziția utilizatorului prin GPS
-    \item Afișare locației curente pe hartă
-    \item Permisiuni de acces la locație
-\end{itemize}
-
-\subsection{Sistem de Rutare}
-\begin{itemize}
-    \item Calculul rutei optime între două puncte
-    \item Direcții pas cu pas
-    \item Estimarea timpului de deplasare
-    \item Rute alternative
-\end{itemize}
-
-\subsection{Sistem de Markere}
-\begin{itemize}
-    \item Markere personalizate pe hartă
-    \item Cluster-are markere pentru o mai bună vizibilitate
-    \item Click handlers pentru detalii
-\end{itemize}
-
-\chapter{Structura Bazei de Date}
-
-\section{Entități Principale}
-
-Baza de date PostgreSQL va conține următoarele entități:
-
-\subsection{Building (Clădire)}
-\begin{verbatim}
-- id: Identificator unic
-- name: Nume clădire
-- description: Descriere
-- coordinates: Lat/Long
-- address: Adresă
-- floors: Număr etaje
-- services: Servicii disponibile
-\end{verbatim}
-
-\subsection{Room (Sală)}
-\begin{verbatim}
-- id: Identificator unic
-- building_id: Referință la clădire
-- room_number: Numărul sălii
-- type: Tip sală (clasă, laborator, etc.)
-- capacity: Capacitate persoane
-- description: Descriere
-\end{verbatim}
-
-\subsection{Floor (Etaj)}
-\begin{verbatim}
-- id: Identificator unic
-- building_id: Referință la clădire
-- floor_number: Numărul etajului
-- floor_plan_url: Link la planul etajului
-\end{verbatim}
-
-\chapter{Concluzii și Direcții Viitoare}
-
-\section{Realizări}
-
-În cadrul acestui proiect, au fost implementate:
-\begin{itemize}
-    \item O aplicație web responsivă și interactivă
-    \item Integrare cu Leaflet.js pentru hărți de înaltă calitate
-    \item Backend robusto cu Spring Boot 4.0.5
-    \item Sistem de securitate și autentificare
-    \item Suport pentru planuri interioare și date spațiale
-    \item Documentație completă a proiectului
-\end{itemize}
-
-\section{Provocări și Soluții}
-
-Principalele provocări întâmpinate:
-\begin{itemize}
-    \item Integrarea complexă a datelor geografice - rezolvată prin QGIS și GeoJSON
-    \item Performanța hărții cu mulți markeri - optimizată prin clustering
-    \item Cross-browser compatibility - asigurată prin testare pe mai browsere
-\end{itemize}
-
-\section{Direcții Viitoare}
-
-Capabilitățile propuse pentru versiuni viitoare:
-\begin{itemize}
-    \item Implementare completă a funcționalității de căutare
-    \item Sistem de rutare pe bază de algoritmi de grafuri
-    \item Localizare precisă în timp real
-    \item Suport pentru mai multe limbi
-    \item Integrare social media (share locații)
-    \item Aplicație mobilă native
-    \item Sistem de notificări și alertă
-    \item Analytics și tracking comportament utilizatori
-\end{itemize}
-
-\section{Lecții Învățate}
-
-\begin{itemize}
-    \item Importanța planificării arhitecturii înainte de codare
-    \item Valoarea testării progressive și feedback-ului utilizatorilor
-    \item Necesitatea documentației bune pentru mentenabilitate
-    \item Beneficiile utilizării de tool-uri moderne de development
-    \item Importanța versionării codului și colaborării eficiente
-\end{itemize}
-
-\appendix
-
-\chapter{Resurse și Referințe}
-
-\section{Biblioteca JavaScript - Leaflet.js}
-
-Leaflet.js este o bibliotecă JavaScript lightweight și open-source pentru hărți web interactive. 
-Documentația este disponibilă la \url{https://leafletjs.com/}.
-
-\section{Framework Backend - Spring Boot}
-
-Spring Boot este un framework Java modern care simplifică crearea aplicațiilor web și REST APIs.
-Documentația oficială: \url{https://spring.io/projects/spring-boot}.
-
-\section{OpenStreetMap}
-
-OpenStreetMap este o hartă deschisă și colaborativă a lumii. Datele sunt disponibile la 
-\url{https://www.openstreetmap.org/}.
-
-\section{QGIS - Quantum GIS}
-
-QGIS este o aplicație GIS open-source pentru procesarea și editarea datelor spațiale.
-Disponibil la \url{https://www.qgis.org/}.
-
-\chapter{Instalare și Configurare}
-
-\section{Cerințe de Sistem}
-
-\begin{itemize}
-    \item Browser web modern (Chrome, Firefox, Safari, Edge)
-    \item Java 17 sau mai nou (pentru backend)
-    \item Maven 3.6+ (pentru build)
-    \item PostgreSQL 12+ (pentru baza de date)
-    \item Node.js și npm (opțional, pentru development tools)
-\end{itemize}
-
-\section{Pași de Instalare Backend}
-
-\begin{enumerate}
-    \item Clonează repository-ul: \verb|git clone https://github.com/Vladeigthteen/ETTIway|
-    \item Navigează la folderul Backend: \verb|cd Backend/demo|
-    \item Configurează baza de date PostgreSQL
-    \item Compilează proiectul: \verb|mvn clean install|
-    \item Pornește serverul: \verb|mvn spring-boot:run|
-\end{enumerate}
-
-\section{Pași de Instalare Frontend}
-
-\begin{enumerate}
-    \item Navigează la folderul Frontend: \verb|cd Frontend/app|
-    \item Deschide \verb|index.html| în browser sau pornește un server local
-    \item Pentru server local cu Python: \verb|python -m http.server 8000|
-    \item Accesează \verb|http://localhost:8000| în browser
-\end{enumerate}
-
-\chapter{Exemple de Integrare API}
-
-\section{Endpoint-uri Backend Propuse}
-
-\subsection{Buildings API}
-\begin{verbatim}
-GET  /api/buildings           - Lista toate clădirile
-GET  /api/buildings/{id}      - Obține detalii clădire
-POST /api/buildings           - Crează nouă clădire
-PUT  /api/buildings/{id}      - Actualizează clădire
-DELETE /api/buildings/{id}    - Șterge clădire
-\end{verbatim}
-
-\subsection{Rooms API}
-\begin{verbatim}
-GET  /api/rooms               - Lista toate sălile
-GET  /api/rooms/{id}          - Obține detalii sală
-POST /api/rooms               - Crează nouă sală
-PUT  /api/rooms/{id}          - Actualizează sală
-DELETE /api/rooms/{id}        - Șterge sală
-\end{verbatim}
-
-\section{Exemplu Request/Response}
-
-\subsection{GET /api/buildings - Response Example}
-\begin{verbatim}
-[
-  {
-    "id": 1,
-    "name": "Corp B",
-    "description": "Clădire academică",
-    "latitude": 44.405,
-    "longitude": 26.102,
-    "address": "Strada Politehnicii, București",
-    "floors": 4
-  },
-  {
-    "id": 2,
-    "name": "Biblioteca",
-    "description": "Biblioteca centrală",
-    "latitude": 44.406,
-    "longitude": 26.103,
-    "address": "Strada Doamnei, București",
-    "floors": 3
-  }
-]
-\end{verbatim}
-
-\chapter{Fișiere de Configurare Sursă}
-
-\section{Structura Fișierelor Frontend}
-
-Aplicația frontend are următoarele fișiere principale:
-
-\subsection{HTML}
-\begin{verbatim}
-Frontend/app/
- index.html              - Pagina principală
- login.html             - Pagina de login
- admin_test.html        - Pagina admin test
- user_test.html         - Pagina user test
-\end{verbatim}
-
-\subsection{CSS}
-\begin{verbatim}
-Frontend/app/css/
- style.css              - Stiluri principale
-\end{verbatim}
-
-\subsection{JavaScript}
-\begin{verbatim}
-Frontend/app/js/
- main.js                - Punct de intrare
- map.js                 - Gestiune hartă
- indoor.js              - Planuri interioare
- routing.js             - Algoritm de rutare
- utils.js               - Funcții utilitare
-\end{verbatim}
-
-\subsection{Date}
-\begin{verbatim}
-Frontend/app/data/
- campus.sample.json     - Date campus
- indoor-data.json       - Date interioare
- graph_data.json        - Date grafuri
-
-Frontend/app/indoor/CorpB/
- Parter dreapta/        - Planuri etaj
- doors.geojson
-  rooms.geojson
- stairs.geojson
-   floor.gpkg
-\end{verbatim}
-
-\chapter{Diagrama Arhitecturii}
-
-\section{Diagrama Componentelor}
-
-Arhitectura sistemului ETTIway este prezentată în figura de mai jos:
-
-\section{Flow-ul Datelor}
-
-\begin{enumerate}
-    \item Utilizatorul interacționează cu interfața frontend
-    \item Frontend trimite cereri API la backend
-    \item Backend procesează cerența și acceseaza baza de date
-    \item Backend returnează date în format JSON
-    \item Frontend procesează datele și le afișează pe hartă
-    \item Hartă folosește Leaflet.js pentru rendering
-    \item Utilizatorul vede poziții actualizate în timp real
-\end{enumerate}
-
-\end{document}
-
-— Măi babă, mănânci ca în târgul lui Cremene. Ia dă-mi și mie niște
-ouă, ca să-mi prind pofta măcar. — Da' cum nu! zise baba, care era
-foarte zgârcită. Dacă ai poftă de ouă, bate și tu cucoșul tău, să facă
-ouă, și-i mânca; că eu așa am bătut găina, și iacătă-o cum se ouă.
-
-Moșneagul, pofticios și hapsin, se ia după gura babei și, de ciudă,
-prinde iute și degrabă cucoșul și-i dă o bataie bună, zicând:
-
-— Na! ori te ouă, ori du-te de la casa mea; ca să nu mai strici
-mâncarea degeaba.
-
-Cucoșul, cum scăpă din mânile moșneagului, fugi de-acasă și umbla pe
-drumuri, bezmetec. Și cum mergea el pe-un drum, numai iată găsește o
-punguță cu doi bani (Figura \ref{fig:punguta}). Și cum o găsește, o și ia în clonț și se întoarnă
-cu dânsa înapoi către casa moșneagului. Pe drum se întâlnește c-o
-trăsură c-un boier și cu niște cucoane. Boierul se uită cu băgare de
-seamă la cucoș, vede în clonțu-i o punguță și zice vezeteului:
-
-— Măi! ia dă-te jos și vezi ce are cucoșul cela în plisc.
-
-\begin{figure}[tb]
-\centering
-\includegraphics*[width=0.4\columnwidth]{figuri/punguta.jpg}
-\caption{Cucoșu găsește o pungă cu doi galbeni.}
-\label{fig:punguta}
-\end{figure}
-
-
-
-Vezeteul se dă iute jos din capra trăsurei, și c-un feliu de meșteșug,
-prinde cucoșul și luându-i punguța din clonț o dă boieriului. Boieriul
-o ia, fără păsare o pune în buzunar și pornește cu trăsura
-înainte. Cucoșul, supărat de asta, nu se lasă, ci se ia după trăsură,
-spuind neîncetat:
-
-Cucurigu ! boieri mari, Dați punguța cu doi bani !
-
-
-[...]
-
-(Publicată pentru prima oară în \cite{punguta1876}.)
-
-\section{Tinerețe fără bătrânețe și viață fără de moarte}
-
-A fost odată ca niciodată; că de n-ar fi, nu s-ar mai povesti; de când
-făcea plopșorul pere și răchita micșunele; de când se băteau urșii în
-coade; de când se luau de gât lupii cu mieii de se sărutau,
-înfrățindu-se; de când se potcovea puricele la un picior cu nouăzeci
-și nouă de oca de fier și s-arunca în slava cerului de ne aducea
-povești;
-
-
-    De când se scria musca pe părete,
-    Mai mincinos cine nu crede.
-
-
-A fost odată un împărat mare și o împărăteasă, amândoi tineri și
-frumoși, și, voind să aibă copii, a făcut de mai multe ori tot ce
-trebuia să facă pentru aceasta; a îmblat pe la vraci\cite{TanenbaumCN02} și filosofi, ca
-să caute la stele și să le ghicească daca or să facă copii; dar în
-zadar. În sfârșit, auzind împăratul că este la un sat, aproape, un
-unchiaș dibaci, a trimis să-l cheme; dar el răspunse trimișilor că:
-cine are trebuință, să vie la dânsul. S-au sculat deci împăratul și
-împărăteasa și, luând cu dânșii vro câțiva boieri mari, ostași și
-slujitori, s-au dus la unchiaș acasă. Unchiașul, cum i-a văzut de
-departe, a ieșit să-i întâmpine și totodată le-a zis:
-
-- Bine ați venit sănătoși; dar ce îmbli, împărate, să afli? Dorința ce
-ai o să-ți aducă întristare.
-
-- Eu nu am venit să te întreb asta, zise împăratul, ci, daca ai ceva
-leacuri care să ne facă să avem copii, să-mi dai.
-
-- Am, răspunse unchiașul; dar numai un copil o să faceți. El o să fie
-Făt-Frumos și drăgăstos, și parte n-o să aveți de el. Luând împăratul
-și împărăteasa leacurile, s-au întors veseli la palat și peste câteva
-zile împărăteasa s-a simțit însărcinată. Toată împărăția și toată
-curtea și toți slujitorii s-au veselit de această întâmplare.
-
-Mai-nainte de a veni ceasul nașterii, copilul se puse pe un plâns, de
-n-a putut nici un vraci să-l împace. Atunci împăratul a început să-i
-făgăduiască toate bunurile din lume, dar nici așa n-a fost cu putință
-să-l facă să tacă.
-
-- Taci, dragul tatei, zice împăratul, că ți-oi da împărăția cutare sau
-cutare; taci, fiule, că ți-oi da soție pe cutare sau cutare fată de
-împărat, și alte multe d-alde astea; în sfârșit, dacă văzu și văzu că
-nu tace, îi mai zise: taci, fătul meu, că ți-oi da Tinerețe fără
-bătrânețe și viață fără de moarte.
-
-Atunci, copilul tăcu și se născu; iar slujitorii deteră în timpine și
-în surle și în toată împărăția se ținu veselie mare o săptămână
-întreagă.
-
-De ce creștea copilul, d-aceea se făcea mai isteț și mai îndrăzneț. Îl
-deteră pe la școli și filosofi, și toate învățăturile pe care alți
-copii le învăța într-un an, el le învăța într-o lună, astfel încât
-împăratul murea și învia de bucurie. Toată împărăția se fălea că o să
-aibă un împărat înțelept și procopsit ca Solomon împărat. De la o
-vreme încoace însă, nu știu ce avea, că era tot galeș, trist și dus pe
-gânduri. Iar când fuse într-o zi, tocmai când copilul împlinea
-cincisprezece ani și împăratul se afla la masă cu toți boierii și
-slujbașii împărăției și se chefuiau, se sculă Făt-Frumos și zise:
-
-- Tată, a venit vremea să-mi dai ceea ce mi-ai făgăduit la naștere.
-
-Auzind aceasta, împăratul s-a întristat foarte și i-a zis:
-
-– Dar bine, fiule, de unde pot eu să-ți dau un astfel de lucru nemaiauzit? Și dacă ți-am făgăduit atunci, a fost numai ca să te împac.
-
-– Daca tu, tată, nu poți să-mi dai, apoi sunt nevoit să cutreier toată lumea până ce voi găsi făgăduința pentru care m-am născut.
-
-Atunci toți boierii și împăratul deteră în genuchi, cu rugăciune să nu părăsească împărăția; fiindcă, ziceau boierii:
-
-– Tatăl tău de aci înainte e bătrân, și o să te ridicăm pe tine în scaun, și avem să-ți aducem cea mai frumoasă împărăteasă de sub soare de soție.
-
-Dar n-a fost putință să-l întoarcă din hotărârea sa, rămânând statornic ca o piatră în vorbele lui; iar tată-său, dacă văzu și văzu, îi dete voie și puse la cale să-i gătească de drum merinde și tot ce-i trebuia.
-
-
-[...]
-
-\section[Cinci Pâini]{Cinci pâini \footnote{Anecdotă publicată prima oară în Convorbiri literare, nr. 12, 1 martie 1883}}
-
-
-Doi oameni, cunoscuți unul cu altul, călătoreau odată, vara, pe un drum. Unul avea în traista sa trei pâni, și celalalt două pâni. De la o vreme, fiindu-le foame, poposesc la umbra unei răchiți pletoase, lângă o fântână cu ciutură, scoate fiecare pânile ce avea și se pun să mănânce împreună, ca să aibă mai mare poftă de mâncare.
-
-
-Tocmai când scoaseră pânile din traiste, iaca un al treile drumeț, necunoscut, îi ajunge din urmă și se oprește lângă dânșii, dându-le ziua bună. Apoi se roagă să-i deie și lui ceva de mâncare, căci e tare flămând și n-are nimica merinde la dânsul, nici de unde cumpăra.
-
-— Poftim, om bun, de-i ospăta împreună cu noi, ziseră cei doi drumeți călătorului străin; căci mila Domnului! unde mănâncă doi mai poate mânca și al treilea.
-
-Călătorul străin, flămând cum era, nemaiașteptând multă poftire, se așază jos lângă cei doi, și încep a mânca cu toții pâne goală și a be apă rece din fântână, căci altă udătură nu aveau. Și mănâncă ei la un loc tustrei, și mănâncă, până ce gătesc de mâncat toate cele cinci pâni, de parcă n-au mai fost.
-
-După ce-au mântuit de mâncat, călătorul străin scoate cinci lei din pungă și-i dă, din întâmplare, celui ce avusese trei pâni, zicând:
-
-— Primiți, vă rog, oameni buni, această mică mulțămită de la mine, pentru că mi-ați dat demâncare la nevoie; veți cinsti mai încolo câte un pahar de vin, sau veți face cu banii ce veți pofti. Nu sunt vrednic să vă mulțămesc de binele ce mi-ați făcut, căci nu vedeam lumea înaintea ochilor de flămând ce eram.
-
-Cei doi nu prea voiau să primească, dar, după multă stăruință din partea celui al treilea, au primit. De la o vreme, călătorul străin și-a luat ziua bună de la cei doi și apoi și-a căutat de drum. Ceilalți mai rămân oleacă sub răchită, la umbră, să odihnească bucatele. Și, din vorbă în vorbă, cel ce avuse trei pâni dă doi lei celui cu două pâni, zicând:
-
-— Ține, frate, partea dumitale, și fă ce vrei cu dânsa. Ai avut două pâni întregi, doi lei ți se cuvin. Și mie îmi opresc trei lei, fiindc-am avut trei pâni întregi, și tot ca ale tale de mari, după cum știi.
-
-— Cum așa?! zise celălalt cu dispreț! pentru ce numai doi lei, și nu doi și jumătate, partea dreaptă ce ni se cuvine fiecăruia? Omul putea să nu ne deie nimic, și atunci cum rămânea?
-
-— Cum să rămâie? zise cel cu trei pâni; atunci aș fi avut eu pomană pentru partea ce mi se cuvine de la trei pâni, iar tu, de la două, și pace bună. Acum, însă, noi am mâncat degeaba, și banii pentru pâne îi avem în pungă cu prisos: eu trei lei și tu doi lei, fiecare după numărul pânilor ce am avut. Mai dreaptă împărțeală decât aceasta nu cred că se mai poate nici la Dumnezeu sfântul...
-
-— Ba nu, prietene, zice cel cu două pâni. Eu nu mă țin că mi-ai făcut parte dreaptă. Haide să ne judecăm, și cum a zice judecata, așa să rămâie.
-
-— Haide și la judecată, zise celălalt, dacă nu te mulțămești. Cred că și judecata are să-mi găsească dreptate, deși nu m-am târât prin judecăți de când sunt.
-
-Și așa, pornesc ei la drum, cu hotărârea să se judece. Și cum ajung într-un loc unde era judecătorie, se înfățoșează înaintea judecătorului și încep a spune împrejurarea din capăt, pe rând fiecare; cum a venit întâmplarea de au călătorit împreună, de au stat la masă împreună, câte pâni a avut fiecare, cum a mâncat drumețul cel străin la masa lor, deopotrivă cu dânșii, cum le-a dat cinci lei drept mulțămită și cum cel cu trei pâni a găsit cu cale să-i împartă.
-
-Judecătorul, după ce-i ascultă pe amândoi cu luare aminte, zise celui cu două pâni: — Și nu ești mulțămit cu împărțeala ce s-a făcut, omule?
-
-— Nu, domnule judecător, zise nemulțămitul; noi n-am avut de gând să luăm plată de la drumețul străin pentru mâncarea ce i-am dat; dar, dac-a venit întâmplarea de-așa, apoi trebuie să împărțim drept în două ceea ce ne-a dăruit oaspetele nostru. Așa cred eu că ar fi cu cale, când e vorba de dreptate.
-
-— Dacă e vorba de dreptate, zise judecătorul, apoi fă bine de înapoiește un leu istuialalt, care spui c-a avut trei pâni.
-
-— De asta chiar mă cuprinde mirare, domnule judecător, zise nemulțămitul cu îndrăzneală. Eu am venit înaintea judecăței să capăt dreptate, și văd că dumneata, care știi legile, mai rău mă acufunzi. De-a fi să fie tot așa și judecata dinaintea lui Dumnezeu, apoi vai de lume!
-
-— Așa ți se pare dumitale, zise judecătorul liniștit, dar ia să vezi că nu-i așa. Ai avut dumneata două pâni?
-
-— Da, domnule judecător, două am avut.
-
-— Tovarășul dumitale, avut-a trei pâni?
-
-— Da, domnule judecător, trei a avut.
-
-— Udătură ceva avut-ați vreunul?
-
-— Nimic, domnule judecător, numai pâne goală și apă răce din fântână, fie de sufletul cui a făcut-o acolo, în calea trecătorilor.
-
-— Dinioarea, parcă singur mi-ai spus, zise judecătorul, că ați mâncat toți tot ca unul de mult; așa este?
-
-— Așa este domnule judecător.
-
-— Acum, ia să statornicim rânduiala următoare, ca să se poată ști hotărât care câtă pâne a mâncat. Să zicem că s-a tăiat fiecare pâne în câte trei bucăți deopotrivă de mari; câte bucăți ai fi avut dumneata, care spui că avuși două pâni?
-
-— Șese bucăți aș fi avut, domnule judecător.
-
-— Dar tovarășul dumitale, care spui că avu trei pâni?
-
-— Nouă bucăți ar fi avut, domnule judecător.
-
-— Acum, câte fac la un loc șese bucăți și cu nouă bucăți?
-
-— Cincisprezece bucăți, domnule judecător.
-
-— Câți oameni ați mâncat aceste cincisprezece bucăți de pâne?
-
-— Trei oameni, domnule judecător.
-
-— Bun! Câte câte bucăți vin de fiecare om?
-
-— Câte cinci bucăți, domnule judecător.
-
-— Acum, ții minte câte bucăți ai fi avut dumneta?
-
-— Șese bucăți, domnule judecător.
-
-— Dar de mâncat, câte ai mâncat dumneta?
-
-— Cinci bucăți, domnule judecător.
-
-— Și câte ți-au mai rămas de întrecut?
-
-— Numai o bucată, domnule judecător.
-
-— Acum să stăm aici, în ceea ce te privește pe dumneta, și să luăm pe istalalt la rând. Ții minte câte bucăți de pâne ar fi avut tovarășul d-tale?
-
-— Nouă bucăți, domnule judecător.
-
-— Și câte a mâncat el de toate?
-
-— Cinci bucăți, ca și mine, domnule judecător.
-
-— Dar de întrecut, câte i-au mai rămas?
-
-— Patru bucăți, domnule judecător.
-
-— Bun! Ia, acuș avem să ne înțelegem cât se poate de bine! Vra să zică, dumneta ai avut numai o bucată de întrecut, iar tovarășul dumitale, patru bucăți. Acum, o bucată de pâne rămasă de la dumneta și cu patru bucăți de la istalalt fac la un loc cinci bucăți?
-
-— Taman cinci, domnule judecător.
-
-— Este adevărat că aceste bucăți de pâne le-a mâncat oaspetele dumneavoastră, care spui că v-a dat cinci lei drept mulțămită?
-
-— Adevărat este, domnule judecător.
-
-— Așadar, dumitale ți se cuvine numai un leu, fiindcă numai o bucată de pâne ai avut de întrecut, și aceasta ca și cum ai fi avut-o de vânzare, deoarece ați 
-primit bani de la oaspetele dumneavoastră. Iar tovarășul dumitale i se cuvin patru lei, fiindcă patru bucăți de pâne a avut de întrecut. Acum, dară, fă bine de înapoiește un leu tovarășului dumitale. Și dacă te crezi nedreptățit, du-te și la Dumnezeu, și las' dacă ți-a face și el judecată mai dreaptă decât aceasta!
-
-Cel cu două pâni, văzând că nu mai are încotro șovăi, înapoiește un leu tovarășului său, cam cu părere de rău, și pleacă rușinat. Cel cu trei pâni însă, uimit de așa judecată, mulțămește judecătorului și apoi iese, zicând cu mirare:
-
-— Dac-ar fi pretutindene tot asemenea judecători, ce nu iubesc a li cânta cucul din față, cei ce n-au dreptate n-ar mai năzui în veci și-n pururea la judecată.
-
-Corciogarii, porecliți și apărători, nemaiavând chip de traiu numai din minciuni, sau s-ar apuca de muncă, sau ar trebui, în toată viața lor, să tragă pe dracul de coadă... Iar societatea bună ar rămâne nebântuită.
-
-
-
-\bibliographystyle{unsrt}
-\bibliography{referinte}
-
-
-\appendix
-\chapter {Rezolvare ''Cinci Pâini''}
-A aduce 3 pâini, iar B aduce 2 pâini. C plătește 5 lei.  Se împarte
-fiecare pâine în 3 părți egale: $3 \times 3 + 2 \times 3 = 15$
-bucăți. Fiecare mesean capătă câte 5 bucăți. Reiese că A i-a dat lui C
-$3 \times 3 - 5 = 4$ pâini, iar B i-a dat $2 \times 3 - 5 = 1$
-pâine. Împărțeală cinstită este deci 4 lei pentru A, și 1 leu pentru B.
-
-\chapter{Alte povești și basme}
-
- Vezi tabela \ref{altebasme} cu alte povești și autorii/culegătorii lor.
-\lstinputlisting[language=Matlab]{Cod/Cod.m}
-
-
-\begin{table}
-\begin{tabular}[t]{c|p{3cm}|p{3cm}|p{3cm}|c}
-\_ & Dănilă prepeleac & Prâslea cel voinic și merele de aur & Făt-Frumos din lacrimă & Greuceanu \\
-\hline
- & Ion Creangă & Petre Ispirescu & Mihai Eminescu & Petre Ispirescu \\
-\end{tabular}
-\label{altebasme}
-\caption{Alte basme.}
-\end{table}
-
-
-
+Motivația principală a proiectului pornește din dificultățile reale întâlnite în orientarea zilnică
+din campus: identificarea rapidă a clădirilor, localizarea corectă a sălilor și parcurgerea eficientă
+a traseelor dintre puncte relevante. În absența unei soluții unificate, utilizatorii sunt nevoiți să
+combine surse multiple de informație, adesea incomplete sau necorelate între ele. Din această
+perspectivă, ETTIway urmărește să ofere o experiență digitală coerentă, care să reducă timpul de
+căutare și să îmbunătățească orientarea atât pentru utilizatorii noi, cât și pentru cei familiarizați cu
+infrastructura universitară.
+
+Obiectivele urmărite în dezvoltarea platformei au fost definite pe două direcții complementare:
+utilitatea practică pentru utilizatorul final și mentenabilitatea tehnică a sistemului. Astfel,
+platforma a fost proiectată pentru a integra harta campusului cu date indoor/outdoor într-o
+interfață unitară, pentru a permite căutarea contextuală a punctelor de interes și pentru a susține
+rutarea între locații relevante. În paralel, arhitectura aplicației a fost gândită astfel încât
+actualizarea datelor geografice și extinderea către noi clădiri sau zone să poată fi realizate rapid,
+fără modificări majore în fluxul de utilizare.
+
+
+\section{Metodologia și contribuția proprie}
+Metodologia de dezvoltare a fost structurată în etape succesive, astfel încât fiecare componentă a
+sistemului să poată fi validată înainte de integrarea finală. În prima etapă a fost realizată analiza
+cerințelor funcționale și nefuncționale, cu accent pe scenariile reale de utilizare: localizarea rapidă
+a unei clădiri, identificarea unei săli și parcurgerea unui traseu relevant în campus. Pe baza acestei
+analize a fost definită arhitectura aplicației, separată pe nivelul de prezentare (frontend), nivelul
+serviciilor (backend) și nivelul datelor geografice. Implementarea a fost realizată incremental,
+prin dezvoltarea și testarea separată a modulelor de vizualizare, căutare și gestiune a datelor indoor,
+urmată de integrarea lor într-un flux unitar.
+
+Contribuția proprie vizează atât partea tehnică, cât și partea de organizare a datelor spațiale.
+La nivel tehnic, contribuția constă în proiectarea și integrarea comunicării dintre interfața web și
+serviciile backend, precum și în definirea mecanismelor de afișare contextuală pentru punctele de interes.
+La nivel de date, contribuția include structurarea seturilor geospațiale utilizate de aplicație,
+adaptarea lor pentru scenariile de navigare și construirea unei baze extensibile pentru adăugarea de noi
+clădiri, niveluri și elemente de infrastructură. Rezultatul este o soluție funcțională, ușor de extins,
+orientată spre utilizare practică în mediul universitar.
 
 
 \end{document}

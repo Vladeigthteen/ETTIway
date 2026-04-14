@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{TanenbaumCN02}
+Andrew Tanenbaum.
+\newblock {\em Computer Networks}.
+\newblock Prentice Hall Professional Technical Reference, 4th edition, 2002.
+
+\bibitem{RFC1149}
+D.~Waitzman.
+\newblock Standard for the transmission of ip datagrams on avian carriers,
+  1990.
+
+\end{thebibliography}
