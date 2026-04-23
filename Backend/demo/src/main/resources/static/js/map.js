@@ -344,6 +344,8 @@ function isPointInPolygon(point, vs) {
 }
 
 let userLocationMarker = null;
+let userAccuracyCircle = null;
+let geoWatchId = null;
 
 /**
  * Geolocation function to find the user on the map
