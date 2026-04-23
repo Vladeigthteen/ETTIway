@@ -343,62 +343,99 @@ function isPointInPolygon(point, vs) {
     return inside;
 }
 
-let userLocationMarker = null;
-let userAccuracyCircle = null;
-let geoWatchId = null;
+let watchId = null;
+let userMarker = null;
+let accuracyCircle = null;
 
 /**
- * Geolocation function to find the user on the map
+ * Geolocation toggle function
  */
-function findMe() {
-    if (!navigator.geolocation) {
-        alert("Geolocation nu este suportată de browser-ul tău.");
-        return;
-    }
+function toggleLocation() {
+    const btn = document.getElementById('find-me-btn');
+    const warning = document.getElementById('geo-warning');
 
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            const userLat = position.coords.latitude;
-            const userLon = position.coords.longitude;
-            const accuracy = position.coords.accuracy;
-            const userPoint = [userLat, userLon];
+    if (watchId === null) {
+        if (!navigator.geolocation) {
+            alert("Geolocation nu este suportată de browser-ul tău.");
+            return;
+        }
 
-            const boundary = window.campusData?.campus?.boundary;
-            
-            if (!boundary || boundary.length < 3) {
-                alert("Datele despre limita campusului nu sunt disponibile încã.");
-                return;
-            }
+        // Schimbă aspectul butonului la Activ
+        if (btn) {
+            btn.style.backgroundColor = 'blue';
+            btn.style.color = 'white';
+            btn.innerText = 'Activ';
+        }
 
-            if (isPointInPolygon(userPoint, boundary)) {
-                // User is inside the campus
-                const popupMessage = `Te afli aici.<br>Coordonate: ${userLat.toFixed(6)}, ${userLon.toFixed(6)}`;
-                if (userLocationMarker) {
-                    userLocationMarker.setLatLng(userPoint);
-                    userLocationMarker.setRadius(accuracy);
-                    userLocationMarker.setPopupContent(popupMessage);
+        watchId = navigator.geolocation.watchPosition(
+            (position) => {
+                const userLat = position.coords.latitude;
+                const userLon = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+                const userPoint = [userLat, userLon];
+
+                // Actualizează/creează userMarker și accuracyCircle
+                if (userMarker) {
+                    userMarker.setLatLng(userPoint);
                 } else {
-                    userLocationMarker = L.circle(userPoint, {
+                    userMarker = L.marker(userPoint).addTo(campusMap);
+                    userMarker.bindPopup("Te afli aici.");
+                }
+
+                if (accuracyCircle) {
+                    accuracyCircle.setLatLng(userPoint);
+                    accuracyCircle.setRadius(accuracy);
+                } else {
+                    accuracyCircle = L.circle(userPoint, {
                         radius: accuracy,
                         fillColor: '#3498db',
                         color: '#3498db',
                         weight: 2,
                         fillOpacity: 0.3
                     }).addTo(campusMap);
-                    userLocationMarker.bindPopup(popupMessage).openPopup();
                 }
-                
+
+                const boundary = typeof CAMPUS_POINTS !== 'undefined' ? CAMPUS_POINTS : window.campusData?.campus?.boundary;
+
+                // Verifică dacă userul este în CAMPUS_POINTS
+                if (boundary && boundary.length >= 3) {
+                    if (isPointInPolygon(userPoint, boundary)) {
+                        if (warning) warning.style.display = 'none';
+                    } else {
+                        if (warning) warning.style.display = 'block';
+                    }
+                }
+
                 campusMap.setView(userPoint, 19);
-            } else {
-                // User is outside the campus
-                alert(`Nu te afli în perimetrul campusului ETTI.\nCoordonatele tale actuale: ${userLat.toFixed(6)}, ${userLon.toFixed(6)}`);
-            }
-        },
-        (error) => {
-            console.error("Eroare de localizare:", error);
-            alert("Nu am putut obține locația. Verifică permisiunile pentru locație.");
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
+            },
+            (error) => {
+                console.error("Eroare de localizare:", error);
+            },
+            { enableHighAccuracy: true }
+        );
+    } else {
+        // Oprește monitorizarea
+        navigator.geolocation.clearWatch(watchId);
+        watchId = null;
+
+        // Șterge markerul și cercul
+        if (userMarker) {
+            userMarker.remove();
+            userMarker = null;
+        }
+        if (accuracyCircle) {
+            accuracyCircle.remove();
+            accuracyCircle = null;
+        }
+
+        // Resetează butonul
+        if (btn) {
+            btn.style.backgroundColor = '#3498db';
+            btn.style.color = 'white';
+            btn.innerText = 'Find Me';
+        }
+        
+        if (warning) warning.style.display = 'none';
+    }
 }
 
