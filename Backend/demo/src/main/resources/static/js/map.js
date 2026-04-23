@@ -322,3 +322,81 @@ function drawCampusBoundary(boundaryPoints) {
 
 // Removed OSM logic per request
 
+/**
+ * Point-in-polygon algorithm to check if a coordinate is inside a boundary
+ * @param {Array} point - [lat, lon]
+ * @param {Array} vs - Array of [lat, lon] representing the polygon vertices
+ * @returns {boolean} true if inside, false otherwise
+ */
+function isPointInPolygon(point, vs) {
+    let x = point[0], y = point[1];
+    
+    let inside = false;
+    for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        let xi = vs[i][0], yi = vs[i][1];
+        let xj = vs[j][0], yj = vs[j][1];
+        
+        let intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    return inside;
+}
+
+let userLocationMarker = null;
+
+/**
+ * Geolocation function to find the user on the map
+ */
+function findMe() {
+    if (!navigator.geolocation) {
+        alert("Geolocation nu este suportată de browser-ul tău.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            const userPoint = [userLat, userLon];
+
+            const boundary = window.campusData?.campus?.boundary;
+            
+            if (!boundary || boundary.length < 3) {
+                alert("Datele despre limita campusului nu sunt disponibile încã.");
+                return;
+            }
+
+            if (isPointInPolygon(userPoint, boundary)) {
+                // User is inside the campus
+                const popupMessage = `Te afli aici.<br>Coordonate: ${userLat.toFixed(6)}, ${userLon.toFixed(6)}`;
+                if (userLocationMarker) {
+                    userLocationMarker.setLatLng(userPoint);
+                    userLocationMarker.setRadius(accuracy);
+                    userLocationMarker.setPopupContent(popupMessage);
+                } else {
+                    userLocationMarker = L.circle(userPoint, {
+                        radius: accuracy,
+                        fillColor: '#3498db',
+                        color: '#3498db',
+                        weight: 2,
+                        fillOpacity: 0.3
+                    }).addTo(campusMap);
+                    userLocationMarker.bindPopup(popupMessage).openPopup();
+                }
+                
+                campusMap.setView(userPoint, 19);
+            } else {
+                // User is outside the campus
+                alert(`Nu te afli în perimetrul campusului ETTI.\nCoordonatele tale actuale: ${userLat.toFixed(6)}, ${userLon.toFixed(6)}`);
+            }
+        },
+        (error) => {
+            console.error("Eroare de localizare:", error);
+            alert("Nu am putut obține locația. Verifică permisiunile pentru locație.");
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+}
+
