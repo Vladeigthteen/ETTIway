@@ -146,6 +146,141 @@ const buildingMap = {
     'camin leu a': 'Intrare Camin LEU A'
 };
 
+// UI Dialog functions to replace native alert/confirm/prompt
+function showAppConfirm(message) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        Object.assign(overlay.style, {
+            position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', zIndex: '10000', fontFamily: 'Arial, sans-serif'
+        });
+
+        const box = document.createElement('div');
+        Object.assign(box.style, {
+            backgroundColor: 'white', padding: '20px', borderRadius: '8px', 
+            boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
+        });
+
+        const text = document.createElement('p');
+        text.innerText = message;
+        text.style.color = '#333';
+        text.style.marginBottom = '20px';
+        text.style.lineHeight = '1.4';
+        
+        const btnContainer = document.createElement('div');
+        btnContainer.style.display = 'flex';
+        btnContainer.style.justifyContent = 'space-around';
+
+        const btnNo = document.createElement('button');
+        btnNo.innerText = 'Anulează';
+        Object.assign(btnNo.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#e74c3c', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+        btnNo.onclick = () => { overlay.remove(); resolve(false); };
+
+        const btnYes = document.createElement('button');
+        btnYes.innerText = 'Confirmă';
+        Object.assign(btnYes.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#2ecc71', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+        btnYes.onclick = () => { overlay.remove(); resolve(true); };
+
+        btnContainer.appendChild(btnNo);
+        btnContainer.appendChild(btnYes);
+        box.appendChild(text);
+        box.appendChild(btnContainer);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    });
+}
+
+function showAppPrompt(message, choices) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        Object.assign(overlay.style, {
+            position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', zIndex: '10000', fontFamily: 'Arial, sans-serif'
+        });
+
+        const box = document.createElement('div');
+        Object.assign(box.style, {
+            backgroundColor: 'white', padding: '20px', borderRadius: '8px', 
+            boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
+        });
+
+        const text = document.createElement('p');
+        text.innerText = message;
+        text.style.color = '#333';
+        
+        const select = document.createElement('select');
+        Object.assign(select.style, { width: '100%', padding: '10px', marginTop: '10px', marginBottom: '20px', borderRadius: '4px' });
+        choices.forEach((c, i) => {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.innerText = c.name;
+            select.appendChild(opt);
+        });
+
+        const btnContainer = document.createElement('div');
+        btnContainer.style.display = 'flex';
+        btnContainer.style.justifyContent = 'space-around';
+
+        const btnNo = document.createElement('button');
+        btnNo.innerText = 'Anulează';
+        Object.assign(btnNo.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#e74c3c', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+        btnNo.onclick = () => { overlay.remove(); resolve(null); };
+
+        const btnYes = document.createElement('button');
+        btnYes.innerText = 'Alege';
+        Object.assign(btnYes.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#3498db', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+        btnYes.onclick = () => { overlay.remove(); resolve(parseInt(select.value)); };
+
+        btnContainer.appendChild(btnNo);
+        btnContainer.appendChild(btnYes);
+        box.appendChild(text);
+        box.appendChild(select);
+        box.appendChild(btnContainer);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    });
+}
+
+function showAppAlert(message) {
+    return new Promise((resolve) => {
+        if (typeof showToast === 'function') {
+            showToast(message, 'info');
+            resolve();
+            return;
+        }
+
+        const overlay = document.createElement('div');
+        Object.assign(overlay.style, {
+            position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', zIndex: '10000', fontFamily: 'Arial, sans-serif'
+        });
+
+        const box = document.createElement('div');
+        Object.assign(box.style, {
+            backgroundColor: 'white', padding: '20px', borderRadius: '8px', 
+            boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
+        });
+
+        const text = document.createElement('p');
+        text.innerText = message;
+        text.style.color = '#333';
+        text.style.marginBottom = '20px';
+        
+        const btnYes = document.createElement('button');
+        btnYes.innerText = 'OK';
+        Object.assign(btnYes.style, { padding: '10px 20px', border: 'none', borderRadius: '4px', backgroundColor: '#3498db', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+        btnYes.onclick = () => { overlay.remove(); resolve(); };
+
+        box.appendChild(text);
+        box.appendChild(btnYes);
+        overlay.appendChild(box);
+        document.body.appendChild(overlay);
+    });
+}
+
 /**
  * Initialize search functionality (integrată cu rutarea)
  */
@@ -153,7 +288,7 @@ function initializeSearch() {
     const searchInput = document.getElementById('search-input');
     
     // Suport și pentru enter press pentru mai multă fluență, sau change (când apasă enter / pierde focus)
-    searchInput.addEventListener('change', (e) => {
+    searchInput.addEventListener('change', async (e) => {
         const searchTerm = e.target.value.toLowerCase().trim();
         console.log('User searched for:', searchTerm);
         
@@ -162,20 +297,61 @@ function initializeSearch() {
         let targetPoint = null;
         let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
         
-        // 1. Găsim direct din buildingMap
-        const targetEntranceName = buildingMap[searchTerm];
-        
-        if (targetEntranceName && window.navigationData && window.navigationData.features) {
-            for (let f of window.navigationData.features) {
-                if (f.geometry.type === 'Point' && f.properties && 
-                   (f.properties.name === targetEntranceName || f.properties.Nume === targetEntranceName)) {
-                    targetPoint = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
-                    break;
+        // Căutăm direct în datele statice ale campusului punctele definite drept intrări
+        let matchingEntrances = [];
+        if (window.campusData && window.campusData.entrances) {
+            for (let ent of window.campusData.entrances) {
+                const nodeName = (ent.name || ent.id || '').toLowerCase();
+                if (nodeName.startsWith('intrare') && nodeName.includes(searchTerm)) {
+                    matchingEntrances.push({
+                        name: ent.name || ent.id,
+                        pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
+                    });
                 }
             }
         }
         
-        // 2. Geografic Fallback dacă nu avem mapare, calculăm centroidul din campusData
+        if (matchingEntrances.length === 0 && buildingMap[searchTerm] && window.campusData && window.campusData.entrances) {
+             let mappedName = buildingMap[searchTerm].toLowerCase();
+             for (let ent of window.campusData.entrances) {
+                const nodeName = (ent.name || ent.id || '').toLowerCase();
+                if (nodeName === mappedName) {
+                    matchingEntrances.push({
+                        name: ent.name || ent.id,
+                        pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
+                    });
+                }
+             }
+        }
+
+        if (matchingEntrances.length === 1) {
+            let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${matchingEntrances[0].name}?`);
+            if (userConfirmed) {
+                targetPoint = matchingEntrances[0].pt;
+                finalBuildingName = matchingEntrances[0].name;
+            } else {
+                e.target.value = '';
+                return; // User has cancelled
+            }
+        } else if (matchingEntrances.length > 1) {
+            let choiceIdx = await showAppPrompt(`S-au găsit mai multe intrări pentru clădirea aleasă. Alege una dintre ele:`, matchingEntrances);
+            if (choiceIdx !== null && choiceIdx >= 0 && choiceIdx < matchingEntrances.length) {
+                let sel = matchingEntrances[choiceIdx];
+                let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${sel.name}?`);
+                if (userConfirmed) {
+                    targetPoint = sel.pt;
+                    finalBuildingName = sel.name;
+                } else {
+                    e.target.value = '';
+                    return;
+                }
+            } else {
+                e.target.value = '';
+                return; // User has cancelled / invalid
+            }
+        }
+        
+        // 2. Geografic Fallback dacă nu avem mapare explicită, calculăm centroidul din campusData
         if (!targetPoint && window.campusData && window.campusData.buildings) {
             const b = window.campusData.buildings.find(b => b.name.toLowerCase() === searchTerm);
             if (b && b.points && window.navigationData && window.navigationData.features) {
@@ -196,27 +372,30 @@ function initializeSearch() {
                 }
                 if (targetPoint) {
                     console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clădirii (Dist: ${Math.round(minDist)}m)`);
+                    let userConfirmed = await showAppConfirm(`S-a dedus o intrare aproximativă pentru: ${b.name}. Confirmare navigare?`);
+                    if (!userConfirmed) {
+                        e.target.value = '';
+                        return;
+                    }
                 }
             }
         }
         
         // 3. Confirmare și Navigare dacă am găsit ceva
         if (targetPoint) {
-            if (confirm(`Vrei să navighezi către ${finalBuildingName.toUpperCase()}?`)) {
-                window.currentDestinationPoint = targetPoint;
-                
-                // Dacă avem user marker existent (GPS ori TestMode pornit), putem demara cursa direct
-                if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
-                    window.currentStartPoint = userMarker.getLatLng();
-                    if (typeof campusMap !== 'undefined' && campusMap && typeof window.calculateRouteTest === 'function') {
-                        window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
-                    }
-                } else {
-                    alert(`Destinația e setată. Te rugăm folosește butonul "Find Me" sau funcția Test Mode din stânga-jos.`);
+            window.currentDestinationPoint = targetPoint;
+            
+            // Start point = locația exactă din GPS (userMarker)
+            if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
+                window.currentStartPoint = userMarker.getLatLng();
+                if (typeof campusMap !== 'undefined' && campusMap && typeof window.calculateRouteTest === 'function') {
+                    window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
                 }
+            } else {
+                await showAppAlert(`Conectare GPS în așteptare... Destinația (${finalBuildingName}) e setată. Când poziția v-a fi activată, ruta se va calcula. Puteți folosi și "Find Me".`);
             }
         } else {
-            alert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici vizual pe hartă.`);
+            await showAppAlert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici cu fallback vizual.`);
         }
         
         // Deschidem și focusăm clădirea fizic dacă vrem să o vedem
