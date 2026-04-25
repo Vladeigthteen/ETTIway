@@ -1,119 +1,80 @@
 /**
  * graph-editor.js - Graph Editor for Navigation
- * Allows drawing nodes (markers) and edges (polylines) with snapping.
- * Features: Draw, Edit, Delete, Undo/Redo, Save to Backend.
  */
 
-const API_ENDPOINT = '/api/graph'; // Backend endpoint
+// 1. CONSTANTELE API (La început)
+const API_SAVE_ENDPOINT = '/api/graph/save';
+const API_LOAD_ENDPOINT = '/api/graph/load';
 
 /**
  * Initialize the Graph Editor
- * @param {L.Map} map - Leaflet map instance
- * @param {L.FeatureGroup} drawnItems - Feature group to store graph elements
  */
 function initGraphEditor(map, drawnItems) {
-    // Check for edit mode
     const params = new URLSearchParams(window.location.search);
     if (params.get('edit') !== '1') {
         console.log("Graph Editor disabled (edit mode off)");
         return;
     }
 
-    // 1. Configure Geoman for Graph Editing (Strict snapping)
+    // Configurare Geoman
     map.pm.setGlobalOptions({
         layerGroup: drawnItems,
         snappable: true,
         snapDistance: 20,
-        snapMiddle: false, // Snap only to vertices/markers (nodes), not middle of lines
+        snapMiddle: false,
         allowSelfIntersection: true,
-        templineStyle: { color: 'red' },
-        hintlineStyle: { color: 'red', dashArray: [5, 5] },
         editable: true
     });
 
-    // 2. Add Controls
+    // Adăugare Controlere Geoman (butoanele de sus-stânga)
     map.pm.addControls({
         position: 'topleft',
-        drawMarker: true,   // Nodes
-        drawPolyline: true, // Edges
-        drawCircle: false,
-        drawCircleMarker: false,
-        drawRectangle: false,
-        drawPolygon: false,
-        drawText: false,
-        cutPolygon: false,
-        rotateMode: false,
+        drawMarker: true,
+        drawPolyline: true,
         editMode: true,
         dragMode: true,
         removalMode: true
     });
 
-    // 3. Add Custom Save/Load Controls
+    // Adăugare butoanele noastre personalizate (Save/Load)
     addCustomControls(map, drawnItems);
-
-    // 4. Handle connection events (optional: enforce connectivity logic here if needed)
-    map.on('pm:create', (e) => {
-        // e.layer is the newly created layer
-        // You could add properties like 'id' here
-        if (e.shape === 'Marker') {
-            e.layer.feature = e.layer.feature || {};
-            e.layer.feature.properties = e.layer.feature.properties || {};
-            e.layer.feature.properties.type = 'node';
-        } else if (e.shape === 'Line') {
-            e.layer.feature = e.layer.feature || {};
-            e.layer.feature.properties = e.layer.feature.properties || {};
-            e.layer.feature.properties.type = 'edge';
-        }
-    });
 
     console.log("Graph Editor Initialized");
 }
 
+/**
+ * Crearea butoanelor de Save Graph și Load Graph în interfață
+ */
 function addCustomControls(map, drawnItems) {
     const Control = L.Control.extend({
         options: { position: 'topright' },
         onAdd: function() {
-            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
             container.style.backgroundColor = 'white';
             container.style.padding = '5px';
             container.style.display = 'flex';
             container.style.flexDirection = 'column';
             container.style.gap = '5px';
 
+            // Buton ERASE
+            const eraseBtn = document.createElement('button');
+            eraseBtn.innerHTML = '🗑️ Erase Graph';
+            eraseBtn.style.color = 'red';
+            eraseBtn.onclick = () => eraseGraph(drawnItems);
+
+            // Buton SAVE
             const saveBtn = document.createElement('button');
-            saveBtn.innerText = 'Save Graph';
-            saveBtn.style.cursor = 'pointer';
-            saveBtn.onclick = (e) => {
-                L.DomEvent.stop(e);
-                saveGraph(drawnItems);
-            };
+            saveBtn.innerText = '💾 Save Graph';
+            saveBtn.onclick = () => saveGraph(drawnItems);
 
+            // Buton LOAD
             const loadBtn = document.createElement('button');
-            loadBtn.innerText = 'Load Graph';
-            loadBtn.style.cursor = 'pointer';
-            loadBtn.onclick = (e) => {
-                L.DomEvent.stop(e);
-                loadGraph(drawnItems);
-            };
+            loadBtn.innerText = '📂 Load Graph';
+            loadBtn.onclick = () => loadGraph(drawnItems);
 
-            const floorBtn = document.createElement('button');
-            floorBtn.innerText = 'Editare Etaje';
-            floorBtn.style.cursor = 'pointer';
-            floorBtn.onclick = (e) => {
-                L.DomEvent.stop(e);
-                if (window.openFloorManager) {
-                    window.openFloorManager();
-                } else {
-                    console.error("Indoor Manager logic (indoor.js) not loaded or initialized.");
-                    alert("Eroare: Modulul de editare etaje nu este incarcat.");
-                }
-            };
-            
+            container.appendChild(eraseBtn);
             container.appendChild(saveBtn);
             container.appendChild(loadBtn);
-            container.appendChild(floorBtn);
-
-            L.DomEvent.disableClickPropagation(container);
             return container;
         }
     });
@@ -121,57 +82,110 @@ function addCustomControls(map, drawnItems) {
 }
 
 /**
- * Save current graph to backend
+ * FUNCȚIA DE ȘTERGERE COMPLETĂ A GRAFULUI
+ */
+async function eraseGraph(drawnItems) {
+    if (!confirm('Ești sigur că vrei să ștergi permanent întregul graf din baza de date? Această acțiune este ireversibilă!')) {
+        return;
+    }
+
+    // 1. Curăță harta (șterge elementele locale)
+    drawnItems.clearLayers();
+
+    // 2. Șterge din baza de date folosind apelul de DELETE
+    try {
+        const response = await fetch('/api/graph/erase', { method: 'DELETE' });
+        if (response.ok) {
+            alert('Graful a fost șters complet cu succes!');
+        } else {
+            alert('Graful a fost șters cu succes, dar am primit un avertisment (' + response.status + ') de la server.');
+        }
+    } catch (e) {
+        alert('Eroare de rețea. Am șters elementele de pe hartă doar vizual.');
+    }
+}
+
+/**
+ * FUNCȚIA DE SALVARE
  */
 async function saveGraph(drawnItems) {
-    const geoJSON = drawnItems.toGeoJSON();
-    console.log("Saving graph...", geoJSON);
+    let geoJSON = drawnItems.toGeoJSON();
+
+    // Filtrăm DOAR nodurile (Puncte) și rutele de navigare (Linestrings), ignorând Poligoanele (clădirile - dacă din greșeală apar)
+    if (geoJSON && geoJSON.features) {
+        geoJSON.features = geoJSON.features.filter(f => 
+            f.geometry.type === 'Point' || f.geometry.type === 'LineString' || f.geometry.type === 'MultiLineString'
+        );
+    }
+
+    // Dacă utilizatorul apasă Save Graph după ce a șters manual totul layer cu layer, apelăm endpoint-ul specific de /erase.
+    if (!geoJSON.features || geoJSON.features.length === 0) {
+        if (confirm('Pe hartă nu mai există elemente desenate (rutări de navigare). Dorești să salvezi o formă goală (să resetezi graful efectiv)?')) {
+            await eraseGraph(drawnItems);
+            return;
+        } else {
+            return;
+        }
+    }
 
     try {
-        const response = await fetch(API_ENDPOINT, {
+        const response = await fetch(API_SAVE_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(geoJSON)
         });
 
         if (response.ok) {
-            alert('Graph saved successfully!');
+            alert('Succes! Graful a fost salvat în baza de date.');
         } else {
-            console.warn('Backend not reachable, saving to local file (fallback)');
-            downloadJSON(geoJSON, 'graph_data.json');
-            alert('Backend error. Downloaded as file instead.');
+            alert('Eroare la server (' + response.status + ').');
+            downloadJSON(geoJSON, 'graph_backup.json'); // Siguranță
         }
     } catch (error) {
-        console.error('Save failed:', error);
-        downloadJSON(geoJSON, 'graph_data.json');
-        alert('Network error. Downloaded as file instead.');
+        alert('Eroare de rețea. Am descărcat fișierul local.');
+        downloadJSON(geoJSON, 'graph_backup.json');
     }
 }
 
 /**
- * Load graph from backend
+ * FUNCȚIA DE ÎNCĂRCARE
  */
 async function loadGraph(drawnItems) {
     try {
-        const response = await fetch(API_ENDPOINT);
+        const response = await fetch(API_LOAD_ENDPOINT);
         if (response.ok) {
-            const geoJSON = await response.json();
+            const textJSON = await response.text();
+            
+            // Asigură-te că loadGraph lasă harta curată dacă e goală DB
             drawnItems.clearLayers();
+            if (!textJSON || textJSON.trim() === '{}' || textJSON.trim() === '') {
+                alert('Nu există graf salvat (Harta este goală).');
+                return;
+            }
+            
+            const geoJSON = JSON.parse(textJSON);
+            
+            // Suplimentar: dacă backend-ul a reîntors un Features list gol "{"type": "FeatureCollection", "features": []}"
+            if (!geoJSON || Object.keys(geoJSON).length === 0 || (geoJSON.features && geoJSON.features.length === 0)) {
+                alert('Nu există elemente în graful salvat anterior.');
+                return;
+            }
+
             L.geoJSON(geoJSON, {
                 onEachFeature: (feature, layer) => {
                     drawnItems.addLayer(layer);
                 }
             });
-            alert('Graph loaded!');
+            alert('Graful a fost încărcat din baza de date!');
         } else {
-            alert('Could not load graph from backend.');
+            alert('A survenit o problemă la interogarea grafului.');
         }
     } catch (error) {
-        console.error('Load failed:', error);
-        alert('Network error loading graph.');
+        alert('Eroare la încărcare.');
     }
 }
 
+// Funcția de descărcare locală (doar pentru urgențe/erori)
 function downloadJSON(data, filename) {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -179,5 +193,4 @@ function downloadJSON(data, filename) {
     a.href = url;
     a.download = filename;
     a.click();
-    URL.revokeObjectURL(url);
 }

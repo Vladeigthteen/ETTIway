@@ -20,10 +20,16 @@ public class SecurityConfig {
     @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(csrf -> csrf.disable()) // Dezactivăm CSRF pentru simplitate în faza de dev
+        .csrf(csrf -> csrf
+            .ignoringRequestMatchers("/api/graph/**") // Dezactivăm CSRF special pentru rutele de graph (POST/DELETE din JavaScript)
+            .disable() // Notă: Dacă activezi CSRF-ul global pe viitor, șterge `.disable()` și lasă doar rândul de mai sus
+        )
         .authorizeHttpRequests(auth -> auth
     // 1. Publice
     .requestMatchers("/login.html", "/auth.html", "/api/auth/**", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
+    
+    // API-ul de Graph public sau poți schimba în .hasRole("ADMIN") dacă este necesar
+    .requestMatchers("/api/graph/**").permitAll()
     
     // 2. DOAR PENTRU ADMIN (Adaugă linia asta!)
     // Aceasta va proteja fișierul și orice parametru gen ?edit=1

@@ -6,8 +6,10 @@
 // Configuration constants
 const CAMPUS_DATA_FILE = 'data/campus.sample.json';
 
+const API_GRAPH_LOAD = '/api/graph/load';
+
 /**
- * Load campus data from JSON file
+ * Load campus data from JSON file (Static background: buildings, boundaries)
  * @returns {Promise<Object>} Promise resolving to object with campus info and buildings array
  */
 async function loadCampusData() {
@@ -17,12 +19,47 @@ async function loadCampusData() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Campus data loaded successfully', data);
+        console.log('Campus data loaded successfully from local file', data);
         return data;
     } catch (error) {
         console.error('Error loading campus data:', error);
         // Return empty object on error
         return { campus: null, buildings: [] };
+    }
+}
+
+/**
+ * Load dynamic navigation graph from database
+ */
+async function loadNavigationGraph(drawnItems) {
+    try {
+        const dbResponse = await fetch(API_GRAPH_LOAD);
+        if (dbResponse.ok) {
+            const dbData = await dbResponse.text();
+            
+            // Verificăm dacă e un JSON gol {}
+            if (dbData && dbData.trim() !== '{}' && dbData.trim() !== '') {
+                const parsedData = JSON.parse(dbData);
+                
+                // Asigurare extra contra DB-ului returnând un template gol `{"type": "FeatureCollection", "features": []}`
+                if (parsedData && parsedData.features && parsedData.features.length > 0) {
+                    L.geoJSON(parsedData, {
+                        onEachFeature: (feature, layer) => {
+                            if (drawnItems && drawnItems.addLayer) {
+                                drawnItems.addLayer(layer);
+                            }
+                        }
+                    });
+                    console.log('Graph data loaded successfully from Database', parsedData);
+                } else {
+                    console.log('Database returned graph structure with empty features.');
+                }
+            } else {
+                console.log('Database returned empty graph, keeping dynamic layer clean.');
+            }
+        }
+    } catch (dbError) {
+        console.log('Could not load dynamic navigation graph from DB (possibly missing or network error)', dbError);
     }
 }
 
@@ -182,6 +219,11 @@ async function initialize() {
         } catch (e) {
             console.warn('Error drawing entrances:', e);
         }
+    }
+
+    // Load the dynamic navigation graph into mapInstance's drawnGroup
+    if (mapInstance && mapInstance.drawnGroup) {
+        await loadNavigationGraph(mapInstance.drawnGroup);
     }
 
     // Initialize UI components
