@@ -21,7 +21,7 @@ function buildGraphFromGeoJSON(geoJSON) {
     if (!geoJSON || !geoJSON.features) return { graph, nodesMap };
     geoJSON.features.forEach(feature => {
         if (feature.geometry.type === 'LineString') {
-            const coords = feature.geometry.coordinates; // AtenÈ›ie: GeoJSON aruncÄƒ sub formÄƒ [lng, lat]
+            const coords = feature.geometry.coordinates; // Atenție: GeoJSON aruncă sub formă [lng, lat]
             for (let i = 0; i < coords.length - 1; i++) {
                 const lat1 = coords[i][1], lng1 = coords[i][0];
                 const lat2 = coords[i+1][1], lng2 = coords[i+1][0];

@@ -4,7 +4,7 @@ const API_GRAPH_LOAD = '/api/graph/load';
 window.isTestMode = false;
 window.currentStartPoint = null;
 window.currentDestinationPoint = null;
-window.calculateRouteTest = calculateRouteTest; // ExportÄƒm pentru a fi apelat din map.js
+window.calculateRouteTest = calculateRouteTest; // Exportăm pentru a fi apelat din map.js
 window.toggleTestModeGlobal = function() {
     window.isTestMode = !window.isTestMode;
     const btn = document.getElementById('test-mode-btn');
@@ -12,7 +12,7 @@ window.toggleTestModeGlobal = function() {
         if (window.isTestMode) {
             btn.innerText = 'Dev: Test Mode ON';
             btn.style.backgroundColor = '#27ae60';
-            alert('Mod Test activat. Click pe butonul "Find Me" pentru a Ã®ncepe simularea.');
+            alert('Mod Test activat. Click pe butonul "Find Me" pentru a începe simularea.');
         } else {
             btn.innerText = 'Dev: Test Mode OFF';
             btn.style.backgroundColor = '#e67e22';
@@ -119,11 +119,11 @@ function showAppConfirm(message) {
         btnContainer.style.display = 'flex';
         btnContainer.style.justifyContent = 'space-around';
         const btnNo = document.createElement('button');
-        btnNo.innerText = 'AnuleazÄƒ';
+        btnNo.innerText = 'Anulează';
         Object.assign(btnNo.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#e74c3c', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
         btnNo.onclick = () => { overlay.remove(); resolve(false); };
         const btnYes = document.createElement('button');
-        btnYes.innerText = 'ConfirmÄƒ';
+        btnYes.innerText = 'Confirmă';
         Object.assign(btnYes.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#2ecc71', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
         btnYes.onclick = () => { overlay.remove(); resolve(true); };
         btnContainer.appendChild(btnNo);
@@ -162,7 +162,7 @@ function showAppPrompt(message, choices) {
         btnContainer.style.display = 'flex';
         btnContainer.style.justifyContent = 'space-around';
         const btnNo = document.createElement('button');
-        btnNo.innerText = 'AnuleazÄƒ';
+        btnNo.innerText = 'Anulează';
         Object.assign(btnNo.style, { padding: '10px 15px', border: 'none', borderRadius: '4px', backgroundColor: '#e74c3c', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
         btnNo.onclick = () => { overlay.remove(); resolve(null); };
         const btnYes = document.createElement('button');
@@ -217,7 +217,7 @@ function initializeSearch() {
         console.log('User searched for:', searchTerm);
         if (!searchTerm) return;
         let targetPoint = null;
-        let finalBuildingName = searchTerm; // Fallback nume pentru afiÈ™aj
+        let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
         let matchingEntrances = [];
         if (window.campusData && window.campusData.entrances) {
             for (let ent of window.campusData.entrances) {
@@ -243,7 +243,7 @@ function initializeSearch() {
              }
         }
         if (matchingEntrances.length === 1) {
-            let userConfirmed = await showAppConfirm(`Vrei sÄƒ navighezi cÄƒtre: ${matchingEntrances[0].name}?`);
+            let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${matchingEntrances[0].name}?`);
             if (userConfirmed) {
                 targetPoint = matchingEntrances[0].pt;
                 finalBuildingName = matchingEntrances[0].name;
@@ -252,10 +252,10 @@ function initializeSearch() {
                 return; // User has cancelled
             }
         } else if (matchingEntrances.length > 1) {
-            let choiceIdx = await showAppPrompt(`S-au gÄƒsit mai multe intrÄƒri pentru clÄƒdirea aleasÄƒ. Alege una dintre ele:`, matchingEntrances);
+            let choiceIdx = await showAppPrompt(`S-au găsit mai multe intrări pentru clădirea aleasă. Alege una dintre ele:`, matchingEntrances);
             if (choiceIdx !== null && choiceIdx >= 0 && choiceIdx < matchingEntrances.length) {
                 let sel = matchingEntrances[choiceIdx];
-                let userConfirmed = await showAppConfirm(`Vrei sÄƒ navighezi cÄƒtre: ${sel.name}?`);
+                let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${sel.name}?`);
                 if (userConfirmed) {
                     targetPoint = sel.pt;
                     finalBuildingName = sel.name;
@@ -285,8 +285,8 @@ function initializeSearch() {
                     }
                 }
                 if (targetPoint) {
-                    console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clÄƒdirii (Dist: ${Math.round(minDist)}m)`);
-                    let userConfirmed = await showAppConfirm(`S-a dedus o intrare aproximativÄƒ pentru: ${b.name}. Confirmare navigare?`);
+                    console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clădirii (Dist: ${Math.round(minDist)}m)`);
+                    let userConfirmed = await showAppConfirm(`S-a dedus o intrare aproximativă pentru: ${b.name}. Confirmare navigare?`);
                     if (!userConfirmed) {
                         e.target.value = '';
                         return;
@@ -302,10 +302,10 @@ function initializeSearch() {
                     window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
                 }
             } else {
-                await showAppAlert(`Conectare GPS Ã®n aÈ™teptare... DestinaÈ›ia (${finalBuildingName}) e setatÄƒ. CÃ¢nd poziÈ›ia v-a fi activatÄƒ, ruta se va calcula. PuteÈ›i folosi È™i "Find Me".`);
+                await showAppAlert(`Conectare GPS în așteptare... Destinația (${finalBuildingName}) e setată. Când poziția va fi activată, ruta se va calcula. Puteți folosi și "Find Me".`);
             }
         } else {
-            await showAppAlert(`ClÄƒdirea '${searchTerm}' nu a putut fi localizatÄƒ nici dupÄƒ nume explicit, nici cu fallback vizual.`);
+            await showAppAlert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici cu fallback vizual.`);
         }
         const bUI = window.campusData?.buildings?.find(b => b.name.toLowerCase() === searchTerm);
         if (bUI && typeof focusOnBuilding === 'function') {
@@ -425,13 +425,13 @@ function setupTestModeRouting(map, graphGroup) {
             if (typeof userMarker !== 'undefined' && userMarker) {
                 userMarker.setLatLng(e.latlng);
                 if (userMarker.isPopupOpen()) userMarker.closePopup();
-                userMarker.bindPopup("PoziÈ›ie simulatÄƒ (Start)").openPopup();
+                userMarker.bindPopup("Poziție simulată (Start)").openPopup();
             } else {
                 const iconConf = typeof customUserIcon !== 'undefined' ? { icon: customUserIcon } : {};
                 userMarker = L.marker(e.latlng, iconConf).addTo(map);
-                userMarker.bindPopup("PoziÈ›ie simulatÄƒ (Start)").openPopup();
+                userMarker.bindPopup("Poziție simulată (Start)").openPopup();
             }
-            alert("Punct de plecare setat. Acum apasÄƒ pe un nod din graf (sau oriunde pe hartÄƒ) pentru destinaÈ›ie.");
+            alert("Punct de plecare setat. Acum apasă pe un nod din graf (sau oriunde pe hartă) pentru destinație.");
         } else {
             window.currentDestinationPoint = e.latlng;
             console.log("Destination Point set via Test Mode:", e.latlng);
@@ -442,7 +442,7 @@ function setupTestModeRouting(map, graphGroup) {
         if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
             layer.on('click', function(e) {
                 if (!window.isTestMode || watchId !== 'test_mode') return;
-                L.DomEvent.stop(e); // BlocheazÄƒ emiterea de propagare catre harta
+                L.DomEvent.stop(e); // Blochează emiterea de propagare catre harta
                 if (!window.currentStartPoint || (window.currentStartPoint && window.currentDestinationPoint)) {
                     window.currentStartPoint = e.latlng;
                     window.currentDestinationPoint = null;
@@ -481,23 +481,23 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
     }
     const { graph, nodesMap } = buildGraphFromGeoJSON(geoJSON);
     if (Object.keys(nodesMap).length === 0) {
-        alert('Eroare: Graful este gol. Te rog sÄƒ desenezi manual segmente (Linii / Puncte) È™i sÄƒ-l salvezi/Ã®ncarci.');
+        alert('Eroare: Graful este gol. Te rog să desenezi manual segmente (Linii / Puncte) și să-l salvezi/încarci.');
         return;
     }
     const startKey = findNearestNode(startLatLng, nodesMap);
     const endKey = findNearestNode(endLatLng, nodesMap);
     if (!startKey || !endKey) {
-        alert('Nu s-au putut gÄƒsi noduri Ã®n interiorul grafului.');
+        alert('Nu s-au putut găsi noduri în interiorul grafului.');
         return;
     }
     const pathCoords = runDijkstra(graph, nodesMap, startKey, endKey);
     if (!pathCoords || pathCoords.length === 0) {
-        console.warn('Nu existÄƒ nicio rutÄƒ disponibilÄƒ Ã®ntre start È™i destinaÈ›ia aleasÄƒ. Probabil nu existÄƒ conectivitate Ã®ntre cele 2 noduri.');
+        console.warn('Nu există nicio rută disponibilă între start și destinația aleasă. Probabil nu există conectivitate între cele 2 noduri.');
         return;
     }
     const path = L.polyline(pathCoords, {
-        color: '#FF3333',    // RoÈ™u distinct È™i puternic (schimbat din albastru)
-        weight: 8,           // PuÈ›in mai gros pentru vizibilitate
+        color: '#FF3333',    // Roșu distinct și puternic (schimbat din albastru)
+        weight: 8,           // Puțin mai gros pentru vizibilitate
         opacity: 0.9,
         lineJoin: 'round',
         lineCap: 'round'
@@ -507,7 +507,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         if (idx === 0) return acc;
         return acc + pathCoords[idx - 1].distanceTo(curr);
     }, 0));
-    console.log(`RutÄƒ prelucratÄƒ pe graf avÃ¢nd distanÈ›a estimatÄƒ de ${approxDistMeters}m`);
+    console.log(`Rută prelucrată pe graf având distanța estimată de ${approxDistMeters}m`);
     if (window.isTestMode && typeof routeLayer !== 'undefined' && routeLayer.getLayers().length === 1) {
     }
 }

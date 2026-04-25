@@ -54,19 +54,19 @@ function addCustomControls(map, drawnItems) {
     map.addControl(new Control());
 }
 async function eraseGraph(drawnItems) {
-    if (!confirm('EÈ™ti sigur cÄƒ vrei sÄƒ È™tergi permanent Ã®ntregul graf din baza de date? AceastÄƒ acÈ›iune este ireversibilÄƒ!')) {
+    if (!confirm('Ești sigur că vrei să ștergi permanent întregul graf din baza de date? Această acțiune este ireversibilă!')) {
         return;
     }
     drawnItems.clearLayers();
     try {
         const response = await fetch('/api/graph/erase', { method: 'DELETE' });
         if (response.ok) {
-            showToast('Graful a fost È™ters complet cu succes!', 'success');
+            showToast('Graful a fost șters complet cu succes!', 'success');
         } else {
-            showToast('Graful a fost È™ters cu succes, dar am primit un avertisment (' + response.status + ') de la server.', 'warning');
+            showToast('Graful a fost șters cu succes, dar am primit un avertisment (' + response.status + ') de la server.', 'warning');
         }
     } catch (e) {
-        showToast('Eroare de reÈ›ea. Am È™ters elementele de pe hartÄƒ doar vizual.', 'error');
+        showToast('Eroare de rețea. Am șters elementele de pe hartă doar vizual.', 'error');
     }
 }
 async function saveGraph(drawnItems) {
@@ -77,7 +77,7 @@ async function saveGraph(drawnItems) {
         );
     }
     if (!geoJSON.features || geoJSON.features.length === 0) {
-        if (confirm('Pe hartÄƒ nu mai existÄƒ elemente desenate (rutÄƒri de navigare). DoreÈ™ti sÄƒ salvezi o formÄƒ goalÄƒ (sÄƒ resetezi graful efectiv)?')) {
+        if (confirm('Pe hartă nu mai există elemente desenate (rutări de navigare). Dorești să salvezi o formă goală (să resetezi graful efectiv)?')) {
             await eraseGraph(drawnItems);
             return;
         } else {
@@ -91,13 +91,13 @@ async function saveGraph(drawnItems) {
             body: JSON.stringify(geoJSON)
         });
         if (response.ok) {
-            showToast('Succes! Graful a fost salvat Ã®n baza de date.', 'success');
+            showToast('Succes! Graful a fost salvat în baza de date.', 'success');
         } else {
-            showToast('Eroare la server (' + response.status + '). FuncÈ›ia fallback: descÄƒrcare localÄƒ.', 'error');
-            downloadJSON(geoJSON, 'graph_backup.json'); // SiguranÈ›Äƒ
+            showToast('Eroare la server (' + response.status + '). Funcția fallback: descărcare locală.', 'error');
+            downloadJSON(geoJSON, 'graph_backup.json'); // Siguranță
         }
     } catch (error) {
-        showToast('Eroare de reÈ›ea. Am descÄƒrcat fiÈ™ierul local.', 'error');
+        showToast('Eroare de rețea. Am descărcat fișierul local.', 'error');
         downloadJSON(geoJSON, 'graph_backup.json');
     }
 }
@@ -112,13 +112,13 @@ async function loadGraph(drawnItems) {
             }
             if (!textJSON || textJSON.trim() === '{}' || textJSON.trim() === '') {
                 window.navigationData = null;
-                if (isEditMode) showToast('Nu existÄƒ graf salvat (Harta este goalÄƒ).', 'info');
+                if (isEditMode) showToast('Nu există graf salvat (Harta este goală).', 'info');
                 return;
             }
             const geoJSON = JSON.parse(textJSON);
             window.navigationData = geoJSON;
             if (!geoJSON || Object.keys(geoJSON).length === 0 || (geoJSON.features && geoJSON.features.length === 0)) {
-                if (isEditMode) showToast('Nu existÄƒ elemente Ã®n graful salvat anterior.', 'info');
+                if (isEditMode) showToast('Nu există elemente în graful salvat anterior.', 'info');
                 return;
             }
             if (isEditMode) {
@@ -127,17 +127,17 @@ async function loadGraph(drawnItems) {
                         if (drawnItems) drawnItems.addLayer(layer);
                     }
                 });
-                showToast('Graful a fost Ã®ncÄƒrcat din baza de date!', 'success');
+                showToast('Graful a fost încărcat din baza de date!', 'success');
             } else {
-                console.log('Graful a fost Ã®ncÄƒrcat Ã®n memorie (navigationData), dar este ascuns pe hartÄƒ.');
+                console.log('Graful a fost încărcat în memorie (navigationData), dar este ascuns pe hartă.');
             }
         } else {
-            console.error('A survenit o problemÄƒ la interogarea grafului.');
-            if (isEditMode) showToast('A survenit o problemÄƒ la interogarea grafului.', 'error');
+            console.error('A survenit o problemă la interogarea grafului.');
+            if (isEditMode) showToast('A survenit o problemă la interogarea grafului.', 'error');
         }
     } catch (error) {
-        console.error('Eroare la Ã®ncÄƒrcare.', error);
-        if (isEditMode) showToast('Eroare la Ã®ncÄƒrcare.', 'error');
+        console.error('Eroare la încărcare.', error);
+        if (isEditMode) showToast('Eroare la încărcare.', 'error');
     }
 }
 function downloadJSON(data, filename) {
@@ -172,6 +172,6 @@ function showToast(message, type = 'success') {
     }, 10);
     setTimeout(() => {
         toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 500); // curÄƒÈ›Äƒ DOM-ul
+        setTimeout(() => toast.remove(), 500); // curăță DOM-ul
     }, 5000);
 }
