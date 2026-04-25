@@ -1,51 +1,23 @@
-/**
- * utils.js - Utility functions for ETTIway
- * Shared helper functions used across the application
- */
-
-// Default map configuration constants
-// Center calculated based on provided bounds: (44.432102 + 44.434329)/2, (26.054500 + 26.059028)/2
+﻿
 const DEFAULT_CAMPUS_LAT = 44.433215;
 const DEFAULT_CAMPUS_LON = 26.056764;
 const DEFAULT_ZOOM_LEVEL = 18; // Increased zoom since the area is smaller
-
-// Map boundaries (South-West, North-East)
 const MAP_BOUNDS = [
     [44.432102, 26.054500], // South-West
     [44.434329, 26.059028]  // North-East
 ];
-
-/**
- * Escape HTML to prevent XSS attacks
- * @param {string} text - Text to escape
- * @returns {string} Escaped HTML
- */
 function escapeHtml(text) {
     if (text == null) return '';
     const div = document.createElement('div');
     div.textContent = String(text);
     return div.innerHTML;
 }
-
-/**
- * Validate coordinates
- * @param {number} lat - Latitude
- * @param {number} lon - Longitude
- * @returns {boolean} True if coordinates are valid
- */
 function isValidCoordinate(lat, lon) {
     return typeof lat === 'number' && typeof lon === 'number' &&
            lat >= -90 && lat <= 90 &&
            lon >= -180 && lon <= 180 &&
            !isNaN(lat) && !isNaN(lon);
 }
-
-/**
- * Create HTML for room details display
- * @param {Object} room - Room data object
- * @param {boolean} compact - If true, creates compact version for popup
- * @returns {string} HTML string for room details
- */
 function createRoomDetailsHtml(room, compact = false) {
     const details = `
         <div class="${compact ? 'popup-content' : ''}">

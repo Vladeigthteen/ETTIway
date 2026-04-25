@@ -1,26 +1,14 @@
-/**
- * graph-editor.js - Graph Editor for Navigation
- */
-
-// 1. CONSTANTELE API (La început)
+﻿
 const API_SAVE_ENDPOINT = '/api/graph/save';
 const API_LOAD_ENDPOINT = '/api/graph/load';
-
-/**
- * Initialize the Graph Editor
- */
 function initGraphEditor(map, drawnItems) {
     const params = new URLSearchParams(window.location.search);
     const isEditMode = params.get('edit') === '1';
-
     if (!isEditMode) {
         console.log("Graph Editor UI disabled (edit mode off). Pre-loading navigation graph in memory...");
-        // Încărcăm graful în ascuns, doar pentru a alimenta `window.navigationData` și algoritmul de rutare
         loadGraph(drawnItems);
         return;
     }
-
-    // Configurare Geoman
     map.pm.setGlobalOptions({
         layerGroup: drawnItems,
         snappable: true,
@@ -29,8 +17,6 @@ function initGraphEditor(map, drawnItems) {
         allowSelfIntersection: true,
         editable: true
     });
-
-    // Adăugare Controlere Geoman (butoanele de sus-stânga)
     map.pm.addControls({
         position: 'topleft',
         drawMarker: true,
@@ -39,40 +25,26 @@ function initGraphEditor(map, drawnItems) {
         dragMode: true,
         removalMode: true
     });
-
-    // Adăugare butoanele noastre personalizate (Save/Load)
     addCustomControls(map, drawnItems);
-
     console.log("Graph Editor Initialized");
 }
-
-/**
- * Crearea butoanelor de Save Graph și Load Graph în interfață
- */
 function addCustomControls(map, drawnItems) {
     const Control = L.Control.extend({
         options: { position: 'topright' },
         onAdd: function() {
             const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control admin-graph-controls');
-
-            // Buton ERASE
             const eraseBtn = document.createElement('button');
-            eraseBtn.innerHTML = '🗑️ Erase Graph';
+            eraseBtn.innerHTML = 'ðŸ—‘ï¸ Erase Graph';
             eraseBtn.className = 'admin-btn erase-btn';
             eraseBtn.onclick = () => eraseGraph(drawnItems);
-
-            // Buton SAVE
             const saveBtn = document.createElement('button');
-            saveBtn.innerText = '💾 Save Graph';
+            saveBtn.innerText = 'ðŸ’¾ Save Graph';
             saveBtn.className = 'admin-btn';
             saveBtn.onclick = () => saveGraph(drawnItems);
-
-            // Buton LOAD
             const loadBtn = document.createElement('button');
-            loadBtn.innerText = '📂 Load Graph';
+            loadBtn.innerText = 'ðŸ“‚ Load Graph';
             loadBtn.className = 'admin-btn';
             loadBtn.onclick = () => loadGraph(drawnItems);
-
             container.appendChild(eraseBtn);
             container.appendChild(saveBtn);
             container.appendChild(loadBtn);
@@ -81,128 +53,93 @@ function addCustomControls(map, drawnItems) {
     });
     map.addControl(new Control());
 }
-
-/**
- * FUNCȚIA DE ȘTERGERE COMPLETĂ A GRAFULUI
- */
 async function eraseGraph(drawnItems) {
-    if (!confirm('Ești sigur că vrei să ștergi permanent întregul graf din baza de date? Această acțiune este ireversibilă!')) {
+    if (!confirm('EÈ™ti sigur cÄƒ vrei sÄƒ È™tergi permanent Ã®ntregul graf din baza de date? AceastÄƒ acÈ›iune este ireversibilÄƒ!')) {
         return;
     }
-
-    // 1. Curăță harta (șterge elementele locale)
     drawnItems.clearLayers();
-
-    // 2. Șterge din baza de date folosind apelul de DELETE
     try {
         const response = await fetch('/api/graph/erase', { method: 'DELETE' });
         if (response.ok) {
-            showToast('Graful a fost șters complet cu succes!', 'success');
+            showToast('Graful a fost È™ters complet cu succes!', 'success');
         } else {
-            showToast('Graful a fost șters cu succes, dar am primit un avertisment (' + response.status + ') de la server.', 'warning');
+            showToast('Graful a fost È™ters cu succes, dar am primit un avertisment (' + response.status + ') de la server.', 'warning');
         }
     } catch (e) {
-        showToast('Eroare de rețea. Am șters elementele de pe hartă doar vizual.', 'error');
+        showToast('Eroare de reÈ›ea. Am È™ters elementele de pe hartÄƒ doar vizual.', 'error');
     }
 }
-
-/**
- * FUNCȚIA DE SALVARE
- */
 async function saveGraph(drawnItems) {
     let geoJSON = drawnItems.toGeoJSON();
-
-    // Filtrăm DOAR nodurile (Puncte) și rutele de navigare (Linestrings), ignorând Poligoanele (clădirile - dacă din greșeală apar)
     if (geoJSON && geoJSON.features) {
         geoJSON.features = geoJSON.features.filter(f => 
             f.geometry.type === 'Point' || f.geometry.type === 'LineString' || f.geometry.type === 'MultiLineString'
         );
     }
-
-    // Dacă utilizatorul apasă Save Graph după ce a șters manual totul layer cu layer, apelăm endpoint-ul specific de /erase.
     if (!geoJSON.features || geoJSON.features.length === 0) {
-        if (confirm('Pe hartă nu mai există elemente desenate (rutări de navigare). Dorești să salvezi o formă goală (să resetezi graful efectiv)?')) {
+        if (confirm('Pe hartÄƒ nu mai existÄƒ elemente desenate (rutÄƒri de navigare). DoreÈ™ti sÄƒ salvezi o formÄƒ goalÄƒ (sÄƒ resetezi graful efectiv)?')) {
             await eraseGraph(drawnItems);
             return;
         } else {
             return;
         }
     }
-
     try {
         const response = await fetch(API_SAVE_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(geoJSON)
         });
-
         if (response.ok) {
-            showToast('Succes! Graful a fost salvat în baza de date.', 'success');
+            showToast('Succes! Graful a fost salvat Ã®n baza de date.', 'success');
         } else {
-            showToast('Eroare la server (' + response.status + '). Funcția fallback: descărcare locală.', 'error');
-            downloadJSON(geoJSON, 'graph_backup.json'); // Siguranță
+            showToast('Eroare la server (' + response.status + '). FuncÈ›ia fallback: descÄƒrcare localÄƒ.', 'error');
+            downloadJSON(geoJSON, 'graph_backup.json'); // SiguranÈ›Äƒ
         }
     } catch (error) {
-        showToast('Eroare de rețea. Am descărcat fișierul local.', 'error');
+        showToast('Eroare de reÈ›ea. Am descÄƒrcat fiÈ™ierul local.', 'error');
         downloadJSON(geoJSON, 'graph_backup.json');
     }
 }
-
-/**
- * FUNCȚIA DE ÎNCĂRCARE
- */
 async function loadGraph(drawnItems) {
     const isEditMode = new URLSearchParams(window.location.search).get('edit') === '1';
-
     try {
         const response = await fetch(API_LOAD_ENDPOINT);
         if (response.ok) {
             const textJSON = await response.text();
-            
-            // Asigură-te că loadGraph lasă harta curată dacă e goală DB (doar în edit mode)
             if (isEditMode && drawnItems) {
                 drawnItems.clearLayers();
             }
-
             if (!textJSON || textJSON.trim() === '{}' || textJSON.trim() === '') {
                 window.navigationData = null;
-                if (isEditMode) showToast('Nu există graf salvat (Harta este goală).', 'info');
+                if (isEditMode) showToast('Nu existÄƒ graf salvat (Harta este goalÄƒ).', 'info');
                 return;
             }
-            
             const geoJSON = JSON.parse(textJSON);
-            
-            // Salvăm datele în variabila ascunsă globală (pentru rutare)
             window.navigationData = geoJSON;
-            
-            // Suplimentar: dacă backend-ul a reîntors un Features list gol "{"type": "FeatureCollection", "features": []}"
             if (!geoJSON || Object.keys(geoJSON).length === 0 || (geoJSON.features && geoJSON.features.length === 0)) {
-                if (isEditMode) showToast('Nu există elemente în graful salvat anterior.', 'info');
+                if (isEditMode) showToast('Nu existÄƒ elemente Ã®n graful salvat anterior.', 'info');
                 return;
             }
-
-            // Dacă suntem în modul de editare, desenăm pe hartă
             if (isEditMode) {
                 L.geoJSON(geoJSON, {
                     onEachFeature: (feature, layer) => {
                         if (drawnItems) drawnItems.addLayer(layer);
                     }
                 });
-                showToast('Graful a fost încărcat din baza de date!', 'success');
+                showToast('Graful a fost Ã®ncÄƒrcat din baza de date!', 'success');
             } else {
-                console.log('Graful a fost încărcat în memorie (navigationData), dar este ascuns pe hartă.');
+                console.log('Graful a fost Ã®ncÄƒrcat Ã®n memorie (navigationData), dar este ascuns pe hartÄƒ.');
             }
         } else {
-            console.error('A survenit o problemă la interogarea grafului.');
-            if (isEditMode) showToast('A survenit o problemă la interogarea grafului.', 'error');
+            console.error('A survenit o problemÄƒ la interogarea grafului.');
+            if (isEditMode) showToast('A survenit o problemÄƒ la interogarea grafului.', 'error');
         }
     } catch (error) {
-        console.error('Eroare la încărcare.', error);
-        if (isEditMode) showToast('Eroare la încărcare.', 'error');
+        console.error('Eroare la Ã®ncÄƒrcare.', error);
+        if (isEditMode) showToast('Eroare la Ã®ncÄƒrcare.', 'error');
     }
 }
-
-// Funcția de descărcare locală (doar pentru urgențe/erori)
 function downloadJSON(data, filename) {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -211,23 +148,16 @@ function downloadJSON(data, filename) {
     a.download = filename;
     a.click();
 }
-
-/**
- * Funcția de afișare a notificărilor personalizate (Toast temporar)
- */
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     toast.textContent = message;
     toast.style.position = 'fixed';
     toast.style.bottom = '20px';
     toast.style.right = '20px';
-    
-    // Culori în funcție de tip
     if (type === 'error') toast.style.backgroundColor = '#f44336';
     else if (type === 'warning') toast.style.backgroundColor = '#ff9800';
     else if (type === 'info') toast.style.backgroundColor = '#2196F3';
     else toast.style.backgroundColor = '#4CAF50'; // success default
-    
     toast.style.color = 'white';
     toast.style.padding = '15px 20px';
     toast.style.borderRadius = '5px';
@@ -236,17 +166,12 @@ function showToast(message, type = 'success') {
     toast.style.fontFamily = 'Arial, sans-serif';
     toast.style.transition = 'opacity 0.5s ease-in-out';
     toast.style.opacity = '0';
-    
     document.body.appendChild(toast);
-    
-    // Trigger render pentru a rula tranziția
     setTimeout(() => {
         toast.style.opacity = '1';
     }, 10);
-    
-    // Ascunde automat după 5 secunde
     setTimeout(() => {
         toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 500); // curăță DOM-ul
+        setTimeout(() => toast.remove(), 500); // curÄƒÈ›Äƒ DOM-ul
     }, 5000);
 }
