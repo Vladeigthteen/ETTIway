@@ -100,12 +100,12 @@ async function eraseGraph(drawnItems) {
     try {
         const response = await fetch('/api/graph/erase', { method: 'DELETE' });
         if (response.ok) {
-            alert('Graful a fost șters complet cu succes!');
+            showToast('Graful a fost șters complet cu succes!', 'success');
         } else {
-            alert('Graful a fost șters cu succes, dar am primit un avertisment (' + response.status + ') de la server.');
+            showToast('Graful a fost șters cu succes, dar am primit un avertisment (' + response.status + ') de la server.', 'warning');
         }
     } catch (e) {
-        alert('Eroare de rețea. Am șters elementele de pe hartă doar vizual.');
+        showToast('Eroare de rețea. Am șters elementele de pe hartă doar vizual.', 'error');
     }
 }
 
@@ -140,13 +140,13 @@ async function saveGraph(drawnItems) {
         });
 
         if (response.ok) {
-            alert('Succes! Graful a fost salvat în baza de date.');
+            showToast('Succes! Graful a fost salvat în baza de date.', 'success');
         } else {
-            alert('Eroare la server (' + response.status + ').');
+            showToast('Eroare la server (' + response.status + '). Funcția fallback: descărcare locală.', 'error');
             downloadJSON(geoJSON, 'graph_backup.json'); // Siguranță
         }
     } catch (error) {
-        alert('Eroare de rețea. Am descărcat fișierul local.');
+        showToast('Eroare de rețea. Am descărcat fișierul local.', 'error');
         downloadJSON(geoJSON, 'graph_backup.json');
     }
 }
@@ -169,7 +169,7 @@ async function loadGraph(drawnItems) {
 
             if (!textJSON || textJSON.trim() === '{}' || textJSON.trim() === '') {
                 window.navigationData = null;
-                if (isEditMode) alert('Nu există graf salvat (Harta este goală).');
+                if (isEditMode) showToast('Nu există graf salvat (Harta este goală).', 'info');
                 return;
             }
             
@@ -180,7 +180,7 @@ async function loadGraph(drawnItems) {
             
             // Suplimentar: dacă backend-ul a reîntors un Features list gol "{"type": "FeatureCollection", "features": []}"
             if (!geoJSON || Object.keys(geoJSON).length === 0 || (geoJSON.features && geoJSON.features.length === 0)) {
-                if (isEditMode) alert('Nu există elemente în graful salvat anterior.');
+                if (isEditMode) showToast('Nu există elemente în graful salvat anterior.', 'info');
                 return;
             }
 
@@ -191,17 +191,17 @@ async function loadGraph(drawnItems) {
                         if (drawnItems) drawnItems.addLayer(layer);
                     }
                 });
-                alert('Graful a fost încărcat din baza de date!');
+                showToast('Graful a fost încărcat din baza de date!', 'success');
             } else {
                 console.log('Graful a fost încărcat în memorie (navigationData), dar este ascuns pe hartă.');
             }
         } else {
             console.error('A survenit o problemă la interogarea grafului.');
-            if (isEditMode) alert('A survenit o problemă la interogarea grafului.');
+            if (isEditMode) showToast('A survenit o problemă la interogarea grafului.', 'error');
         }
     } catch (error) {
         console.error('Eroare la încărcare.', error);
-        if (isEditMode) alert('Eroare la încărcare.');
+        if (isEditMode) showToast('Eroare la încărcare.', 'error');
     }
 }
 
@@ -213,4 +213,43 @@ function downloadJSON(data, filename) {
     a.href = url;
     a.download = filename;
     a.click();
+}
+
+/**
+ * Funcția de afișare a notificărilor personalizate (Toast temporar)
+ */
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.position = 'fixed';
+    toast.style.bottom = '20px';
+    toast.style.right = '20px';
+    
+    // Culori în funcție de tip
+    if (type === 'error') toast.style.backgroundColor = '#f44336';
+    else if (type === 'warning') toast.style.backgroundColor = '#ff9800';
+    else if (type === 'info') toast.style.backgroundColor = '#2196F3';
+    else toast.style.backgroundColor = '#4CAF50'; // success default
+    
+    toast.style.color = 'white';
+    toast.style.padding = '15px 20px';
+    toast.style.borderRadius = '5px';
+    toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+    toast.style.zIndex = '10000';
+    toast.style.fontFamily = 'Arial, sans-serif';
+    toast.style.transition = 'opacity 0.5s ease-in-out';
+    toast.style.opacity = '0';
+    
+    document.body.appendChild(toast);
+    
+    // Trigger render pentru a rula tranziția
+    setTimeout(() => {
+        toast.style.opacity = '1';
+    }, 10);
+    
+    // Ascunde automat după 5 secunde
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500); // curăță DOM-ul
+    }, 5000);
 }
