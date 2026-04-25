@@ -198,7 +198,7 @@
   "entrances": [
     {
       "id": "entrance_north_center",
-      "name": "Intrare Camin LEU A",
+      "name": "Intrare Studenti",
       "type": "pedestrian",
       "coordinates": [44.43441818797113, 26.055265853011385]
     },

@@ -34,15 +34,15 @@ function addCustomControls(map, drawnItems) {
         onAdd: function() {
             const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control admin-graph-controls');
             const eraseBtn = document.createElement('button');
-            eraseBtn.innerHTML = 'ðŸ—‘ï¸ Erase Graph';
+            eraseBtn.innerHTML = '🗑️ Erase Graph';
             eraseBtn.className = 'admin-btn erase-btn';
             eraseBtn.onclick = () => eraseGraph(drawnItems);
             const saveBtn = document.createElement('button');
-            saveBtn.innerText = 'ðŸ’¾ Save Graph';
+            saveBtn.innerText = '💾 Save Graph';
             saveBtn.className = 'admin-btn';
             saveBtn.onclick = () => saveGraph(drawnItems);
             const loadBtn = document.createElement('button');
-            loadBtn.innerText = 'ðŸ“‚ Load Graph';
+            loadBtn.innerText = '📂 Load Graph';
             loadBtn.className = 'admin-btn';
             loadBtn.onclick = () => loadGraph(drawnItems);
             container.appendChild(eraseBtn);

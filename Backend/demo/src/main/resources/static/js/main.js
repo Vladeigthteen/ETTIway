@@ -335,10 +335,10 @@ function initializeSidebarToggle(mapRef) {
     }
     function syncToggleLabel() {
         if (mobileQuery.matches) {
-            toggleBtn.textContent = body.classList.contains('sidebar-open') ? 'âœ•' : 'â˜°';
+            toggleBtn.textContent = body.classList.contains('sidebar-open') ? '✕' : '☰';
             return;
         }
-        toggleBtn.textContent = desktopCollapsed ? 'â˜°' : 'âœ•';
+        toggleBtn.textContent = desktopCollapsed ? '☰' : '✕';
     }
     function applyLayoutMode() {
         if (mobileQuery.matches) {
