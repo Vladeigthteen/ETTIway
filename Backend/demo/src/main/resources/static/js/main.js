@@ -10,8 +10,9 @@ const API_GRAPH_LOAD = '/api/graph/load';
 
 // Variabilă globală pentru modul de test
 window.isTestMode = false;
-let currentStartPoint = null;
-let currentDestinationPoint = null;
+window.currentStartPoint = null;
+window.currentDestinationPoint = null;
+window.calculateRouteTest = calculateRouteTest; // Exportăm pentru a fi apelat din map.js
 
 // Funcție pentru a activa/dezactiva global Test Mode (din HTML)
 window.toggleTestModeGlobal = function() {
@@ -137,22 +138,101 @@ function populateBuildingList(buildings) {
     console.log(`Populated list with ${buildings.length} buildings`);
 }
 
+// Legătura între o clădire din UI și nodul aferent din graf
+const buildingMap = {
+    'corp a': 'intrare CORP A',
+    'corp b': 'intrare CORP B',
+    'cantina': 'intrare Cantina',
+    'camin leu a': 'Intrare Camin LEU A'
+};
+
 /**
- * Initialize search functionality (UI only, no actual filtering)
- * Placeholder for future search implementation
+ * Initialize search functionality (integrată cu rutarea)
  */
 function initializeSearch() {
     const searchInput = document.getElementById('search-input');
     
-    // Add placeholder event listener for future functionality
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        console.log('Search term:', searchTerm);
-        // Note: Actual search functionality can be implemented here in the future
-        // For now, this is UI only as per requirements
+    // Suport și pentru enter press pentru mai multă fluență, sau change (când apasă enter / pierde focus)
+    searchInput.addEventListener('change', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        console.log('User searched for:', searchTerm);
+        
+        if (!searchTerm) return;
+        
+        let targetPoint = null;
+        let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
+        
+        // 1. Găsim direct din buildingMap
+        const targetEntranceName = buildingMap[searchTerm];
+        
+        if (targetEntranceName && window.navigationData && window.navigationData.features) {
+            for (let f of window.navigationData.features) {
+                if (f.geometry.type === 'Point' && f.properties && 
+                   (f.properties.name === targetEntranceName || f.properties.Nume === targetEntranceName)) {
+                    targetPoint = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
+                    break;
+                }
+            }
+        }
+        
+        // 2. Geografic Fallback dacă nu avem mapare, calculăm centroidul din campusData
+        if (!targetPoint && window.campusData && window.campusData.buildings) {
+            const b = window.campusData.buildings.find(b => b.name.toLowerCase() === searchTerm);
+            if (b && b.points && window.navigationData && window.navigationData.features) {
+                finalBuildingName = b.name;
+                const centroid = L.latLngBounds(b.points).getCenter();
+                let minDist = Infinity;
+                
+                // Căutăm cel mai apropiat nod Point la acest centroid
+                for (let f of window.navigationData.features) {
+                    if (f.geometry.type === 'Point') {
+                        const pt = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
+                        const d = centroid.distanceTo(pt);
+                        if (d < minDist) {
+                            minDist = d;
+                            targetPoint = pt;
+                        }
+                    }
+                }
+                if (targetPoint) {
+                    console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clădirii (Dist: ${Math.round(minDist)}m)`);
+                }
+            }
+        }
+        
+        // 3. Confirmare și Navigare dacă am găsit ceva
+        if (targetPoint) {
+            if (confirm(`Vrei să navighezi către ${finalBuildingName.toUpperCase()}?`)) {
+                window.currentDestinationPoint = targetPoint;
+                
+                // Dacă avem user marker existent (GPS ori TestMode pornit), putem demara cursa direct
+                if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
+                    window.currentStartPoint = userMarker.getLatLng();
+                    if (typeof campusMap !== 'undefined' && campusMap && typeof window.calculateRouteTest === 'function') {
+                        window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
+                    }
+                } else {
+                    alert(`Destinația e setată. Te rugăm folosește butonul "Find Me" sau funcția Test Mode din stânga-jos.`);
+                }
+            }
+        } else {
+            alert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici vizual pe hartă.`);
+        }
+        
+        // Deschidem și focusăm clădirea fizic dacă vrem să o vedem
+        const bUI = window.campusData?.buildings?.find(b => b.name.toLowerCase() === searchTerm);
+        if (bUI && typeof focusOnBuilding === 'function') {
+            focusOnBuilding(bUI);
+        }
+        
+        // Eliberăm input-ul și închidem lista de mobil (dacă e cazul)
+        e.target.value = '';
+        if (window.innerWidth <= 768) {
+            document.body.classList.remove('sidebar-open');
+        }
     });
     
-    console.log('Search input initialized (UI only)');
+    console.log('Search input initialized successfully (Map & Routing integrated).');
 }
 
 function initializeSidebarToggle(mapRef) {
@@ -297,10 +377,10 @@ function setupTestModeRouting(map, graphGroup) {
         if (!window.isTestMode || typeof watchId === 'undefined' || watchId !== 'test_mode') return;
 
         // Dacă nu avem punct de start (sau tocmai vrem să reluăm testul) setăm Start
-        if (!currentStartPoint || (currentStartPoint && currentDestinationPoint)) {
+        if (!window.currentStartPoint || (window.currentStartPoint && window.currentDestinationPoint)) {
             // Reset state ptr că aveam ambele puncte înainte
-            currentStartPoint = e.latlng;
-            currentDestinationPoint = null;
+            window.currentStartPoint = e.latlng;
+            window.currentDestinationPoint = null;
             
             if (typeof routeLayer !== 'undefined' && routeLayer) {
                 routeLayer.clearLayers();
@@ -314,7 +394,9 @@ function setupTestModeRouting(map, graphGroup) {
                 if (userMarker.isPopupOpen()) userMarker.closePopup();
                 userMarker.bindPopup("Poziție simulată (Start)").openPopup();
             } else {
-                userMarker = L.marker(e.latlng).addTo(map);
+                // Dacă cumva customUserIcon din map.js este prezent, îl folosim
+                const iconConf = typeof customUserIcon !== 'undefined' ? { icon: customUserIcon } : {};
+                userMarker = L.marker(e.latlng, iconConf).addTo(map);
                 userMarker.bindPopup("Poziție simulată (Start)").openPopup();
             }
 
@@ -322,11 +404,11 @@ function setupTestModeRouting(map, graphGroup) {
             
         } else {
             // Avem start, dar nu avem destinație -> Click-ul va seta destinația!
-            currentDestinationPoint = e.latlng;
+            window.currentDestinationPoint = e.latlng;
             console.log("Destination Point set via Test Mode:", e.latlng);
             
             // Calculăm ruta direct.
-            calculateRouteTest(map, graphGroup, currentStartPoint, currentDestinationPoint);
+            window.calculateRouteTest(map, graphGroup, window.currentStartPoint, window.currentDestinationPoint);
         }
     });
 
@@ -338,10 +420,10 @@ function setupTestModeRouting(map, graphGroup) {
                 
                 L.DomEvent.stop(e); // Blochează emiterea de propagare catre harta
 
-                if (!currentStartPoint || (currentStartPoint && currentDestinationPoint)) {
+                if (!window.currentStartPoint || (window.currentStartPoint && window.currentDestinationPoint)) {
                     // La fel, funcționează ca prim click = start, daca vrei din interiorul nodului.
-                    currentStartPoint = e.latlng;
-                    currentDestinationPoint = null;
+                    window.currentStartPoint = e.latlng;
+                    window.currentDestinationPoint = null;
                     
                     if (typeof routeLayer !== 'undefined' && routeLayer) routeLayer.clearLayers();
                     
@@ -349,13 +431,14 @@ function setupTestModeRouting(map, graphGroup) {
                         userMarker.setLatLng(e.latlng);
                         userMarker.bindPopup("Start (Pe Nod existant)").openPopup();
                     } else {
-                        userMarker = L.marker(e.latlng).addTo(map);
+                        const iconConf2 = typeof customUserIcon !== 'undefined' ? { icon: customUserIcon } : {};
+                        userMarker = L.marker(e.latlng, iconConf2).addTo(map);
                         userMarker.bindPopup("Start (Pe Nod existant)").openPopup();
                     }
-                    alert("Ai început traseul direct de pe un nod existent. Selectează alt nod / punct ca destinație.");
+                    console.log("Ai setat startul via marker manual pe un nod. (Test Mode)");
                 } else {
-                    currentDestinationPoint = e.latlng;
-                    calculateRouteTest(map, graphGroup, currentStartPoint, currentDestinationPoint);
+                    window.currentDestinationPoint = e.latlng;
+                    window.calculateRouteTest(map, graphGroup, window.currentStartPoint, window.currentDestinationPoint);
                 }
             });
         }
@@ -408,7 +491,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
     const pathCoords = runDijkstra(graph, nodesMap, startKey, endKey);
 
     if (!pathCoords || pathCoords.length === 0) {
-        alert('Nu există nicio rută posibilă între acest nod și destinația aleasă. Graful e izolat (traseele nu se unesc)!');
+        console.warn('Nu există nicio rută disponibilă între start și destinația aleasă. Probabil nu există conectivitate între cele 2 noduri.');
         return;
     }
 
@@ -429,5 +512,11 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
     }, 0));
     
     console.log(`Rută prelucrată pe graf având distanța estimată de ${approxDistMeters}m`);
-    alert(`Acesta este drumul cel mai scurt pe graf (Aprox. ${approxDistMeters}m). Succes!`);
+    
+    // Nu folosim alert pe live-routing ca să nu blocăm ecranul (mai ales de la GPS).
+    // Eventual putem updata un element vizual de tipul <div id="route-info"> pe viitor.
+    if (window.isTestMode && typeof routeLayer !== 'undefined' && routeLayer.getLayers().length === 1) {
+        // Opțional o alertă doar pentru Test Mode izolat (la primul click)
+        // alert(`Drumul cel mai scurt: ~${approxDistMeters}m`);
+    }
 }

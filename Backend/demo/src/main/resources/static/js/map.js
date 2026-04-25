@@ -214,7 +214,7 @@ function createBuildingPolygon(building) {
     polygon.on('click', function() {
         displayBuildingDetails(building);
         
-        // Open indoor viewing mode directly
+        // Open indoor viewing mode directly - EXCLUSIV PENTRU MODAL, FĂRĂ RUTARE AICI
         if (typeof window.openFloorPlanViewer === 'function') {
             // Default to floor 0
             window.openFloorPlanViewer(building.name, 0);
@@ -347,6 +347,53 @@ let watchId = null;
 let userMarker = null;
 let accuracyCircle = null;
 
+// Gestiune rotație device
+let currentHeading = 0;
+
+function handleOrientation(event) {
+    let alpha = event.alpha;
+    let webkitHeading = event.webkitCompassHeading;
+    
+    // Fallback and normalizations pt iOS/Android
+    if (webkitHeading) {
+        currentHeading = webkitHeading;
+    } else if (alpha !== null) {
+        // Pentru Android deviceorientationabsolute, alpha arată gradele față de nord (standard: 360 - alpha)
+        currentHeading = 360 - alpha;
+    }
+    
+    if (userMarker && userMarker._icon) {
+        const svgArrow = userMarker._icon.querySelector('.user-direction-svg');
+        if (svgArrow) {
+            svgArrow.style.transform = `rotate(${currentHeading}deg)`;
+        }
+    }
+}
+
+// Hook de rotație general pt busolă
+if ('ondeviceorientationabsolute' in window) {
+    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+} else {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+}
+
+// Custom Icon cu sageată SVG pentru tracking live
+const customUserIcon = L.divIcon({
+    className: 'custom-user-indicator',
+    html: `
+    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+        <!-- SVG-ul (Săgeata) pe care o vom roti dinamic cu deviceorientation -->
+        <svg class="user-direction-svg" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px; transform-origin: center center; position: absolute; top:0; left:0; transition: transform 0.1s linear;">
+            <path d="M 16 0 L 24 16 L 16 12 L 8 16 Z" fill="#e74c3c" stroke="white" stroke-width="1.5" />
+        </svg>
+        <!-- Cercul albastru permanent pt locația fixă -->
+        <div style="width: 14px; height: 14px; background: #3498db; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.5); z-index: 2; position: relative;"></div>
+    </div>
+    `,
+    iconSize: [32, 32],
+    iconAnchor: [16, 16]
+});
+
 // Route lines layer for Dijkstra testing
 let routeLayer = null;
 
@@ -358,6 +405,13 @@ function toggleLocation() {
     const warning = document.getElementById('geo-warning');
 
     if (watchId === null) {
+        // Solicitare permisiune directă (Ex: iOS 13+ pt Gyroscope/Compass)
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission().then(permissionState => {
+                if (permissionState !== 'granted') console.warn('Compass permission denied by user.');
+            }).catch(console.error);
+        }
+
         // Dacă este mod test, simulăm watchId, ascultăm click-ul și nu folosim geolocation
         if (window.isTestMode) {
             watchId = "test_mode";
@@ -394,8 +448,14 @@ function toggleLocation() {
                 if (userMarker) {
                     userMarker.setLatLng(userPoint);
                 } else {
-                    userMarker = L.marker(userPoint).addTo(campusMap);
+                    userMarker = L.marker(userPoint, { icon: customUserIcon }).addTo(campusMap);
                     userMarker.bindPopup("Te afli aici.");
+                }
+
+                // NOU: Actualizare traseu dacă s-a mapat pe o clădire!
+                if (window.currentDestinationPoint && typeof window.calculateRouteTest === 'function') {
+                    window.currentStartPoint = L.latLng(userPoint[0], userPoint[1]);
+                    window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
                 }
 
                 if (accuracyCircle) {
