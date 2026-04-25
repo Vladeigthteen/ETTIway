@@ -347,6 +347,9 @@ let watchId = null;
 let userMarker = null;
 let accuracyCircle = null;
 
+// Route lines layer for Dijkstra testing
+let routeLayer = null;
+
 /**
  * Geolocation toggle function
  */
@@ -355,6 +358,19 @@ function toggleLocation() {
     const warning = document.getElementById('geo-warning');
 
     if (watchId === null) {
+        // Dacă este mod test, simulăm watchId, ascultăm click-ul și nu folosim geolocation
+        if (window.isTestMode) {
+            watchId = "test_mode";
+            
+            if (btn) {
+                btn.style.backgroundColor = 'blue';
+                btn.style.color = 'white';
+                btn.innerText = 'Test Mode: Activ (Click pe hartă)';
+            }
+            alert("Test Mode activat. Fă click oriunde pe hartă pentru a-ți simula poziția de plecare.");
+            return;
+        }
+
         if (!navigator.geolocation) {
             alert("Geolocation nu este suportată de browser-ul tău.");
             return;
@@ -415,8 +431,12 @@ function toggleLocation() {
         );
     } else {
         // Oprește monitorizarea
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
+        if (window.isTestMode) {
+            watchId = null;
+        } else {
+            navigator.geolocation.clearWatch(watchId);
+            watchId = null;
+        }
 
         // Șterge markerul și cercul
         if (userMarker) {
@@ -426,6 +446,9 @@ function toggleLocation() {
         if (accuracyCircle) {
             accuracyCircle.remove();
             accuracyCircle = null;
+        }
+        if (routeLayer) {
+            routeLayer.clearLayers();
         }
 
         // Resetează butonul

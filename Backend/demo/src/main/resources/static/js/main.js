@@ -8,6 +8,31 @@ const CAMPUS_DATA_FILE = 'data/campus.sample.json';
 
 const API_GRAPH_LOAD = '/api/graph/load';
 
+// Variabilă globală pentru modul de test
+window.isTestMode = false;
+let currentStartPoint = null;
+let currentDestinationPoint = null;
+
+// Funcție pentru a activa/dezactiva global Test Mode (din HTML)
+window.toggleTestModeGlobal = function() {
+    window.isTestMode = !window.isTestMode;
+    const btn = document.getElementById('test-mode-btn');
+    if (btn) {
+        if (window.isTestMode) {
+            btn.innerText = 'Dev: Test Mode ON';
+            btn.style.backgroundColor = '#27ae60';
+            alert('Mod Test activat. Click pe butonul "Find Me" pentru a începe simularea.');
+        } else {
+            btn.innerText = 'Dev: Test Mode OFF';
+            btn.style.backgroundColor = '#e67e22';
+            // Oprește simularea dacă rula
+            if (typeof watchId !== 'undefined' && watchId === 'test_mode') {
+                toggleLocation();
+            }
+        }
+    }
+};
+
 /**
  * Load campus data from JSON file (Static background: buildings, boundaries)
  * @returns {Promise<Object>} Promise resolving to object with campus info and buildings array
@@ -224,6 +249,9 @@ async function initialize() {
     // Load the dynamic navigation graph into mapInstance's drawnGroup
     if (mapInstance && mapInstance.drawnGroup) {
         await loadNavigationGraph(mapInstance.drawnGroup);
+        
+        // Mapăm click-urile pe hartă ptr test, indiferent de starea intială - se va bloca la rulare dacă e off
+        setupTestModeRouting(mapInstance.map, mapInstance.drawnGroup);
     }
 
     // Initialize UI components
@@ -246,3 +274,145 @@ function createDrawControls() {
 
 // Start application when DOM is ready
 document.addEventListener('DOMContentLoaded', initialize);
+
+/**
+ * Configure Test Mode click events
+ */
+function setupTestModeRouting(map, graphGroup) {
+    if (!map || !graphGroup) return;
+
+    // La click pe hartă, setăm start-ul SAU destinația în funcție de ce ne lipsește.
+    map.on('click', function(e) {
+        if (!window.isTestMode || typeof watchId === 'undefined' || watchId !== 'test_mode') return;
+
+        // Dacă nu avem punct de start (sau tocmai vrem să reluăm testul) setăm Start
+        if (!currentStartPoint || (currentStartPoint && currentDestinationPoint)) {
+            // Reset state ptr că aveam ambele puncte înainte
+            currentStartPoint = e.latlng;
+            currentDestinationPoint = null;
+            
+            if (typeof routeLayer !== 'undefined' && routeLayer) {
+                routeLayer.clearLayers();
+            }
+
+            console.log("Start Point set via Test Mode:", e.latlng);
+
+            // Mutăm marker-ul de start vizibil 
+            if (typeof userMarker !== 'undefined' && userMarker) {
+                userMarker.setLatLng(e.latlng);
+                if (userMarker.isPopupOpen()) userMarker.closePopup();
+                userMarker.bindPopup("Poziție simulată (Start)").openPopup();
+            } else {
+                userMarker = L.marker(e.latlng).addTo(map);
+                userMarker.bindPopup("Poziție simulată (Start)").openPopup();
+            }
+
+            alert("Punct de plecare setat. Acum apasă pe un nod din graf (sau oriunde pe hartă) pentru destinație.");
+            
+        } else {
+            // Avem start, dar nu avem destinație -> Click-ul va seta destinația!
+            currentDestinationPoint = e.latlng;
+            console.log("Destination Point set via Test Mode:", e.latlng);
+            
+            // Calculăm ruta direct.
+            calculateRouteTest(map, graphGroup, currentStartPoint, currentDestinationPoint);
+        }
+    });
+
+    // Pentru Markerii existenți (din layer), oprim eventul să nu duca către hartă dublu.
+    function setupMarkerClick(layer) {
+        if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
+            layer.on('click', function(e) {
+                if (!window.isTestMode || watchId !== 'test_mode') return;
+                
+                L.DomEvent.stop(e); // Blochează emiterea de propagare catre harta
+
+                if (!currentStartPoint || (currentStartPoint && currentDestinationPoint)) {
+                    // La fel, funcționează ca prim click = start, daca vrei din interiorul nodului.
+                    currentStartPoint = e.latlng;
+                    currentDestinationPoint = null;
+                    
+                    if (typeof routeLayer !== 'undefined' && routeLayer) routeLayer.clearLayers();
+                    
+                    if (typeof userMarker !== 'undefined' && userMarker) {
+                        userMarker.setLatLng(e.latlng);
+                        userMarker.bindPopup("Start (Pe Nod existant)").openPopup();
+                    } else {
+                        userMarker = L.marker(e.latlng).addTo(map);
+                        userMarker.bindPopup("Start (Pe Nod existant)").openPopup();
+                    }
+                    alert("Ai început traseul direct de pe un nod existent. Selectează alt nod / punct ca destinație.");
+                } else {
+                    currentDestinationPoint = e.latlng;
+                    calculateRouteTest(map, graphGroup, currentStartPoint, currentDestinationPoint);
+                }
+            });
+        }
+    }
+
+    // Atașăm pe layerul existent
+    graphGroup.eachLayer(setupMarkerClick);
+
+    // Atașăm pentru orice element o fi adăugat mai târziu 
+    graphGroup.on('layeradd', function(e) {
+        setupMarkerClick(e.layer);
+    });
+}
+
+/**
+ * Call routing implementation pt test
+ */
+function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
+    console.log(`Calculam ruta (Dijkstra pe graf real) de la ${startLatLng} catre ${endLatLng}`);
+    
+    if (typeof routeLayer !== 'undefined' && !routeLayer) {
+        routeLayer = L.layerGroup().addTo(map);
+    } else if (routeLayer) {
+        routeLayer.clearLayers();
+    }
+
+    const geoJSON = graphGroup.toGeoJSON();
+    
+    // Extragem graful prin `routing.js` care mapează totul
+    const { graph, nodesMap } = buildGraphFromGeoJSON(geoJSON);
+    
+    if (Object.keys(nodesMap).length === 0) {
+        alert('Eroare: Graful este gol. Te rog să desenezi manual segmente (Linii / Puncte) și să-l salvezi/încarci.');
+        return;
+    }
+
+    const startKey = findNearestNode(startLatLng, nodesMap);
+    const endKey = findNearestNode(endLatLng, nodesMap);
+
+    if (!startKey || !endKey) {
+        alert('Nu s-au putut găsi noduri în interiorul grafului.');
+        return;
+    }
+
+    // Logica completă dijkstra generatoare de polylines perfecte
+    const pathCoords = runDijkstra(graph, nodesMap, startKey, endKey);
+
+    if (!pathCoords || pathCoords.length === 0) {
+        alert('Nu există nicio rută posibilă între acest nod și destinația aleasă. Graful e izolat (traseele nu se unesc)!');
+        return;
+    }
+
+    const path = L.polyline(pathCoords, {
+        color: '#FF3333',    // Roșu distinct și puternic (schimbat din albastru)
+        weight: 8,           // Puțin mai gros pentru vizibilitate
+        opacity: 0.9,
+        lineJoin: 'round',
+        lineCap: 'round'
+    }).addTo(routeLayer);
+    
+    // Focus vizual
+    map.fitBounds(path.getBounds(), { padding: [50, 50] });
+    
+    const approxDistMeters = Math.round(pathCoords.reduce((acc, curr, idx) => {
+        if (idx === 0) return acc;
+        return acc + pathCoords[idx - 1].distanceTo(curr);
+    }, 0));
+    
+    console.log(`Rută prelucrată pe graf având distanța estimată de ${approxDistMeters}m`);
+    alert(`Acesta este drumul cel mai scurt pe graf (Aprox. ${approxDistMeters}m). Succes!`);
+}
