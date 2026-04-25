@@ -53,27 +53,24 @@ function addCustomControls(map, drawnItems) {
     const Control = L.Control.extend({
         options: { position: 'topright' },
         onAdd: function() {
-            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-            container.style.backgroundColor = 'white';
-            container.style.padding = '5px';
-            container.style.display = 'flex';
-            container.style.flexDirection = 'column';
-            container.style.gap = '5px';
+            const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control admin-graph-controls');
 
             // Buton ERASE
             const eraseBtn = document.createElement('button');
             eraseBtn.innerHTML = '🗑️ Erase Graph';
-            eraseBtn.style.color = 'red';
+            eraseBtn.className = 'admin-btn erase-btn';
             eraseBtn.onclick = () => eraseGraph(drawnItems);
 
             // Buton SAVE
             const saveBtn = document.createElement('button');
             saveBtn.innerText = '💾 Save Graph';
+            saveBtn.className = 'admin-btn';
             saveBtn.onclick = () => saveGraph(drawnItems);
 
             // Buton LOAD
             const loadBtn = document.createElement('button');
             loadBtn.innerText = '📂 Load Graph';
+            loadBtn.className = 'admin-btn';
             loadBtn.onclick = () => loadGraph(drawnItems);
 
             container.appendChild(eraseBtn);
