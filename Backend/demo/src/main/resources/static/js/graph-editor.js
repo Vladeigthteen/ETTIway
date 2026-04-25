@@ -11,8 +11,12 @@ const API_LOAD_ENDPOINT = '/api/graph/load';
  */
 function initGraphEditor(map, drawnItems) {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('edit') !== '1') {
-        console.log("Graph Editor disabled (edit mode off)");
+    const isEditMode = params.get('edit') === '1';
+
+    if (!isEditMode) {
+        console.log("Graph Editor UI disabled (edit mode off). Pre-loading navigation graph in memory...");
+        // Încărcăm graful în ascuns, doar pentru a alimenta `window.navigationData` și algoritmul de rutare
+        loadGraph(drawnItems);
         return;
     }
 
@@ -151,37 +155,53 @@ async function saveGraph(drawnItems) {
  * FUNCȚIA DE ÎNCĂRCARE
  */
 async function loadGraph(drawnItems) {
+    const isEditMode = new URLSearchParams(window.location.search).get('edit') === '1';
+
     try {
         const response = await fetch(API_LOAD_ENDPOINT);
         if (response.ok) {
             const textJSON = await response.text();
             
-            // Asigură-te că loadGraph lasă harta curată dacă e goală DB
-            drawnItems.clearLayers();
+            // Asigură-te că loadGraph lasă harta curată dacă e goală DB (doar în edit mode)
+            if (isEditMode && drawnItems) {
+                drawnItems.clearLayers();
+            }
+
             if (!textJSON || textJSON.trim() === '{}' || textJSON.trim() === '') {
-                alert('Nu există graf salvat (Harta este goală).');
+                window.navigationData = null;
+                if (isEditMode) alert('Nu există graf salvat (Harta este goală).');
                 return;
             }
             
             const geoJSON = JSON.parse(textJSON);
             
+            // Salvăm datele în variabila ascunsă globală (pentru rutare)
+            window.navigationData = geoJSON;
+            
             // Suplimentar: dacă backend-ul a reîntors un Features list gol "{"type": "FeatureCollection", "features": []}"
             if (!geoJSON || Object.keys(geoJSON).length === 0 || (geoJSON.features && geoJSON.features.length === 0)) {
-                alert('Nu există elemente în graful salvat anterior.');
+                if (isEditMode) alert('Nu există elemente în graful salvat anterior.');
                 return;
             }
 
-            L.geoJSON(geoJSON, {
-                onEachFeature: (feature, layer) => {
-                    drawnItems.addLayer(layer);
-                }
-            });
-            alert('Graful a fost încărcat din baza de date!');
+            // Dacă suntem în modul de editare, desenăm pe hartă
+            if (isEditMode) {
+                L.geoJSON(geoJSON, {
+                    onEachFeature: (feature, layer) => {
+                        if (drawnItems) drawnItems.addLayer(layer);
+                    }
+                });
+                alert('Graful a fost încărcat din baza de date!');
+            } else {
+                console.log('Graful a fost încărcat în memorie (navigationData), dar este ascuns pe hartă.');
+            }
         } else {
-            alert('A survenit o problemă la interogarea grafului.');
+            console.error('A survenit o problemă la interogarea grafului.');
+            if (isEditMode) alert('A survenit o problemă la interogarea grafului.');
         }
     } catch (error) {
-        alert('Eroare la încărcare.');
+        console.error('Eroare la încărcare.', error);
+        if (isEditMode) alert('Eroare la încărcare.');
     }
 }
 

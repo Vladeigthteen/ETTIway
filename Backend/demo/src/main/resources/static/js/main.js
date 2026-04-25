@@ -57,8 +57,10 @@ async function loadCampusData() {
  * Load dynamic navigation graph from database
  */
 async function loadNavigationGraph(drawnItems) {
+    const isEditMode = new URLSearchParams(window.location.search).get('edit') === '1';
+
     try {
-        const dbResponse = await fetch(API_GRAPH_LOAD);
+        const dbResponse = await fetch('/api/graph/load');
         if (dbResponse.ok) {
             const dbData = await dbResponse.text();
             
@@ -66,16 +68,25 @@ async function loadNavigationGraph(drawnItems) {
             if (dbData && dbData.trim() !== '{}' && dbData.trim() !== '') {
                 const parsedData = JSON.parse(dbData);
                 
+                // Salvăm intern
+                window.navigationData = parsedData;
+
                 // Asigurare extra contra DB-ului returnând un template gol `{"type": "FeatureCollection", "features": []}`
                 if (parsedData && parsedData.features && parsedData.features.length > 0) {
-                    L.geoJSON(parsedData, {
-                        onEachFeature: (feature, layer) => {
-                            if (drawnItems && drawnItems.addLayer) {
-                                drawnItems.addLayer(layer);
+                    
+                    // Adăugăm vizual DOAR dacă suntem în Edit Mode
+                    if (isEditMode) {
+                        L.geoJSON(parsedData, {
+                            onEachFeature: (feature, layer) => {
+                                if (drawnItems && drawnItems.addLayer) {
+                                    drawnItems.addLayer(layer);
+                                }
                             }
-                        }
-                    });
-                    console.log('Graph data loaded successfully from Database', parsedData);
+                        });
+                        console.log('Graph data loaded successfully and DRAWN on map (Edit Mode)', parsedData);
+                    } else {
+                        console.log('Graph data loaded successfully in MEMORY (User Mode)', parsedData);
+                    }
                 } else {
                     console.log('Database returned graph structure with empty features.');
                 }
@@ -371,7 +382,11 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         routeLayer.clearLayers();
     }
 
-    const geoJSON = graphGroup.toGeoJSON();
+    // Luăm geoJSON din variabila globală (pre-încărcată) SAU reconstruim din grup dacă edităm direct
+    let geoJSON = window.navigationData;
+    if (!geoJSON || geoJSON.features.length === 0) {
+        geoJSON = graphGroup.toGeoJSON();
+    }
     
     // Extragem graful prin `routing.js` care mapează totul
     const { graph, nodesMap } = buildGraphFromGeoJSON(geoJSON);
