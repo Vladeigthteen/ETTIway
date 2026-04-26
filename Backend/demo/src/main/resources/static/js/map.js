@@ -5,6 +5,17 @@ let buildingsLayer;
 let buildingsData = [];
 let entrancesLayer;
 
+let shouldAutoCenter = true; // NEW: global flag to track if we should auto-center
+
+function recenterMap() {
+    shouldAutoCenter = true;
+    const btn = document.getElementById('recenter-btn');
+    if (btn) btn.style.display = 'none';
+    if (typeof userMarker !== 'undefined' && userMarker) {
+        campusMap.flyTo(userMarker.getLatLng(), 19);
+    }
+}
+
 const STYLES = {};
 
 /**
@@ -29,6 +40,20 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
         maxZoom: 20,
         minZoom: 14
     }).addTo(campusMap);
+    
+    // NEW: Listen for manual map interactions to halt auto-centering
+    function stopAutoCenter(e) {
+        if (e.originalEvent) { // Verifica daca a fost triggeruita de o actiune reala a utilizatorului
+            shouldAutoCenter = false;
+            const btn = document.getElementById('recenter-btn');
+            if (btn && typeof watchId !== 'undefined' && watchId !== null) { 
+                btn.style.display = 'block'; 
+            }
+        }
+    }
+    campusMap.on('dragstart', stopAutoCenter);
+    campusMap.on('zoomstart', stopAutoCenter);
+    campusMap.on('mousedown', stopAutoCenter);
     
     // Create a layer group for buildings (allows easy management)
     buildingsLayer = L.layerGroup().addTo(campusMap);
@@ -411,6 +436,10 @@ function toggleLocation() {
         if (window.isTestMode) {
             watchId = "test_mode";
             
+            shouldAutoCenter = true;
+            let recenterBtn = document.getElementById('recenter-btn');
+            if (recenterBtn) recenterBtn.style.display = 'none';
+            
             if (btn) {
                 btn.style.backgroundColor = 'blue';
                 btn.style.color = 'white';
@@ -431,6 +460,10 @@ function toggleLocation() {
             btn.style.color = 'white';
             btn.innerText = 'Activ';
         }
+
+        shouldAutoCenter = true;
+        let recenterBtn = document.getElementById('recenter-btn');
+        if (recenterBtn) recenterBtn.style.display = 'none';
 
         watchId = navigator.geolocation.watchPosition(
             (position) => {
@@ -477,7 +510,9 @@ function toggleLocation() {
                     }
                 }
 
-                campusMap.setView(userPoint, 19);
+                if (shouldAutoCenter) {
+                    campusMap.setView(userPoint, 19);
+                }
             },
             (error) => {
                 console.error("Eroare de localizare:", error);
@@ -512,6 +547,9 @@ function toggleLocation() {
             btn.style.color = 'white';
             btn.innerText = 'Find Me';
         }
+        
+        let recenterBtn = document.getElementById('recenter-btn');
+        if (recenterBtn) recenterBtn.style.display = 'none';
         
         if (warning) warning.style.display = 'none';
     }
