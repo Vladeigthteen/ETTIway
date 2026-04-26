@@ -119,18 +119,27 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     fitMobileMapToBounds();
     
     // NEW: Listen for manual map interactions to halt auto-centering
-    function stopAutoCenter(e) {
-        if (e.originalEvent) { // Verifica daca a fost triggeruita de o actiune reala a utilizatorului
-            shouldAutoCenter = false;
-            const btn = document.getElementById('recenter-btn');
-            if (btn && typeof watchId !== 'undefined' && watchId !== null) { 
-                btn.style.display = 'block'; 
-            }
+    let manualMapInteraction = false;
+
+    function markManualInteraction() {
+        manualMapInteraction = true;
+    }
+
+    function stopAutoCenter() {
+        if (!manualMapInteraction) return;
+        manualMapInteraction = false;
+
+        shouldAutoCenter = false;
+        const btn = document.getElementById('recenter-btn');
+        if (btn && typeof watchId !== 'undefined' && watchId !== null) {
+            btn.style.display = 'flex';
         }
     }
-    campusMap.on('dragstart', stopAutoCenter);
+
+    campusMap.on('movestart', stopAutoCenter);
     campusMap.on('zoomstart', stopAutoCenter);
-    campusMap.on('mousedown', stopAutoCenter);
+    campusMap.on('mousedown', markManualInteraction);
+    campusMap.on('touchstart', markManualInteraction);
     
     // Create a layer group for buildings (allows easy management)
     buildingsLayer = L.layerGroup().addTo(campusMap);

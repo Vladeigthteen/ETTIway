@@ -402,6 +402,28 @@ body.sidebar-collapsed #sidebar > * {
         line-height: 1;
     }
 
+    #recenter-btn {
+        position: fixed !important;
+        top: 66px;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        background: rgba(255, 255, 255, 0.98);
+        color: #1d4ed8;
+        box-shadow: 0 10px 22px rgba(15, 23, 42, 0.18);
+        z-index: 2150;
+    }
+
+    #recenter-btn::before {
+        content: '◎';
+        font-size: 19px;
+        line-height: 1;
+        font-weight: 700;
+    }
+
     #test-mode-btn {
         left: 16px !important;
         bottom: 24px !important;
