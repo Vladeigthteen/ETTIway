@@ -16,6 +16,54 @@ function recenterMap() {
     }
 }
 
+function setupMobileResponsiveLayout() {
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    const sidebar = document.getElementById('sidebar');
+    const searchContainer = document.querySelector('#sidebar .search-container');
+    const mobileSearchContainer = document.getElementById('mobile-search-container');
+    const searchInput = document.getElementById('search-input');
+    const roomDetails = document.getElementById('room-details');
+
+    if (!sidebar || !searchContainer || !mobileSearchContainer || !searchInput) {
+        return;
+    }
+
+    function syncSearchPlacement() {
+        if (mobileQuery.matches) {
+            if (!mobileSearchContainer.contains(searchContainer)) {
+                mobileSearchContainer.appendChild(searchContainer);
+            }
+        } else {
+            if (!sidebar.contains(searchContainer)) {
+                sidebar.insertBefore(searchContainer, roomDetails || sidebar.firstChild);
+            }
+            document.body.classList.remove('sidebar-open');
+        }
+
+        if (campusMap) {
+            setTimeout(() => campusMap.invalidateSize(), 220);
+        }
+    }
+
+    function openMobileBottomSheet() {
+        if (mobileQuery.matches) {
+            document.body.classList.add('sidebar-open');
+        }
+    }
+
+    searchInput.addEventListener('focus', openMobileBottomSheet);
+    searchInput.addEventListener('input', openMobileBottomSheet);
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', syncSearchPlacement);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(syncSearchPlacement);
+    }
+
+    window.addEventListener('resize', syncSearchPlacement);
+    syncSearchPlacement();
+}
+
 const STYLES = {};
 
 /**
@@ -40,6 +88,8 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
         maxZoom: 20,
         minZoom: 14
     }).addTo(campusMap);
+
+    setupMobileResponsiveLayout();
     
     // NEW: Listen for manual map interactions to halt auto-centering
     function stopAutoCenter(e) {

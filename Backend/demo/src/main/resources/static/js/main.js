@@ -86,6 +86,9 @@ function populateBuildingList(buildings) {
         item.addEventListener('click', () => {
             focusOnBuilding(building);
             displayBuildingDetails(building);
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('sidebar-open');
+            }
         });
         listContainer.appendChild(item);
     });
@@ -303,6 +306,9 @@ function initializeSearch() {
                 }
             } else {
                 await showAppAlert(`Conectare GPS în așteptare... Destinația (${finalBuildingName}) e setată. Când poziția va fi activată, ruta se va calcula. Puteți folosi și "Find Me".`);
+            }
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('sidebar-open');
             }
         } else {
             await showAppAlert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici cu fallback vizual.`);
