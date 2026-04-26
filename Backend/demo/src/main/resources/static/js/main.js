@@ -484,13 +484,86 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         alert('Eroare: Graful este gol. Te rog să desenezi manual segmente (Linii / Puncte) și să-l salvezi/încarci.');
         return;
     }
-    const startKey = findNearestNode(startLatLng, nodesMap);
+
     const endKey = findNearestNode(endLatLng, nodesMap);
-    if (!startKey || !endKey) {
-        alert('Nu s-au putut găsi noduri în interiorul grafului.');
+    const fallbackNode = findNearestNode(startLatLng, nodesMap);
+
+    // Creare Virtual Start Node bazat pe locația utilizatorului
+    const startKey = 'VIRTUAL_START_NODE';
+    nodesMap[startKey] = startLatLng;
+    graph[startKey] = [];
+    
+    let closestEdge = null;
+    let minPixDist = Infinity;
+    const p0 = map.project(startLatLng);
+    const seenEdges = new Set();
+    
+    // Căutare cel mai apropiat segment (A-B)
+    for (const nodeKey in graph) {
+        if (nodeKey === startKey) continue;
+        const p1LatLng = nodesMap[nodeKey];
+        if (!p1LatLng) continue;
+        const p1 = map.project(p1LatLng);
+        
+        for (const edge of graph[nodeKey]) {
+            const tempNode = edge.node;
+            if (tempNode === startKey) continue;
+            
+            const edgeId = nodeKey < tempNode ? `${nodeKey}-${tempNode}` : `${tempNode}-${nodeKey}`;
+            if (seenEdges.has(edgeId)) continue;
+            seenEdges.add(edgeId);
+            
+            const p2LatLng = nodesMap[tempNode];
+            if (!p2LatLng) continue;
+            const p2 = map.project(p2LatLng);
+            
+            // Folosim L.LineUtil furnizat de Leaflet pentru distanța punct-segment
+            const dist = L.LineUtil.pointToSegmentDistance(p0, p1, p2);
+            if (dist < minPixDist) {
+                minPixDist = dist;
+                closestEdge = { A: nodeKey, B: tempNode };
+            }
+        }
+    }
+    
+    // Conectăm nodul virtual la segmentul cel mai apropiat, luând în calcul costurile (Haversine)
+    if (closestEdge) {
+        const distA = startLatLng.distanceTo(nodesMap[closestEdge.A]);
+        const distB = startLatLng.distanceTo(nodesMap[closestEdge.B]);
+        
+        graph[startKey].push({ node: closestEdge.A, weight: distA });
+        graph[startKey].push({ node: closestEdge.B, weight: distB });
+        graph[closestEdge.A].push({ node: startKey, weight: distA });
+        graph[closestEdge.B].push({ node: startKey, weight: distB });
+    } else {
+        // Fallback: doar puncte izolate
+        if (fallbackNode) {
+            const dist = startLatLng.distanceTo(nodesMap[fallbackNode]);
+            graph[startKey].push({ node: fallbackNode, weight: dist });
+            graph[fallbackNode].push({ node: startKey, weight: dist });
+            closestEdge = { A: fallbackNode, B: null };
+        }
+    }
+
+    if (!endKey) {
+        alert('Nu s-au putut găsi noduri în interiorul grafului pentru destinație.');
         return;
     }
+
     const pathCoords = runDijkstra(graph, nodesMap, startKey, endKey);
+    
+    // Cleanup: Eliminăm nodul virtual și muchiile sale temporare din structura grafului
+    if (closestEdge) {
+        if (closestEdge.A && graph[closestEdge.A]) {
+            graph[closestEdge.A] = graph[closestEdge.A].filter(e => e.node !== startKey);
+        }
+        if (closestEdge.B && graph[closestEdge.B]) {
+            graph[closestEdge.B] = graph[closestEdge.B].filter(e => e.node !== startKey);
+        }
+    }
+    delete graph[startKey];
+    delete nodesMap[startKey];
+
     if (!pathCoords || pathCoords.length === 0) {
         console.warn('Nu există nicio rută disponibilă între start și destinația aleasă. Probabil nu există conectivitate între cele 2 noduri.');
         return;
