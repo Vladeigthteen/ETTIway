@@ -6,6 +6,8 @@ let buildingsData = [];
 let entrancesLayer;
 
 let shouldAutoCenter = true; // NEW: global flag to track if we should auto-center
+let geoWarningTimeout = null;
+let geoWarningShownThisSession = false;
 
 function recenterMap() {
     shouldAutoCenter = true;
@@ -64,6 +66,30 @@ function setupMobileResponsiveLayout() {
     syncSearchPlacement();
 }
 
+function showCampusWarning(message) {
+    const warning = document.getElementById('geo-warning');
+    if (!warning) return;
+
+    warning.textContent = message;
+    warning.style.display = 'block';
+
+    if (geoWarningTimeout) {
+        clearTimeout(geoWarningTimeout);
+    }
+
+    if (window.innerWidth <= 768) {
+        geoWarningTimeout = window.setTimeout(() => {
+            warning.style.display = 'none';
+        }, 3000);
+    }
+}
+
+function fitMobileMapToBounds() {
+    if (window.innerWidth > 768 || !campusMap || !MAP_BOUNDS) return;
+    campusMap.fitBounds(MAP_BOUNDS, { padding: [18, 18] });
+    setTimeout(() => campusMap.invalidateSize(), 120);
+}
+
 const STYLES = {};
 
 /**
@@ -90,6 +116,7 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     }).addTo(campusMap);
 
     setupMobileResponsiveLayout();
+    fitMobileMapToBounds();
     
     // NEW: Listen for manual map interactions to halt auto-centering
     function stopAutoCenter(e) {
@@ -512,6 +539,7 @@ function toggleLocation() {
         }
 
         shouldAutoCenter = true;
+        geoWarningShownThisSession = false;
         let recenterBtn = document.getElementById('recenter-btn');
         if (recenterBtn) recenterBtn.style.display = 'none';
 
@@ -553,14 +581,23 @@ function toggleLocation() {
 
                 // Verifică dacă userul este în CAMPUS_POINTS
                 if (boundary && boundary.length >= 3) {
-                    if (isPointInPolygon(userPoint, boundary)) {
+                    const isInsideCampus = isPointInPolygon(userPoint, boundary);
+                    if (isInsideCampus) {
                         if (warning) warning.style.display = 'none';
+                        geoWarningShownThisSession = false;
                     } else {
-                        if (warning) warning.style.display = 'block';
+                        if (!geoWarningShownThisSession) {
+                            showCampusWarning('Atenție: ești în afara campusului.');
+                            geoWarningShownThisSession = true;
+                        }
+                    }
+
+                    if (!isInsideCampus) {
+                        shouldAutoCenter = false;
                     }
                 }
 
-                if (shouldAutoCenter) {
+                if (shouldAutoCenter && (!boundary || boundary.length < 3 || isPointInPolygon(userPoint, boundary))) {
                     campusMap.setView(userPoint, 19);
                 }
             },
@@ -602,6 +639,11 @@ function toggleLocation() {
         if (recenterBtn) recenterBtn.style.display = 'none';
         
         if (warning) warning.style.display = 'none';
+        geoWarningShownThisSession = false;
+        if (geoWarningTimeout) {
+            clearTimeout(geoWarningTimeout);
+            geoWarningTimeout = null;
+        }
     }
 }
 

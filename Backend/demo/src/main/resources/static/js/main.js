@@ -100,6 +100,26 @@ const buildingMap = {
     'cantina': 'intrare Cantina',
     'camin leu a': 'Intrare Camin LEU A'
 };
+function isMobileViewport() {
+    return window.innerWidth <= 768;
+}
+
+function shortenPopupMessage(message) {
+    if (!isMobileViewport()) return message;
+
+    return message
+        .replace(/^Vrei să navighezi către:\s*/i, 'Mergi către: ')
+        .replace(/^S-au găsit mai multe intrări pentru clădirea aleasă\. Alege una dintre ele:\s*/i, 'Alege o intrare: ')
+        .replace(/^S-a dedus o intrare aproximativă pentru:\s*/i, 'Intrare aproximativă: ')
+        .replace(/\. Confirmare navigare\?/i, '?')
+        .replace(/^Conectare GPS în așteptare\.\.\.\s*/i, 'GPS încă nu e activ. ')
+        .replace(/\. Când poziția va fi activată, ruta se va calcula\. Puteți folosi și "Find Me"\./i, '.')
+        .replace(/^Clădirea '.*?' nu a putut fi localizată nici după nume explicit, nici cu fallback vizual\./i, 'Clădirea nu a fost găsită.')
+        .replace(/^Punct de plecare setat\. Acum apasă pe un nod din graf \(sau oriunde pe hartă\) pentru destinație\./i, 'Start setat. Alege destinația.')
+        .replace(/^Eroare: Graful este gol\. Te rog să desenezi manual segmente \(Linii \/ Puncte\) și să-l salvezi\/încarci\./i, 'Graful este gol.')
+        .replace(/^Nu s-au putut găsi noduri în interiorul grafului pentru destinație\./i, 'Nu există noduri pentru destinație.');
+}
+
 function showAppConfirm(message) {
     return new Promise((resolve) => {
         const overlay = document.createElement('div');
@@ -114,7 +134,7 @@ function showAppConfirm(message) {
             boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
         });
         const text = document.createElement('p');
-        text.innerText = message;
+        text.innerText = shortenPopupMessage(message);
         text.style.color = '#333';
         text.style.marginBottom = '20px';
         text.style.lineHeight = '1.4';
@@ -151,7 +171,7 @@ function showAppPrompt(message, choices) {
             boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
         });
         const text = document.createElement('p');
-        text.innerText = message;
+        text.innerText = shortenPopupMessage(message);
         text.style.color = '#333';
         const select = document.createElement('select');
         Object.assign(select.style, { width: '100%', padding: '10px', marginTop: '10px', marginBottom: '20px', borderRadius: '4px' });
@@ -183,8 +203,10 @@ function showAppPrompt(message, choices) {
 }
 function showAppAlert(message) {
     return new Promise((resolve) => {
-        if (typeof showToast === 'function') {
-            showToast(message, 'info');
+        const displayMessage = shortenPopupMessage(message);
+
+        if (typeof showToast === 'function' && !isMobileViewport()) {
+            showToast(displayMessage, 'info');
             resolve();
             return;
         }
@@ -196,19 +218,29 @@ function showAppAlert(message) {
         });
         const box = document.createElement('div');
         Object.assign(box.style, {
-            backgroundColor: 'white', padding: '20px', borderRadius: '8px', 
-            boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: '90%', maxWidth: '350px', textAlign: 'center'
+            backgroundColor: 'white', padding: isMobileViewport() ? '16px' : '20px', borderRadius: '12px', 
+            boxShadow: '0 4px 6px rgba(0,0,0,0.3)', width: isMobileViewport() ? '84%' : '90%', maxWidth: '350px', textAlign: 'center'
         });
         const text = document.createElement('p');
-        text.innerText = message;
+        text.innerText = displayMessage;
         text.style.color = '#333';
-        text.style.marginBottom = '20px';
-        const btnYes = document.createElement('button');
-        btnYes.innerText = 'OK';
-        Object.assign(btnYes.style, { padding: '10px 20px', border: 'none', borderRadius: '4px', backgroundColor: '#3498db', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
-        btnYes.onclick = () => { overlay.remove(); resolve(); };
+        text.style.marginBottom = isMobileViewport() ? '0' : '20px';
         box.appendChild(text);
-        box.appendChild(btnYes);
+
+        if (!isMobileViewport()) {
+            const btnYes = document.createElement('button');
+            btnYes.innerText = 'OK';
+            Object.assign(btnYes.style, { padding: '10px 20px', border: 'none', borderRadius: '4px', backgroundColor: '#3498db', color: 'white', cursor: 'pointer', fontWeight: 'bold' });
+            btnYes.onclick = () => { overlay.remove(); resolve(); };
+            box.appendChild(btnYes);
+        } else {
+            window.setTimeout(() => {
+                if (overlay.parentNode) {
+                    overlay.remove();
+                    resolve();
+                }
+            }, 3000);
+        }
         overlay.appendChild(box);
         document.body.appendChild(overlay);
     });
@@ -575,7 +607,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         return;
     }
     const path = L.polyline(pathCoords, {
-        color: '#FF3333',    // Roșu distinct și puternic (schimbat din albastru)
+        color: '#460DFA',    // Culoarea cerută pentru rută
         weight: 8,           // Puțin mai gros pentru vizibilitate
         opacity: 0.9,
         lineJoin: 'round',

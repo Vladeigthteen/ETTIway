@@ -234,6 +234,10 @@ body.sidebar-collapsed #sidebar > * {
         box-shadow: 0 12px 32px rgba(15, 23, 42, 0.22);
     }
 
+    .sidebar-toggle {
+        display: none;
+    }
+
     #sidebar {
         position: fixed;
         top: auto;
@@ -330,17 +334,19 @@ body.sidebar-collapsed #sidebar > * {
 
     .room-item-name {
         font-size: 15px;
+        color: #0f172a;
     }
 
     .room-item-building {
         font-size: 12px;
         line-height: 1.35;
+        color: #475569;
     }
 
     .leaflet-control-zoom {
         position: fixed !important;
         right: 16px;
-        bottom: 158px;
+        bottom: 88px;
         top: auto !important;
         left: auto !important;
         z-index: 1900;
@@ -362,9 +368,9 @@ body.sidebar-collapsed #sidebar > * {
         left: auto !important;
         transform: none !important;
         border-radius: 50% !important;
-        width: 56px;
-        height: 56px;
-        min-width: 56px;
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
         padding: 0;
         display: flex;
         align-items: center;
@@ -375,24 +381,24 @@ body.sidebar-collapsed #sidebar > * {
 
     #find-me-btn {
         right: 16px;
-        bottom: 24px;
+        bottom: 150px;
         background: #1d4ed8;
     }
 
     #find-me-btn::before {
         content: '◎';
-        font-size: 22px;
+        font-size: 18px;
         line-height: 1;
     }
 
     #recenter-btn {
         right: 16px;
-        bottom: 92px;
+        bottom: 202px;
     }
 
     #recenter-btn::before {
         content: '↺';
-        font-size: 20px;
+        font-size: 17px;
         line-height: 1;
     }
 
@@ -404,16 +410,27 @@ body.sidebar-collapsed #sidebar > * {
     }
 
     #geo-warning {
+        position: fixed !important;
         left: 10px;
         right: 10px;
-        top: 68px;
+        top: 68px !important;
         transform: none;
         width: auto;
         font-size: 13px;
     }
 
     .leaflet-bottom .leaflet-control-attribution {
-        margin-bottom: 180px;
+        position: fixed !important;
+        right: 10px;
+        left: auto !important;
+        bottom: 10px;
+        margin-bottom: 0;
+        text-align: right;
+        max-width: calc(100vw - 20px);
+        font-size: 10px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 2px 6px;
+        border-radius: 6px;
     }
 }
 .leaflet-popup-content-wrapper {
