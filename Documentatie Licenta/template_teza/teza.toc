@@ -1,5 +1,5 @@
 \babel@toc {romanian}{}\relax 
-\contentsline {unnumberedsection}{Lista acronimelor}{vi}{chapter*.2}%
+\contentsline {unnumberedsection}{Lista acronimelor}{vii}{chapter*.2}%
 \contentsline {chapter}{Introducere}{1}{chapter*.3}%
 \contentsline {section}{\numberline {0.1}Contextul Proiectului}{1}{section.0.1}%
 \contentsline {section}{\numberline {0.2}Motivația și Obiectivele}{1}{section.0.2}%
@@ -15,11 +15,37 @@
 \contentsline {subsection}{\numberline {1.3.1}Sisteme de coordonate și sisteme de referință spațială}{6}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}Reprezentarea geometriilor: WKT și WKB}{6}{subsection.1.3.2}%
 \contentsline {subsection}{\numberline {1.3.3}OpenStreetMap ca sursă de date}{6}{subsection.1.3.3}%
-\contentsline {section}{\numberline {1.4}Arhitecturi de aplicații web}{7}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}Separarea frontend–backend}{7}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Servicii REST și formatul JSON}{7}{subsection.1.4.2}%
-\contentsline {section}{\numberline {1.5}Tehnologii utilizate în implementare}{8}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Spring Boot pentru backend}{8}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}Leaflet și JavaScript pentru frontend}{8}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}Organizarea datelor și extensibilitatea}{9}{subsection.1.5.3}%
-\contentsline {section}{\numberline {1.6}Concluziile capitolului}{9}{section.1.6}%
+\contentsline {section}{\numberline {1.4}Poziționarea și localizarea utilizatorului}{7}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Sistemul de poziționare globală}{7}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Precizia și limitările localizării}{8}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Algoritmi de determinare a drumului minim}{8}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Modelarea problemei prin grafuri}{8}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Algoritmul lui Dijkstra}{9}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Performanță și optimizări}{9}{subsection.1.5.3}%
+\contentsline {section}{\numberline {1.6}Interfețe pentru dispozitive mobile}{9}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Arhitecturi de aplicații web}{10}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}Separarea frontend–backend}{10}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.2}Servicii REST și formatul JSON}{11}{subsection.1.7.2}%
+\contentsline {section}{\numberline {1.8}Tehnologii utilizate în implementare}{11}{section.1.8}%
+\contentsline {subsection}{\numberline {1.8.1}Spring Boot pentru backend}{11}{subsection.1.8.1}%
+\contentsline {subsection}{\numberline {1.8.2}Leaflet și JavaScript pentru frontend}{12}{subsection.1.8.2}%
+\contentsline {subsection}{\numberline {1.8.3}Organizarea datelor și extensibilitatea}{12}{subsection.1.8.3}%
+\contentsline {section}{\numberline {1.9}Concluziile capitolului}{12}{section.1.9}%
+\contentsline {chapter}{\numberline {2}Arhitectura sistemului}{14}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Vedere de ansamblu asupra arhitecturii}{14}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Nivelul de servicii (backend)}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Punctul de intrare al aplicației}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Accesul la date prin JPA}{15}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Nivelul de date}{16}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Entitatea utilizator}{16}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Entitatea pentru datele hărții}{17}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Securitate: autentificare și autorizare}{17}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Criptarea parolelor}{17}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Configurarea regulilor de acces}{18}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Încărcarea utilizatorilor și inițializarea contului de administrator}{18}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Nivelul de prezentare (frontend)}{19}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Inițializarea hărții și delimitarea zonei}{20}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Construirea grafului de navigare}{20}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul lui Dijkstra}{21}{subsection.2.5.3}%
+\contentsline {section}{\numberline {2.6}Fluxul de comunicare între componente}{22}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Concluziile capitolului}{22}{section.2.7}%

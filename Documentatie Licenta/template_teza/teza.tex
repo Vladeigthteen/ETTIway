@@ -50,6 +50,16 @@
     tabsize=2
 }
 \lstset{style=mystyle}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, const, default, delete, do, else, false, finally, for, function, if, in, instanceof, let, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`,
+  sensitive=true
+}
  
 \begin{document}
  
@@ -322,6 +332,159 @@ care nu prezintă interes pentru aplicație. Organizarea atentă a stratului de
 date reprezintă, de altfel, o parte semnificativă a contribuției proprii
 descrise în lucrare.
  
+\section{Poziționarea și localizarea utilizatorului}
+\label{sec:pozitionare}
+ 
+Pe lângă reprezentarea statică a infrastructurii campusului, un sistem de
+navigare complet trebuie să poată determina poziția curentă a utilizatorului și
+să o raporteze la harta afișată. Această capabilitate transformă harta dintr-un
+simplu instrument de consultare într-un asistent de navigare contextual, capabil
+să indice nu doar unde se află o destinație, ci și cum poate fi atinsă pornind
+din locația curentă.
+ 
+\subsection{Sistemul de poziționare globală}
+\label{subsec:gps}
+ 
+Determinarea poziției în spațiul exterior se bazează, în mod tipic, pe sistemul
+de poziționare globală (GPS), o infrastructură de sateliți care permite unui
+receptor să își calculeze coordonatele pe baza semnalelor recepționate. Fiecare
+satelit transmite continuu informații privind poziția sa și momentul exact al
+emisiei; receptorul măsoară diferențele de timp dintre semnalele provenite de la
+mai mulți sateliți și, prin triangulație, deduce propria poziție în coordonate de
+latitudine și longitudine. Pentru o estimare bidimensională a poziției sunt
+necesare semnale de la cel puțin trei sateliți, iar pentru includerea altitudinii
+este necesar un al patrulea.
+ 
+În aplicațiile web, accesul la poziția dispozitivului nu se realizează direct cu
+hardware-ul GPS, ci printr-o interfață standardizată pusă la dispoziție de
+browser, care abstractizează sursa concretă a informației de localizare.
+Browserul poate combina mai multe surse — semnalul GPS propriu-zis, rețelele de
+telefonie mobilă și punctele de acces de tip Wi-Fi — pentru a oferi o estimare a
+poziției chiar și atunci când semnalul satelitar este slab. Această interfață
+furnizează, pe lângă coordonatele propriu-zise, și o estimare a preciziei,
+exprimată ca o rază de incertitudine în jurul poziției raportate.
+ 
+\subsection{Precizia și limitările localizării}
+\label{subsec:precizie}
+ 
+Precizia localizării variază semnificativ în funcție de mediu și de sursele
+disponibile. În spațiu deschis, cu vizibilitate directă către sateliți, eroarea
+tipică este de ordinul câtorva metri. În schimb, în interiorul clădirilor sau în
+apropierea structurilor înalte, semnalul satelitar este atenuat ori reflectat,
+iar precizia se degradează considerabil, putând ajunge la zeci de metri. Acest
+fenomen este deosebit de relevant pentru un campus universitar, unde clădirile
+sunt dese și utilizatorii petrec mult timp în interior — exact contextul în care
+poziționarea satelitară devine cel mai puțin fiabilă.
+ 
+Din această cauză, un sistem de navigare robust trebuie să trateze explicit
+situațiile de imprecizie sau de lipsă temporară a semnalului, evitând afișarea
+unei poziții înșelător de exacte și informând utilizatorul cu privire la gradul
+de încredere al localizării. În cadrul ETTIway, poziția utilizatorului este
+folosită ca punct de plecare pentru calculul traseului, fiind asociată celui mai
+apropiat punct de pe rețeaua de trasee a campusului, astfel încât micile erori de
+localizare să nu împiedice funcționarea rutării.
+ 
+\section{Algoritmi de determinare a drumului minim}
+\label{sec:algoritmi-rutare}
+ 
+Componenta de rutare reprezintă nucleul funcțional al oricărui sistem de
+navigare. Odată ce infrastructura campusului este reprezentată sub forma unui
+graf, problema găsirii celui mai scurt traseu între două puncte devine o
+problemă clasică de teoria grafurilor: determinarea drumului de cost minim între
+două noduri. Această secțiune prezintă fundamentele teoretice ale problemei și
+algoritmii care o rezolvă, cu accent pe soluția folosită în implementare.
+ 
+\subsection{Modelarea problemei prin grafuri}
+\label{subsec:graf-teoretic}
+ 
+Un graf este o structură formată dintr-un set de noduri și un set de muchii care
+leagă perechi de noduri. În contextul navigării, nodurile corespund punctelor de
+decizie — intersecții, intrări, capete de alei — iar muchiile corespund
+segmentelor de traseu care le unesc. Fiecărei muchii i se asociază o pondere,
+care exprimă costul parcurgerii segmentului respectiv; în cazul cel mai simplu,
+ponderea este distanța geografică reală dintre cele două noduri, dar pot fi
+folosite și alte criterii, precum timpul estimat de parcurgere sau gradul de
+accesibilitate.
+ 
+Atunci când ponderile reprezintă distanțe, graful este nedirecționat, deoarece o
+alee poate fi parcursă în ambele sensuri cu același cost. Problema centrală
+devine astfel găsirea, în acest graf ponderat, a lanțului de muchii care leagă
+nodul de start de nodul de destinație și a cărui sumă a ponderilor este minimă.
+Această formulare permite aplicarea unor algoritmi consacrați, studiați intens în
+literatura de specialitate \cite{Madkour2017}.
+ 
+\subsection{Algoritmul lui Dijkstra}
+\label{subsec:dijkstra-teoretic}
+ 
+Cel mai cunoscut algoritm pentru determinarea drumului minim de la un nod sursă
+către celelalte noduri ale unui graf cu ponderi nenegative este algoritmul lui
+Dijkstra. Principiul său de funcționare este unul de tip lacom (\textit{greedy}):
+algoritmul menține, pentru fiecare nod, cea mai mică distanță cunoscută până la
+acel moment față de nodul sursă, precum și nodul precedent pe traseul optim. La
+fiecare pas, este selectat nodul nevizitat cu distanța minimă, după care se
+încearcă îmbunătățirea distanțelor către vecinii săi — operație cunoscută sub
+numele de relaxare a muchiilor. Procesul continuă până când nodul de destinație
+este atins sau până când toate nodurile accesibile au fost vizitate.
+ 
+Corectitudinea algoritmului se bazează pe observația că, atunci când un nod este
+selectat ca având distanța minimă dintre cele nevizitate, această distanță este
+deja optimă și nu mai poate fi îmbunătățită ulterior, întrucât toate ponderile
+sunt nenegative. La final, traseul optim se reconstruiește pornind de la nodul de
+destinație și urmărind, în sens invers, lanțul nodurilor precedente până la
+sursă. Acest mod de funcționare îl face potrivit pentru calculul traseelor într-o
+rețea de dimensiuni moderate, cum este cea a unui campus universitar.
+ 
+\subsection{Performanță și optimizări}
+\label{subsec:performanta-rutare}
+ 
+Performanța algoritmului lui Dijkstra depinde în mod esențial de modul în care
+este implementată operația de selectare a nodului cu distanța minimă. Într-o
+implementare directă, în care la fiecare pas se parcurg toate nodurile pentru a-l
+găsi pe cel cu distanța minimă, complexitatea devine pătratică în raport cu
+numărul de noduri. Pentru grafuri mari, această abordare devine ineficientă, iar
+literatura de specialitate propune optimizări bazate pe structuri de date de tip
+coadă de priorități, care reduc semnificativ timpul de execuție prin extragerea
+rapidă a nodului minim \cite{Chen2022}.
+ 
+Pentru rețeaua unui campus universitar, în care numărul de noduri este relativ
+redus, implementarea directă a algoritmului oferă timpi de răspuns acceptabili,
+calculul traseului fiind perceput ca instantaneu de către utilizator. Tocmai
+din acest motiv, în cadrul ETTIway s-a optat pentru o implementare clară și ușor
+de urmărit a algoritmului, prioritizând lizibilitatea codului în detrimentul unor
+optimizări care nu ar fi adus beneficii practice la această scară. Aceleași
+principii stau la baza serviciilor de rutare la scară largă construite peste date
+deschise precum cele din OpenStreetMap \cite{Luxen2011}, care însă necesită
+structuri de date și optimizări mult mai complexe pentru a trata rețele de
+dimensiunea unor orașe întregi.
+ 
+\section{Interfețe pentru dispozitive mobile}
+\label{sec:mobil}
+ 
+Un sistem de navigare în campus este utilizat, în mod natural, preponderent de pe
+dispozitive mobile: utilizatorul are nevoie de orientare tocmai atunci când se
+deplasează prin campus, telefonul fiind dispozitivul aflat permanent la îndemână.
+Din acest motiv, proiectarea interfeței trebuie să țină cont, încă de la început,
+de constrângerile specifice ecranelor de mici dimensiuni și ale interacțiunii
+tactile.
+ 
+Principiul de proiectare adecvat acestui context este cel al designului responsiv,
+prin care interfața se adaptează automat la dimensiunea ecranului pe care este
+afișată, reorganizând elementele pentru a rămâne lizibile și utilizabile atât pe
+un monitor de calculator, cât și pe ecranul unui telefon. În cazul unei aplicații
+de hărți, acest lucru presupune ca harta să ocupe cât mai mult din suprafața
+disponibilă, iar elementele de control — căutarea, lista de clădiri, detaliile —
+să fie organizate astfel încât să nu obtureze harta, putând fi afișate sau
+ascunse după nevoie.
+ 
+Pe lângă adaptarea vizuală, interacțiunea tactilă impune constrângeri proprii:
+elementele care pot fi atinse trebuie să fie suficient de mari pentru a fi
+acționate cu degetul, iar gesturile uzuale — deplasarea hărții prin glisare,
+mărirea prin apropierea degetelor — trebuie să funcționeze natural. Biblioteca
+folosită pentru afișarea hărții în ETTIway oferă suport nativ pentru aceste
+gesturi, ceea ce simplifică obținerea unei experiențe fluide pe dispozitivele
+mobile, în acord cu obiectivul declarat al proiectului de a oferi o soluție
+accesibilă și ușor de utilizat în deplasare.
+ 
 \section{Arhitecturi de aplicații web}
 \label{sec:arhitecturi-web}
  
@@ -443,11 +606,14 @@ navigare digitală și de hartă interactivă, distincția dintre navigarea
 exterioară și cea interioară, precum și provocarea integrării acestora într-un
 flux unitar. S-au discutat apoi conceptele esențiale legate de datele
 geospațiale — sisteme de referință, reprezentarea geometriilor și sursele de
-date deschise — și instrumentele folosite pentru prelucrarea acestora. În final,
-au fost prezentate tehnologiile concrete utilizate în implementare, de la
-cadrul Spring Boot pentru backend până la biblioteca Leaflet pentru
-vizualizarea hărții, subliniind în fiecare caz motivele care au stat la baza
-alegerii lor.
+date deschise. A fost analizat mecanismul de poziționare a utilizatorului prin
+sistemul GPS, împreună cu limitările sale de precizie în mediul construit, și au
+fost prezentate fundamentele algoritmilor de determinare a drumului minim, cu
+accent pe algoritmul lui Dijkstra, folosit pentru calculul traseelor. În final,
+au fost discutate cerințele de proiectare a interfețelor pentru dispozitive
+mobile și tehnologiile concrete utilizate în implementare, de la cadrul Spring
+Boot pentru backend până la biblioteca Leaflet pentru vizualizarea hărții,
+subliniind în fiecare caz motivele care au stat la baza alegerii lor.
  
 Înțelegerea acestor elemente este necesară pentru parcurgerea capitolelor
 următoare, în care vor fi prezentate analiza cerințelor, arhitectura detaliată a
@@ -455,4 +621,498 @@ sistemului și modul concret de implementare a funcționalităților platformei.
 Plecând de la fundamentele expuse aici, următorul capitol abordează cerințele
 funcționale și nefuncționale ale aplicației, precum și deciziile de proiectare
 care decurg din acestea.
+ 
+ 
+%==============================================================================
+% CAPITOLUL 2 - Arhitectura sistemului
+% Se adaugă în continuarea Capitolului 1.
+% Redactat cu diacritice, conform Regulamentului ETTI (Cap. 3).
+% Fragmentele de cod folosesc mediul lstlisting deja configurat în preambul.
+%==============================================================================
+ 
+\chapter{Arhitectura sistemului}
+\label{cap:arhitectura}
+ 
+Acest capitol prezintă arhitectura platformei ETTIway, plecând de la o vedere de
+ansamblu asupra componentelor și ajungând la detalierea fiecărui nivel al
+sistemului. Sunt descrise separarea responsabilităților între frontend și
+backend, structura datelor persistate, mecanismul de autentificare și autorizare,
+precum și fluxurile principale prin care componentele comunică între ele.
+Deciziile de proiectare sunt motivate prin raportare la cerințele formulate în
+capitolul anterior, cu accent pe extensibilitate, securitate și claritate a
+fluxului de utilizare.
+ 
+\section{Vedere de ansamblu asupra arhitecturii}
+\label{sec:ansamblu}
+ 
+Platforma ETTIway este construită pe o arhitectură de tip client–server,
+organizată pe trei niveluri logice distincte. Primul nivel este cel de
+prezentare (frontend), realizat în HTML, CSS și JavaScript, care rulează în
+browserul utilizatorului și se ocupă de afișarea hărții interactive, de
+interacțiunea cu utilizatorul și de calculul traseelor. Al doilea nivel este cel
+al serviciilor (backend), realizat cu Spring Boot, care expune servicii web,
+gestionează autentificarea și autorizarea utilizatorilor și mediază accesul la
+date. Al treilea nivel este cel al datelor, reprezentat de o bază de date
+relațională PostgreSQL, în care sunt stocate atât conturile utilizatorilor, cât
+și informația despre structura hărții.
+ 
+Separarea pe aceste trei niveluri aduce mai multe avantaje. În primul rând,
+permite dezvoltarea și testarea independentă a fiecărei componente, deoarece
+interfața dintre niveluri este bine definită. În al doilea rând, izolează
+logica de securitate la nivelul backend-ului, astfel încât regulile de acces nu
+pot fi ocolite din interfața clientului. În al treilea rând, facilitează
+extinderea sistemului: adăugarea de noi servicii sau de noi tipuri de date nu
+necesită rescrierea componentelor existente, ci doar completarea celor noi.
+ 
+% [SUGESTIE FIGURĂ: aici poți insera o diagramă de arhitectură pe 3 niveluri
+%  — browser (Leaflet) -> Spring Boot (REST + Security) -> PostgreSQL.
+%  Exemplu de inserare:
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{figuri/arhitectura.png}
+%     \caption{Arhitectura pe trei niveluri a platformei ETTIway}
+%     \label{fig:arhitectura}
+% \end{figure}
+% ]
+ 
+Comunicarea dintre nivelul de prezentare și cel al serviciilor se realizează
+prin cereri HTTP către un set de servicii de tip REST, datele fiind transferate
+în format JSON. Această alegere asigură un cuplaj redus între client și server:
+orice modificare internă a backend-ului rămâne transparentă pentru frontend,
+atât timp cât contractul serviciilor este respectat. În secțiunile următoare,
+fiecare nivel este analizat în detaliu.
+ 
+\section{Nivelul de servicii (backend)}
+\label{sec:backend}
+ 
+Backend-ul aplicației este o aplicație Spring Boot, structurată pe pachete
+distincte în funcție de responsabilități. Pachetul de configurare conține clasele
+de inițializare, de securitate și de pornire a aplicației; pachetul de entități
+conține clasele care modelează datele persistate; pachetul de repository conține
+interfețele de acces la baza de date. Această organizare urmează convențiile
+consacrate ale ecosistemului Spring și face codul ușor de parcurs și de extins.
+ 
+\subsection{Punctul de intrare al aplicației}
+\label{subsec:entrypoint}
+ 
+Pornirea aplicației este gestionată de clasa principală, adnotată cu
+\texttt{@SpringBootApplication}. Această adnotare activează mecanismele de
+configurare automată ale Spring Boot, prin care componentele sunt descoperite și
+inițializate fără configurare manuală explicită. Codul punctului de intrare este
+minimal, întreaga logică de configurare fiind delegată claselor specializate.
+ 
+\begin{lstlisting}[language=Java, caption={Clasa principală a aplicației Spring Boot}, label={lst:main}]
+@SpringBootApplication
+public class DemoApplication {
+ 
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+\end{lstlisting}
+ 
+La pornire, pe lângă inițializarea contextului Spring, aplicația execută și o
+componentă de inițializare a datelor, descrisă în secțiunea dedicată
+autentificării, care asigură existența unui cont de administrator în baza de
+date.
+ 
+\subsection{Accesul la date prin JPA}
+\label{subsec:jpa}
+ 
+Accesul la baza de date se realizează prin intermediul JPA (\textit{Java
+Persistence API}), folosind abstracțiile oferite de Spring Data. În locul
+scrierii manuale a interogărilor, accesul la date este definit prin interfețe
+care extind \texttt{JpaRepository}, Spring generând automat implementările
+necesare. Pentru entitatea utilizator, repository-ul definește în plus o metodă
+de căutare după numele de utilizator, al cărei corp este generat automat pe baza
+denumirii metodei.
+ 
+\begin{lstlisting}[language=Java, caption={Interfața de acces la date pentru utilizatori}, label={lst:userrepo}]
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+}
+\end{lstlisting}
+ 
+Avantajul acestei abordări este reducerea semnificativă a codului repetitiv:
+operațiile uzuale de salvare, căutare și ștergere sunt moștenite din
+\texttt{JpaRepository}, iar metodele specifice se declară prin simpla lor
+semnătură. Tipul de retur \texttt{Optional} exprimă explicit faptul că un
+utilizator căutat ar putea să nu existe, obligând codul apelant să trateze acest
+caz și reducând astfel riscul de erori.
+ 
+\section{Nivelul de date}
+\label{sec:date}
+ 
+Datele persistate sunt stocate într-o bază de date relațională PostgreSQL,
+aleasă pentru maturitatea sa, pentru suportul robust al tipurilor de date și
+pentru caracterul său deschis. Maparea dintre tabelele bazei de date și
+obiectele din aplicație este realizată prin adnotări JPA pe clasele de tip
+entitate. În cadrul ETTIway există două entități principale: utilizatorii și
+datele hărții.
+ 
+\subsection{Entitatea utilizator}
+\label{subsec:user-entity}
+ 
+Entitatea \texttt{User} modelează un cont din sistem și este mapată pe tabelul
+\texttt{users}. Fiecare utilizator are un identificator generat automat, un nume
+de utilizator unic, o parolă stocată în formă criptată și un rol care determină
+nivelul de acces. Constrângerile de unicitate și de obligativitate sunt exprimate
+direct prin adnotări la nivel de coloană.
+ 
+\begin{lstlisting}[language=Java, caption={Entitatea User mapată pe tabelul users}, label={lst:user}]
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+ 
+    @Column(unique = true, nullable = false)
+    private String username;
+ 
+    @Column(nullable = false)
+    private String password;
+ 
+    private String role; // de exemplu "ROLE_ADMIN"
+ 
+    public User() {}
+ 
+    // metode de tip getter si setter
+}
+\end{lstlisting}
+ 
+Constructorul fără argumente este necesar pentru ca JPA să poată instanția
+obiectul atunci când citește o înregistrare din baza de date, iar metodele de tip
+getter și setter permit citirea și scrierea câmpurilor. Parola nu este niciodată
+stocată în clar, ci doar în forma sa criptată, aspect detaliat în secțiunea
+despre securitate.
+ 
+\subsection{Entitatea pentru datele hărții}
+\label{subsec:mapdata-entity}
+ 
+A doua entitate, \texttt{MapData}, este responsabilă de persistarea structurii
+hărții campusului. Pentru a permite o reprezentare flexibilă a grafului de noduri
+și muchii pe care se bazează rutarea, structura este serializată în format JSON
+și stocată într-o coloană de tip text. Această abordare evită rigidizarea
+schemei bazei de date și permite modificarea structurii grafului fără a fi
+necesare migrări ale schemei relaționale.
+ 
+\begin{lstlisting}[language=Java, caption={Entitatea MapData pentru stocarea structurii hărții}, label={lst:mapdata}]
+@Entity
+@Table(name = "map_data")
+public class MapData {
+ 
+    @Id
+    private Long id;
+ 
+    @Column(columnDefinition = "TEXT")
+    private String graphJson;
+ 
+    private LocalDateTime updatedAt;
+ 
+    public MapData() {}
+ 
+    // metode de tip getter si setter
+}
+\end{lstlisting}
+ 
+Câmpul \texttt{graphJson} conține reprezentarea serializată a grafului, iar
+câmpul \texttt{updatedAt} reține momentul ultimei actualizări, util pentru
+urmărirea modificărilor aduse hărții. Stocarea grafului ca document JSON
+constituie o decizie de proiectare orientată spre flexibilitate: nodurile și
+muchiile pot fi adăugate sau modificate fără a impune o structură fixă la nivelul
+tabelelor.
+ 
+\section{Securitate: autentificare și autorizare}
+\label{sec:securitate}
+ 
+Un aspect central al arhitecturii ETTIway îl constituie mecanismul de securitate,
+care diferențiază între utilizatorii obișnuiți și administratori. Această
+diferențiere este esențială, deoarece administratorii pot modifica structura
+hărții, în timp ce utilizatorii obișnuiți au acces doar în mod de vizualizare.
+Securitatea este implementată folosind Spring Security, integrat nativ în
+ecosistemul Spring Boot.
+ 
+\subsection{Criptarea parolelor}
+\label{subsec:bcrypt}
+ 
+Parolele utilizatorilor nu sunt stocate în clar în baza de date, ci sunt
+criptate folosind algoritmul BCrypt, prin intermediul unei componente dedicate
+de codare a parolelor. BCrypt este un algoritm de tip funcție de derivare a
+cheii, conceput special pentru stocarea parolelor: el este lent în mod
+intenționat și încorporează un factor aleatoriu, ceea ce îngreunează semnificativ
+atacurile prin forță brută.
+ 
+\begin{lstlisting}[language=Java, caption={Definirea componentei de criptare a parolelor}, label={lst:bcrypt}]
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+\end{lstlisting}
+ 
+Componenta de criptare este definită ca un \textit{bean} Spring, ceea ce permite
+injectarea sa automată în orice altă componentă care are nevoie de criptarea sau
+verificarea parolelor. La crearea unui cont, parola este trecută prin această
+componentă înainte de a fi salvată, iar la autentificare, parola introdusă este
+comparată cu cea criptată din baza de date.
+ 
+\subsection{Configurarea regulilor de acces}
+\label{subsec:security-chain}
+ 
+Regulile care stabilesc ce resurse sunt accesibile public, ce resurse necesită
+autentificare și ce resurse sunt rezervate administratorilor sunt definite
+într-un lanț de filtre de securitate. Resursele statice și paginile de
+autentificare sunt publice, rutele administrative sunt rezervate utilizatorilor
+cu rol de administrator, iar restul paginilor necesită cel puțin autentificare.
+ 
+\begin{lstlisting}[language=Java, caption={Definirea regulilor de autorizare}, label={lst:authrules}]
+.authorizeHttpRequests(auth -> auth
+    // resurse publice
+    .requestMatchers("/login.html", "/api/auth/**",
+                     "/css/**", "/js/**", "/data/**").permitAll()
+    // rute rezervate administratorului
+    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+    // restul cere autentificare
+    .anyRequest().authenticated()
+)
+\end{lstlisting}
+ 
+Autentificarea propriu-zisă se realizează printr-un formular de login, configurat
+să folosească o pagină proprie și să redirecteze utilizatorul, după succes, către
+o rută care verifică rolul acestuia și îl direcționează corespunzător.
+Deconectarea invalidează sesiunea și readuce utilizatorul la pagina de
+autentificare.
+ 
+\subsection{Încărcarea utilizatorilor și inițializarea contului de administrator}
+\label{subsec:userdetails}
+ 
+Pentru ca Spring Security să poată verifica identitatea unui utilizator, este
+necesară o componentă care să încarce datele acestuia din baza de date pe baza
+numelui de utilizator. Această componentă implementează interfața
+\texttt{UserDetailsService} și transformă entitatea proprie \texttt{User} într-un
+obiect pe care mecanismul de securitate îl poate folosi, inclusiv rolul asociat.
+ 
+\begin{lstlisting}[language=Java, caption={Încărcarea utilizatorului pentru autentificare}, label={lst:userdetails}]
+@Override
+public UserDetails loadUserByUsername(String username) {
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+ 
+    return org.springframework.security.core.userdetails.User
+        .withUsername(user.getUsername())
+        .password(user.getPassword())
+        .authorities(new SimpleGrantedAuthority(user.getRole()))
+        .build();
+}
+\end{lstlisting}
+ 
+Pentru a asigura existența unui cont de administrator încă de la prima pornire a
+aplicației, este folosită o componentă de inițializare care se execută automat la
+lansare. Aceasta verifică dacă există deja un cont de administrator și, în caz
+contrar, îl creează, criptând în prealabil parola. Astfel, sistemul devine
+utilizabil imediat după instalare, fără a necesita o configurare manuală a bazei
+de date.
+ 
+\begin{lstlisting}[language=Java, caption={Inițializarea automată a contului de administrator}, label={lst:datainit}]
+@Bean
+CommandLineRunner init(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
+    return args -> {
+        if (userRepository.findByUsername("admin").isEmpty()) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole("ROLE_ADMIN");
+            userRepository.save(admin);
+        }
+    };
+}
+\end{lstlisting}
+ 
+Acest mecanism de inițializare ilustrează un principiu de proiectare orientat
+spre ușurința punerii în funcțiune: starea minimă necesară funcționării
+sistemului este creată automat, reducând efortul de configurare și posibilitatea
+unor erori manuale.
+ 
+\section{Nivelul de prezentare (frontend)}
+\label{sec:frontend}
+ 
+Nivelul de prezentare este realizat în JavaScript, folosind biblioteca Leaflet
+pentru afișarea hărții interactive. Pe lângă afișarea propriu-zisă, frontend-ul
+încorporează și o parte importantă din logica aplicației, în special construirea
+grafului de navigare și calculul traseelor. Această secțiune descrie elementele
+principale ale interfeței și mecanismele de prelucrare implementate pe partea de
+client.
+ 
+\subsection{Inițializarea hărții și delimitarea zonei}
+\label{subsec:harta-init}
+ 
+Harta este centrată pe coordonatele campusului și limitată la o zonă geografică
+bine definită, pentru a împiedica utilizatorul să navigheze în afara regiunii de
+interes. Coordonatele de centrare și limitele zonei sunt definite ca valori de
+configurare, ceea ce permite adaptarea facilă a aplicației la un alt campus prin
+simpla modificare a acestor valori.
+ 
+\begin{lstlisting}[language=JavaScript, caption={Parametrii de configurare ai hărții}, label={lst:mapconfig}]
+const DEFAULT_CAMPUS_LAT = 44.433215;
+const DEFAULT_CAMPUS_LON = 26.056764;
+const DEFAULT_ZOOM_LEVEL = 18;
+const MAP_BOUNDS = [
+    [44.432102, 26.054500], // coltul de sud-vest
+    [44.434329, 26.059028]  // coltul de nord-est
+];
+\end{lstlisting}
+ 
+Pe lângă afișarea hărții, interfața include un panou lateral care găzduiește
+funcțiile de căutare, lista clădirilor disponibile și detaliile clădirii sau ale
+sălii selectate. Detaliile despre o sală — clădirea, etajul, capacitatea și tipul
+— sunt generate dinamic, cu prelucrarea atentă a textului pentru a preveni
+problemele de afișare și eventualele riscuri de securitate, prin transformarea
+caracterelor speciale înainte de inserarea în pagină.
+ 
+\subsection{Construirea grafului de navigare}
+\label{subsec:graf}
+ 
+Pentru a permite calculul traseelor între puncte, infrastructura campusului este
+transformată într-un graf, în care nodurile reprezintă intersecții sau puncte de
+pe trasee, iar muchiile reprezintă segmentele care le leagă. Graful este
+construit pornind de la datele geografice exprimate în format GeoJSON, în care
+elementele de tip linie descriu aleile și drumurile.
+ 
+Fiecare nod este identificat printr-o cheie obținută din coordonatele sale,
+rotunjite la o precizie fixă, pentru a asigura că puncte foarte apropiate sunt
+tratate ca un singur nod. Pentru fiecare segment al unei linii se adaugă o muchie
+între nodurile adiacente, ponderea muchiei fiind distanța geografică reală dintre
+cele două puncte. Graful rezultat este nedirecționat, deoarece o alee poate fi
+parcursă în ambele sensuri.
+ 
+\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON}, label={lst:graf}]
+function buildGraphFromGeoJSON(geoJSON) {
+    const graph = {};
+    const nodesMap = {};
+ 
+    function addNode(lat, lng) {
+        const key = getCoordKey(lat, lng);
+        if (!graph[key]) {
+            graph[key] = [];
+            nodesMap[key] = L.latLng(lat, lng);
+        }
+        return key;
+    }
+    function addEdge(key1, key2, dist) {
+        graph[key1].push({ node: key2, weight: dist });
+        graph[key2].push({ node: key1, weight: dist });
+    }
+    // parcurgerea elementelor de tip linie din GeoJSON
+    // si adaugarea nodurilor si muchiilor corespunzatoare
+    return { graph, nodesMap };
+}
+\end{lstlisting}
+ 
+Observația importantă privind formatul GeoJSON este că acesta exprimă
+coordonatele în ordinea longitudine–latitudine, în timp ce Leaflet le așteaptă în
+ordinea latitudine–longitudine; conversia corectă între cele două convenții este
+necesară pentru ca punctele să fie plasate corect pe hartă.
+ 
+\subsection{Calculul traseului prin algoritmul lui Dijkstra}
+\label{subsec:dijkstra}
+ 
+Determinarea celui mai scurt traseu între două puncte se realizează prin
+algoritmul lui Dijkstra, implementat direct pe partea de client. Plecând de la
+nodul de start, algoritmul menține pentru fiecare nod distanța minimă cunoscută
+și nodul precedent pe traseul optim, alegând la fiecare pas nodul nevizitat cu
+distanța cea mai mică și actualizând distanțele vecinilor săi. Atunci când nodul
+de destinație este atins, traseul este reconstruit parcurgând în sens invers
+lanțul nodurilor precedente.
+ 
+\begin{lstlisting}[language=JavaScript, caption={Nucleul algoritmului lui Dijkstra}, label={lst:dijkstra}]
+function runDijkstra(graph, nodesMap, startKey, endKey) {
+    const distances = {};
+    const previous = {};
+    const unvisited = new Set();
+ 
+    for (const node in graph) {
+        distances[node] = Infinity;
+        previous[node] = null;
+        unvisited.add(node);
+    }
+    distances[startKey] = 0;
+    // se alege repetat nodul nevizitat cu distanta minima
+    // si se actualizeaza distantele vecinilor
+    // ...
+    // reconstructia traseului din lantul de noduri precedente
+}
+\end{lstlisting}
+ 
+Deoarece punctele alese de utilizator nu coincid, în general, exact cu nodurile
+grafului, este necesară o etapă de asociere a fiecărui punct cu cel mai apropiat
+nod existent. Aceasta se realizează printr-o căutare a nodului aflat la distanța
+minimă față de punctul țintă, asigurând că rutarea pornește și se încheie în
+puncte aflate efectiv pe rețeaua de trasee.
+ 
+\begin{lstlisting}[language=JavaScript, caption={Găsirea celui mai apropiat nod din graf}, label={lst:nearest}]
+function findNearestNode(targetLatLng, nodesMap) {
+    let nearestKey = null;
+    let minDistance = Infinity;
+    for (const key in nodesMap) {
+        const dist = targetLatLng.distanceTo(nodesMap[key]);
+        if (dist < minDistance) {
+            minDistance = dist;
+            nearestKey = key;
+        }
+    }
+    return nearestKey;
+}
+\end{lstlisting}
+ 
+Dacă între cele două puncte nu există niciun traseu — de exemplu, atunci când o
+porțiune a rețelei este izolată — algoritmul returnează o valoare care semnalează
+absența unei rute, iar interfața poate informa utilizatorul în consecință.
+ 
+\section{Fluxul de comunicare între componente}
+\label{sec:flux}
+ 
+Reunind cele trei niveluri, fluxul tipic de utilizare al aplicației poate fi
+descris astfel. La accesarea aplicației, utilizatorul este direcționat către
+pagina de autentificare, iar după validarea credențialelor de către backend,
+rolul său determină modul de funcționare: vizualizare pentru utilizatorii
+obișnuiți, respectiv editare pentru administratori. Frontend-ul solicită apoi
+structura hărții de la backend, care o extrage din baza de date și o transmite în
+format JSON. Pe baza acestor date, clientul construiește graful de navigare și
+afișează harta interactivă.
+ 
+Atunci când utilizatorul selectează un punct de plecare și unul de destinație,
+calculul traseului se realizează integral pe partea de client, prin construirea
+grafului, asocierea punctelor cu cele mai apropiate noduri și aplicarea
+algoritmului lui Dijkstra. Această alegere reduce sarcina serverului și asigură un
+timp de răspuns redus, traseul fiind calculat și afișat fără a necesita o nouă
+cerere către backend. Modificările aduse structurii hărții de către un
+administrator sunt, în schimb, transmise către backend și persistate în baza de
+date, devenind astfel disponibile tuturor utilizatorilor la accesările
+ulterioare.
+ 
+% [SUGESTIE FIGURĂ: aici poți insera o diagramă de secvență a fluxului
+%  autentificare -> încărcare hartă -> calcul traseu, sau capturi de ecran
+%  cu interfața în mod vizualizare și în mod editare.]
+ 
+\section{Concluziile capitolului}
+\label{sec:concluzii-cap2}
+ 
+În acest capitol a fost prezentată arhitectura platformei ETTIway, organizată pe
+trei niveluri: prezentare, servicii și date. A fost descris backend-ul realizat
+cu Spring Boot, cu accesul la date prin JPA și cu persistarea în PostgreSQL,
+precum și cele două entități principale ale sistemului. S-a detaliat mecanismul
+de securitate, bazat pe Spring Security, cu criptarea parolelor prin BCrypt,
+diferențierea rolurilor și inițializarea automată a contului de administrator. La
+nivelul de prezentare au fost prezentate inițializarea hărții, construirea
+grafului de navigare din date GeoJSON și implementarea algoritmului lui Dijkstra
+pentru calculul traseelor.
+ 
+Deciziile de proiectare descrise — separarea pe niveluri, stocarea flexibilă a
+grafului, calculul traseelor pe partea de client și inițializarea automată a
+sistemului — au fost orientate spre extensibilitate, securitate și ușurința
+punerii în funcțiune. Capitolul următor abordează modul concret de utilizare a
+aplicației și rezultatele obținute, ilustrând funcționarea sistemului în
+scenariile reale de navigare din campus.
+
 \end{document}
