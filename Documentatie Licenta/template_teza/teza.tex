@@ -1115,4 +1115,276 @@ punerii în funcțiune. Capitolul următor abordează modul concret de utilizare
 aplicației și rezultatele obținute, ilustrând funcționarea sistemului în
 scenariile reale de navigare din campus.
 
+\chapter{Implementarea funcționalităților și punerea în funcțiune}
+\label{cap:implementare}
+ 
+Capitolele anterioare au descris fundamentele teoretice și arhitectura platformei
+ETTIway. Acest capitol prezintă modul concret în care funcționalitățile aplicației
+au fost implementate și integrate într-un flux unitar de utilizare, precum și
+modul în care platforma a fost pusă în funcțiune într-un mediu accesibil de pe
+dispozitivele mobile. Sunt detaliate, pe rând, gestionarea rolurilor de utilizator,
+editarea hărții de către administrator, căutarea și afișarea informațiilor,
+rutarea vizuală între puncte, măsurile de securitate la nivelul interfeței și,
+în final, infrastructura de rețea care face platforma accesibilă în condiții de
+siguranță.
+ 
+\section{Gestionarea rolurilor și modurile de utilizare}
+\label{sec:roluri}
+ 
+Platforma ETTIway distinge între două categorii de utilizatori, fiecare cu un mod
+propriu de interacțiune cu aplicația. Utilizatorii obișnuiți au acces în mod de
+vizualizare: pot explora harta, căuta clădiri și săli, consulta informații și
+calcula trasee. Administratorii dispun, în plus, de un mod de editare, prin care
+pot modifica structura hărții campusului. Această diferențiere este aplicată la
+nivelul backend-ului, prin mecanismul de securitate descris în capitolul anterior,
+astfel încât accesul la funcțiile de editare nu poate fi obținut din interfața
+clientului fără autentificarea corespunzătoare.
+ 
+După autentificare, rolul utilizatorului determină modul în care este încărcată
+interfața. Pentru un administrator, sunt activate controalele de editare a hărții,
+în timp ce pentru un utilizator obișnuit acestea rămân ascunse, interfața fiind
+orientată exclusiv spre consultare și navigare. Această separare clară a celor
+două experiențe asigură atât protecția datelor împotriva modificărilor
+neautorizate, cât și o interfață necluttered, adaptată nevoii fiecărei categorii
+de utilizatori.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figuri/mod_vizualizare.png}
+    \hfill
+    \includegraphics[width=0.45\textwidth]{figuri/mod_editare.png}
+    \caption{Interfata in mod vizualizare (stanga) si in mod editare (dreapta)}
+    \label{fig:moduri}
+\end{figure}
+ 
+\section{Editarea hărții de către administrator}
+\label{sec:editare}
+ 
+Una dintre funcționalitățile centrale ale platformei este posibilitatea
+administratorului de a edita structura hărții direct din interfață. În modul de
+editare, administratorul poate defini și modifica rețeaua de noduri și muchii pe
+care se bazează rutarea, adăugând puncte de traseu, legături între ele și
+elemente de infrastructură relevante pentru navigare. Această capabilitate este
+esențială pentru mentenabilitatea sistemului: actualizarea hărții nu necesită
+intervenții în cod sau în baza de date, ci se realizează vizual, prin interacțiune
+directă cu harta.
+ 
+Modificările efectuate de administrator sunt transmise către backend prin
+intermediul serviciilor dedicate gestionării grafului, fiind apoi persistate în
+baza de date. Structura hărții, serializată în format JSON, este actualizată în
+entitatea corespunzătoare, devenind imediat disponibilă tuturor utilizatorilor la
+accesările ulterioare. Astfel, o modificare făcută de un administrator — de
+exemplu adăugarea unui nou traseu sau corectarea unei legături — se reflectă în
+mod centralizat, fără a fi nevoie de redistribuirea aplicației.
+ 
+Acest mecanism ilustrează un principiu de proiectare orientat spre durabilitatea
+soluției: într-un campus universitar, în care infrastructura se modifică în timp,
+capacitatea de a actualiza rapid harta, fără efort tehnic, asigură că platforma
+rămâne utilă și exactă pe termen lung. Separarea între rolul de administrator,
+care întreține datele, și cel de utilizator, care le consumă, reflectă fidel
+modul real de operare a unui astfel de sistem.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuri/editare_harta.png}
+    \caption{Editarea hartii de catre administrator: adaugarea unui nod si a unei legaturi}
+    \label{fig:editare}
+\end{figure}
+ 
+\section{Căutarea și afișarea informațiilor}
+\label{sec:cautare}
+ 
+Pentru a permite utilizatorilor să localizeze rapid o sală sau o clădire,
+platforma include o funcție de căutare integrată în panoul lateral al interfeței.
+Utilizatorul poate introduce un termen de căutare, iar aplicația identifică
+elementele corespunzătoare din campus și le afișează, permițând selectarea celui
+dorit. Această funcție reduce semnificativ timpul necesar orientării, în special
+pentru utilizatorii nefamiliarizați cu infrastructura campusului.
+ 
+La selectarea unui element, aplicația afișează detaliile asociate acestuia.
+Pentru o sală, informațiile prezentate includ clădirea în care se află, etajul,
+capacitatea și tipul acesteia, însoțite, atunci când există, de o descriere
+suplimentară. Aceste detalii sunt generate dinamic, pe baza datelor încărcate, și
+sunt prezentate fie într-un panou dedicat, fie într-o fereastră de tip
+\textit{popup} atașată locației pe hartă, în funcție de contextul interacțiunii.
+ 
+Modul de generare a acestor informații este conceput pentru a fi flexibil:
+aceeași logică produce atât varianta compactă, potrivită pentru afișarea într-un
+popup pe hartă, cât și varianta detaliată, potrivită pentru panoul lateral.
+Această reutilizare a aceleiași logici de afișare, parametrizată în funcție de
+context, reduce duplicarea codului și asigură consistența informației prezentate
+utilizatorului, indiferent de locul în care apare.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuri/cautare_detalii.png}
+    \caption{Rezultatul unei cautari si panoul de detalii al salii selectate}
+    \label{fig:cautare}
+\end{figure}
+ 
+\section{Securitatea la nivelul interfeței}
+\label{sec:securitate-frontend}
+ 
+Pe lângă mecanismele de securitate de la nivelul backend-ului, descrise în
+capitolul anterior, platforma aplică măsuri de protecție și la nivelul
+interfeței. O preocupare importantă în aplicațiile web care afișează date este
+prevenirea injectării de cod prin conținut nesigur, o categorie de vulnerabilități
+cunoscută sub numele de \textit{cross-site scripting}. Aceasta apare atunci când
+date provenite dintr-o sursă externă sunt inserate direct în pagină fără
+prelucrare, permițând execuția unui cod neintenționat.
+ 
+Pentru a preveni astfel de situații, înainte de a fi inserate în pagină, valorile
+text — precum numele unei săli sau descrierea acesteia — sunt trecute printr-o
+funcție de prelucrare care transformă caracterele speciale în echivalentele lor
+inofensive. Astfel, orice conținut potențial periculos este tratat ca text simplu,
+nu ca instrucțiuni executabile.
+ 
+\begin{lstlisting}[language=JavaScript, caption={Prelucrarea textului inainte de afisare}, label={lst:escape}]
+function escapeHtml(text) {
+    if (text == null) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+}
+\end{lstlisting}
+ 
+Tehnica folosită se bazează pe un mecanism oferit nativ de browser: textul este
+atribuit unui element printr-o proprietate care îl tratează exclusiv ca text, iar
+apoi este extras în forma sa deja neutralizată. Această abordare, simplă dar
+eficientă, asigură că datele afișate în interfață nu pot fi folosite ca vector de
+atac, contribuind la robustețea generală a platformei.
+ 
+\section{Rutarea și afișarea vizuală a traseului}
+\label{sec:rutare-vizuala}
+ 
+Funcționalitatea de rutare reunește componentele descrise în capitolul de
+arhitectură într-o experiență vizuală completă. Utilizatorul selectează un punct
+de plecare — care poate fi propria poziție, obținută prin GPS — și un punct de
+destinație, iar aplicația calculează și afișează traseul optim între acestea,
+desenat direct pe hartă.
+ 
+Procesul se desfășoară integral pe partea de client. Punctele alese sunt mai
+întâi asociate celor mai apropiate noduri din graful de navigare, după care
+algoritmul lui Dijkstra determină lanțul de noduri care formează drumul de cost
+minim. Rezultatul — o secvență de coordonate — este apoi transformat într-o linie
+trasată pe hartă, suprapusă peste infrastructura campusului, oferind utilizatorului
+o reprezentare clară și imediată a traseului de urmat.
+ 
+Afișarea vizuală a traseului transformă rezultatul abstract al unui algoritm
+într-un ghid practic de orientare. Combinată cu poziționarea în timp real a
+utilizatorului, această funcție permite navigarea efectivă prin campus: pe măsură
+ce utilizatorul se deplasează, poziția sa este actualizată pe hartă, raportată la
+traseul calculat. Tratarea situațiilor în care nu există un traseu valid — de
+exemplu între puncte aflate pe porțiuni neconectate ale rețelei — este de asemenea
+gestionată, aplicația informând utilizatorul în aceste cazuri în locul afișării
+unui rezultat eronat.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuri/traseu_harta.png}
+    \caption{Traseu calculat si afisat pe harta intre doua puncte din campus}
+    \label{fig:traseu}
+\end{figure}
+ 
+\section{Punerea în funcțiune prin rețea privată virtuală}
+\label{sec:deployment}
+ 
+Dincolo de implementarea funcționalităților, o componentă importantă a
+contribuției practice o reprezintă punerea în funcțiune a platformei într-un
+mediu accesibil de pe dispozitivele mobile ale utilizatorilor. În timpul
+dezvoltării, întreaga aplicație rulează pe o singură mașină, clientul și serverul
+comunicând prin interfața de buclă locală (\textit{loopback}), la adresa
+127.0.0.1. Pentru a deveni utilizabilă în campus, aplicația trebuie însă să fie
+accesibilă de pe alte dispozitive, fără a fi expusă riscurilor asociate publicării
+directe pe internet.
+ 
+\subsection{Rețeaua privată cu Tailscale}
+\label{subsec:tailscale}
+ 
+Soluția adoptată pentru ETTIway se bazează pe Tailscale, o rețea privată virtuală
+(VPN) construită peste protocolul modern de criptare WireGuard. Spre deosebire de
+un VPN clasic, în care tot traficul trece printr-un server central, Tailscale
+realizează o rețea de tip \textit{mesh}: dispozitivele înrolate — serverul pe care
+rulează aplicația și telefoanele de pe care este accesată — comunică direct între
+ele, printr-un tunel criptat punct-la-punct. Fiecare dispozitiv primește o adresă
+privată stabilă, validă doar în interiorul rețelei virtuale.
+ 
+Principalul avantaj al acestei abordări este că serverul nu are nicio adresă
+publică și niciun port deschis către internet. În arhitectura clasică, expunerea
+unui server presupune redirecționarea porturilor pe ruterul rețelei locale și
+deschiderea acestora către internet, ceea ce face serverul vizibil — și potențial
+atacabil — de oriunde în lume. În cazul ETTIway, această expunere este complet
+eliminată: serverul, împreună cu baza de date PostgreSQL care ascultă pe portul
+5432 și cu aplicația Spring Boot, rămâne accesibil exclusiv dispozitivelor
+autentificate în rețeaua privată. Suprafața de atac a sistemului este astfel
+redusă drastic, soluția fiind deosebit de potrivită pentru un proiect administrat
+de o singură persoană.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuri/tailscale_devices.png}
+    \caption{Dispozitivele inrolate in reteaua privata Tailscale}
+    \label{fig:tailscale}
+\end{figure}
+ 
+\subsection{Adresarea prin MagicDNS}
+\label{subsec:magicdns}
+ 
+Pentru a evita memorarea adreselor numerice ale dispozitivelor din rețeaua
+privată, Tailscale oferă un mecanism propriu de rezolvare a numelor, denumit
+MagicDNS. Acesta atribuie fiecărui dispozitiv un nume ușor de reținut, sub forma
+unui subdomeniu în spațiul de nume \texttt{.ts.net}, valabil în interiorul rețelei
+private. Serverul ETTIway este astfel accesat printr-un nume stabil, în locul unei
+adrese numerice, nume care rămâne neschimbat indiferent de rețeaua din care se
+conectează dispozitivele.
+ 
+\subsection{Criptarea HTTPS și accesul la GPS}
+\label{subsec:https}
+ 
+Comunicarea dintre dispozitiv și server este criptată prin protocolul HTTPS,
+folosind un certificat digital emis automat de Tailscale pentru numele
+\texttt{.ts.net} al serverului, fără a fi necesară deținerea unui domeniu public
+sau a unei adrese IP publice. Certificatul este recunoscut de browsere ca fiind
+valid, iar gestionarea sa — emiterea și reînnoirea periodică — este preluată
+automat de infrastructura Tailscale, reducând la minimum efortul de administrare.
+ 
+Dincolo de protecția datelor, criptarea HTTPS are o consecință tehnică esențială
+pentru funcționarea platformei. Browserele moderne impun ca interfețele sensibile,
+precum cea de geolocalizare folosită pentru obținerea poziției prin GPS, să poată
+fi utilizate doar într-un context securizat (\textit{secure context}), adică
+numai peste o conexiune criptată HTTPS. Fără o astfel de conexiune, codul
+JavaScript al aplicației nu ar putea solicita poziția utilizatorului, iar
+funcționalitatea de localizare — una dintre cele centrale ale platformei — ar fi
+indisponibilă. Aici se observă cum aceeași infrastructură care asigură izolarea
+față de internet oferă, în același timp, certificatul HTTPS necesar pentru accesul
+la GPS, cele două proprietăți combinându-se elegant.
+ 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figuri/telefon_https_gps.png}
+    \caption{Aplicatia pe telefon: conexiune HTTPS securizata si pozitia GPS afisata pe harta}
+    \label{fig:telefon}
+\end{figure}
+ 
+\section{Concluziile capitolului}
+\label{sec:concluzii-cap3}
+ 
+În acest capitol au fost prezentate implementarea funcționalităților principale
+ale platformei ETTIway și punerea sa în funcțiune. La nivelul funcționalităților,
+au fost descrise gestionarea rolurilor de utilizator și administrator, editarea
+hărții direct din interfață cu persistarea modificărilor în baza de date,
+căutarea și afișarea contextuală a informațiilor despre săli și clădiri, măsurile
+de securitate aplicate la nivelul interfeței pentru prevenirea injectării de cod,
+precum și rutarea cu afișarea vizuală a traseului pe hartă, combinată cu
+poziționarea în timp real a utilizatorului.
+ 
+La nivelul infrastructurii, a fost prezentată o abordare modernă a punerii în
+funcțiune, bazată pe o rețea privată virtuală construită cu Tailscale peste
+protocolul WireGuard. Această soluție elimină complet expunerea serverului pe
+internetul public, asigurând totodată, prin certificatul HTTPS emis automat,
+contextul securizat necesar accesului la poziția GPS a utilizatorului. Reunite,
+aceste elemente transformă aplicația dintr-un prototip local într-o platformă
+funcțională, sigură și ușor de administrat, în care securitatea este obținută prin
+proiectare, reprezentând o parte semnificativă a contribuției practice a lucrării.
+ 
 \end{document}

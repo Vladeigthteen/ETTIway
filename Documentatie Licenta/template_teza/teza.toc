@@ -1,5 +1,5 @@
 \babel@toc {romanian}{}\relax 
-\contentsline {unnumberedsection}{Lista acronimelor}{vii}{chapter*.2}%
+\contentsline {unnumberedsection}{Lista acronimelor}{vi}{chapter*.2}%
 \contentsline {chapter}{Introducere}{1}{chapter*.3}%
 \contentsline {section}{\numberline {0.1}Contextul Proiectului}{1}{section.0.1}%
 \contentsline {section}{\numberline {0.2}Motivația și Obiectivele}{1}{section.0.2}%
@@ -49,3 +49,14 @@
 \contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul lui Dijkstra}{21}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Fluxul de comunicare între componente}{22}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Concluziile capitolului}{22}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Implementarea funcționalităților și punerea în funcțiune}{24}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Gestionarea rolurilor și modurile de utilizare}{24}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Editarea hărții de către administrator}{25}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Căutarea și afișarea informațiilor}{26}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Securitatea la nivelul interfeței}{27}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Rutarea și afișarea vizuală a traseului}{28}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Punerea în funcțiune prin rețea privată virtuală}{29}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Rețeaua privată cu Tailscale}{29}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Adresarea prin MagicDNS}{30}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Criptarea HTTPS și accesul la GPS}{30}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}Concluziile capitolului}{31}{section.3.7}%
