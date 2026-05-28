@@ -4,3 +4,22 @@
 \contentsline {section}{\numberline {0.1}Contextul Proiectului}{1}{section.0.1}%
 \contentsline {section}{\numberline {0.2}Motivația și Obiectivele}{1}{section.0.2}%
 \contentsline {section}{\numberline {0.3}Metodologia și contribuția proprie}{2}{section.0.3}%
+\contentsline {chapter}{\numberline {1}Fundamente teoretice și tehnologii utilizate}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Sisteme de navigare și hărți digitale}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Reprezentarea hărților prin dale (tiles)}{4}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}Navigarea exterioară și navigarea interioară}{4}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Navigarea exterioară}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Navigarea interioară}{5}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Integrarea celor două niveluri}{5}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Date geospațiale și modelarea informației geografice}{5}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Sisteme de coordonate și sisteme de referință spațială}{6}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Reprezentarea geometriilor: WKT și WKB}{6}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}OpenStreetMap ca sursă de date}{6}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Arhitecturi de aplicații web}{7}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Separarea frontend–backend}{7}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Servicii REST și formatul JSON}{7}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Tehnologii utilizate în implementare}{8}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Spring Boot pentru backend}{8}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Leaflet și JavaScript pentru frontend}{8}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Organizarea datelor și extensibilitatea}{9}{subsection.1.5.3}%
+\contentsline {section}{\numberline {1.6}Concluziile capitolului}{9}{section.1.6}%
