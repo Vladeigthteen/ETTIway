@@ -16,6 +16,9 @@ public class MapData {
     @Column(columnDefinition = "TEXT")
     private String graphJson;
 
+    @Column(columnDefinition = "TEXT")
+    private String indoorJson;
+
     private LocalDateTime updatedAt;
 
     public MapData() {}
@@ -34,6 +37,14 @@ public class MapData {
 
     public void setGraphJson(String graphJson) {
         this.graphJson = graphJson;
+    }
+
+    public String getIndoorJson() {
+        return indoorJson;
+    }
+
+    public void setIndoorJson(String indoorJson) {
+        this.indoorJson = indoorJson;
     }
 
     public LocalDateTime getUpdatedAt() {

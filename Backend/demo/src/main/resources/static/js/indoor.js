@@ -142,6 +142,25 @@ function initIndoorMap() {
         snappable: true,
         snapDistance: 20
     });
+
+    indoorMap.on('pm:create', (e) => {
+        const layer = e.layer;
+        const roomName = prompt("Numele camerei / Room name:");
+        if (roomName) {
+            layer.feature = layer.feature || { type: "Feature", properties: {} };
+            layer.feature.properties = layer.feature.properties || {};
+            layer.feature.properties.name = roomName;
+            
+            layer.bindTooltip(roomName, {
+                permanent: true,
+                direction: "center",
+                className: "room-tooltip"
+            }).openTooltip();
+        } else {
+            // Optional: you could remove the layer if you strictly require a name
+            // indoorLayers.removeLayer(layer);
+        }
+    });
 }
 function openFloorPlanEditor(buildingName, floorIndex) {
     closeFloorManager();
@@ -255,13 +274,27 @@ function saveCurrentFloorPlan() {
         if (floorObj) {
             floorObj.geoJson = geoJson;
             console.log("Saved floor plan:", floorObj);
-            if (confirm("Planul a fost actualizat in memorie. Vrei sa descarci fisierul JSON pentru a salva permanent modificarile? (Trebuie sa inlocuiesti manual 'data/indoor-data.json' cu acest fisier)")) {
-                exportIndoorData();
-            } else {
-                alert("Plan salvat in memorie! Atentie: Modificarile se vor pierde la refresh daca nu descarci JSON-ul.");
-            }
+            saveIndoorDataToDatabase();
         }
     }
+}
+function saveIndoorDataToDatabase() {
+    fetch('/api/indoor/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(window.floorData)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to save to database");
+        return response.text();
+    })
+    .then(msg => {
+        alert("Plan salvat cu succes în baza de date! / Plan successfully saved to database!");
+    })
+    .catch(error => {
+        console.error("Error saving indoor data:", error);
+        alert("Eroare la salvarea în baza de date. / Error saving to database.");
+    });
 }
 function exportIndoorData() {
     const dataStr = JSON.stringify(window.floorData, null, 2);
@@ -276,15 +309,22 @@ function exportIndoorData() {
     URL.revokeObjectURL(url);
 }
 function loadIndoorData() {
-    fetch('data/indoor-data.json')
+    fetch('/api/indoor/load')
         .then(response => {
             if (!response.ok) throw new Error("Network response was not ok");
             return response.json();
         })
         .then(data => {
             if (data && Object.keys(data).length > 0) {
-                console.log("Loaded indoor data from file:", data);
+                console.log("Loaded indoor data from database:", data);
                 window.floorData = data;
+            } else {
+                // Fallback to local default file if DB is empty
+                return fetch('data/indoor-data.json')
+                    .then(res => res.ok ? res.json() : {})
+                    .then(localData => {
+                        window.floorData = localData || {};
+                    });
             }
         })
         .catch(error => {
@@ -300,6 +340,13 @@ function loadFloorData(buildingName, floorIndex) {
         const floorObj = bData.floors.find(f => f.id == floorIndex);
         if (floorObj && floorObj.geoJson) {
             L.geoJSON(floorObj.geoJson).eachLayer(layer => {
+                if (layer.feature && layer.feature.properties && layer.feature.properties.name) {
+                    layer.bindTooltip(layer.feature.properties.name, {
+                        permanent: true,
+                        direction: "center",
+                        className: "room-tooltip"
+                    });
+                }
                 indoorLayers.addLayer(layer);
             });
         }

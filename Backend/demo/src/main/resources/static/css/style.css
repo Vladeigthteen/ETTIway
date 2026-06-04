@@ -753,3 +753,15 @@ body.sidebar-collapsed #sidebar > * {
         white-space: nowrap;
     }
 }
+
+.room-tooltip {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #333;
+    border-radius: 3px;
+    color: #333;
+    font-weight: bold;
+    padding: 2px 4px;
+    font-size: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    text-align: center;
+}
