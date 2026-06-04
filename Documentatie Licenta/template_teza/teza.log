@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  2 JUN 2026 19:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  4 JUN 2026 19:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1136,7 +1136,7 @@ Capitolul 1.
 Underfull \vbox (badness 2103) has occurred while \output is active []
 
  [8] [9]
-Overfull \hbox (5.48412pt too wide) in paragraph at lines 511--516
+Overfull \hbox (5.48412pt too wide) in paragraph at lines 493--498
 \T1/lmr/m/n/12 Platforma ET-TI-way este con-stru-it  pe o ar-hi-tec-tur  de tip cli-ent^^Userver, în care responsabilit []ile
  []
 
@@ -1154,20 +1154,20 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [14
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 719.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 701.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 724.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 706.
  [15] [16]
-Overfull \hbox (7.538pt too wide) in paragraph at lines 849--855
+Overfull \hbox (7.538pt too wide) in paragraph at lines 831--837
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
 [17]
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 909--914
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 891--896
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
@@ -1176,7 +1176,7 @@ Capitolul 3.
 [24
 
 ] [25] [26]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 1325--1335
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 1307--1317
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
@@ -1195,7 +1195,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ] [34] [35]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1745--1751
+Underfull \hbox (badness 10000) in paragraph at lines 1727--1733
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
@@ -1218,7 +1218,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,17n,79p,1020b,2049s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (45 pages, 488620 bytes).
+Output written on teza.pdf (45 pages, 488623 bytes).
 PDF statistics:
  996 PDF objects out of 1000 (max. 8388607)
  299 named destinations out of 1000 (max. 500000)

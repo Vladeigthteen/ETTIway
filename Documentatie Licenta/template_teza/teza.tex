@@ -103,7 +103,7 @@
 \chapter*{Introducere}
 \addcontentsline{toc}{chapter}{Introducere}
 \section{Contextul Proiectului}
-Problema principală care apare frecvent într-un campus universitar este de a integra navigația exterioară cu cea interioară în corpuri, săli și laboratoare, într-un singur flux digital coerent. Plecând de la această problemă, lucrarea propune ETTIway, o platformă construită pentru a aduce la un loc navigarea exterioară cât și pe cea interioară într-o experiență unitară atât pentru studenți, cât și pentru personalul universitar. Obiectivul principal a fost dezvoltarea unei soluții capabile să ofere localizare contextuală, căutare rapidă a punctelor de interes și suport pentru rutare între locații relevante din campus.
+Problema principală care apare frecvent într-un campus universitar este de a integra navigația exterioară cu cea interioară în corpuri, săli și laboratoare, într-un singur flux digital coerent. Plecând de la această problemă, lucrarea propune ETTIway, o platformă construită pentru a aduce la un loc navigarea exterioară cât și pe cea interioară într-o experiență unitară atât pentru studenți, cât și pentru personalul universitar. Obiectivul principal a fost dezvoltarea unei soluții capabile să ofere localizare exactă, căutare rapidă a punctelor de interes și suport pentru rutare între locații relevante din campus.
  
 Arhitectura tehnică îmbină un backend realizat cu Spring Boot, responsabil de expunerea serviciilor și gestionarea datelor, cu o interfață web interactivă construită cu JavaScript și Leaflet, orientată spre claritate vizuală și timp de răspuns redus. O contribuție practică importantă este integrarea stratului de date spațiale provenit din OpenStreetMap, care permite reprezentarea fidelă a infrastructurii campusului și extinderea facilă către noi zone. În completarea funcțiilor de bază, platforma include mecanisme de afișare contextuală a informațiilor despre clădiri și spații, precum și o bază pentru rutare inteligentă între puncte selectate. Din perspectiva operațională, soluția oferă și suport pentru administrarea datelor geografice, astfel încât actualizarea hărților, a denumirilor și a punctelor de interes să poată fi realizată rapid, cu impact minim asupra utilizatorului final.
  
@@ -116,25 +116,7 @@ Obiectivele urmărite în dezvoltarea platformei au fost definite pe două direc
 Metodologia de dezvoltare a fost structurată în etape succesive, astfel încât fiecare componentă a sistemului să poată fi validată înainte de integrarea finală. În prima etapă a fost realizată analiza cerințelor funcționale și nefuncționale, cu accent pe scenariile reale de utilizare: localizarea rapidă a unei clădiri, identificarea unei săli și parcurgerea unui traseu relevant în campus. Pe baza acestei analize a fost definită arhitectura aplicației, separată pe nivelul de prezentare (frontend), nivelul serviciilor (backend) și nivelul datelor geografice. Implementarea a fost realizată incremental, prin dezvoltarea și testarea separată a modulelor de vizualizare, căutare și gestiune a datelor indoor, urmată de integrarea lor într-un flux unitar.
  
 Contribuția proprie vizează atât partea tehnică, cât și partea de organizare a datelor spațiale. La nivel de date, contribuția include structurarea seturilor geospațiale utilizate de aplicație, adaptarea lor pentru scenariile de navigare și construirea unei baze extensibile pentru adăugarea de noi clădiri, niveluri și elemente de infrastructură. Rezultatul este o soluție funcțională, ușor de extins, orientată spre utilizare practică în mediul universitar.
-%==============================================================================
-% CONTINUTUL COMPLET AL LUCRARII - CAPITOLELE 1-4 + CONCLUZII + BIBLIOGRAFIE
-%
-% Acest fisier contine TOT continutul de la Capitolul 1 pana la Bibliografie.
-% Se adauga in teza.tex DUPA Introducere si INAINTE de \end{document}.
-%
-% Toate citarile sunt corecte si toate cele 16 referinte din bibliografie
-% sunt citate efectiv in text (conform regulamentului ETTI, Cap. 3).
-%
-% Comentariile din interiorul codului sunt fara diacritice (cerinta tehnica
-% a pachetului listings).
-%==============================================================================
 
-
-%==============================================================================
-% CAPITOLUL 1 - Se adaugă în continuarea codului existent, după capitolul
-% "Introducere" (nenumerotat) și înainte de Capitolul 2.
-% Redactat cu diacritice, conform Regulamentului ETTI (Cap. 3).
-%==============================================================================
 
 \chapter{Fundamente teoretice și tehnologii utilizate}
 \label{cap:fundamente}

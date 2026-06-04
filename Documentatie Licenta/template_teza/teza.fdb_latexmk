@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1780419590.22222 "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" "teza.pdf" "teza" 1780419592.17003 0
+["pdflatex"] 1780590206.20189 "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" "teza.pdf" "teza" 1780590208.84909 0
   "Anexa1.2.pdf" 1780417503 113261 edb04c887c405b5b0abb21964dcf0af0 ""
   "C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1779816579 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/frati/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1775026023 13333486 a381912a9294aedfa68dc0cc00863923 ""
@@ -144,12 +144,12 @@
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/tools/tabularx.sty" 1761901070 7243 a2c17f18e2c9b702b84fad03d5f9c78b ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/ucs/utf8x.def" 1700127473 8944 e3433baec74c4b7b278c6b6a547ff9ec ""
   "C:/Users/frati/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" 1780418505 104230 a76e8d8a20f8d314b8b383ba1336e507 ""
+  "d:/ETTIway/Documentatie Licenta/template_teza/teza.tex" 1780590195 103209 29c4f92a312f6da3d7cd88879b47db92 ""
   "teza-upb.cls" 1780419530 25930 9cec6c440be39826ab1cc65293abb676 ""
-  "teza.aux" 1780419591 21774 0237817e9e42c92895b6a9c1d3870595 "pdflatex"
-  "teza.out" 1780419591 18344 1fad20fc92d508b807100380e2d8de49 "pdflatex"
-  "teza.tex" 1780418505 104230 a76e8d8a20f8d314b8b383ba1336e507 ""
-  "teza.toc" 1780419591 7779 984ca53b6e348839d3dcf2d2c0915648 "pdflatex"
+  "teza.aux" 1780590208 21774 0237817e9e42c92895b6a9c1d3870595 "pdflatex"
+  "teza.out" 1780590208 18344 1fad20fc92d508b807100380e2d8de49 "pdflatex"
+  "teza.tex" 1780590195 103209 29c4f92a312f6da3d7cd88879b47db92 ""
+  "teza.toc" 1780590208 7779 984ca53b6e348839d3dcf2d2c0915648 "pdflatex"
   (generated)
   "teza.aux"
   "teza.log"
