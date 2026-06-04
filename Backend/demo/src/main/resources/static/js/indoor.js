@@ -72,7 +72,7 @@ function handleBuildingChange(e) {
             if (count > 0) {
                 updateFloors(building.name, count);
             } else {
-                alert("Please enter a valid number of floors (>0)");
+                showCustomAlert("Please enter a valid number of floors (>0)");
             }
         };
     }
@@ -145,20 +145,109 @@ function initIndoorMap() {
 
     indoorMap.on('pm:create', (e) => {
         const layer = e.layer;
-        const roomName = prompt("Numele camerei / Room name:");
-        if (roomName) {
-            layer.feature = layer.feature || { type: "Feature", properties: {} };
-            layer.feature.properties = layer.feature.properties || {};
-            layer.feature.properties.name = roomName;
-            
-            layer.bindTooltip(roomName, {
-                permanent: true,
-                direction: "center",
-                className: "room-tooltip"
-            }).openTooltip();
-        } else {
-            // Optional: you could remove the layer if you strictly require a name
-            // indoorLayers.removeLayer(layer);
+        
+        showCustomPrompt("Numele camerei / Room name:", (roomName) => {
+            if (roomName) {
+                layer.feature = layer.feature || { type: "Feature", properties: {} };
+                layer.feature.properties = layer.feature.properties || {};
+                layer.feature.properties.name = roomName;
+                
+                layer.bindTooltip(roomName, {
+                    permanent: true,
+                    direction: "center",
+                    className: "room-tooltip"
+                }).openTooltip();
+            } else {
+                // Remove the drawing if user canceled the naming
+                indoorLayers.removeLayer(layer);
+            }
+        });
+    });
+}
+
+function showCustomPrompt(message, callback) {
+    let modal = document.getElementById('custom-prompt-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'custom-prompt-modal';
+        modal.className = 'custom-prompt-modal';
+        modal.innerHTML = `
+            <div class="custom-prompt-content">
+                <h3 id="custom-prompt-message"></h3>
+                <input type="text" id="custom-prompt-input" autocomplete="off" />
+                <div class="custom-prompt-buttons">
+                    <button class="btn-cancel" id="custom-prompt-cancel">Anulează</button>
+                    <button class="btn-ok" id="custom-prompt-ok">OK</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    document.getElementById('custom-prompt-message').textContent = message;
+    const input = document.getElementById('custom-prompt-input');
+    input.value = '';
+    modal.style.display = 'flex';
+    input.focus();
+
+    const btnOk = document.getElementById('custom-prompt-ok');
+    const btnCancel = document.getElementById('custom-prompt-cancel');
+
+    // Clean old event listeners by cloning
+    const newBtnOk = btnOk.cloneNode(true);
+    const newBtnCancel = btnCancel.cloneNode(true);
+    btnOk.parentNode.replaceChild(newBtnOk, btnOk);
+    btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+
+    newBtnOk.onclick = () => {
+        modal.style.display = 'none';
+        callback(input.value.trim());
+    };
+
+    newBtnCancel.onclick = () => {
+        modal.style.display = 'none';
+        callback(null);
+    };
+    
+    input.onkeydown = (e) => {
+        if (e.key === 'Enter') newBtnOk.click();
+        if (e.key === 'Escape') newBtnCancel.click();
+    };
+}
+
+function showCustomAlert(message) {
+    let modal = document.getElementById('custom-alert-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'custom-alert-modal';
+        modal.className = 'custom-prompt-modal'; // refolosim design-ul din custom prompt
+        modal.innerHTML = `
+            <div class="custom-prompt-content">
+                <h3 id="custom-alert-message" style="margin-bottom: 25px; line-height: 1.4;"></h3>
+                <div class="custom-prompt-buttons" style="justify-content: center;">
+                    <button class="btn-ok" id="custom-alert-ok" style="max-width: 150px;">OK</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    document.getElementById('custom-alert-message').textContent = message;
+    modal.style.display = 'flex';
+
+    const btnOk = document.getElementById('custom-alert-ok');
+    const newBtnOk = btnOk.cloneNode(true);
+    btnOk.parentNode.replaceChild(newBtnOk, btnOk);
+
+    newBtnOk.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    // Apăsarea tastei Enter sau Escape închide alerta
+    document.addEventListener('keydown', function tempListener(e) {
+        if (modal.style.display === 'flex' && (e.key === 'Enter' || e.key === 'Escape')) {
+            newBtnOk.click();
+            document.removeEventListener('keydown', tempListener);
         }
     });
 }
@@ -289,11 +378,11 @@ function saveIndoorDataToDatabase() {
         return response.text();
     })
     .then(msg => {
-        alert("Plan salvat cu succes în baza de date! / Plan successfully saved to database!");
+        showCustomAlert("Plan salvat cu succes ! ");
     })
     .catch(error => {
         console.error("Error saving indoor data:", error);
-        alert("Eroare la salvarea în baza de date. / Error saving to database.");
+        showCustomAlert("Eroare la salvarea planului. ");
     });
 }
 function exportIndoorData() {
