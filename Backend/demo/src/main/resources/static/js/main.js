@@ -251,6 +251,48 @@ function initializeSearch() {
         const searchTerm = e.target.value.toLowerCase().trim();
         console.log('User searched for:', searchTerm);
         if (!searchTerm) return;
+        
+        // 1. Căutare pentru Camere (Indoor)
+        let foundRoom = null;
+        if (window.floorData) {
+            for (let buildingKey of Object.keys(window.floorData)) {
+                const bData = window.floorData[buildingKey];
+                if (bData && bData.floors) {
+                    for (let floorObj of bData.floors) {
+                        if (floorObj.geoJson && floorObj.geoJson.features) {
+                            for (let feat of floorObj.geoJson.features) {
+                                if (feat.properties && feat.properties.name && feat.properties.name.toLowerCase().includes(searchTerm)) {
+                                    foundRoom = {
+                                        buildingName: buildingKey,
+                                        floorIndex: floorObj.id,
+                                        roomName: feat.properties.name
+                                    };
+                                    break;
+                                }
+                            }
+                        }
+                        if (foundRoom) break;
+                    }
+                }
+                if (foundRoom) break;
+            }
+        }
+        
+        if (foundRoom) {
+            let userConfirmed = await showAppConfirm(`Camera "${foundRoom.roomName}" a fost găsită în clădirea "${foundRoom.buildingName}" (Etaj ${foundRoom.floorIndex}). Vrei să deschizi planul clădirii?`);
+            if (userConfirmed) {
+                if (typeof window.openFloorPlanViewer === 'function') {
+                    window.openFloorPlanViewer(foundRoom.buildingName, foundRoom.floorIndex, foundRoom.roomName);
+                } else {
+                    await showAppAlert("Eroare: Vizualizatorul de planuri interne nu este disponibil.");
+                }
+                if (window.innerWidth <= 768) document.body.classList.remove('sidebar-open');
+            }
+            e.target.value = '';
+            return;
+        }
+
+        // 2. Căutare pentru Clădire / Exterior
         let targetPoint = null;
         let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
         let matchingEntrances = [];

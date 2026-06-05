@@ -274,7 +274,7 @@ function openFloorPlanEditor(buildingName, floorIndex) {
         generateFloorSwitcher(buildingName, true);
     }, 10);
 }
-function openFloorPlanViewer(buildingName, floorIndex) {
+function openFloorPlanViewer(buildingName, floorIndex, roomNameToHighlight = null) {
     closeFloorManager();
     const modal = document.getElementById('indoor-modal');
     if (!modal) return;
@@ -289,7 +289,7 @@ function openFloorPlanViewer(buildingName, floorIndex) {
         modal.classList.add('open');
         initIndoorMap();
         indoorMap.invalidateSize();
-        loadFloorData(buildingName, floorIndex);
+        loadFloorData(buildingName, floorIndex, roomNameToHighlight);
         disableEditorTools();
         generateFloorSwitcher(buildingName, false);
     }, 10);
@@ -421,23 +421,35 @@ function loadIndoorData() {
             if (!window.floorData) window.floorData = {};
         });
 }
-function loadFloorData(buildingName, floorIndex) {
+function loadFloorData(buildingName, floorIndex, roomNameToHighlight = null) {
     indoorLayers.clearLayers();
     if (!window.floorData) return;
     const bData = window.floorData[buildingName];
     if (bData && bData.floors) {
         const floorObj = bData.floors.find(f => f.id == floorIndex);
         if (floorObj && floorObj.geoJson) {
+            let layerToHighlight = null;
             L.geoJSON(floorObj.geoJson).eachLayer(layer => {
                 if (layer.feature && layer.feature.properties && layer.feature.properties.name) {
-                    layer.bindTooltip(layer.feature.properties.name, {
+                    const rName = layer.feature.properties.name;
+                    layer.bindTooltip(rName, {
                         permanent: true,
                         direction: "center",
                         className: "room-tooltip"
                     });
+                    
+                    if (roomNameToHighlight && rName.toLowerCase() === roomNameToHighlight.toLowerCase()) {
+                        layerToHighlight = layer;
+                        layer.setStyle({ color: 'red', weight: 3, fillColor: '#ffcccc', fillOpacity: 0.7 });
+                    }
                 }
                 indoorLayers.addLayer(layer);
             });
+            
+            if (layerToHighlight && layerToHighlight.getBounds) {
+                // Focusăm harta pe cameră
+                indoorMap.fitBounds(layerToHighlight.getBounds(), { padding: [20, 20], maxZoom: 1 });
+            }
         }
     }
 }
