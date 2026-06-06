@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 17:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 17:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -908,7 +908,7 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count338
-) (teza.aux)
+) (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
 \openout1 = `teza.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
@@ -1046,7 +1046,7 @@ Overfull \hbox (52.28856pt too wide) in paragraph at lines 81--81
 {C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=355, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=367, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf>
 Package pdftex.def Info: Anexa1.2.pdf  used on input line 82.
@@ -1057,7 +1057,7 @@ pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version
 
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=357, page=1, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=369, page=1, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
 Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
@@ -1083,7 +1083,7 @@ Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
  <./Anexa1.2.pdf>]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=408, page=2, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=420, page=2, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 2>
 Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 82.
@@ -1132,47 +1132,57 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [1
 
 ] [2]
+\openout2 = `capitolul1.aux'.
+
+ (capitolul1.tex
 Capitolul 1.
 [3
 
-] [4] [5] [6] [7]
+
+] [4] [5] [6]
+Underfull \vbox (badness 5490) has occurred while \output is active []
+
+ [7]
 Underfull \vbox (badness 2103) has occurred while \output is active []
 
  [8] [9]
-Overfull \hbox (5.48412pt too wide) in paragraph at lines 492--497
+Overfull \hbox (5.48412pt too wide) in paragraph at lines 379--384
 \T1/lmr/m/n/12 Platforma ET-TI-way este con-stru-it  pe o ar-hi-tec-tur  de tip cli-ent^^Userver, în care responsabilit []ile
  []
 
 
-Underfull \vbox (badness 1275) has occurred while \output is active []
+Underfull \vbox (badness 3612) has occurred while \output is active []
 
  [10]
 Underfull \vbox (badness 4981) has occurred while \output is active []
 
- [11] [12] [13]
+ [11] [12]) [13]
+\openout2 = `capitolul2.aux'.
+
+ (capitolul2.tex
 Capitolul 2.
 [14
 
+
+
+
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 687.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 66.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Underfull \vbox (badness 2293) has occurred while \output is active []
-
- [15]
-Overfull \hbox (7.538pt too wide) in paragraph at lines 780--786
+) [15]
+Overfull \hbox (7.538pt too wide) in paragraph at lines 155--161
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
 [16]
-<figuri/Tabel Utilizatori.png, id=631, 645.16031pt x 57.96657pt>
+<figuri/Tabel Utilizatori.png, id=646, 645.16031pt x 57.96657pt>
 File: figuri/Tabel Utilizatori.png Graphic file (type png)
 <use figuri/Tabel Utilizatori.png>
-Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 807.
+Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 174.
 (pdftex.def)             Requested size: 386.95897pt x 34.76692pt.
 
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 832--838
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 205--211
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
@@ -1180,62 +1190,133 @@ Overfull \hbox (0.6866pt too wide) in paragraph at lines 832--838
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.839 P
-       entru a asigura existenÈ›a unui cont de administrator Ã®ncÄƒ de la prima <./figuri/Tabel Utilizatori.png>] [18] [19] [20]
+l.212 P
+       entru a asigura existenÈ›a unui cont de administrator Ã®ncÄƒ de la prima <./figuri/Tabel Utilizatori.png>] [18] [19]) [20]
+\openout2 = `capitolul3.aux'.
+
+ (capitolul3.tex
 Capitolul 3.
 [21
 
+
+
+
 ] [22]
-Overfull \hbox (9.80125pt too wide) in paragraph at lines 1106--1112
+Overfull \hbox (9.80125pt too wide) in paragraph at lines 140--146
 \T1/lmr/m/n/12 O com-po-nent  im-por-tant  a plat-for-mei este ru-ta-rea în in-te-ri-o-rul cl -di-ri-lor, care ex-tinde experien[]a
  []
 
 [23] [24]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 1206--1216
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 241--251
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-[25] [26]
+[25]) [26]
+\openout2 = `capitolul4.aux'.
+
+ (capitolul4.tex
 Capitolul 4.
 
 Underfull \vbox (badness 4899) has occurred while \output is active []
 
  [27
 
-] [28] [29] [30]
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [31
 
-] [32] [33]
+
+] [28] [29] [30]) [31]
+\openout2 = `concluzii.aux'.
+
+ (concluzii.tex [32
+
+
+
+
+] [33]) [34]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1623--1629
+Underfull \hbox (badness 10000) in paragraph at lines 1631--1637
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[34
+[35
 
-] [35] (teza.aux)
+
+
+] [36]
+\openout2 = `anexa_a.aux'.
+
+ (anexa_a.tex
+Anexa A.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\advance' on input line 10.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\hangindent' on input line 10.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@tempdima' on input line 10.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\hbox' on input line 10.
+
+(C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+File: lstlang1.sty 2025/11/14 1.11b listings language file
+)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 19.
+ [37
+
+
+] [38] [39] [40] [41]) [42]
+\openout2 = `anexa_b.aux'.
+
+ (anexa_b.tex
+Anexa B.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\advance' on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\hangindent' on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\@tempdima' on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\hbox' on input line 8.
+
+[43
+
+
+
+
+] [44] [45] [46] [47]) [48] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 535F883FE71FB57621ED1AC2ED69EE9E;19656.
+(rerunfilecheck)             Checksum: 1DE8EF5E142C40B7C6A1523B22E6D286;20306.
  ) 
 Here is how much of TeX's memory you used:
- 15002 strings out of 467871
- 236190 string characters out of 5418377
- 674358 words of memory out of 5000000
- 43470 multiletter control sequences out of 15000+600000
- 718531 words of font info for 105 fonts, out of 8000000 for 9000
+ 16273 strings out of 467871
+ 255267 string characters out of 5418377
+ 1198838 words of memory out of 5000000
+ 44233 multiletter control sequences out of 15000+600000
+ 721840 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,17n,79p,893b,613s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (43 pages, 424255 bytes).
+ 75i,17n,79p,893b,2049s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on teza.pdf (56 pages, 577705 bytes).
 PDF statistics:
- 825 PDF objects out of 1000 (max. 8388607)
- 147 named destinations out of 1000 (max. 500000)
- 706 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1428 PDF objects out of 1440 (max. 8388607)
+ 601 named destinations out of 1000 (max. 500000)
+ 730 words of extra memory for PDF output out of 10000 (max. 10000000)
 

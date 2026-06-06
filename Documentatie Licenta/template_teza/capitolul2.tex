@@ -169,6 +169,13 @@ funcție de derivare a cheii, conceput special pentru stocarea parolelor: el
 este lent în mod intenționat și încorporează un factor aleatoriu, ceea ce
 îngreunează semnificativ atacurile prin forță brută.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figuri/Tabel Utilizatori.png}
+    \caption{Structura tabelului de utilizatori în baza de date, evidențiind câmpurile pentru numele de utilizator, parola criptată și rolul asociat.}
+    \label{fig:2.a}
+\end{figure}
+
 Componenta de criptare este definită ca un bean Spring (vezi Listing~A.5 din
 Anexa~A), ceea ce permite injectarea sa automată în orice altă componentă
 care are nevoie de criptarea sau verificarea parolelor. La crearea unui cont,

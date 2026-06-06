@@ -1,6 +1,8 @@
 %==============================================================================
 % ANEXA B - Cod JavaScript (Frontend)
-% Contine toate fragmentele de cod frontend referite in Capitolele 2 si 3.
+% Continute REAL din proiectul ETTIway: routing.js, utils.js, indoor.js, graph-editor.js
+% Fragmente extrase astfel incat sa fie reprezentative pentru fluxurile descrise
+% in capitole; codul integral este disponibil in repository-ul proiectului.
 %==============================================================================
 
 \chapter{Cod JavaScript (Frontend)}
@@ -13,19 +15,25 @@ codul integral este disponibil în repository-ul proiectului.
 
 \section*{Configurarea hărții exterioare}
 
-\begin{lstlisting}[language=JavaScript, caption={Parametrii de configurare ai hartii campusului}, label={lst:b1}]
+\begin{lstlisting}[language=JavaScript, caption={Parametrii de configurare ai hartii campusului (extras din utils.js)}, label={lst:b1}]
 const DEFAULT_CAMPUS_LAT = 44.433215;
 const DEFAULT_CAMPUS_LON = 26.056764;
 const DEFAULT_ZOOM_LEVEL = 18;
 const MAP_BOUNDS = [
-    [44.432102, 26.054500], // coltul de sud-vest
-    [44.434329, 26.059028]  // coltul de nord-est
+    [44.432102, 26.054500], 
+    [44.434329, 26.059028]  
 ];
 \end{lstlisting}
 
 \section*{Construirea grafului și algoritmul Dijkstra (exterior)}
 
-\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON}, label={lst:b2}]
+\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON (routing.js)}, label={lst:b2}]
+const COORD_PRECISION = 6;
+
+function getCoordKey(lat, lng) {
+    return `${Number(lat).toFixed(COORD_PRECISION)},${Number(lng).toFixed(COORD_PRECISION)}`;
+}
+
 function buildGraphFromGeoJSON(geoJSON) {
     const graph = {};
     const nodesMap = {};
@@ -38,18 +46,41 @@ function buildGraphFromGeoJSON(geoJSON) {
         }
         return key;
     }
+
     function addEdge(key1, key2, dist) {
         graph[key1].push({ node: key2, weight: dist });
         graph[key2].push({ node: key1, weight: dist });
     }
-    // parcurgerea elementelor de tip linie din GeoJSON
-    // si adaugarea nodurilor si muchiilor corespunzatoare
+
+    if (!geoJSON || !geoJSON.features) return { graph, nodesMap };
+
+    geoJSON.features.forEach(feature => {
+        if (feature.geometry.type === 'LineString') {
+           
+            const coords = feature.geometry.coordinates;
+            for (let i = 0; i < coords.length - 1; i++) {
+                const lat1 = coords[i][1],   lng1 = coords[i][0];
+                const lat2 = coords[i+1][1], lng2 = coords[i+1][0];
+                const key1 = addNode(lat1, lng1);
+                const key2 = addNode(lat2, lng2);
+                const dist = nodesMap[key1].distanceTo(nodesMap[key2]);
+                addEdge(key1, key2, dist);
+            }
+        } else if (feature.geometry.type === 'Point') {
+            
+            const lat = feature.geometry.coordinates[1];
+            const lng = feature.geometry.coordinates[0];
+            addNode(lat, lng);
+        }
+    });
     return { graph, nodesMap };
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=JavaScript, caption={Nucleul algoritmului lui Dijkstra}, label={lst:b3}]
+\begin{lstlisting}[language=JavaScript, caption={Algoritmul lui Dijkstra (routing.js)}, label={lst:b3}]
 function runDijkstra(graph, nodesMap, startKey, endKey) {
+    if (!graph[startKey] || !graph[endKey]) return null;
+
     const distances = {};
     const previous = {};
     const unvisited = new Set();
@@ -60,14 +91,41 @@ function runDijkstra(graph, nodesMap, startKey, endKey) {
         unvisited.add(node);
     }
     distances[startKey] = 0;
-    // se alege repetat nodul nevizitat cu distanta minima
-    // si se actualizeaza distantele vecinilor
-    // ...
-    // reconstructia traseului din lantul de noduri precedente
+
+    while (unvisited.size > 0) {
+        let current = null;
+        let minD = Infinity;
+        for (const node of unvisited) {
+            if (distances[node] < minD) {
+                minD = distances[node];
+                current = node;
+            }
+        }
+        if (current === null || current === endKey) break;
+        unvisited.delete(current);
+
+        for (const neighbor of graph[current]) {
+            if (!unvisited.has(neighbor.node)) continue;
+            const alt = distances[current] + neighbor.weight;
+            if (alt < distances[neighbor.node]) {
+                distances[neighbor.node] = alt;
+                previous[neighbor.node] = current;
+            }
+        }
+    }
+    if (distances[endKey] === Infinity) return null; 
+
+    const path = [];
+    let curr = endKey;
+    while (curr) {
+        path.unshift(nodesMap[curr]);
+        curr = previous[curr];
+    }
+    return path;
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=JavaScript, caption={Gasirea celui mai apropiat nod din graf}, label={lst:b4}]
+\begin{lstlisting}[language=JavaScript, caption={Gasirea celui mai apropiat nod din graf (routing.js)}, label={lst:b4}]
 function findNearestNode(targetLatLng, nodesMap) {
     let nearestKey = null;
     let minDistance = Infinity;
@@ -84,7 +142,7 @@ function findNearestNode(targetLatLng, nodesMap) {
 
 \section*{Securitatea la nivelul interfeței}
 
-\begin{lstlisting}[language=JavaScript, caption={Prelucrarea textului inainte de afisare (anti XSS)}, label={lst:b5}]
+\begin{lstlisting}[language=JavaScript, caption={Prelucrarea textului inainte de afisare, anti XSS (utils.js)}, label={lst:b5}]
 function escapeHtml(text) {
     if (text == null) return '';
     const div = document.createElement('div');
@@ -95,7 +153,7 @@ function escapeHtml(text) {
 
 \section*{Indoor: persistare în baza de date}
 
-\begin{lstlisting}[language=JavaScript, caption={Salvarea planului indoor curent in baza de date}, label={lst:b6}]
+\begin{lstlisting}[language=JavaScript, caption={Salvarea planului indoor curent in baza de date (indoor.js)}, label={lst:b6}]
 function saveIndoorDataToDatabase() {
     fetch('/api/indoor/save', {
         method: 'POST',
@@ -116,7 +174,7 @@ function saveIndoorDataToDatabase() {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=JavaScript, caption={Incarcarea planurilor indoor de pe server la pornire}, label={lst:b7}]
+\begin{lstlisting}[language=JavaScript, caption={Incarcarea planurilor indoor de pe server la pornirea aplicatiei (indoor.js)}, label={lst:b7}]
 function loadIndoorData() {
     fetch('/api/indoor/load')
         .then(response => {
@@ -125,19 +183,27 @@ function loadIndoorData() {
         })
         .then(data => {
             if (data && Object.keys(data).length > 0) {
+                console.log("Loaded indoor data from database:", data);
                 window.floorData = data;
+            } else {
+                
+                return fetch('data/indoor-data.json')
+                    .then(res => res.ok ? res.json() : {})
+                    .then(localData => {
+                        window.floorData = localData || {};
+                    });
             }
         })
         .catch(error => {
-            console.log("No existing indoor data found:", error);
+            console.log("No existing indoor data found or error loading:", error);
             if (!window.floorData) window.floorData = {};
         });
 }
 \end{lstlisting}
 
-\section*{Indoor: rutarea pe planul de etaj}
+\section*{Indoor: conectarea punctelor la rețeaua de coridoare}
 
-\begin{lstlisting}[language=JavaScript, caption={Conectarea nodurilor de start si destinatie la reteaua de coridoare}, label={lst:b8}]
+\begin{lstlisting}[language=JavaScript, caption={Conectarea nodurilor de start si destinatie la reteaua de coridoare prin proiectie pe segmente (indoor.js)}, label={lst:b8}]
 function connectNodeToNetwork(nKey) {
     let p = nodesMap[nKey];
     let minDist = Infinity;
@@ -154,16 +220,24 @@ function connectNodeToNetwork(nKey) {
         }
     });
 
-    // toleranta pentru liniile desenate "la ochi" care nu se ating exact in vertex
+    
+    
     if (bestEdge && (minDist < 25 || nKey === startKey || nKey === destKey)) {
         const projKey = addIndoorNode(bestProj.lat, bestProj.lng);
-        // taiem muchia si inseram proiectia, apoi conectam punctul nostru
-        graph[bestEdge.k1].push({ node: projKey, weight: euclidean(bestEdge.p1, bestProj) });
-        graph[projKey].push({ node: bestEdge.k1, weight: euclidean(bestEdge.p1, bestProj) });
-        graph[bestEdge.k2].push({ node: projKey, weight: euclidean(bestEdge.p2, bestProj) });
-        graph[projKey].push({ node: bestEdge.k2, weight: euclidean(bestEdge.p2, bestProj) });
-        graph[nKey].push({ node: projKey, weight: euclidean(p, bestProj) });
-        graph[projKey].push({ node: nKey, weight: euclidean(p, bestProj) });
+
+        const distK1 = euclidean(bestEdge.p1, bestProj);
+        const distK2 = euclidean(bestEdge.p2, bestProj);
+        const distN  = euclidean(p, bestProj);
+
+        
+        graph[bestEdge.k1].push({ node: projKey, weight: distK1 });
+        graph[projKey].push({ node: bestEdge.k1, weight: distK1 });
+
+        graph[bestEdge.k2].push({ node: projKey, weight: distK2 });
+        graph[projKey].push({ node: bestEdge.k2, weight: distK2 });
+
+        graph[nKey].push({ node: projKey, weight: distN });
+        graph[projKey].push({ node: nKey, weight: distN });
     }
 }
 \end{lstlisting}

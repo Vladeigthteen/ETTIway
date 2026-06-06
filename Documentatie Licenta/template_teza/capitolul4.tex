@@ -1,0 +1,237 @@
+%==============================================================================
+% CAPITOLUL 4 - Testarea si evaluarea sistemului
+% Se adauga in continuarea Capitolului 3.
+% Redactat cu diacritice, conform Regulamentului ETTI (Cap. 3).
+%==============================================================================
+
+\chapter{Testarea și evaluarea sistemului}
+\label{cap:testare}
+
+După implementarea funcționalităților și punerea în funcțiune a platformei,
+descrise în capitolele anterioare, etapa următoare a constat în testarea
+sistemului pentru a verifica funcționarea corectă a fiecărei componente și
+comportamentul de ansamblu al aplicației în condiții reale de utilizare. Acest
+capitol descrie metodologia de testare adoptată, scenariile parcurse, rezultatele
+observate și limitările identificate. Scopul este de a oferi o evaluare onestă a
+platformei în starea sa actuală, evidențiind atât aspectele care funcționează
+conform așteptărilor, cât și pe cele care reprezintă oportunități de îmbunătățire
+ulterioară.
+
+\section{Metodologia de testare}
+\label{sec:metodologie-testare}
+
+Pentru evaluarea platformei ETTIway a fost adoptată o abordare de testare
+preponderent manuală, orientată spre scenarii reale de utilizare. Această alegere
+este motivată de natura aplicației: ETTIway este o platformă cu o componentă
+vizuală și interactivă semnificativă, iar comportamentul său în condiții reale
+(recepția GPS în campus, fluiditatea interacțiunii cu harta sau
+claritatea afișării) nu poate fi evaluat automat, ci necesită observare directă
+pe dispozitivele țintă.
+
+Testarea s-a desfășurat pe două direcții complementare. Prima direcție a vizat
+verificarea funcțională a fiecărei capabilități în parte: autentificarea în cele
+două roluri, căutarea unei săli, afișarea detaliilor, editarea hărții de către
+administrator, persistarea modificărilor în baza de date și calculul traseului
+între două puncte. A doua direcție a vizat verificarea de ansamblu a fluxului de
+utilizare, parcurgând scenariile complete de la deschiderea aplicației până la
+afișarea unui traseu pe hartă, pentru a observa modul în care componentele
+conlucrează.
+
+\section{Scenarii de testare funcțională}
+\label{sec:scenarii}
+
+Funcționalitățile centrale ale platformei au fost verificate sistematic, prin
+parcurgerea unor scenarii reprezentative pentru utilizarea reală. Această
+secțiune descrie scenariile principale și rezultatele observate.
+
+\subsection{Autentificarea și diferențierea rolurilor}
+\label{subsec:test-auth}
+
+Pentru verificarea mecanismului de autentificare, s-au parcurs scenarii cu ambele
+roluri configurate: utilizator obișnuit și administrator. La introducerea
+credențialelor valide, sistemul redirecționează utilizatorul către interfața
+corespunzătoare rolului său, încărcând setul de controale adecvat. La
+introducerea unor credențiale eronate, accesul este refuzat, iar utilizatorul
+este readus la pagina de autentificare, fără a primi informații care ar putea
+ajuta la identificarea cauzei refuzului, un aspect important din punct de vedere
+al securității.
+
+A fost verificată, de asemenea, izolarea funcționalităților rezervate
+administratorului. Încercarea de a accesa direct, prin manipularea adresei,
+rutele administrative din contul unui utilizator obișnuit este blocată la
+nivelul backend-ului, confirmând că diferențierea rolurilor nu se bazează doar pe
+ascunderea controalelor în interfață, ci este aplicată efectiv la nivelul
+serviciilor. Această dublă protecție, în interfață și în backend, corespunde
+practicilor consacrate de securizare a aplicațiilor web.
+
+% [SUGESTIE CAPTURA 4.1: doua capturi - pagina de login si pagina de eroare la
+% credentiale gresite (sau pagina blocata cand un user obisnuit incearca o ruta
+% de admin). Plaseaz-o aici.]
+
+\subsection{Căutarea și afișarea detaliilor}
+\label{subsec:test-cautare}
+
+Funcția de căutare a fost evaluată prin introducerea unor termeni
+reprezentativi, nume de clădiri și de săli din campus, și observarea
+rezultatelor afișate. Au fost verificate atât potrivirile exacte, cât și
+potrivirile parțiale, pentru a confirma că aplicația găsește elementele corecte
+chiar și atunci când utilizatorul introduce doar o parte a denumirii. La
+selectarea unui rezultat, detaliile asociate, clădirea, etajul, capacitatea,
+tipul, sunt afișate complet și consistent, atât în panoul lateral, cât și în
+ferestrele de tip popup atașate locațiilor pe hartă.
+
+% [SUGESTIE CAPTURA 4.2: captura cu o cautare in desfasurare (termen partial in
+% caseta de cautare si lista de rezultate sub ea). Plaseaz-o aici.]
+
+\subsection{Editarea și persistarea modificărilor}
+\label{subsec:test-editare}
+
+Pentru rolul de administrator, a fost verificat ciclul complet de editare a
+hărții: autentificare ca administrator, intrarea în modul de editare, adăugarea
+și modificarea unor noduri și legături, salvarea modificărilor și verificarea
+persistenței acestora. Modificările sunt vizibile imediat după salvare, iar
+reîncărcarea aplicației, chiar și de pe alt dispozitiv, confirmă că noile date
+sunt preluate corect din baza de date și prezentate consistent tuturor
+utilizatorilor. Acest scenariu confirmă funcționarea fluxului complet între
+frontend, backend și stratul de persistență.
+
+\subsection{Calculul și afișarea traseului}
+\label{subsec:test-traseu}
+
+Componenta de rutare a fost evaluată prin selectarea unor perechi de puncte
+distribuite în campus și verificarea traseelor calculate. În toate cazurile în
+care punctele se află pe porțiuni conectate ale rețelei, algoritmul returnează un
+traseu, iar acesta este desenat clar pe hartă, urmărind rețeaua de alei și
+drumuri. Pentru cazurile particulare, punct de plecare identic cu cel de
+destinație, puncte foarte apropiate, puncte aflate pe componente neconectate ale
+grafului, comportamentul a fost de asemenea verificat, aplicația tratând corect
+fiecare situație, fie prin afișarea unui traseu degenerat la un singur punct, fie
+prin semnalarea absenței unui drum.
+
+\subsection{Editarea și rutarea în interior}
+\label{subsec:test-indoor}
+
+Componenta de rutare indoor a fost verificată folosind date reale: o clădire
+din campus, pentru care administratorul a desenat planul unui etaj cu mai multe
+camere, un set de coridoare conectate prin intersecții și nodurile de intrare
+asociate fiecărei camere. Au fost parcurse, pe rând, cele două roluri ale
+fluxului indoor.
+
+Pentru rolul de administrator, a fost verificat ciclul complet de editare:
+desenarea camerelor cu introducerea numelui, plasarea markerilor cu alegerea
+tipului (intrare cameră, intersecție sau scară), trasarea coridoarelor între
+markeri și salvarea planului. La reîncărcarea aplicației, planul a fost
+restaurat fidel din baza de date, incluzând proprietățile fiecărui element și
+ferestrele de tip tooltip atașate camerelor.
+
+Pentru rolul de utilizator obișnuit, a fost verificat fluxul de căutare și
+rutare. Căutarea unei camere a deschis automat planul etajului corespunzător,
+cu camera țintă evidențiată vizual. Selectarea unui punct de plecare din
+lista de noduri disponibile și apăsarea butonului de calcul al traseului a
+condus la afișarea drumului optim între punctele alese, urmărind rețeaua de
+coridoare. Mecanismul de proiectare a nodurilor pe segmente apropiate, descris
+în Capitolul~3, s-a dovedit util în practică: micile imprecizii din desen, în
+care o linie nu se conectează exact la un alt segment, sunt tolerate fără a
+afecta calculul traseului.
+
+Cazul particular al rutării între etaje diferite, neimplementat în versiunea
+actuală, este tratat explicit de aplicație printr-un mesaj informativ pentru
+utilizator, evitând rezultate inconsistente.
+
+\section{Testarea pe mai multe dispozitive și browsere}
+\label{sec:portabilitate}
+
+Deoarece ETTIway este o aplicație web, o cerință importantă este funcționarea
+corectă pe o varietate de dispozitive și de browsere. Testarea a inclus accesarea
+aplicației de pe calculatoare personale, prin browserele cele mai răspândite,
+precum și de pe telefoane mobile cu sisteme de operare diferite. În toate
+configurațiile testate, aplicația s-a comportat uniform: harta s-a încărcat
+corect, controalele au răspuns natural la interacțiune, iar funcționalitățile de
+căutare și rutare au funcționat identic.
+
+Această consistență confirmă alegerea tehnologică de a folosi exclusiv API-uri
+web standard, fără dependențe de capabilități specifice unui anumit browser.
+Suportul nativ oferit de biblioteca Leaflet pentru gesturile tactile
+(deplasarea hărții prin glisare, mărirea prin apropierea degetelor) a contribuit
+semnificativ la o experiență fluidă pe dispozitivele mobile, care reprezintă
+contextul principal de utilizare a platformei într-un campus.
+
+\section{Comportamentul în condiții reale de utilizare}
+\label{sec:conditii-reale}
+
+Pe lângă scenariile individuale de testare, platforma a fost folosită în
+condiții reale, parcurgând efectiv campusul cu un dispozitiv mobil pe care rula
+aplicația. Acest tip de evaluare, dificil de înlocuit prin teste automate, a
+oferit informații valoroase despre comportamentul de ansamblu și despre
+experiența reală a utilizatorului.
+
+În spațiile deschise, în care recepția GPS este bună, poziția utilizatorului
+afișată pe hartă urmărește fidel deplasarea reală, iar traseele calculate către
+diferite destinații sunt afișate fluid, în timp real. Tranziția între pașii
+fluxului de utilizare, autentificare, alegerea destinației, calculul traseului,
+afișarea sa pe hartă, se desfășoară fără întreruperi vizibile, iar timpul de
+răspuns al aplicației nu a constituit, în testele efectuate, un factor limitativ.
+
+% [SUGESTIE CAPTURA 4.3: captura de pe telefon facuta in campus, in aer liber,
+% aratand pozitia utilizatorului pe harta si traseul calculat. Plaseaz-o aici.]
+
+\section{Limitări identificate}
+\label{sec:limitari}
+
+Testarea sistematică și utilizarea în condiții reale au evidențiat și anumite
+limitări, care merită discutate atât pentru completitudinea evaluării, cât și
+pentru a identifica direcțiile naturale de dezvoltare ulterioară.
+
+\subsection{Precizia poziționării în interiorul clădirilor}
+\label{subsec:limitare-gps}
+
+Limitarea cea mai vizibilă în utilizarea reală este legată de precizia
+poziționării atunci când utilizatorul se află în interiorul clădirilor. În
+spațiile deschise, semnalul GPS oferă o precizie de ordinul câtorva metri,
+suficientă pentru a indica corect poziția pe rețeaua de alei a campusului. În
+interiorul clădirilor, însă, semnalul satelitar este atenuat și reflectat de
+structurile de beton și metal, ceea ce conduce la o degradare semnificativă a
+preciziei, eroarea putând ajunge la zeci de metri.
+
+Această limitare nu este specifică implementării ETTIway, ci este o caracteristică
+fundamentală a tehnologiei GPS, întâlnită în orice aplicație care depinde de
+poziționarea satelitară. Ea a fost descrisă, din punct de vedere teoretic, în
+Capitolul 1, iar testarea practică a confirmat efectul observat și anticipat:
+funcționarea optimă a localizării este în spațiu deschis, ceea ce corespunde și
+contextului principal de utilizare a unei aplicații de navigare în campus,
+adică deplasarea între clădiri, pe alei. Pentru orientarea în interiorul clădirilor,
+soluții complementare, bazate pe alte tehnologii de localizare, ar putea fi
+integrate în versiuni viitoare, aspect discutat în capitolul de concluzii.
+
+\subsection{Acoperirea actuală a datelor}
+\label{subsec:limitare-date}
+
+O a doua limitare, distinctă de cea tehnologică, ține de gradul actual de
+completitudine a datelor introduse în platformă. Aplicația funcționează corect în
+măsura în care harta și rețeaua de trasee acoperă fidel infrastructura
+campusului. Extinderea acoperirii, adăugarea de noi clădiri, alei sau puncte de
+interes, este însă posibilă direct, prin intermediul modului de editare
+descris în capitolul anterior, fără modificări în cod. Această proprietate face
+ca limitarea să fie una de scop, nu una structurală, și să poată fi depășită prin
+muncă incrementală de întreținere a datelor.
+
+\section{Concluziile capitolului}
+\label{sec:concluzii-cap4}
+
+În acest capitol au fost prezentate metodologia, scenariile și rezultatele
+testării platformei ETTIway. Funcționalitățile principale, autentificarea cu
+diferențierea rolurilor, căutarea, afișarea detaliilor, editarea hărții cu
+persistarea modificărilor și calculul vizual al traseelor, au fost verificate
+sistematic, prin scenarii reprezentative, și au fost confirmate ca funcționând
+conform așteptărilor. Testarea pe mai multe dispozitive și browsere a arătat un
+comportament uniform, validând alegerile tehnologice care favorizează
+portabilitatea.
+
+Evaluarea în condiții reale, prin utilizarea aplicației în campus, a confirmat că
+experiența de navigare este fluidă în spațiile deschise, în care recepția GPS
+este bună. Singura limitare semnificativă identificată este degradarea preciziei
+poziționării în interiorul clădirilor, o caracteristică intrinsecă a tehnologiei
+GPS, care delimitează în mod natural domeniul de utilizare optimă a aplicației la
+navigarea în spațiile exterioare ale campusului. Această observație, formulată
+explicit, oferă o bază clară pentru direcțiile de dezvoltare ulterioară, discutate
+în concluziile finale ale lucrării.

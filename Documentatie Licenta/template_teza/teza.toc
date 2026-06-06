@@ -33,13 +33,13 @@
 \contentsline {section}{\numberline {1.9}Concluziile capitolului}{12}{section.1.9}%
 \contentsline {chapter}{\numberline {2}Arhitectura sistemului}{14}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Vedere de ansamblu asupra arhitecturii}{14}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Nivelul de servicii (backend)}{14}{section.2.2}%
+\contentsline {section}{\numberline {2.2}Nivelul de servicii (backend)}{15}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Punctul de intrare al aplicației}{15}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Accesul la date prin JPA}{15}{subsection.2.2.2}%
 \contentsline {section}{\numberline {2.3}Nivelul de date}{15}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Entitatea utilizator}{16}{subsection.2.3.1}%
 \contentsline {subsection}{\numberline {2.3.2}Entitatea pentru datele hărții}{16}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Entitatea pentru planurile de etaj}{16}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.3}Reprezentarea planurilor de etaj}{16}{subsection.2.3.3}%
 \contentsline {section}{\numberline {2.4}Securitate: autentificare și autorizare}{16}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Criptarea parolelor}{17}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Configurarea regulilor de acces}{17}{subsection.2.4.2}%
@@ -72,15 +72,18 @@
 \contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{28}{subsection.4.2.2}%
 \contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{28}{subsection.4.2.3}%
 \contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{28}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Editarea și rutarea în interior}{29}{subsection.4.2.5}%
 \contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{29}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{29}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Limitări identificate}{29}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{29}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{30}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Limitări identificate}{30}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{30}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{30}{subsection.4.5.2}%
-\contentsline {section}{\numberline {4.6}Concluziile capitolului}{30}{section.4.6}%
-\contentsline {chapter}{Concluzii}{31}{chapter*.4}%
-\contentsline {section}{Sinteza rezultatelor}{31}{section*.5}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{32}{section*.6}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{32}{section*.7}%
-\contentsline {section}{Reflecție finală}{33}{section*.8}%
-\contentsline {unnumberedsection}{Bibliografie}{34}{chapter*.9}%
+\contentsline {section}{\numberline {4.6}Concluziile capitolului}{31}{section.4.6}%
+\contentsline {chapter}{Concluzii}{32}{chapter*.4}%
+\contentsline {section}{Sinteza rezultatelor}{32}{section*.5}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{33}{section*.6}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{33}{section*.7}%
+\contentsline {section}{Reflecție finală}{34}{section*.8}%
+\contentsline {unnumberedsection}{Bibliografie}{35}{chapter*.9}%
+\contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{37}{appendix.A}%
+\contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{43}{appendix.B}%

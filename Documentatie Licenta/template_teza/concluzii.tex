@@ -1,0 +1,139 @@
+%==============================================================================
+% CONCLUZII - nu se numeroteaza, apare ca element separat dupa Capitolul 4 si
+% inainte de Bibliografie. Conform Regulamentului ETTI, Cap. 3, pct. j.
+%==============================================================================
+
+\chapter*{Concluzii}
+\addcontentsline{toc}{chapter}{Concluzii}
+
+Lucrarea de față a propus și a realizat ETTIway, o platformă web pentru
+navigarea interactivă într-un campus universitar, plecând de la o problemă
+reală: lipsa unei soluții digitale unitare pentru orientarea în campusul ETTI,
+care să integreze identificarea clădirilor, căutarea sălilor și calculul
+traseelor între puncte relevante. Această secțiune sintetizează rezultatele
+obținute, formulează opinia personală asupra acestora și schițează direcții
+naturale de dezvoltare ulterioară.
+
+\section*{Sinteza rezultatelor}
+\addcontentsline{toc}{section}{Sinteza rezultatelor}
+
+Din punct de vedere tehnic, lucrarea a condus la o platformă funcțională,
+structurată pe trei niveluri logice clar separate: o interfață web construită cu
+JavaScript și Leaflet, un backend realizat cu Spring Boot și o bază de date
+PostgreSQL pentru persistarea informațiilor. Au fost implementate
+funcționalitățile centrale anunțate în tema lucrării: autentificarea cu
+diferențierea rolurilor de utilizator și administrator, editarea hărții direct
+din interfață cu persistarea modificărilor în baza de date, căutarea contextuală
+a sălilor și clădirilor, afișarea detaliilor asociate locațiilor și calculul
+vizual al traseelor optime între puncte, bazat pe algoritmul lui Dijkstra,
+combinat cu poziționarea în timp real a utilizatorului prin GPS. Dincolo de
+navigarea exterioară, platforma include și o componentă de rutare în interiorul
+clădirilor, în care administratorul poate desena planuri de etaj cu camere,
+coridoare și noduri de rutare, iar utilizatorul poate calcula traseul între
+două puncte de pe același etaj. Soluția folosește același algoritm Dijkstra
+aplicat unui graf construit din planurile salvate ca documente GeoJSON, ceea
+ce a permis reutilizarea codului existent fără modificări semnificative.
+
+În planul infrastructurii, soluția adoptată pentru punerea în funcțiune se
+distinge prin alegerea de a folosi o rețea privată virtuală construită peste
+WireGuard, în locul expunerii clasice a serverului pe internetul public. Această
+decizie de proiectare elimină complet suprafața de atac externă a sistemului,
+oferind în același timp, prin certificatul HTTPS valid emis automat, contextul
+securizat necesar pentru accesul la poziția GPS pe dispozitivele mobile.
+Combinarea celor două proprietăți, izolare totală față de internet și conexiune
+criptată cu certificat valid, reprezintă un rezultat practic notabil al
+lucrării.
+
+La nivel metodologic, lucrarea a parcurs ciclul complet de dezvoltare a unei
+aplicații reale: analiza cerințelor, proiectarea arhitecturii, implementarea
+incrementală, integrarea componentelor, punerea în funcțiune într-un mediu
+accesibil de pe mai multe dispozitive și testarea sistematică în condiții reale
+de utilizare. Această experiență, mai mult decât rezultatul tehnic în sine,
+constituie o componentă importantă a contribuției personale, expunându-mă la
+deciziile concrete care apar la fiecare nivel al unui sistem software complet.
+
+\section*{Opinia personală asupra rezultatelor}
+\addcontentsline{toc}{section}{Opinia personală asupra rezultatelor}
+
+Consider că obiectivele declarate ale lucrării au fost atinse în măsură
+satisfăcătoare. Platforma este funcțională în mediul real, oferă o experiență de
+navigare fluidă în spațiile exterioare ale campusului și demonstrează că o
+soluție de orientare digitală poate fi construită folosind tehnologii deschise,
+fără dependențe comerciale sau costuri de licențiere. Combinarea backend-ului
+Java cu o interfață web bazată pe JavaScript și Leaflet s-a dovedit potrivită
+pentru scopul propus, oferind atât performanța necesară, cât și o experiență de
+utilizator comparabilă cu cea a aplicațiilor de navigare consacrate.
+
+Cea mai valoroasă lecție a procesului de dezvoltare a fost legată de
+importanța deciziilor de infrastructură. Inițial, atenția mea s-a concentrat pe
+funcționalitățile vizibile ale aplicației, harta, căutarea, rutarea, însă în
+practică s-a dovedit că punerea în funcțiune sigură și corectă a platformei
+ridică probleme la fel de interesante și solicită soluții la fel de gândite. În
+particular, înțelegerea legăturii dintre contextul securizat HTTPS și accesul la
+poziția GPS a fost una dintre observațiile concrete ale proiectului, care a
+modelat decisiv alegerea soluției de punere în funcțiune.
+
+În același timp, recunosc că platforma, în starea sa actuală, are limite clare.
+Acoperirea datelor este parțială, iar precizia poziționării în interiorul
+clădirilor este afectată de constrângerile tehnologice ale GPS-ului, descrise
+în Capitolul 1 și confirmate experimental în Capitolul 4. Aceste limitări nu
+sunt eșecuri ale soluției, ci delimitări naturale ale domeniului său actual de
+aplicabilitate, iar identificarea lor explicită deschide direcții firești de
+dezvoltare ulterioară.
+
+\section*{Direcții viitoare de dezvoltare}
+\addcontentsline{toc}{section}{Direcții viitoare de dezvoltare}
+
+Pe baza experienței acumulate și a limitărilor identificate, mai multe direcții
+de dezvoltare apar ca firești și valoroase.
+
+Prima direcție vizează extinderea funcționalității de navigare indoor către
+deplasări între etaje diferite. Versiunea actuală tratează rutarea pe un
+singur etaj la un moment dat, iar selectarea unui punct de plecare și a unei
+destinații aflate pe etaje diferite este semnalată ca neimplementată.
+Realizarea acesteia ar presupune adăugarea unor muchii speciale între nodurile
+de tip scară de pe etaje succesive, precum și a unei logici de tranziție
+vizuală între planurile etajelor pe măsură ce traseul calculat le traversează.
+O extindere conexă privește integrarea fluxului exterior–interior: în
+versiunea actuală, utilizatorul comută explicit între harta campusului și
+planul unei clădiri, dar un traseu unificat ar putea porni de la o poziție
+GPS exterioară, ar putea trece prin intrarea principală a clădirii și ar
+putea continua pe coridoarele indoor până la sala destinație. Pentru
+poziționarea efectivă a utilizatorului în interiorul clădirilor, unde GPS-ul
+devine nefiabil, ar putea fi explorate soluții complementare bazate pe balize
+Bluetooth de joasă energie sau pe semnale Wi-Fi.
+
+A doua direcție privește îmbogățirea acoperirii de date. Adăugarea de noi
+clădiri, săli, alei și puncte de interes este deja posibilă din interfața de
+administrare, fără modificări în cod, deci această direcție nu necesită
+dezvoltare tehnică, ci muncă de întreținere a datelor. Pe termen mediu, ar fi
+utilă explorarea unor mecanisme de import semiautomat din surse externe, precum
+OpenStreetMap, pentru a accelera această muncă.
+
+A treia direcție ține de funcționalități avansate de rutare. Algoritmul lui
+Dijkstra implementat oferă traseul de cost minim, considerând doar distanța, dar
+ar putea fi extins pentru a ține cont și de alte criterii: accesibilitate pentru
+persoane cu dizabilități, evitarea zonelor aglomerate, preferința pentru
+traseele acoperite în caz de vreme nefavorabilă. Asemenea extinderi presupun
+îmbogățirea grafului cu informații suplimentare la nivelul muchiilor și o
+interfață prin care utilizatorul să își exprime preferințele.
+
+În fine, o direcție care depășește perimetrul strict tehnic este testarea pe
+scară mai largă, cu utilizatori reali din comunitatea universitară.
+O astfel de evaluare ar oferi informații pe care testarea individuală nu le
+poate înlocui, privind ergonomia interfeței, acoperirea reală a nevoilor de
+navigare și acceptarea soluției ca instrument util în viața de zi cu zi în
+campus.
+
+\section*{Reflecție finală}
+\addcontentsline{toc}{section}{Reflecție finală}
+
+Dincolo de rezultatul tehnic, lucrarea a reprezentat o experiență formativă în
+care am avut ocazia să parcurg, în mod integrat, etape pe care, în mod normal,
+le abordăm separat pe parcursul anilor de studiu: proiectare software,
+programare web, baze de date, securitate, administrare de sisteme. Această
+integrare, dificilă la început, mi-a oferit o înțelegere mai matură a modului în
+care o soluție tehnică reală se construiește prin succesiunea unor decizii la
+mai multe niveluri, fiecare cu propriile sale considerații și compromisuri.
+Consider că tocmai acest tip de experiență integrativă este cel mai prețios
+beneficiu pe care l-am obținut prin elaborarea acestei lucrări.
