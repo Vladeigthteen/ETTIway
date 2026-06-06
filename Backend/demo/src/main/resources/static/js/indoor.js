@@ -402,6 +402,11 @@ function openFloorPlanEditor(buildingName, floorIndex) {
         saveBtn.style.display = 'inline-block';
         saveBtn.onclick = () => saveCurrentFloorPlan(); 
     }
+    
+    // Ascundem controalele de rutare in modul editor
+    const routingControls = document.getElementById('indoor-routing-controls');
+    if (routingControls) routingControls.style.display = 'none';
+
     currentIndoorBuilding = buildingName;
     currentIndoorFloor = floorIndex;
     modal.style.display = 'flex'; // or block based on CSS
@@ -437,6 +442,14 @@ function openFloorPlanViewer(buildingName, floorIndex, roomNameToHighlight = nul
     if (title) title.textContent = `${buildingName} - Etaj ${floorIndex}`;
     const saveBtn = document.getElementById('indoor-save-btn');
     if (saveBtn) saveBtn.style.display = 'none';
+
+    // Afisam controalele de rutare in modul viewer
+    const routingControls = document.getElementById('indoor-routing-controls');
+    if (routingControls) {
+        routingControls.style.display = 'flex';
+        populateIndoorRoutingDropdowns(buildingName);
+    }
+
     currentIndoorBuilding = buildingName;
     currentIndoorFloor = floorIndex;
     modal.style.display = 'flex';
@@ -667,6 +680,59 @@ window.openFloorsForBuilding = function(buildingName) {
         }
     }
 };
+
+function populateIndoorRoutingDropdowns(buildingName) {
+    const startSelect = document.getElementById('indoor-start-select');
+    const destSelect = document.getElementById('indoor-dest-select');
+    if (!startSelect || !destSelect) return;
+
+    startSelect.innerHTML = '<option value="">-- Alege Start --</option>';
+    destSelect.innerHTML = '<option value="">-- Alege Destinație --</option>';
+
+    if (!window.floorData || !window.floorData[buildingName] || !window.floorData[buildingName].floors) return;
+
+    let startItems = [];
+    let destItems = [];
+
+    window.floorData[buildingName].floors.forEach(floor => {
+        if (floor.geoJson && floor.geoJson.features) {
+            floor.geoJson.features.forEach(feature => {
+                if (feature.properties && feature.properties.name) {
+                    const name = feature.properties.name;
+                    const markerType = feature.properties.markerType; // 1 = intrare, 2 = intersectie, 3 = scari
+                    
+                    const optionText = `${name} (Etaj ${floor.id})`;
+
+                    if (!markerType) {
+                        // it's a room polygon/rectangle
+                        startItems.push({ val: name, text: optionText });
+                        destItems.push({ val: name, text: optionText });
+                    } else if (markerType === "1" || markerType === "3") {
+                        // Intrarea sau scara se poate alege ca starting point
+                        startItems.push({ val: name, text: optionText });
+                        // Eventual si la destinatie daca se vrea scari, dar in cerinta scrie (room list pt destinatie)
+                        // Destinatia doar room list
+                    }
+                }
+            });
+        }
+    });
+
+    startItems.sort((a,b) => a.text.localeCompare(b.text)).forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.val;
+        opt.textContent = item.text;
+        startSelect.appendChild(opt);
+    });
+
+    destItems.sort((a,b) => a.text.localeCompare(b.text)).forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item.val;
+        opt.textContent = item.text;
+        destSelect.appendChild(opt);
+    });
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initIndoorManager);
 } else {
