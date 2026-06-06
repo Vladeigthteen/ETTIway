@@ -8,6 +8,12 @@ function initIndoorManager() {
         modal.style.display = 'none';
         modal.classList.remove('open');
     }
+
+    const routeBtn = document.getElementById('indoor-route-btn');
+    if (routeBtn) routeBtn.addEventListener('click', calculateIndoorRoute);
+
+    const clearRouteBtn = document.getElementById('indoor-clear-route-btn');
+    if (clearRouteBtn) clearRouteBtn.addEventListener('click', clearIndoorRoute);
 }
 function openFloorManager() {
     const modal = document.getElementById('floor-manager-modal');
@@ -125,6 +131,7 @@ let currentIndoorBuilding = null;
 let currentIndoorFloor = null;
 let indoorLayers = null;
 let indoorBorderLayer = null;
+let indoorRoutePolyline = null;
 
 function getCustomMarkerIcon(typeId) {
     let bgColor = '#3498db'; // Default type 1
@@ -710,11 +717,11 @@ function populateIndoorRoutingDropdowns(buildingName) {
 
                     if (!markerType) {
                         // it's a room polygon/rectangle
-                        startItems.push({ val: name, text: optionText });
-                        destItems.push({ val: name, text: optionText });
+                        startItems.push({ val: `${floor.id}|||${name}`, text: optionText });
+                        destItems.push({ val: `${floor.id}|||${name}`, text: optionText });
                     } else if (markerType === "1" || markerType === "3") {
                         // Intrarea sau scara se poate alege ca starting point
-                        startItems.push({ val: name, text: optionText });
+                        startItems.push({ val: `${floor.id}|||${name}`, text: optionText });
                         // Eventual si la destinatie daca se vrea scari, dar in cerinta scrie (room list pt destinatie)
                         // Destinatia doar room list
                     }
@@ -736,6 +743,234 @@ function populateIndoorRoutingDropdowns(buildingName) {
         opt.textContent = item.text;
         destSelect.appendChild(opt);
     });
+}
+
+function clearIndoorRoute() {
+    if (indoorRoutePolyline) {
+        indoorMap.removeLayer(indoorRoutePolyline);
+        indoorRoutePolyline = null;
+    }
+    const clearBtn = document.getElementById('indoor-clear-route-btn');
+    if (clearBtn) clearBtn.style.display = 'none';
+}
+
+function calculateIndoorRoute() {
+    const startVal = document.getElementById('indoor-start-select')?.value;
+    const destVal = document.getElementById('indoor-dest-select')?.value;
+
+    if (!startVal || !destVal) {
+        showCustomAlert("Te rugăm să selectezi un punct de start și o destinație.");
+        return;
+    }
+
+    const [startFloorIdStr, startName] = startVal.split("|||");
+    const [destFloorIdStr, destName] = destVal.split("|||");
+
+    const startFloorId = parseInt(startFloorIdStr);
+    const destFloorId = parseInt(destFloorIdStr);
+
+    if (startFloorId !== destFloorId || startFloorId !== currentIndoorFloor) {
+        showCustomAlert("Rutarea între etaje diferite nu este complet implementată. Selectează puncte de pe etajul curent.");
+        return;
+    }
+
+    const bData = window.floorData[currentIndoorBuilding];
+    if (!bData || !bData.floors) return;
+    const floorObj = bData.floors.find(f => f.id === currentIndoorFloor);
+    if (!floorObj || !floorObj.geoJson) return;
+
+    let startCoord = null;
+    let destCoord = null;
+
+    // Localizăm coordonatele pt start și dest
+    L.geoJSON(floorObj.geoJson, {
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                if (feature.properties.name === startName) {
+                    startCoord = layer.getBounds ? layer.getBounds().getCenter() : layer.getLatLng();
+                }
+                if (feature.properties.name === destName) {
+                    destCoord = layer.getBounds ? layer.getBounds().getCenter() : layer.getLatLng();
+                }
+            }
+        }
+    });
+
+    if (!startCoord || !destCoord) {
+        showCustomAlert("Nu am putut localiza pe hartă punctele alese.");
+        return;
+    }
+
+    // Extragem din geoJson doar rutele pentru graf
+    const roateFeatures = floorObj.geoJson.features.filter(f => 
+        f.geometry && f.geometry.type === 'LineString'
+    );
+    console.log("Segment de rute găsite:", roateFeatures.length);
+
+    // Construim personalizat graful cu funcție avansată de "snapping"
+    const graph = {};
+    const nodesMap = {};
+    const COORD_PRECISION = 2; 
+    
+    function getIndoorKey(lat, lng) {
+        return `${Number(lat).toFixed(COORD_PRECISION)},${Number(lng).toFixed(COORD_PRECISION)}`;
+    }
+    
+    function addIndoorNode(lat, lng) {
+        const key = getIndoorKey(lat, lng);
+        if (!graph[key]) {
+            graph[key] = [];
+            nodesMap[key] = L.latLng(lat, lng);
+        }
+        return key;
+    }
+
+    function euclidean(p1, p2) {
+        return Math.sqrt((p2.lat - p1.lat)**2 + (p2.lng - p1.lng)**2);
+    }
+    
+    // Funcție pentru distanța de la un punct la un segment și obținerea proiecției
+    function distToSegment(p, v, w) {
+        const l2 = (w.lng - v.lng)**2 + (w.lat - v.lat)**2;
+        if (l2 === 0) return { dist: euclidean(p, v), proj: v };
+        let t = ((p.lng - v.lng) * (w.lng - v.lng) + (p.lat - v.lat) * (w.lat - v.lat)) / l2;
+        t = Math.max(0, Math.min(1, t));
+        const proj = L.latLng(v.lat + t * (w.lat - v.lat), v.lng + t * (w.lng - v.lng));
+        return { dist: euclidean(p, proj), proj: proj };
+    }
+
+    let edgesList = [];
+    roateFeatures.forEach(feature => {
+        const coords = feature.geometry.coordinates; 
+        for (let i = 0; i < coords.length - 1; i++) {
+            const lat1 = coords[i][1], lng1 = coords[i][0];
+            const lat2 = coords[i+1][1], lng2 = coords[i+1][0];
+            const key1 = addIndoorNode(lat1, lng1);
+            const key2 = addIndoorNode(lat2, lng2);
+            edgesList.push({ k1: key1, k2: key2, p1: nodesMap[key1], p2: nodesMap[key2] });
+        }
+    });
+
+    if (edgesList.length === 0) {
+        showCustomAlert("Nu au fost trasate rute pe acest etaj. Activează modul Editor și desenează Polyline-uri.");
+        return;
+    }
+
+    edgesList.forEach(e => {
+        const d = euclidean(e.p1, e.p2);
+        graph[e.k1].push({ node: e.k2, weight: d });
+        graph[e.k2].push({ node: e.k1, weight: d });
+    });
+
+    const startKey = addIndoorNode(startCoord.lat, startCoord.lng);
+    const destKey = addIndoorNode(destCoord.lat, destCoord.lng);
+
+    function connectNodeToNetwork(nKey) {
+        let p = nodesMap[nKey];
+        let minDist = Infinity;
+        let bestProj = null;
+        let bestEdge = null;
+        
+        edgesList.forEach(edge => {
+            if (nKey === edge.k1 || nKey === edge.k2) return;
+            const res = distToSegment(p, edge.p1, edge.p2);
+            if (res.dist < minDist) {
+                minDist = res.dist;
+                bestProj = res.proj;
+                bestEdge = edge;
+            }
+        });
+        
+        // Toleranță de 25 pixeli pt a lipi liniile desenate "la ochi" care s-au oprit la pereți / intersecții, nu în vertex.
+        if (bestEdge && (minDist < 25 || nKey === startKey || nKey === destKey)) {
+            const projKey = addIndoorNode(bestProj.lat, bestProj.lng);
+            
+            const distK1 = euclidean(bestEdge.p1, bestProj);
+            const distK2 = euclidean(bestEdge.p2, bestProj);
+            const distN = euclidean(p, bestProj);
+
+            // Tăiem virtual muchia și inserăm intersecția
+            graph[bestEdge.k1].push({ node: projKey, weight: distK1 });
+            graph[projKey].push({ node: bestEdge.k1, weight: distK1 });
+            
+            graph[bestEdge.k2].push({ node: projKey, weight: distK2 });
+            graph[projKey].push({ node: bestEdge.k2, weight: distK2 });
+            
+            // Conectăm punctul nostru suspendat la noul nod de pe muchie
+            graph[nKey].push({ node: projKey, weight: distN });
+            graph[projKey].push({ node: nKey, weight: distN });
+        }
+    }
+
+    const nodeKeys = Object.keys(nodesMap);
+    nodeKeys.forEach(nKey => {
+        connectNodeToNetwork(nKey);
+    });
+
+    // Dijkstra dedicat pentru fisierul curent (nu afecteaza exteriorul)
+    function indoorDijkstra(graphMap, nodesList, sKey, eKey) {
+        const distances = {};
+        const previous = {};
+        const unvisited = new Set();
+        for (const node in graphMap) {
+            distances[node] = Infinity;
+            previous[node] = null;
+            unvisited.add(node);
+        }
+        distances[sKey] = 0;
+        
+        while (unvisited.size > 0) {
+            let current = null;
+            let minD = Infinity;
+            for (const node of unvisited) {
+                if (distances[node] < minD) {
+                    minD = distances[node];
+                    current = node;
+                }
+            }
+            if (current === null || current === eKey) break;
+            unvisited.delete(current);
+            for (const neighbor of graphMap[current]) {
+                if (!unvisited.has(neighbor.node)) continue;
+                const alt = distances[current] + neighbor.weight;
+                if (alt < distances[neighbor.node]) {
+                    distances[neighbor.node] = alt;
+                    previous[neighbor.node] = current;
+                }
+            }
+        }
+        if (distances[eKey] === Infinity) return null;
+        
+        const solvedPath = [];
+        let curr = eKey;
+        while (curr) {
+            solvedPath.unshift(nodesList[curr]);
+            curr = previous[curr];
+        }
+        return solvedPath;
+    }
+
+    const path = indoorDijkstra(graph, nodesMap, startKey, destKey);
+    console.log("Indoor found path segments:", path ? path.length : 0);
+
+    if (!path || path.length === 0) {
+        showCustomAlert("Nu s-a putut găsi un drum viabil tranzitabil. Verifică ca liniile tale de pe hartă să nu aibă goluri uriase între ele.");
+        return;
+    }
+
+    const renderPath = path; // path contine deja de la camera start la camera destinație direct
+    clearIndoorRoute();
+
+    indoorRoutePolyline = L.polyline(renderPath, {
+        color: 'red',
+        weight: 6,
+        opacity: 0.8,
+        dashArray: '10, 10',
+        lineJoin: 'round'
+    }).addTo(indoorMap);
+
+    const clearBtn = document.getElementById('indoor-clear-route-btn');
+    if (clearBtn) clearBtn.style.display = 'inline-block';
 }
 
 if (document.readyState === 'loading') {

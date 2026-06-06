@@ -63,7 +63,7 @@
                 </div>
             </div>
             
-            <div id="indoor-routing-controls" style="display: none; padding: 10px; background: #ecf0f1; border-bottom: 1px solid #bdc3c7; gap: 10px; align-items: center;">
+            <div id="indoor-routing-controls" style="display: none; padding: 10px; background: #ecf0f1; border-bottom: 1px solid #bdc3c7; gap: 10px; align-items: center; flex-wrap: wrap;">
                 <label style="font-weight: bold; font-size: 14px;">Start:</label>
                 <select id="indoor-start-select" style="padding: 5px; border-radius: 4px; border: 1px solid #bdc3c7; min-width: 150px;">
                     <option value="">-- Alege Start --</option>
@@ -73,6 +73,9 @@
                 <select id="indoor-dest-select" style="padding: 5px; border-radius: 4px; border: 1px solid #bdc3c7; min-width: 150px;">
                     <option value="">-- Alege Destinație --</option>
                 </select>
+
+                <button id="indoor-route-btn" style="padding: 6px 15px; background: #3498db; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Găsește ruta</button>
+                <button id="indoor-clear-route-btn" style="padding: 6px 15px; background: #e74c3c; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; display: none;">Șterge ruta</button>
             </div>
 
             <div id="indoor-controls" class="indoor-controls">
