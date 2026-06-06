@@ -126,6 +126,22 @@ let currentIndoorFloor = null;
 let indoorLayers = null;
 let indoorBorderLayer = null;
 
+function getCustomMarkerIcon(typeId) {
+    let bgColor = '#3498db'; // Default type 1
+    if (typeId === '2') bgColor = '#e67e22'; // Type 2
+    if (typeId === '3') bgColor = '#2ecc71'; // Type 3
+    
+    const htmlString = `<div style="background-color: ${bgColor}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>`;
+    
+    return L.divIcon({
+        className: 'custom-indoor-marker',
+        html: htmlString,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+        tooltipAnchor: [0, -10]
+    });
+}
+
 function initIndoorMap() {
     if (indoorMap) return; // Already initialized
     indoorMap = L.map('indoor-map', {
@@ -146,25 +162,76 @@ function initIndoorMap() {
         snapDistance: 20
     });
 
+    // Add legend to map
+    const legend = L.control({ position: 'bottomright' });
+    legend.onAdd = function () {
+        const div = L.DomUtil.create('div', 'indoor-legend');
+        div.style.backgroundColor = 'rgba(255,255,255,0.9)';
+        div.style.padding = '10px';
+        div.style.borderRadius = '5px';
+        div.style.boxShadow = '0 1px 3px rgba(0,0,0,0.4)';
+        div.style.fontSize = '12px';
+        div.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 5px;">Legendă Markere</div>
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="width: 14px; height: 14px; border-radius: 50%; background-color: #3498db; margin-right: 8px;"></div> Intrare cameră
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                <div style="width: 14px; height: 14px; border-radius: 50%; background-color: #e67e22; margin-right: 8px;"></div> Intersecție coridor
+            </div>
+            <div style="display: flex; align-items: center;">
+                <div style="width: 14px; height: 14px; border-radius: 50%; background-color: #2ecc71; margin-right: 8px;"></div> Scări
+            </div>
+        `;
+        return div;
+    };
+    legend.addTo(indoorMap);
+
     indoorMap.on('pm:create', (e) => {
         const layer = e.layer;
         
-        showCustomPrompt("Numele camerei / Room name:", (roomName) => {
-            if (roomName) {
-                layer.feature = layer.feature || { type: "Feature", properties: {} };
-                layer.feature.properties = layer.feature.properties || {};
-                layer.feature.properties.name = roomName;
-                
-                layer.bindTooltip(roomName, {
-                    permanent: true,
-                    direction: "center",
-                    className: "room-tooltip"
-                }).openTooltip();
-            } else {
-                // Remove the drawing if user canceled the naming
-                indoorLayers.removeLayer(layer);
-            }
-        });
+        if (e.shape === 'Marker') {
+            showMarkerSelectionPrompt((result) => {
+                if (result) {
+                    layer.feature = layer.feature || { type: "Feature", properties: {} };
+                    layer.feature.properties = layer.feature.properties || {};
+                    layer.feature.properties.markerType = result.type;
+                    layer.feature.properties.name = result.name;
+                    
+                    const markerIcon = getCustomMarkerIcon(result.type);
+                    if (markerIcon) {
+                        layer.setIcon(markerIcon);
+                    }
+                    
+                    if (result.name) {
+                        layer.bindTooltip(result.name, {
+                            permanent: true,
+                            direction: "top",
+                            className: "marker-tooltip"
+                        }).openTooltip();
+                    }
+                } else {
+                    indoorLayers.removeLayer(layer);
+                }
+            });
+        } else {
+            showCustomPrompt("Numele camerei / Room name:", (roomName) => {
+                if (roomName) {
+                    layer.feature = layer.feature || { type: "Feature", properties: {} };
+                    layer.feature.properties = layer.feature.properties || {};
+                    layer.feature.properties.name = roomName;
+                    
+                    layer.bindTooltip(roomName, {
+                        permanent: true,
+                        direction: "center",
+                        className: "room-tooltip"
+                    }).openTooltip();
+                } else {
+                    // Remove the drawing if user canceled the naming
+                    indoorLayers.removeLayer(layer);
+                }
+            });
+        }
     });
 }
 
@@ -254,6 +321,76 @@ function showCustomAlert(message) {
         }
     });
 }
+
+function showMarkerSelectionPrompt(callback) {
+    let modal = document.getElementById('custom-marker-prompt-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'custom-marker-prompt-modal';
+        modal.className = 'custom-prompt-modal';
+        modal.innerHTML = `
+            <div class="custom-prompt-content">
+                <h3 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">Setează Marker</h3>
+                
+                <div style="text-align: left; margin-bottom: 15px;">
+                    <label style="font-weight:bold; font-size: 14px;">Tip Marker:</label><br/>
+                    <select id="marker-type-select" style="width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #bdc3c7;">
+                        <option value="1">1 = Intrare cameră</option>
+                        <option value="2">2 = Intersecție coridor</option>
+                        <option value="3">3 = Scări</option>
+                    </select>
+                </div>
+
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight:bold; font-size: 14px;">Nume / Referință (opțional):</label><br/>
+                    <input type="text" id="marker-name-input" autocomplete="off" style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #bdc3c7; border-radius: 4px;" />
+                </div>
+
+                <div class="custom-prompt-buttons">
+                    <button class="btn-cancel" id="marker-prompt-cancel">Anulează</button>
+                    <button class="btn-ok" id="marker-prompt-ok">OK</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    const typeSelect = document.getElementById('marker-type-select');
+    const nameInput = document.getElementById('marker-name-input');
+    
+    typeSelect.value = "1";
+    nameInput.value = "";
+    
+    modal.style.display = 'flex';
+    nameInput.focus();
+
+    const btnOk = document.getElementById('marker-prompt-ok');
+    const btnCancel = document.getElementById('marker-prompt-cancel');
+
+    const newBtnOk = btnOk.cloneNode(true);
+    const newBtnCancel = btnCancel.cloneNode(true);
+    btnOk.parentNode.replaceChild(newBtnOk, btnOk);
+    btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+
+    newBtnOk.onclick = () => {
+        modal.style.display = 'none';
+        callback({
+            type: typeSelect.value,
+            name: nameInput.value.trim()
+        });
+    };
+
+    newBtnCancel.onclick = () => {
+        modal.style.display = 'none';
+        callback(null);
+    };
+    
+    nameInput.onkeydown = (e) => {
+        if (e.key === 'Enter') newBtnOk.click();
+        if (e.key === 'Escape') newBtnCancel.click();
+    };
+}
+
 function openFloorPlanEditor(buildingName, floorIndex) {
     closeFloorManager();
     const modal = document.getElementById('indoor-modal');
@@ -472,13 +609,20 @@ function loadFloorData(buildingName, floorIndex, roomNameToHighlight = null) {
 
         if (floorObj && floorObj.geoJson) {
             let layerToHighlight = null;
-            L.geoJSON(floorObj.geoJson).eachLayer(layer => {
+            L.geoJSON(floorObj.geoJson, {
+                pointToLayer: function (feature, latlng) {
+                    if (feature.properties && feature.properties.markerType) {
+                        return L.marker(latlng, {icon: getCustomMarkerIcon(feature.properties.markerType)});
+                    }
+                    return L.marker(latlng);
+                }
+            }).eachLayer(layer => {
                 if (layer.feature && layer.feature.properties && layer.feature.properties.name) {
                     const rName = layer.feature.properties.name;
                     layer.bindTooltip(rName, {
                         permanent: true,
-                        direction: "center",
-                        className: "room-tooltip"
+                        direction: layer.feature.properties.markerType ? "top" : "center",
+                        className: layer.feature.properties.markerType ? "marker-tooltip" : "room-tooltip"
                     });
                     
                     if (roomNameToHighlight && rName.toLowerCase() === roomNameToHighlight.toLowerCase()) {

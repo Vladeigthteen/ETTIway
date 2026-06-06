@@ -766,6 +766,16 @@ body.sidebar-collapsed #sidebar > * {
     text-align: center;
 }
 
+.marker-tooltip {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #2c3e50;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px white, -1px -1px 2px white, 1px -1px 2px white, -1px 1px 2px white;
+    font-size: 11px;
+}
+
 /* Custom Prompt Modal styles */
 .custom-prompt-modal {
     display: none;
