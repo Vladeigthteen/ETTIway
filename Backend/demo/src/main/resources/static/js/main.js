@@ -246,157 +246,190 @@ function showAppAlert(message) {
     });
 }
 function initializeSearch() {
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('change', async (e) => {
-        const searchTerm = e.target.value.toLowerCase().trim();
-        console.log('User searched for:', searchTerm);
-        if (!searchTerm) return;
-        
-        // 1. Căutare pentru Camere (Indoor)
-        let foundRoom = null;
-        if (window.floorData) {
-            for (let buildingKey of Object.keys(window.floorData)) {
-                const bData = window.floorData[buildingKey];
-                if (bData && bData.floors) {
-                    for (let floorObj of bData.floors) {
-                        if (floorObj.geoJson && floorObj.geoJson.features) {
-                            for (let feat of floorObj.geoJson.features) {
-                                if (feat.properties && feat.properties.name && feat.properties.name.toLowerCase().includes(searchTerm)) {
-                                    foundRoom = {
-                                        buildingName: buildingKey,
-                                        floorIndex: floorObj.id,
-                                        roomName: feat.properties.name
-                                    };
-                                    break;
-                                }
-                            }
-                        }
-                        if (foundRoom) break;
+    const searchBuilding = document.getElementById('search-building');
+    const searchRoom = document.getElementById('search-room');
+
+    if (searchBuilding) {
+        searchBuilding.addEventListener('change', async (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            console.log('User searched for building:', searchTerm);
+            if (!searchTerm) return;
+            
+            let targetPoint = null;
+            let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
+            let matchingEntrances = [];
+            if (window.campusData && window.campusData.entrances) {
+                for (let ent of window.campusData.entrances) {
+                    const nodeName = (ent.name || ent.id || '').toLowerCase();
+                    if (nodeName.startsWith('intrare') && nodeName.includes(searchTerm)) {
+                        matchingEntrances.push({
+                            name: ent.name || ent.id,
+                            pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
+                        });
                     }
                 }
-                if (foundRoom) break;
             }
-        }
-        
-        if (foundRoom) {
-            let userConfirmed = await showAppConfirm(`Camera "${foundRoom.roomName}" a fost găsită în clădirea "${foundRoom.buildingName}" (Etaj ${foundRoom.floorIndex}). Vrei să deschizi planul clădirii?`);
-            if (userConfirmed) {
-                if (typeof window.openFloorPlanViewer === 'function') {
-                    window.openFloorPlanViewer(foundRoom.buildingName, foundRoom.floorIndex, foundRoom.roomName);
-                } else {
-                    await showAppAlert("Eroare: Vizualizatorul de planuri interne nu este disponibil.");
-                }
-                if (window.innerWidth <= 768) document.body.classList.remove('sidebar-open');
+            if (matchingEntrances.length === 0 && buildingMap[searchTerm] && window.campusData && window.campusData.entrances) {
+                 let mappedName = buildingMap[searchTerm].toLowerCase();
+                 for (let ent of window.campusData.entrances) {
+                    const nodeName = (ent.name || ent.id || '').toLowerCase();
+                    if (nodeName === mappedName) {
+                        matchingEntrances.push({
+                            name: ent.name || ent.id,
+                            pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
+                        });
+                    }
+                 }
             }
-            e.target.value = '';
-            return;
-        }
-
-        // 2. Căutare pentru Clădire / Exterior
-        let targetPoint = null;
-        let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
-        let matchingEntrances = [];
-        if (window.campusData && window.campusData.entrances) {
-            for (let ent of window.campusData.entrances) {
-                const nodeName = (ent.name || ent.id || '').toLowerCase();
-                if (nodeName.startsWith('intrare') && nodeName.includes(searchTerm)) {
-                    matchingEntrances.push({
-                        name: ent.name || ent.id,
-                        pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
-                    });
-                }
-            }
-        }
-        if (matchingEntrances.length === 0 && buildingMap[searchTerm] && window.campusData && window.campusData.entrances) {
-             let mappedName = buildingMap[searchTerm].toLowerCase();
-             for (let ent of window.campusData.entrances) {
-                const nodeName = (ent.name || ent.id || '').toLowerCase();
-                if (nodeName === mappedName) {
-                    matchingEntrances.push({
-                        name: ent.name || ent.id,
-                        pt: L.latLng(ent.coordinates[0], ent.coordinates[1])
-                    });
-                }
-             }
-        }
-        if (matchingEntrances.length === 1) {
-            let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${matchingEntrances[0].name}?`);
-            if (userConfirmed) {
-                targetPoint = matchingEntrances[0].pt;
-                finalBuildingName = matchingEntrances[0].name;
-            } else {
-                e.target.value = '';
-                return; // User has cancelled
-            }
-        } else if (matchingEntrances.length > 1) {
-            let choiceIdx = await showAppPrompt(`S-au găsit mai multe intrări pentru clădirea aleasă. Alege una dintre ele:`, matchingEntrances);
-            if (choiceIdx !== null && choiceIdx >= 0 && choiceIdx < matchingEntrances.length) {
-                let sel = matchingEntrances[choiceIdx];
-                let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${sel.name}?`);
+            if (matchingEntrances.length === 1) {
+                let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${matchingEntrances[0].name}?`);
                 if (userConfirmed) {
-                    targetPoint = sel.pt;
-                    finalBuildingName = sel.name;
+                    targetPoint = matchingEntrances[0].pt;
+                    finalBuildingName = matchingEntrances[0].name;
                 } else {
                     e.target.value = '';
-                    return;
+                    return; // User has cancelled
                 }
-            } else {
-                e.target.value = '';
-                return; // User has cancelled / invalid
-            }
-        }
-        if (!targetPoint && window.campusData && window.campusData.buildings) {
-            const b = window.campusData.buildings.find(b => b.name.toLowerCase() === searchTerm);
-            if (b && b.points && window.navigationData && window.navigationData.features) {
-                finalBuildingName = b.name;
-                const centroid = L.latLngBounds(b.points).getCenter();
-                let minDist = Infinity;
-                for (let f of window.navigationData.features) {
-                    if (f.geometry.type === 'Point') {
-                        const pt = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
-                        const d = centroid.distanceTo(pt);
-                        if (d < minDist) {
-                            minDist = d;
-                            targetPoint = pt;
-                        }
-                    }
-                }
-                if (targetPoint) {
-                    console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clădirii (Dist: ${Math.round(minDist)}m)`);
-                    let userConfirmed = await showAppConfirm(`S-a dedus o intrare aproximativă pentru: ${b.name}. Confirmare navigare?`);
-                    if (!userConfirmed) {
+            } else if (matchingEntrances.length > 1) {
+                let choiceIdx = await showAppPrompt(`S-au găsit mai multe intrări pentru clădirea aleasă. Alege una dintre ele:`, matchingEntrances);
+                if (choiceIdx !== null && choiceIdx >= 0 && choiceIdx < matchingEntrances.length) {
+                    let sel = matchingEntrances[choiceIdx];
+                    let userConfirmed = await showAppConfirm(`Vrei să navighezi către: ${sel.name}?`);
+                    if (userConfirmed) {
+                        targetPoint = sel.pt;
+                        finalBuildingName = sel.name;
+                    } else {
                         e.target.value = '';
                         return;
                     }
+                } else {
+                    e.target.value = '';
+                    return; // User has cancelled / invalid
                 }
             }
-        }
-        if (targetPoint) {
-            window.currentDestinationPoint = targetPoint;
-            if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
-                window.currentStartPoint = userMarker.getLatLng();
-                if (typeof campusMap !== 'undefined' && campusMap && typeof window.calculateRouteTest === 'function') {
-                    window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
+            if (!targetPoint && window.campusData && window.campusData.buildings) {
+                const b = window.campusData.buildings.find(b => b.name.toLowerCase().includes(searchTerm));
+                if (b) {
+                    if (b.points && window.navigationData && window.navigationData.features) {
+                        finalBuildingName = b.name;
+                        const centroid = L.latLngBounds(b.points).getCenter();
+                        let minDist = Infinity;
+                        for (let f of window.navigationData.features) {
+                            if (f.geometry.type === 'Point') {
+                                const pt = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
+                                const d = centroid.distanceTo(pt);
+                                if (d < minDist) {
+                                    minDist = d;
+                                    targetPoint = pt;
+                                }
+                            }
+                        }
+                        if (targetPoint) {
+                            console.log(`Fallback folosit: a fost selectat nodul cel mai apropiat de centrul clădirii (Dist: ${Math.round(minDist)}m)`);
+                            let userConfirmed = await showAppConfirm(`S-a dedus o intrare aproximativă pentru: ${b.name}. Confirmare navigare?`);
+                            if (!userConfirmed) {
+                                e.target.value = '';
+                                return;
+                            }
+                        }
+                    }
+    
+                    // Chiar daca nu i-a putut deduce o intrare cu targetPoint, b este gasit.
+                    // Facem sa se duca pe cladire direct.
+                    if (!targetPoint && b.points) {
+                        targetPoint = L.latLngBounds(b.points).getCenter(); 
+                        finalBuildingName = b.name;
+                    }
+                }
+            }
+    
+            if (targetPoint) {
+                // Dacă am găsit o clădire, rutăm la ea
+                window.currentDestinationPoint = targetPoint;
+                if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
+                    window.currentStartPoint = userMarker.getLatLng();
+                    if (typeof campusMap !== 'undefined' && campusMap && typeof window.calculateRouteTest === 'function') {
+                        window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
+                    }
+                } else {
+                    await showAppAlert(`Conectare GPS în așteptare... Destinația (${finalBuildingName}) e setată. Când poziția va fi activată, ruta se va calcula. Puteți folosi și "Find Me".`);
+                }
+                if (window.innerWidth <= 768) {
+                    document.body.classList.remove('sidebar-open');
+                }
+                
+                const bUI = window.campusData?.buildings?.find(b => b.name.toLowerCase().includes(searchTerm));
+                if (bUI && typeof focusOnBuilding === 'function') {
+                    focusOnBuilding(bUI);
                 }
             } else {
-                await showAppAlert(`Conectare GPS în așteptare... Destinația (${finalBuildingName}) e setată. Când poziția va fi activată, ruta se va calcula. Puteți folosi și "Find Me".`);
+                await showAppAlert(`Clădirea '${searchTerm}' nu a putut fi localizată.`);
             }
+
+            e.target.value = '';
             if (window.innerWidth <= 768) {
                 document.body.classList.remove('sidebar-open');
             }
-        } else {
-            await showAppAlert(`Clădirea '${searchTerm}' nu a putut fi localizată nici după nume explicit, nici cu fallback vizual.`);
-        }
-        const bUI = window.campusData?.buildings?.find(b => b.name.toLowerCase() === searchTerm);
-        if (bUI && typeof focusOnBuilding === 'function') {
-            focusOnBuilding(bUI);
-        }
-        e.target.value = '';
-        if (window.innerWidth <= 768) {
-            document.body.classList.remove('sidebar-open');
-        }
-    });
-    console.log('Search input initialized successfully (Map & Routing integrated).');
+        });
+    }
+
+    if (searchRoom) {
+        searchRoom.addEventListener('change', async (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            console.log('User searched for room:', searchTerm);
+            if (!searchTerm) return;
+            
+            let foundRoom = null;
+            if (window.floorData) {
+                for (let buildingKey of Object.keys(window.floorData)) {
+                    const bData = window.floorData[buildingKey];
+                    if (bData && bData.floors) {
+                        for (let floorObj of bData.floors) {
+                            if (floorObj.geoJson && floorObj.geoJson.features) {
+                                for (let feat of floorObj.geoJson.features) {
+                                    if (feat.properties && feat.properties.name && feat.properties.name.toLowerCase().includes(searchTerm)) {
+                                        // Filtram markerele ca sa nu gaseasca "intrare Corp B"
+                                        if (feat.properties.markerType) {
+                                            continue; // Ignoram markerele de intrare / scari / etc in search-ul de camere
+                                        }
+                                        
+                                        foundRoom = {
+                                            buildingName: buildingKey,
+                                            floorIndex: floorObj.id,
+                                            roomName: feat.properties.name
+                                        };
+                                        break;
+                                    }
+                                }
+                            }
+                            if (foundRoom) break;
+                        }
+                    }
+                    if (foundRoom) break;
+                }
+            }
+            
+            if (foundRoom) {
+                let userConfirmed = await showAppConfirm(`Camera "${foundRoom.roomName}" a fost găsită în clădirea "${foundRoom.buildingName}" (Etaj ${foundRoom.floorIndex}). Vrei să deschizi planul clădirii?`);
+                if (userConfirmed) {
+                    if (typeof window.openFloorPlanViewer === 'function') {
+                        window.openFloorPlanViewer(foundRoom.buildingName, foundRoom.floorIndex, foundRoom.roomName);
+                    } else {
+                        await showAppAlert("Eroare: Vizualizatorul de planuri interne nu este disponibil.");
+                    }
+                }
+            } else {
+                await showAppAlert(`Camera '${searchTerm}' nu a putut fi localizată.`);
+            }
+
+            e.target.value = '';
+            if (window.innerWidth <= 768) {
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+    }
+
+    console.log('Search inputs initialized successfully (Map & Routing integrated).');
 }
 function initializeSidebarToggle(mapRef) {
     const body = document.body;

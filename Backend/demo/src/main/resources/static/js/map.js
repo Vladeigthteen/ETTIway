@@ -23,10 +23,11 @@ function setupMobileResponsiveLayout() {
     const sidebar = document.getElementById('sidebar');
     const searchContainer = document.querySelector('#sidebar .search-container');
     const mobileSearchContainer = document.getElementById('mobile-search-container');
-    const searchInput = document.getElementById('search-input');
+    const searchBuilding = document.getElementById('search-building');
+    const searchRoom = document.getElementById('search-room');
     const roomDetails = document.getElementById('room-details');
 
-    if (!sidebar || !searchContainer || !mobileSearchContainer || !searchInput) {
+    if (!sidebar || !searchContainer || !mobileSearchContainer || !searchBuilding || !searchRoom) {
         return;
     }
 
@@ -53,8 +54,11 @@ function setupMobileResponsiveLayout() {
         }
     }
 
-    searchInput.addEventListener('focus', openMobileBottomSheet);
-    searchInput.addEventListener('input', openMobileBottomSheet);
+    searchBuilding.addEventListener('focus', openMobileBottomSheet);
+    searchBuilding.addEventListener('input', openMobileBottomSheet);
+    
+    searchRoom.addEventListener('focus', openMobileBottomSheet);
+    searchRoom.addEventListener('input', openMobileBottomSheet);
 
     if (typeof mobileQuery.addEventListener === 'function') {
         mobileQuery.addEventListener('change', syncSearchPlacement);
