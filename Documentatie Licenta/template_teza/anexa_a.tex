@@ -1,0 +1,167 @@
+%==============================================================================
+% ANEXA A - Cod Java (Backend)
+% Contine toate fragmentele de cod backend referite in Capitolele 2 si 3.
+% Cod fara diacritice in comentariile din interiorul lstlisting (cerinta tehnica).
+%==============================================================================
+
+\appendix
+\chapter{Cod Java (Backend)}
+\label{anexa:java}
+
+Această anexă reunește fragmentele de cod Java care implementează componentele
+backend descrise în Capitolele~2 și~3. Numerotarea listing-urilor corespunde
+trimiterilor făcute în text.
+
+\section*{Punctul de intrare al aplicației}
+
+\begin{lstlisting}[language=Java, caption={Clasa principală a aplicației Spring Boot}, label={lst:a1}]
+@SpringBootApplication
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
+}
+\end{lstlisting}
+
+\section*{Acces la date prin JPA}
+
+\begin{lstlisting}[language=Java, caption={Interfata de acces la date pentru utilizatori}, label={lst:a2}]
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+}
+\end{lstlisting}
+
+\section*{Entități}
+
+\begin{lstlisting}[language=Java, caption={Entitatea User mapata pe tabelul users}, label={lst:a3}]
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    private String role; // de exemplu "ROLE_ADMIN"
+
+    public User() {}
+
+    // metode de tip getter si setter
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Entitatea MapData pentru stocarea harții și a planurilor indoor}, label={lst:a4}]
+@Entity
+@Table(name = "map_data")
+public class MapData {
+
+    @Id
+    private Long id;
+
+    @Column(columnDefinition = "TEXT")
+    private String graphJson;
+
+    @Column(columnDefinition = "TEXT")
+    private String indoorJson;
+
+    private LocalDateTime updatedAt;
+
+    public MapData() {}
+
+    // metode de tip getter si setter
+}
+\end{lstlisting}
+
+\section*{Securitate: autentificare și autorizare}
+
+\begin{lstlisting}[language=Java, caption={Definirea componentei de criptare a parolelor}, label={lst:a5}]
+@Bean
+public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Definirea regulilor de autorizare}, label={lst:a6}]
+.authorizeHttpRequests(auth -> auth
+    // resurse publice
+    .requestMatchers("/login.html", "/api/auth/**",
+                     "/css/**", "/js/**", "/data/**").permitAll()
+    // rute rezervate administratorului
+    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+    // restul cere autentificare
+    .anyRequest().authenticated()
+)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Incarcarea utilizatorului pentru autentificare}, label={lst:a7}]
+@Override
+public UserDetails loadUserByUsername(String username) {
+    User user = userRepository.findByUsername(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    return org.springframework.security.core.userdetails.User
+        .withUsername(user.getUsername())
+        .password(user.getPassword())
+        .authorities(new SimpleGrantedAuthority(user.getRole()))
+        .build();
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Initializarea automata a contului de administrator}, label={lst:a8}]
+@Bean
+CommandLineRunner init(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
+    return args -> {
+        if (userRepository.findByUsername("admin").isEmpty()) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole("ROLE_ADMIN");
+            userRepository.save(admin);
+        }
+    };
+}
+\end{lstlisting}
+
+\section*{Controller-ul pentru planurile indoor}
+
+\begin{lstlisting}[language=Java, caption={Repository-ul pentru entitatea MapData}, label={lst:a9}]
+@Repository
+public interface MapDataRepository extends JpaRepository<MapData, Long> {
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Controller REST pentru salvarea si incarcarea planurilor indoor}, label={lst:a10}]
+@RestController
+@RequestMapping("/api/indoor")
+public class IndoorMapController {
+
+    @Autowired
+    private MapDataRepository mapDataRepository;
+
+    @PostMapping("/save")
+    public ResponseEntity<String> saveIndoorMap(@RequestBody String indoorJson) {
+        MapData mapData = mapDataRepository.findById(1L).orElse(new MapData());
+        mapData.setId(1L);
+        mapData.setIndoorJson(indoorJson);
+        mapData.setUpdatedAt(LocalDateTime.now());
+        mapDataRepository.save(mapData);
+        return ResponseEntity.ok("Indoor map saved successfully.");
+    }
+
+    @GetMapping("/load")
+    public ResponseEntity<String> loadIndoorMap() {
+        Optional<MapData> mapDataOpt = mapDataRepository.findById(1L);
+        if (mapDataOpt.isPresent() && mapDataOpt.get().getIndoorJson() != null) {
+            return ResponseEntity.ok(mapDataOpt.get().getIndoorJson());
+        }
+        return ResponseEntity.ok("{}");
+    }
+}
+\end{lstlisting}

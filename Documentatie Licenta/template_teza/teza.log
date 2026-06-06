@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 16:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 17:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1046,7 +1046,7 @@ Overfull \hbox (52.28856pt too wide) in paragraph at lines 81--81
 {C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=339, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=355, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf>
 Package pdftex.def Info: Anexa1.2.pdf  used on input line 82.
@@ -1057,7 +1057,7 @@ pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version
 
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=341, page=1, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=357, page=1, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
 Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
@@ -1083,7 +1083,7 @@ Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
  <./Anexa1.2.pdf>]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=392, page=2, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=408, page=2, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 2>
 Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 82.
@@ -1166,7 +1166,7 @@ Overfull \hbox (7.538pt too wide) in paragraph at lines 780--786
  []
 
 [16]
-<figuri/Tabel Utilizatori.png, id=611, 645.16031pt x 57.96657pt>
+<figuri/Tabel Utilizatori.png, id=631, 645.16031pt x 57.96657pt>
 File: figuri/Tabel Utilizatori.png Graphic file (type png)
 <use figuri/Tabel Utilizatori.png>
 Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 807.
@@ -1186,53 +1186,56 @@ Capitolul 3.
 [21
 
 ] [22]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1084.
- [23]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 1151--1161
+Overfull \hbox (9.80125pt too wide) in paragraph at lines 1106--1112
+\T1/lmr/m/n/12 O com-po-nent  im-por-tant  a plat-for-mei este ru-ta-rea în in-te-ri-o-rul cl -di-ri-lor, care ex-tinde experien[]a
+ []
+
+[23] [24]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 1206--1216
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-[24] [25]
+[25] [26]
 Capitolul 4.
 
 Underfull \vbox (badness 4899) has occurred while \output is active []
 
- [26
+ [27
 
-] [27] [28] [29]
+] [28] [29] [30]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [30
+ [31
 
-] [31] [32]
+] [32] [33]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1571--1577
+Underfull \hbox (badness 10000) in paragraph at lines 1623--1629
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[33
+[34
 
-] [34] (teza.aux)
+] [35] (teza.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 11F271BC87DD474CEFC377289361C483;18587.
+(rerunfilecheck)             Checksum: 535F883FE71FB57621ED1AC2ED69EE9E;19656.
  ) 
 Here is how much of TeX's memory you used:
- 15316 strings out of 467871
- 238682 string characters out of 5418377
- 703135 words of memory out of 5000000
- 43780 multiletter control sequences out of 15000+600000
- 721840 words of font info for 107 fonts, out of 8000000 for 9000
+ 15002 strings out of 467871
+ 236190 string characters out of 5418377
+ 674358 words of memory out of 5000000
+ 43470 multiletter control sequences out of 15000+600000
+ 718531 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,17n,79p,893b,1230s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (42 pages, 464988 bytes).
+ 75i,17n,79p,893b,613s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on teza.pdf (43 pages, 424255 bytes).
 PDF statistics:
- 812 PDF objects out of 1000 (max. 8388607)
- 149 named destinations out of 1000 (max. 500000)
- 674 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 825 PDF objects out of 1000 (max. 8388607)
+ 147 named destinations out of 1000 (max. 500000)
+ 706 words of extra memory for PDF output out of 10000 (max. 10000000)
 

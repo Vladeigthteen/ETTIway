@@ -1,0 +1,169 @@
+%==============================================================================
+% ANEXA B - Cod JavaScript (Frontend)
+% Contine toate fragmentele de cod frontend referite in Capitolele 2 si 3.
+%==============================================================================
+
+\chapter{Cod JavaScript (Frontend)}
+\label{anexa:js}
+
+Această anexă reunește fragmentele de cod JavaScript care implementează
+componentele frontend descrise în Capitolele~2 și~3. Pentru concizie, unele
+fragmente sunt prezentate parțial, păstrând doar partea reprezentativă;
+codul integral este disponibil în repository-ul proiectului.
+
+\section*{Configurarea hărții exterioare}
+
+\begin{lstlisting}[language=JavaScript, caption={Parametrii de configurare ai hartii campusului}, label={lst:b1}]
+const DEFAULT_CAMPUS_LAT = 44.433215;
+const DEFAULT_CAMPUS_LON = 26.056764;
+const DEFAULT_ZOOM_LEVEL = 18;
+const MAP_BOUNDS = [
+    [44.432102, 26.054500], // coltul de sud-vest
+    [44.434329, 26.059028]  // coltul de nord-est
+];
+\end{lstlisting}
+
+\section*{Construirea grafului și algoritmul Dijkstra (exterior)}
+
+\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON}, label={lst:b2}]
+function buildGraphFromGeoJSON(geoJSON) {
+    const graph = {};
+    const nodesMap = {};
+
+    function addNode(lat, lng) {
+        const key = getCoordKey(lat, lng);
+        if (!graph[key]) {
+            graph[key] = [];
+            nodesMap[key] = L.latLng(lat, lng);
+        }
+        return key;
+    }
+    function addEdge(key1, key2, dist) {
+        graph[key1].push({ node: key2, weight: dist });
+        graph[key2].push({ node: key1, weight: dist });
+    }
+    // parcurgerea elementelor de tip linie din GeoJSON
+    // si adaugarea nodurilor si muchiilor corespunzatoare
+    return { graph, nodesMap };
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Nucleul algoritmului lui Dijkstra}, label={lst:b3}]
+function runDijkstra(graph, nodesMap, startKey, endKey) {
+    const distances = {};
+    const previous = {};
+    const unvisited = new Set();
+
+    for (const node in graph) {
+        distances[node] = Infinity;
+        previous[node] = null;
+        unvisited.add(node);
+    }
+    distances[startKey] = 0;
+    // se alege repetat nodul nevizitat cu distanta minima
+    // si se actualizeaza distantele vecinilor
+    // ...
+    // reconstructia traseului din lantul de noduri precedente
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Gasirea celui mai apropiat nod din graf}, label={lst:b4}]
+function findNearestNode(targetLatLng, nodesMap) {
+    let nearestKey = null;
+    let minDistance = Infinity;
+    for (const key in nodesMap) {
+        const dist = targetLatLng.distanceTo(nodesMap[key]);
+        if (dist < minDistance) {
+            minDistance = dist;
+            nearestKey = key;
+        }
+    }
+    return nearestKey;
+}
+\end{lstlisting}
+
+\section*{Securitatea la nivelul interfeței}
+
+\begin{lstlisting}[language=JavaScript, caption={Prelucrarea textului inainte de afisare (anti XSS)}, label={lst:b5}]
+function escapeHtml(text) {
+    if (text == null) return '';
+    const div = document.createElement('div');
+    div.textContent = String(text);
+    return div.innerHTML;
+}
+\end{lstlisting}
+
+\section*{Indoor: persistare în baza de date}
+
+\begin{lstlisting}[language=JavaScript, caption={Salvarea planului indoor curent in baza de date}, label={lst:b6}]
+function saveIndoorDataToDatabase() {
+    fetch('/api/indoor/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(window.floorData)
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Failed to save to database");
+        return response.text();
+    })
+    .then(msg => {
+        showCustomAlert("Plan salvat cu succes!");
+    })
+    .catch(error => {
+        console.error("Error saving indoor data:", error);
+        showCustomAlert("Eroare la salvarea planului.");
+    });
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Incarcarea planurilor indoor de pe server la pornire}, label={lst:b7}]
+function loadIndoorData() {
+    fetch('/api/indoor/load')
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+        })
+        .then(data => {
+            if (data && Object.keys(data).length > 0) {
+                window.floorData = data;
+            }
+        })
+        .catch(error => {
+            console.log("No existing indoor data found:", error);
+            if (!window.floorData) window.floorData = {};
+        });
+}
+\end{lstlisting}
+
+\section*{Indoor: rutarea pe planul de etaj}
+
+\begin{lstlisting}[language=JavaScript, caption={Conectarea nodurilor de start si destinatie la reteaua de coridoare}, label={lst:b8}]
+function connectNodeToNetwork(nKey) {
+    let p = nodesMap[nKey];
+    let minDist = Infinity;
+    let bestProj = null;
+    let bestEdge = null;
+
+    edgesList.forEach(edge => {
+        if (nKey === edge.k1 || nKey === edge.k2) return;
+        const res = distToSegment(p, edge.p1, edge.p2);
+        if (res.dist < minDist) {
+            minDist = res.dist;
+            bestProj = res.proj;
+            bestEdge = edge;
+        }
+    });
+
+    // toleranta pentru liniile desenate "la ochi" care nu se ating exact in vertex
+    if (bestEdge && (minDist < 25 || nKey === startKey || nKey === destKey)) {
+        const projKey = addIndoorNode(bestProj.lat, bestProj.lng);
+        // taiem muchia si inseram proiectia, apoi conectam punctul nostru
+        graph[bestEdge.k1].push({ node: projKey, weight: euclidean(bestEdge.p1, bestProj) });
+        graph[projKey].push({ node: bestEdge.k1, weight: euclidean(bestEdge.p1, bestProj) });
+        graph[bestEdge.k2].push({ node: projKey, weight: euclidean(bestEdge.p2, bestProj) });
+        graph[projKey].push({ node: bestEdge.k2, weight: euclidean(bestEdge.p2, bestProj) });
+        graph[nKey].push({ node: projKey, weight: euclidean(p, bestProj) });
+        graph[projKey].push({ node: nKey, weight: euclidean(p, bestProj) });
+    }
+}
+\end{lstlisting}
