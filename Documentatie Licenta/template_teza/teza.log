@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 14:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 16:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1165,13 +1165,14 @@ Overfull \hbox (7.538pt too wide) in paragraph at lines 780--786
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
-<figuri/Tabel Utilizatori.png, id=606, 645.16031pt x 57.96657pt>
+[16]
+<figuri/Tabel Utilizatori.png, id=611, 645.16031pt x 57.96657pt>
 File: figuri/Tabel Utilizatori.png Graphic file (type png)
 <use figuri/Tabel Utilizatori.png>
-Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 789.
+Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 807.
 (pdftex.def)             Requested size: 386.95897pt x 34.76692pt.
-[16]
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 830--836
+
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 832--838
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
@@ -1179,15 +1180,15 @@ Overfull \hbox (0.6866pt too wide) in paragraph at lines 830--836
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.837 P
+l.839 P
        entru a asigura existenÈ›a unui cont de administrator Ã®ncÄƒ de la prima <./figuri/Tabel Utilizatori.png>] [18] [19] [20]
 Capitolul 3.
 [21
 
 ] [22]
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1082.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1084.
  [23]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 1149--1159
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 1151--1161
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
@@ -1206,7 +1207,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ] [31] [32]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1569--1575
+Underfull \hbox (badness 10000) in paragraph at lines 1571--1577
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
@@ -1229,7 +1230,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,17n,79p,893b,1230s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (42 pages, 464984 bytes).
+Output written on teza.pdf (42 pages, 464988 bytes).
 PDF statistics:
  812 PDF objects out of 1000 (max. 8388607)
  149 named destinations out of 1000 (max. 500000)
