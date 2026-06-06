@@ -21,7 +21,7 @@ public class SecurityConfig {
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .csrf(csrf -> csrf
-            .ignoringRequestMatchers("/api/graph/**") // Dezactivăm CSRF special pentru rutele de graph (POST/DELETE din JavaScript)
+            // Dezactivăm CSRF special pentru rutele de graph (POST/DELETE din JavaScript)
             .disable() // Notă: Dacă activezi CSRF-ul global pe viitor, șterge `.disable()` și lasă doar rândul de mai sus
         )
         .authorizeHttpRequests(auth -> auth
