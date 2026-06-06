@@ -124,6 +124,8 @@ let indoorMap = null;
 let currentIndoorBuilding = null;
 let currentIndoorFloor = null;
 let indoorLayers = null;
+let indoorBorderLayer = null;
+
 function initIndoorMap() {
     if (indoorMap) return; // Already initialized
     indoorMap = L.map('indoor-map', {
@@ -134,7 +136,8 @@ function initIndoorMap() {
         attributionControl: false
     });
     const bounds = [[0,0], [1000,1000]];
-    L.rectangle(bounds, {color: "#999", weight: 1, fill: false}).addTo(indoorMap);
+    indoorBorderLayer = L.rectangle(bounds, {color: "#999", weight: 1, fill: false});
+    indoorBorderLayer.addTo(indoorMap);
     indoorMap.fitBounds(bounds);
     indoorLayers = L.featureGroup().addTo(indoorMap);
     indoorMap.pm.setGlobalOptions({
@@ -268,6 +271,21 @@ function openFloorPlanEditor(buildingName, floorIndex) {
     setTimeout(() => {
         modal.classList.add('open');
         initIndoorMap();
+        if (indoorBorderLayer && !indoorMap.hasLayer(indoorBorderLayer)) {
+            indoorBorderLayer.addTo(indoorMap);
+        }
+        if (indoorBorderLayer && indoorBorderLayer.pm) {
+            indoorBorderLayer.pm.enable({
+                allowSelfIntersection: false,
+                preventMarkerRemoval: true,
+            });
+        }
+        const zoomCtrl = document.querySelector('#indoor-map .leaflet-control-zoom');
+        if (zoomCtrl) zoomCtrl.style.display = 'block';
+        indoorMap.scrollWheelZoom.enable();
+        indoorMap.touchZoom.enable();
+        indoorMap.doubleClickZoom.enable();
+        indoorMap.boxZoom.enable();
         indoorMap.invalidateSize();
         loadFloorData(buildingName, floorIndex);
         enableEditorTools();
@@ -288,6 +306,18 @@ function openFloorPlanViewer(buildingName, floorIndex, roomNameToHighlight = nul
     setTimeout(() => {
         modal.classList.add('open');
         initIndoorMap();
+        if (indoorBorderLayer && indoorBorderLayer.pm) {
+            indoorBorderLayer.pm.disable();
+        }
+        if (indoorBorderLayer && indoorMap.hasLayer(indoorBorderLayer)) {
+            indoorMap.removeLayer(indoorBorderLayer);
+        }
+        const zoomCtrl = document.querySelector('#indoor-map .leaflet-control-zoom');
+        if (zoomCtrl) zoomCtrl.style.display = 'none';
+        indoorMap.scrollWheelZoom.disable();
+        indoorMap.touchZoom.disable();
+        indoorMap.doubleClickZoom.disable();
+        indoorMap.boxZoom.disable();
         indoorMap.invalidateSize();
         loadFloorData(buildingName, floorIndex, roomNameToHighlight);
         disableEditorTools();
@@ -362,6 +392,10 @@ function saveCurrentFloorPlan() {
         const floorObj = bData.floors.find(f => f.id == currentIndoorFloor);
         if (floorObj) {
             floorObj.geoJson = geoJson;
+            if (indoorBorderLayer) {
+                const b = indoorBorderLayer.getBounds();
+                floorObj.bounds = [[b.getSouthWest().lat, b.getSouthWest().lng], [b.getNorthEast().lat, b.getNorthEast().lng]];
+            }
             console.log("Saved floor plan:", floorObj);
             saveIndoorDataToDatabase();
         }
@@ -427,6 +461,15 @@ function loadFloorData(buildingName, floorIndex, roomNameToHighlight = null) {
     const bData = window.floorData[buildingName];
     if (bData && bData.floors) {
         const floorObj = bData.floors.find(f => f.id == floorIndex);
+        
+        if (indoorBorderLayer) {
+            if (floorObj && floorObj.bounds) {
+                indoorBorderLayer.setBounds(floorObj.bounds);
+            } else {
+                indoorBorderLayer.setBounds([[0,0], [1000,1000]]);
+            }
+        }
+
         if (floorObj && floorObj.geoJson) {
             let layerToHighlight = null;
             L.geoJSON(floorObj.geoJson).eachLayer(layer => {
