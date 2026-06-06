@@ -33,49 +33,50 @@
 \contentsline {section}{\numberline {1.9}Concluziile capitolului}{12}{section.1.9}%
 \contentsline {chapter}{\numberline {2}Arhitectura sistemului}{14}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Vedere de ansamblu asupra arhitecturii}{14}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Nivelul de servicii (backend)}{15}{section.2.2}%
+\contentsline {section}{\numberline {2.2}Nivelul de servicii (backend)}{14}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Punctul de intrare al aplicației}{15}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Accesul la date prin JPA}{15}{subsection.2.2.2}%
-\contentsline {section}{\numberline {2.3}Nivelul de date}{16}{section.2.3}%
+\contentsline {section}{\numberline {2.3}Nivelul de date}{15}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Entitatea utilizator}{16}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Entitatea pentru datele hărții}{17}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Securitate: autentificare și autorizare}{17}{section.2.4}%
+\contentsline {subsection}{\numberline {2.3.2}Entitatea pentru datele hărții}{16}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Entitatea pentru planurile de etaj}{16}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Securitate: autentificare și autorizare}{16}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Criptarea parolelor}{17}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Configurarea regulilor de acces}{18}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}Încărcarea utilizatorilor și inițializarea contului de administrator}{18}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}Nivelul de prezentare (frontend)}{19}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Inițializarea hărții și delimitarea zonei}{20}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Construirea grafului de navigare}{20}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul lui Dijkstra}{21}{subsection.2.5.3}%
-\contentsline {section}{\numberline {2.6}Fluxul de comunicare între componente}{22}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Concluziile capitolului}{22}{section.2.7}%
-\contentsline {chapter}{\numberline {3}Implementarea funcționalităților și punerea în funcțiune}{24}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Gestionarea rolurilor și modurile de utilizare}{24}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Editarea hărții de către administrator}{24}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Căutarea și afișarea informațiilor}{25}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Securitatea la nivelul interfeței}{25}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Rutarea și afișarea vizuală a traseului}{26}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Punerea în funcțiune prin rețea privată virtuală}{26}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Rețeaua privată cu Tailscale}{27}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Adresarea prin MagicDNS}{27}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Criptarea HTTPS și accesul la GPS}{27}{subsection.3.6.3}%
-\contentsline {section}{\numberline {3.7}Concluziile capitolului}{28}{section.3.7}%
-\contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{29}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Metodologia de testare}{29}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{29}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{30}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{30}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{30}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{30}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{31}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{31}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Limitări identificate}{31}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{31}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{32}{subsection.4.5.2}%
-\contentsline {section}{\numberline {4.6}Concluziile capitolului}{32}{section.4.6}%
-\contentsline {chapter}{Concluzii}{33}{chapter*.4}%
-\contentsline {section}{Sinteza rezultatelor}{33}{section*.5}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{34}{section*.6}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{34}{section*.7}%
-\contentsline {section}{Reflecție finală}{35}{section*.8}%
-\contentsline {unnumberedsection}{Bibliografie}{36}{chapter*.9}%
+\contentsline {subsection}{\numberline {2.4.2}Configurarea regulilor de acces}{17}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Încărcarea utilizatorilor și inițializarea contului de administrator}{17}{subsection.2.4.3}%
+\contentsline {section}{\numberline {2.5}Nivelul de prezentare (frontend)}{18}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Inițializarea hărții și delimitarea zonei}{18}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Construirea grafului de navigare}{18}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul lui Dijkstra}{19}{subsection.2.5.3}%
+\contentsline {section}{\numberline {2.6}Fluxul de comunicare între componente}{19}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Concluziile capitolului}{20}{section.2.7}%
+\contentsline {chapter}{\numberline {3}Implementarea funcționalităților și punerea în funcțiune}{21}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Gestionarea rolurilor și modurile de utilizare}{21}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Editarea hărții de către administrator}{21}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Căutarea și afișarea informațiilor}{22}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Securitatea la nivelul interfeței}{22}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Rutarea și afișarea vizuală a traseului}{23}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Punerea în funcțiune prin rețea privată virtuală}{23}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Rețeaua privată cu Tailscale}{24}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Adresarea prin MagicDNS}{24}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Criptarea HTTPS și accesul la GPS}{24}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}Concluziile capitolului}{25}{section.3.7}%
+\contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Metodologia de testare}{26}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{26}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{27}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{27}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{27}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{27}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{28}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{28}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Limitări identificate}{28}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{28}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{29}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.6}Concluziile capitolului}{29}{section.4.6}%
+\contentsline {chapter}{Concluzii}{30}{chapter*.4}%
+\contentsline {section}{Sinteza rezultatelor}{30}{section*.5}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{31}{section*.6}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{31}{section*.7}%
+\contentsline {section}{Reflecție finală}{32}{section*.8}%
+\contentsline {unnumberedsection}{Bibliografie}{33}{chapter*.9}%

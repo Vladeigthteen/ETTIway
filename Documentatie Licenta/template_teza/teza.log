@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 12:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 14:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1046,7 +1046,7 @@ Overfull \hbox (52.28856pt too wide) in paragraph at lines 81--81
 {C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=335, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=339, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf>
 Package pdftex.def Info: Anexa1.2.pdf  used on input line 82.
@@ -1057,7 +1057,7 @@ pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version
 
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=337, page=1, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=341, page=1, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
 Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
@@ -1083,7 +1083,7 @@ Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 82.
  <./Anexa1.2.pdf>]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=388, page=2, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=392, page=2, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 2>
 Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 82.
@@ -1151,79 +1151,87 @@ Underfull \vbox (badness 4981) has occurred while \output is active []
 
  [11] [12] [13]
 Capitolul 2.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [14
+[14
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 700.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 687.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 705.
- [15] [16]
-Overfull \hbox (7.538pt too wide) in paragraph at lines 830--836
+Underfull \vbox (badness 2293) has occurred while \output is active []
+
+ [15]
+Overfull \hbox (7.538pt too wide) in paragraph at lines 780--786
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
-[17]
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 890--895
+<figuri/Tabel Utilizatori.png, id=606, 645.16031pt x 57.96657pt>
+File: figuri/Tabel Utilizatori.png Graphic file (type png)
+<use figuri/Tabel Utilizatori.png>
+Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 789.
+(pdftex.def)             Requested size: 386.95897pt x 34.76692pt.
+[16]
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 830--836
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
-[18] [19] [20] [21] [22] [23]
+[17
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.837 P
+       entru a asigura existenÈ›a unui cont de administrator Ã®ncÄƒ de la prima <./figuri/Tabel Utilizatori.png>] [18] [19] [20]
 Capitolul 3.
-[24
+[21
 
-] [25] [26]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 1306--1316
+] [22]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 1082.
+ [23]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 1149--1159
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-[27] [28]
+[24] [25]
 Capitolul 4.
 
 Underfull \vbox (badness 4899) has occurred while \output is active []
 
- [29
+ [26
 
-] [30] [31] [32]
+] [27] [28] [29]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [33
+ [30
 
-] [34] [35]
+] [31] [32]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1726--1732
+Underfull \hbox (badness 10000) in paragraph at lines 1569--1575
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[36
+[33
 
-] [37] (teza.aux)
+] [34] (teza.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 1FAD20FC92D508B807100380E2D8DE49;18344.
+(rerunfilecheck)             Checksum: 11F271BC87DD474CEFC377289361C483;18587.
  ) 
 Here is how much of TeX's memory you used:
- 15611 strings out of 467871
- 242939 string characters out of 5418377
- 1012769 words of memory out of 5000000
- 43922 multiletter control sequences out of 15000+600000
+ 15316 strings out of 467871
+ 238682 string characters out of 5418377
+ 703135 words of memory out of 5000000
+ 43780 multiletter control sequences out of 15000+600000
  721840 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,17n,79p,893b,2049s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,17n,79p,893b,1230s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (45 pages, 488230 bytes).
+Output written on teza.pdf (42 pages, 464984 bytes).
 PDF statistics:
- 996 PDF objects out of 1000 (max. 8388607)
- 299 named destinations out of 1000 (max. 500000)
- 661 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 812 PDF objects out of 1000 (max. 8388607)
+ 149 named destinations out of 1000 (max. 500000)
+ 674 words of extra memory for PDF output out of 10000 (max. 10000000)
 
