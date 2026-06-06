@@ -214,6 +214,11 @@ function initIndoorMap() {
                     indoorLayers.removeLayer(layer);
                 }
             });
+        } else if (e.shape === 'Line' || e.shape === 'Polyline') {
+            // Nu dorim să cerem nume pentru Polyline, acestea sunt doar rute
+            layer.feature = layer.feature || { type: "Feature", properties: {} };
+            layer.feature.properties = layer.feature.properties || {};
+            layer.feature.properties.type = "route";
         } else {
             showCustomPrompt("Numele camerei / Room name:", (roomName) => {
                 if (roomName) {
