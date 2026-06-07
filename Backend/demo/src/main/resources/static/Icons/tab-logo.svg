@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Logo ETTIway - inspirat dupa stilul logo-ului ETTI (unde radio la 45 grade)
+  Culori site: #2c3e50 (albastru inchis) si #e74c3c (rosu accent)
+  Folosire: 
+    - in HTML: <img src="logo.svg" alt="ETTIway">
+    - in CSS background: url('logo.svg')
+    - scalabil la orice dimensiune (vector)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="82 47 50 50" width="100%" height="100%">
+
+  <g transform="rotate(45, 20, 65)">
+    <!-- Punct central -->
+    <circle cx="85" cy="25" r="3.5" fill="white"/>
+    <!-- Arc 1 (cel mai mic) -->
+    <path d="M 78 18 Q 85 13 92 18" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Arc 2 (mijlociu) -->
+    <path d="M 72 11 Q 85 2 98 11" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Arc 3 (cel mai mare) -->
+    <path d="M 66 4 Q 85 -9 104 4" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+     
+
+    
+  </g>
+
+
+  
+  
+
+  
+</svg>
