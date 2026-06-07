@@ -10,14 +10,14 @@
 Acest capitol prezintă arhitectura platformei ETTIway, plecând de la o vedere de
 ansamblu asupra componentelor și ajungând la detalierea fiecărui nivel al
 sistemului. Sunt descrise separarea responsabilităților între frontend și
-backend, structura datelor persistate, mecanismul de autentificare și
-autorizare, precum și fluxurile principale prin care componentele comunică între
-ele. Deciziile de proiectare sunt motivate prin raportare la cerințele
-formulate în capitolul anterior, cu accent pe extensibilitate, securitate și
-claritate a fluxului de utilizare. Fragmentele de cod care ilustrează aceste
+backend, structura datelor, mecanismul de autentificare și
+autorizare. Totodată, sunt prezentate și fluxurile principale prin care componentele comunică între
+ele. Deciziile de proiectare sunt motivate prin raportare la ideeile
+formulate în capitolul anterior, cu accent pe securitate și
+claritate a fluxului de utilizare. 
+Fragmentele de cod care ilustrează aceste
 mecanisme se găsesc în Anexa~A (cod Java pentru backend) și Anexa~B (cod
-JavaScript pentru frontend), pentru a păstra fluența capitolului fără a
-sacrifica detaliile tehnice.
+JavaScript pentru frontend).
 
 \section{Vedere de ansamblu asupra arhitecturii}
 \label{sec:ansamblu}
@@ -45,18 +45,16 @@ Comunicarea dintre nivelul de prezentare și cel al serviciilor se realizează
 prin cereri HTTP către un set de servicii de tip REST, datele fiind
 transferate în format JSON. Această alegere asigură un cuplaj redus între
 client și server: orice modificare internă a backend-ului rămâne transparentă
-pentru frontend, atât timp cât contractul serviciilor este respectat. În
-secțiunile următoare, fiecare nivel este analizat în detaliu.
+pentru frontend, atât timp cât contractul serviciilor este respectat.
 
 \section{Nivelul de servicii (backend)}
 \label{sec:backend}
 
-Backend-ul aplicației este o aplicație Spring Boot \cite{Walls2022},
+Backend-ul aplicației este realizat cu ajutorul framework-ului Spring Boot \cite{Walls2022},
 structurată pe pachete distincte în funcție de responsabilități. Pachetul de
 configurare conține clasele de inițializare, de securitate și de pornire a
-aplicației; pachetul de entități conține clasele care modelează datele
-persistate; pachetul de repository conține interfețele de acces la baza de
-date. Această organizare urmează convențiile consacrate ale ecosistemului
+aplicației. Pachetul de entități conține clasele care modelează datele. Pachetul de repository conține interfețele de acces la baza de
+date. Această organizare urmează convențiile de bază ale ecosistemului
 Spring și face codul ușor de parcurs și de extins.
 
 \subsection{Punctul de intrare al aplicației}
@@ -69,17 +67,17 @@ configurare automată ale Spring Boot, prin care componentele sunt descoperite
 este minimal, întreaga logică de configurare fiind delegată claselor
 specializate (vezi Listing~A.1 din Anexa~A). La pornire, pe lângă
 inițializarea contextului Spring, aplicația execută și o componentă de
-inițializare a datelor, descrisă în secțiunea dedicată autentificării, care
+inițializare a datelor, care
 asigură existența unui cont de administrator în baza de date.
 
 \subsection{Accesul la date prin JPA}
 \label{subsec:jpa}
 
 Accesul la baza de date se realizează prin intermediul JPA (Java Persistence
-API) \cite{Walls2022}, folosind abstracțiile oferite de Spring Data. În locul
+API) \cite{Walls2022}. În locul
 scrierii manuale a interogărilor, accesul la date este definit prin interfețe
 care extind \texttt{JpaRepository}, Spring generând automat implementările
-necesare. Pentru entitatea utilizator, repository-ul definește în plus o
+necesare. Pentru utilizator, repository-ul definește în plus o
 metodă de căutare după numele de utilizator, al cărei corp este generat
 automat pe baza denumirii metodei (vezi Listing~A.2 din Anexa~A).
 
@@ -93,9 +91,8 @@ acest caz și reducând astfel riscul de erori.
 \section{Nivelul de date}
 \label{sec:date}
 
-Datele persistate sunt stocate într-o bază de date relațională PostgreSQL
-\cite{PostgreSQL}, aleasă pentru maturitatea sa, pentru suportul robust al
-tipurilor de date și pentru caracterul său deschis. Maparea dintre tabelele
+Datele sunt stocate într-o bază de date relațională PostgreSQL
+\cite{PostgreSQL}, aleasă pentru suportul robust al tipurilor de date și pentru caracterul său open-source. Maparea dintre tabelele
 bazei de date și obiectele din aplicație este realizată prin adnotări JPA pe
 clasele de tip entitate. În cadrul ETTIway există două entități principale:
 utilizatorii și datele hărții campusului, aceasta din urmă stocând atât
@@ -105,7 +102,7 @@ informația despre exterior, cât și planurile de etaj din interior.
 \label{subsec:user-entity}
 
 Entitatea \texttt{User} modelează un cont din sistem și este mapată pe tabelul
-\texttt{users}. Fiecare utilizator are un identificator generat automat, un
+\texttt{users}. Fiecare utilizator are un
 nume de utilizator unic, o parolă stocată în formă criptată și un rol care
 determină nivelul de acces. Constrângerile de unicitate și de obligativitate
 sunt exprimate direct prin adnotări la nivel de coloană (vezi Listing~A.3 din

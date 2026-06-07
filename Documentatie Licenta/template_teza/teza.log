@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  7 JUN 2026 11:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  7 JUN 2026 17:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1155,17 +1155,25 @@ Overfull \hbox (5.48412pt too wide) in paragraph at lines 374--378
 
  (capitolul2.tex
 Capitolul 2.
-[14
+
+Underfull \vbox (badness 6708) has occurred while \output is active []
+
+ [14
 
 
 
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 66.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 64.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [15]
-Overfull \hbox (7.538pt too wide) in paragraph at lines 155--161
+)
+Overfull \hbox (8.53345pt too wide) in paragraph at lines 76--83
+\T1/lmtt/m/n/12 JpaRepository\T1/lmr/m/n/12 , Spring ge-ne-rând auto-mat im-ple-men-t -rile ne-ce-sare. Pen-tru uti-li-za-tor, repository-
+ []
+
+[15]
+Overfull \hbox (7.538pt too wide) in paragraph at lines 152--158
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
@@ -1173,10 +1181,10 @@ Overfull \hbox (7.538pt too wide) in paragraph at lines 155--161
 <figuri/Tabel Utilizatori.png, id=646, 645.16031pt x 57.96657pt>
 File: figuri/Tabel Utilizatori.png Graphic file (type png)
 <use figuri/Tabel Utilizatori.png>
-Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 174.
+Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 171.
 (pdftex.def)             Requested size: 386.95897pt x 34.76692pt.
 
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 205--211
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 202--208
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
@@ -1184,7 +1192,7 @@ Overfull \hbox (0.6866pt too wide) in paragraph at lines 205--211
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.212 P
+l.209 P
        entru a asigura existenÈ›a unui cont de administrator Ã®ncÄƒ de la prima <./figuri/Tabel Utilizatori.png>] [18] [19]) [20]
 \openout2 = `capitolul3.aux'.
 
@@ -1308,7 +1316,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,17n,79p,893b,2049s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (56 pages, 578096 bytes).
+Output written on teza.pdf (56 pages, 577784 bytes).
 PDF statistics:
  1428 PDF objects out of 1440 (max. 8388607)
  601 named destinations out of 1000 (max. 500000)
