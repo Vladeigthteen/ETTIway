@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  6 JUN 2026 17:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  7 JUN 2026 11:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1140,23 +1140,17 @@ Capitolul 1.
 
 
 ] [4] [5] [6]
-Underfull \vbox (badness 5490) has occurred while \output is active []
+Underfull \vbox (badness 2012) has occurred while \output is active []
 
  [7]
 Underfull \vbox (badness 2103) has occurred while \output is active []
 
  [8] [9]
-Overfull \hbox (5.48412pt too wide) in paragraph at lines 379--384
+Overfull \hbox (5.48412pt too wide) in paragraph at lines 374--378
 \T1/lmr/m/n/12 Platforma ET-TI-way este con-stru-it  pe o ar-hi-tec-tur  de tip cli-ent^^Userver, în care responsabilit []ile
  []
 
-
-Underfull \vbox (badness 3612) has occurred while \output is active []
-
- [10]
-Underfull \vbox (badness 4981) has occurred while \output is active []
-
- [11] [12]) [13]
+[10] [11]) [12] [13]
 \openout2 = `capitolul2.aux'.
 
  (capitolul2.tex
@@ -1235,7 +1229,7 @@ Underfull \vbox (badness 4899) has occurred while \output is active []
 ] [33]) [34]
 Bibliografie
 
-Underfull \hbox (badness 10000) in paragraph at lines 1631--1637
+Underfull \hbox (badness 10000) in paragraph at lines 1649--1655
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
@@ -1308,13 +1302,13 @@ Package rerunfilecheck Info: File `teza.out' has not changed.
 Here is how much of TeX's memory you used:
  16273 strings out of 467871
  255267 string characters out of 5418377
- 1198838 words of memory out of 5000000
+ 1199514 words of memory out of 5000000
  44233 multiletter control sequences out of 15000+600000
  721840 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,17n,79p,893b,2049s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (56 pages, 577705 bytes).
+Output written on teza.pdf (56 pages, 578096 bytes).
 PDF statistics:
  1428 PDF objects out of 1440 (max. 8388607)
  601 named destinations out of 1000 (max. 500000)
