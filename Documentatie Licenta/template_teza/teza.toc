@@ -54,16 +54,16 @@
 \contentsline {section}{\numberline {3.1}Gestionarea rolurilor și modurile de utilizare}{21}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Editarea hărții de către administrator}{21}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Căutarea și afișarea informațiilor}{22}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Securitatea la nivelul interfeței}{22}{section.3.4}%
+\contentsline {section}{\numberline {3.4}Securitatea la nivelul interfeței}{23}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Rutarea exterioară și afișarea vizuală a traseului}{23}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Rutarea în interiorul clădirilor}{23}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Modelul de date al planurilor de etaj}{23}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.1}Modelul de date al planurilor de etaj}{24}{subsection.3.6.1}%
 \contentsline {subsection}{\numberline {3.6.2}Editarea planurilor și salvarea în baza de date}{24}{subsection.3.6.2}%
 \contentsline {subsection}{\numberline {3.6.3}Calculul traseului indoor}{24}{subsection.3.6.3}%
-\contentsline {section}{\numberline {3.7}Punerea în funcțiune prin rețea privată virtuală}{24}{section.3.7}%
+\contentsline {section}{\numberline {3.7}Punerea în funcțiune prin rețea privată virtuală}{25}{section.3.7}%
 \contentsline {subsection}{\numberline {3.7.1}Rețeaua privată cu Tailscale}{25}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Adresarea prin MagicDNS}{25}{subsection.3.7.2}%
-\contentsline {subsection}{\numberline {3.7.3}Criptarea HTTPS și accesul la GPS}{25}{subsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.7.2}Adresarea prin MagicDNS}{26}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Criptarea HTTPS și accesul la GPS}{26}{subsection.3.7.3}%
 \contentsline {section}{\numberline {3.8}Concluziile capitolului}{26}{section.3.8}%
 \contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{27}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Metodologia de testare}{27}{section.4.1}%
@@ -79,11 +79,11 @@
 \contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{30}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{30}{subsection.4.5.2}%
 \contentsline {section}{\numberline {4.6}Concluziile capitolului}{31}{section.4.6}%
-\contentsline {chapter}{Concluzii}{32}{chapter*.4}%
-\contentsline {section}{Sinteza rezultatelor}{32}{section*.5}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{33}{section*.6}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{33}{section*.7}%
-\contentsline {section}{Reflecție finală}{34}{section*.8}%
-\contentsline {unnumberedsection}{Bibliografie}{35}{chapter*.9}%
+\contentsline {chapter}{Concluzii}{32}{chapter*.6}%
+\contentsline {section}{Sinteza rezultatelor}{32}{section*.7}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{33}{section*.8}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{33}{section*.9}%
+\contentsline {section}{Reflecție finală}{34}{section*.10}%
+\contentsline {unnumberedsection}{Bibliografie}{35}{chapter*.11}%
 \contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{37}{appendix.A}%
 \contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{43}{appendix.B}%
