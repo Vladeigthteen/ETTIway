@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Logo ETTIway - inspirat dupa stilul logo-ului ETTI (unde radio la 45 grade)
+  Culori site: #2c3e50 (albastru inchis) si #e74c3c (rosu accent)
+  Folosire: 
+    - in HTML: <img src="logo.svg" alt="ETTIway">
+    - in CSS background: url('logo.svg')
+    - scalabil la orice dimensiune (vector)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="200" height="240">
+  
+  <!-- Pinul de harta (corpul logoului) -->
+  <path d="M 45 95 L 45 65 Q 45 40 70 40 L 130 40 Q 155 40 155 65 L 155 95 Q 155 120 130 120 L 112 120 L 100 150 L 88 120 L 70 120 Q 45 120 45 95 Z" 
+        fill="#2c3e50"/>
+  
+  <!-- Undele radio in colt, rotite la 45 grade -->
+  <g transform="rotate(45, 20, 65)">
+    <!-- Punct central -->
+    <circle cx="85" cy="25" r="3.5" fill="white"/>
+    <!-- Arc 1 (cel mai mic) -->
+    <path d="M 78 18 Q 85 13 92 18" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Arc 2 (mijlociu) -->
+    <path d="M 72 11 Q 85 2 98 11" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Arc 3 (cel mai mare) -->
+    <path d="M 66 4 Q 85 -9 104 4" 
+          stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+     
+
+    
+  </g>
+  <text x="105" y="110" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">
+    <tspan x="100" dy="0">ETTIway</tspan>
+    </text>
+
+  
+  
+  <!-- Punct rosu de destinatie (sub pin) -->
+  <circle cx="100" cy="182" r="6" fill="#e74c3c"/>
+  
+</svg>

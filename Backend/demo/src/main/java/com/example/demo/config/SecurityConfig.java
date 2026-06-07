@@ -26,7 +26,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         )
         .authorizeHttpRequests(auth -> auth
     // 1. Publice
-    .requestMatchers("/login.html", "/auth.html", "/api/auth/**", "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
+    .requestMatchers("/login.html", "/auth.html", "/api/auth/**", "/css/**", "/js/**", "/icons/**", "/Icons/**", "/data/**").permitAll()
     
     // API-ul de Graph public sau poți schimba în .hasRole("ADMIN") dacă este necesar
     .requestMatchers("/api/graph/**").permitAll()
