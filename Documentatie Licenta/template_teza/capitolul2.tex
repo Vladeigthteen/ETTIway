@@ -146,6 +146,48 @@ noduri și reprezintă un segment de coridor). Această organizare păstrează
 consistența cu modelul folosit pentru harta exterioară și permite reutilizarea
 aceleiași logici de prelucrare GeoJSON la nivelul clientului.
 
+
+\subsection{Strategia de modelare a datelor}
+\label{subsec:strategie-date}
+ 
+Decizia de a stoca atât graful campusului, cât și planurile indoor sub formă
+de documente JSON serializate ca text, în loc de a folosi o schemă relațională
+clasică cu mai multe tabele, nu a fost aleasă întâmplător.
+Modelul ales este similar conceptului de \textit{document store}, utilizat de
+baze de date precum MongoDB sau CouchDB, dar implementat peste o bază relațională
+clasică, beneficiind astfel de fiabilitatea PostgreSQL fără a renunța la
+flexibilitatea schemei.
+ 
+Avantajul principal al acestei abordări este că structura datelor poate evolua
+fără modificări de schemă în baza de date. Adăugarea unui nou tip de element
+(de exemplu, un punct de interes cu proprietăți noi) sau a unui atribut
+suplimentar pentru o cameră (de exemplu, capacitate, accesibilitate, ore de
+funcționare) nu necesită alterarea tabelului prin instrucțiuni
+\texttt{ALTER TABLE}. Frontend-ul și logica de
+prelucrare a JSON-ului sunt singurele componente care trebuie ajustate.
+ 
+Alternativa relațională ar fi presupus tabele separate pentru clădiri, etaje,
+camere, noduri și muchii, legate prin chei străine. O astfel de schemă oferă
+posibilitatea unor interogări complexe la nivelul bazei de date (de exemplu,
+filtre după proprietăți specifice ale camerelor, agregări per clădire). Acest lucru
+introduce o rigiditate care nu se justifică în contextul actual al aplicației.
+Pentru ETTIway, interogările sunt simple: încărcarea în memorie a întregului
+document și prelucrarea sa la nivelul aplicației. Volumul de date asociat unui
+campus universitar (câteva sute de clădiri, câteva mii de noduri) face ca
+această încărcare integrală să fie eficientă, sub un megabyte de JSON pentru un
+campus de talie medie.
+ 
+Un al doilea avantaj al modelului este simplitatea persistenței: tot graful
+exterior sau toate planurile indoor ale unei clădiri sunt salvate printr-o
+singură operație de scriere în baza de date. Această automatizare evită
+problemele de consistență care apar într-un model relațional, în care
+salvarea unui graf complet ar însemna multiple operații de inserare în mai
+multe tabele, cu necesitatea folosirii tranzacțiilor pentru a garanta
+integritatea. Aceasta automatizare naturală a stocării JSON face logica de salvare
+mai simplă atât în backend, cât și în frontend.
+ 
+
+
 \section{Securitate: autentificare și autorizare}
 \label{sec:securitate}
 
@@ -280,7 +322,7 @@ mai apropiat nod existent (vezi Listing~B.4 din Anexa~B). Aceasta se
 realizează printr-o căutare a nodului aflat la distanța minimă față de
 punctul țintă, asigurând că rutarea pornește și se încheie în puncte aflate
 efectiv pe rețeaua de trasee. Dacă între cele două puncte nu există niciun
-traseu — de exemplu, atunci când o porțiune a rețelei este izolată —
+traseu - de exemplu, atunci când o porțiune a rețelei este izolată -
 algoritmul returnează o valoare care semnalează absența unei rute, iar
 interfața poate informa utilizatorul în consecință.
 
@@ -321,9 +363,9 @@ automată a contului de administrator. La nivelul de prezentare au fost
 prezentate inițializarea hărții, construirea grafului de navigare din date
 GeoJSON și implementarea algoritmului Dijkstra pentru calculul traseelor.
 
-Deciziile de proiectare descrise — separarea pe niveluri, stocarea flexibilă
+Deciziile de proiectare descrise - separarea pe niveluri, stocarea flexibilă
 a grafului, calculul traseelor pe partea de client și inițializarea automată
-a sistemului — au fost orientate spre extensibilitate, securitate și ușurința
+a sistemului - au fost orientate spre extensibilitate, securitate și ușurința
 punerii în funcțiune. Capitolul următor abordează
 modul concret de utilizare a aplicației și rezultatele obținute, ilustrând
 funcționarea sistemului în scenariile reale de navigare din campus,

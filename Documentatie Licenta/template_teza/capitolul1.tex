@@ -170,6 +170,33 @@ eronată a obiectelor. În cadrul ETTIway, consecvența sistemului de referinț�
 între datele provenite din diverse surse este o condiție necesară pentru
 alinierea corectă a infrastructurii campusului.
 
+Un aspect tehnic important, ușor de trecut cu vederea dar cu consecințe practice
+serioase, este \textbf{ordinea coordonatelor} folosită de diferite biblioteci și
+formate. În standardul GeoJSON, folosit pentru schimbul de date geografice între
+componente, perechea de coordonate este scrisă în ordinea
+\texttt{[longitudine, latitudine]}, conform convenției matematice
+\texttt{[x, y]}. Pe de altă parte, biblioteca Leaflet, folosită pentru afișarea
+hărții în ETTIway, folosește ordinea
+\texttt{[latitudine, longitudine]}, conform convenției geografice
+clasice. Această asimetrie reprezintă o sursă frecventă de erori în
+aplicațiile care procesează date geospațiale, iar identificarea corectă a
+ordinii așteptate de fiecare strat este esențială pentru afișarea corectă a
+geometriilor. În implementarea ETTIway, conversia între cele două convenții se
+face explicit la nivelul fiecărei interacțiuni cu date GeoJSON, pentru a evita
+inversiunea accidentală care ar plasa, de exemplu, un punct din București în
+mijlocul oceanului.
+ 
+Pe lângă WGS84, există sute de sisteme de coordonate proiectate locale, optimizate
+pentru regiuni geografice specifice, care minimizează distorsiunile de distanță
+sau de suprafață într-o anumită zonă. Pentru România, sistemul oficial folosit în
+cartografie și topografie este \textbf{Stereo70} (EPSG:3844), o proiecție conică
+secantă optimizată pentru teritoriul național. Acest sistem nu este folosit
+direct în ETTIway, deoarece datele de pornire provin din OpenStreetMap (care
+folosește WGS84) și serviciul de localizare al browserului raportează tot în
+WGS84, însă cunoașterea sa este utilă într-un context mai larg, în care
+aplicația ar fi integrată cu sisteme administrative locale care folosesc
+Stereo70 (cum sunt platformele cadastrale).
+
 \subsection{Reprezentarea geometriilor: WKT și WKB}
 \label{subsec:wkt-wkb}
 
@@ -297,7 +324,7 @@ devine astfel găsirea, în acest graf ponderat, a lanțului de muchii care leag
 nodul de start de nodul de destinație și a cărui sumă a ponderilor este minimă.
 Această formulare permite aplicarea unor algoritmi cunoscuți. \cite{Madkour2017}
 
-\subsection{Algoritmul lui Dijkstra}
+\subsection{Algoritmul Dijkstra}
 \label{subsec:dijkstra-teoretic}
 
 Cel mai cunoscut algoritm pentru determinarea drumului minim de la un nod sursă
@@ -414,6 +441,66 @@ simplității sale și a suportului nativ existent în limbajul JavaScript, folo
 pentru dezvoltarea frontend-ului. În cadrul aplicației, datele despre clădiri,
 etaje și puncte de interes sunt transmise între server și client sub formă de
 obiecte JSON.
+
+\subsection{Rețele private virtuale și topologii de tip mesh}
+\label{subsec:mesh}
+ 
+Aplicațiile web care lucrează cu date sensibile sau care sunt destinate unor
+comunități restrânse pot beneficia de o expunere controlată, alternativă
+expunerii pe internetul public. O astfel de soluție este utilizarea unei rețele
+private virtuale (VPN, \textit{Virtual Private Network}), care creează un canal
+criptat între dispozitivele autorizate, izolat de traficul public. În cadrul
+ETTIway, o asemenea abordare se potrivește atât cu natura limitată a publicului
+țintă (comunitatea academică a universității), cât și cu cerința de a evita
+configurări complexe de firewall sau de redirecționare de porturi pe routerul
+de internet.
+ 
+Există două topologii principale pentru rețele private virtuale, care diferă
+prin modul în care traficul circulă între dispozitive. În topologia clasică, de
+tip \textbf{hub-and-spoke} (stea), tot traficul trece printr-un server central,
+care actionează ca punct de tranzit între toate dispozitivele conectate. Această
+arhitectură este simplă din punct de vedere conceptual, dar suferă de două
+limitări: serverul central este atât un punct unic de eșec, cât si un dezavantaj pentru lățimea de bandă, deoarece tot traficul trebuie să treacă prin el.
+ 
+Topologia alternativă, de tip \textbf{mesh peer-to-peer}, înlocuiește serverul
+central printr-o rețea în care fiecare dispozitiv poate comunica direct cu
+oricare altul, fără puncte intermediare obligatorii. În această arhitectură,
+serverul de coordonare are doar rolul de a anunța dispozitivele unul față de
+celălalt și de a facilita stabilirea conexiunilor directe, după care nu mai
+intervine în traficul efectiv. Acest model 
+oferă latențe mai mici, deoarece datele circulă pe drumul cel mai scurt posibil
+între cele două capete.
+ 
+Implementarea practică a rețelelor de tip mesh se bazează pe protocoale
+criptografice moderne, dintre care cel mai răspândit în prezent este
+\textbf{WireGuard}. Acesta este un protocol VPN deschis, conceput cu obiectivul
+de a oferi performanță ridicată, simplitate de configurare și o suprafață de
+atac redusă comparativ cu protocoale mai vechi. Cheia identității unui
+dispozitiv în WireGuard este o pereche de chei criptografice (publică și
+privată), iar autentificarea se face exclusiv pe baza acestei chei, fără
+necesitatea unor parole sau certificate centralizate. Deoarece 
+implementarea este compactă (câteva mii de linii de cod, comparativ cu sute de mii pentru
+soluții mai vechi) facilitează auditul de securitate și reduce probabilitatea
+unor vulnerabilități.
+ 
+O provocare importantă pentru rețelele peer-to-peer este \textbf{traversarea
+NAT-urilor} (\textit{Network Address Translation}), procesul prin care
+dispozitivele aflate în spatele unor routere domestice sau corporative pot
+stabili conexiuni directe între ele, în pofida faptului că nu au adrese IP
+publice. Soluțiile moderne folosesc tehnici precum \textit{STUN} (descoperirea
+adresei externe) și \textit{hole punching} (deschiderea simultană a unor porturi
+de către ambele capete), iar în cazurile în care traversarea directă nu este
+posibilă, traficul este redirecționat printr-un server intermediar (relay).
+Astfel de servere de tranzit sunt folosite ca soluție de rezervă, traficul
+rămânând criptat capăt-la-capăt, fără ca operatorul relay-ului să poată descifra
+conținutul.
+ 
+Această arhitectură de tip mesh, bazată pe WireGuard și pe servicii de
+coordonare moderne, oferă o alternativă elegantă la expunerea publică a
+serviciilor. În ETTIway, ea permite ca serverul aplicației să fie accesibil
+exclusiv dispozitivelor invitate explicit, fără adresă IP publică și fără
+configurări manuale ale certificatului HTTPS, aspecte detaliate în capitolul de
+implementare.
 
 \section{Tehnologii utilizate în implementare}
 \label{sec:tehnologii}

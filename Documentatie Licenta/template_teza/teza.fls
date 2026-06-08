@@ -348,16 +348,16 @@ OUTPUT capitolul1.aux
 INPUT .\capitolul1.tex
 INPUT .\capitolul1.tex
 INPUT capitolul1.tex
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 INPUT .\capitolul2.tex
 INPUT .\capitolul2.tex
 OUTPUT capitolul2.aux
 INPUT .\capitolul2.tex
 INPUT .\capitolul2.tex
 INPUT capitolul2.tex
-INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmtt.fd
-INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt12.tfm
 INPUT .\figuri\Tabel Utilizatori.png
 INPUT .\figuri\Tabel Utilizatori.png
 INPUT .\figuri\Tabel Utilizatori.png
