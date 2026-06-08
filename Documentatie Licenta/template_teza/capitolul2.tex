@@ -232,21 +232,18 @@ mecanismele de prelucrare implementate pe partea de client.
 Harta este centrată pe coordonatele campusului și limitată la o zonă
 geografică bine definită, pentru a împiedica utilizatorul să navigheze în
 afara regiunii de interes. Coordonatele de centrare și limitele zonei sunt
-definite ca valori de configurare (vezi Listing~B.1 din Anexa~B), ceea ce
-permite adaptarea facilă a aplicației la un alt campus prin simpla
-modificare a acestor valori.
+definite ca valori de configurare (vezi Listing~B.1 din Anexa~B).
 
 Pe lângă afișarea hărții, interfața include un panou lateral care găzduiește
-funcțiile de căutare, lista clădirilor disponibile și detaliile clădirii sau
-ale sălii selectate. Detaliile despre o sală — clădirea, etajul, capacitatea
-și tipul — sunt generate dinamic, cu prelucrarea atentă a textului pentru a
+funcțiile de căutare, lista clădirilor disponibile și detaliile clădirii. Detaliile despre o sală cum ar fi: clădirea, etajul
+și tipul sunt generate dinamic, cu prelucrarea atentă a textului pentru a
 preveni problemele de afișare și eventualele riscuri de securitate, prin
 transformarea caracterelor speciale înainte de inserarea în pagină.
 
 \subsection{Construirea grafului de navigare}
 \label{subsec:graf}
 
-Pentru a permite calculul traseelor între puncte, infrastructura campusului
+Pentru a putea efectua calculul traseelor între puncte, infrastructura campusului
 este transformată într-un graf, în care nodurile reprezintă intersecții sau
 puncte de pe trasee, iar muchiile reprezintă segmentele care le leagă.
 Graful este construit pornind de la datele geografice exprimate în format
@@ -262,18 +259,18 @@ nedirecționat, deoarece o alee poate fi parcursă în ambele sensuri.
 Implementarea construirii grafului este prezentată în Listing~B.2 din
 Anexa~B. Observația importantă privind formatul GeoJSON este că acesta
 exprimă coordonatele în ordinea longitudine–latitudine, în timp ce Leaflet le
-așteaptă în ordinea latitudine–longitudine; conversia corectă între cele două
-convenții este necesară pentru ca punctele să fie plasate corect pe hartă.
+așteaptă în ordinea latitudine–longitudine. Conversia corectă între cele două
+este necesară pentru ca punctele să fie plasate corect pe hartă.
 
-\subsection{Calculul traseului prin algoritmul lui Dijkstra}
+\subsection{Calculul traseului prin algoritmul Dijkstra}
 \label{subsec:dijkstra}
 
 Determinarea celui mai scurt traseu între două puncte se realizează prin
-algoritmul lui Dijkstra, implementat direct pe partea de client (vezi
+algoritmul Dijkstra, implementat direct pe partea de client (vezi
 Listing~B.3 din Anexa~B). Plecând de la nodul de start, algoritmul menține
 pentru fiecare nod distanța minimă cunoscută și nodul precedent pe traseul
-optim, alegând la fiecare pas nodul nevizitat cu distanța cea mai mică și
-actualizând distanțele vecinilor săi. Atunci când nodul de destinație este
+optim. Apoi alege la fiecare pas nodul nevizitat cu distanța cea mai mică și
+actualizează distanțele vecinilor săi. Atunci când nodul de destinație este
 atins, traseul este reconstruit parcurgând în sens invers lanțul nodurilor
 precedente.
 
@@ -292,7 +289,7 @@ interfața poate informa utilizatorul în consecință.
 
 Reunind cele trei niveluri, fluxul tipic de utilizare al aplicației poate fi
 descris astfel. La accesarea aplicației, utilizatorul este direcționat către
-pagina de autentificare, iar după validarea credențialelor de către backend,
+pagina de autentificare.În cele ce urmează se validează credențialele de către backend,
 rolul său determină modul de funcționare: vizualizare pentru utilizatorii
 obișnuiți, respectiv editare pentru administratori. Frontend-ul solicită apoi
 structura hărții de la backend, care o extrage din baza de date și o
@@ -302,11 +299,11 @@ de navigare și afișează harta interactivă.
 Atunci când utilizatorul selectează un punct de plecare și unul de
 destinație, calculul traseului se realizează integral pe partea de client,
 prin construirea grafului, asocierea punctelor cu cele mai apropiate noduri
-și aplicarea algoritmului lui Dijkstra. Această alegere reduce sarcina
-serverului și asigură un timp de răspuns redus, traseul fiind calculat și
+și aplicarea algoritmului Dijkstra. Această alegere reduce sarcina
+serverului și asigură un timp de răspuns redus.Traseul este calculat și
 afișat fără a necesita o nouă cerere către backend. Modificările aduse
 structurii hărții de către un administrator sunt, în schimb, transmise către
-backend și persistate în baza de date, devenind astfel disponibile tuturor
+backend și stocate în baza de date, devenind astfel disponibile tuturor
 utilizatorilor la accesările ulterioare.
 
 \section{Concluziile capitolului}
@@ -314,21 +311,20 @@ utilizatorilor la accesările ulterioare.
 
 În acest capitol a fost prezentată arhitectura platformei ETTIway, organizată
 pe trei niveluri: prezentare, servicii și date. A fost descris backend-ul
-realizat cu Spring Boot, cu accesul la date prin JPA și cu persistarea în
-PostgreSQL, precum și cele două entități principale ale sistemului — pentru
-utilizatori și pentru datele hărții campusului, aceasta din urmă cuprinzând
-atât informația despre exterior, cât și planurile de etaj din interior. S-a detaliat mecanismul de securitate, bazat pe Spring Security, cu
-criptarea parolelor prin BCrypt, diferențierea rolurilor și inițializarea
+realizat cu Spring Boot, cu accesul la date prin JPA și cu cu stocarea de date în
+PostgreSQL. Precum și cele două entități principale ale sistemului - pentru
+utilizatori și pentru datele hărții campusului. Aceasta din urmă cuprinzând
+atât informația despre exterior, cât și planurile de etaj din interior. 
+S-a detaliat mecanismul de securitate, bazat pe Spring Security, cu
+criptarea parolelor prin BCrypt. Am prezentat si diferențierea rolurilor și inițializarea
 automată a contului de administrator. La nivelul de prezentare au fost
 prezentate inițializarea hărții, construirea grafului de navigare din date
-GeoJSON și implementarea algoritmului lui Dijkstra pentru calculul traseelor.
+GeoJSON și implementarea algoritmului Dijkstra pentru calculul traseelor.
 
 Deciziile de proiectare descrise — separarea pe niveluri, stocarea flexibilă
 a grafului, calculul traseelor pe partea de client și inițializarea automată
 a sistemului — au fost orientate spre extensibilitate, securitate și ușurința
-punerii în funcțiune. Fragmentele de cod care implementează aceste mecanisme
-sunt regăsite în Anexele~A și~B, permițând cititorului interesat să le
-consulte fără a întrerupe fluxul descrierii. Capitolul următor abordează
+punerii în funcțiune. Capitolul următor abordează
 modul concret de utilizare a aplicației și rezultatele obținute, ilustrând
 funcționarea sistemului în scenariile reale de navigare din campus,
 incluzând și rutarea în interiorul clădirilor.

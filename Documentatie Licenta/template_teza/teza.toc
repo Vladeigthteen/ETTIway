@@ -47,7 +47,7 @@
 \contentsline {section}{\numberline {2.5}Nivelul de prezentare (frontend)}{18}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Inițializarea hărții și delimitarea zonei}{18}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}Construirea grafului de navigare}{18}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul lui Dijkstra}{19}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.3}Calculul traseului prin algoritmul Dijkstra}{19}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Fluxul de comunicare între componente}{19}{section.2.6}%
 \contentsline {section}{\numberline {2.7}Concluziile capitolului}{20}{section.2.7}%
 \contentsline {chapter}{\numberline {3}Implementarea funcționalităților și punerea în funcțiune}{21}{chapter.3}%
