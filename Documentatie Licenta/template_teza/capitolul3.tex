@@ -281,7 +281,14 @@ dispozitivelor autentificate în rețeaua privată. Pentru un proiect
 administrat de o singură persoană, această configurație reduce semnificativ
 suprafața de atac.
 
-% [CAPTURA 3.7: panou Tailscale cu dispozitivele inrolate]
+Pentru a asigura disponibilitatea continuă a aplicației, am configurat-o ca serviciu systemd, ceea ce garantează pornirea automată la repornirea serverului și recuperarea automată în caz de eșec al procesului. Figura~\ref{fig:systemctl} prezintă starea serviciului, cu indicatorii de uptime, consum de memorie și PID-ul procesului Java.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuri/systemctl_status.png}
+    \caption{Aplicația ETTIway configurată ca serviciu systemd.}
+    \label{fig:systemctl}
+\end{figure}
 
 \subsection{Adresarea prin MagicDNS}
 \label{subsec:magicdns-impl}

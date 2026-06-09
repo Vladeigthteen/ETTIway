@@ -28,6 +28,7 @@ vizuală și interactivă semnificativă, iar comportamentul său în condiții 
 claritatea afișării) nu poate fi evaluat automat, ci necesită observare directă
 pe dispozitivele țintă.
 
+
 Testarea s-a desfășurat pe două direcții complementare. Prima direcție a vizat
 verificarea funcțională a fiecărei capabilități în parte: autentificarea în cele
 două roluri, căutarea unei săli, afișarea detaliilor, editarea hărții de către
@@ -36,6 +37,18 @@ administrator, persistarea modificărilor în baza de date și calculul traseulu
 utilizare, parcurgând scenariile complete de la deschiderea aplicației până la
 afișarea unui traseu pe hartă, pentru a observa modul în care componentele
 conlucrează.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{figuri/Springboot.png}
+    \caption{Pornirea aplicației Spring Boot pe serverul propriu.}
+    \label{fig:spring-startup}
+\end{figure}
+
+Aplicația rulează pe un server propriu, configurat să pornească automat la repornirea sistemului. Figura~\ref{fig:spring-startup} prezintă output-ul tipic al unei porniri reușite, în care se observă inițializarea componentelor Spring Boot.
+
+
+
 
 \section{Scenarii de testare funcțională}
 \label{sec:scenarii}

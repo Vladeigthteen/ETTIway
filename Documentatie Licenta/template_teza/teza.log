@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 18:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 19:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1370,45 +1370,62 @@ Overfull \hbox (11.25456pt too wide) in paragraph at lines 273--283
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-[30]) [31] [32]
+[30]
+<figuri/systemctl_status.png, id=828, 878.53218pt x 155.83218pt>
+File: figuri/systemctl_status.png Graphic file (type png)
+<use figuri/systemctl_status.png>
+Package pdftex.def Info: figuri/systemctl_status.png  used on input line 288.
+(pdftex.def)             Requested size: 411.14528pt x 72.92964pt.
+
+Underfull \vbox (badness 2903) has occurred while \output is active []
+
+ [31 <./figuri/systemctl_status.png>]) [32]
 \openout2 = `capitolul4.aux'.
 
  (capitolul4.tex
 Capitolul 4.
+<figuri/Springboot.png, id=845, 1919.67188pt x 430.60875pt>
+File: figuri/Springboot.png Graphic file (type png)
+<use figuri/Springboot.png>
+Package pdftex.def Info: figuri/Springboot.png  used on input line 43.
+(pdftex.def)             Requested size: 483.69687pt x 108.49951pt.
 
-Underfull \vbox (badness 4899) has occurred while \output is active []
+Underfull \vbox (badness 1221) has occurred while \output is active []
 
  [33
 
 
 
 
-]
-<figuri/mesaj_consola.png, id=845, 573.64313pt x 225.84375pt>
+ <./figuri/Springboot.png>]
+<figuri/mesaj_consola.png, id=853, 573.64313pt x 225.84375pt>
 File: figuri/mesaj_consola.png Graphic file (type png)
 <use figuri/mesaj_consola.png>
-Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 70.
+Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 83.
 (pdftex.def)             Requested size: 314.40001pt x 123.78023pt.
- [34 <./figuri/mesaj_consola.png>] [35] [36]) [37]
+ [34 <./figuri/mesaj_consola.png>] [35]
+Underfull \vbox (badness 2689) has occurred while \output is active []
+
+ [36]) [37] [38]
 \openout2 = `concluzii.aux'.
 
- (concluzii.tex [38
+ (concluzii.tex [39
 
 
 
 
-] [39]) [40]
+] [40]) [41]
 Bibliografie
 
 Underfull \hbox (badness 10000) in paragraph at lines 1785--1791
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[41
+[42
 
 
 
-] [42]
+] [43]
 \openout2 = `anexa_a.aux'.
 
  (anexa_a.tex
@@ -1433,10 +1450,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 19.
- [43
+ [44
 
 
-] [44] [45] [46] [47]) [48]
+] [45] [46] [47] [48]) [49]
 \openout2 = `anexa_b.aux'.
 
  (anexa_b.tex
@@ -1457,12 +1474,12 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\hbox' on input line 8.
 
-[49
+[50
 
 
 
 
-] [50] [51] [52] [53]) [54] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
+] [51] [52] [53] [54]) [55] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1472,20 +1489,20 @@ L3 programming layer <2025-12-24>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 26DA000468562BF97DBE666D1D00E09A;20952.
+(rerunfilecheck)             Checksum: D9CBF2BE06212F6509AB58345D6640FD;20952.
  ) 
 Here is how much of TeX's memory you used:
- 20278 strings out of 467871
- 340454 string characters out of 5418377
- 1298798 words of memory out of 5000000
- 48123 multiletter control sequences out of 15000+600000
+ 20297 strings out of 467871
+ 340962 string characters out of 5418377
+ 1299084 words of memory out of 5000000
+ 48139 multiletter control sequences out of 15000+600000
  728843 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,93p,525b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (62 pages, 1168367 bytes).
+Output written on teza.pdf (63 pages, 1301111 bytes).
 PDF statistics:
- 1571 PDF objects out of 1728 (max. 8388607)
- 614 named destinations out of 1000 (max. 500000)
- 788 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1583 PDF objects out of 1728 (max. 8388607)
+ 617 named destinations out of 1000 (max. 500000)
+ 798 words of extra memory for PDF output out of 10000 (max. 10000000)
 
