@@ -72,20 +72,20 @@
 \contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{33}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{34}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{34}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{34}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{34}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{35}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{35}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}Editarea și rutarea în interior}{35}{subsection.4.2.5}%
-\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{35}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{36}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{36}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Limitări identificate}{36}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{36}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{36}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{37}{subsection.4.5.2}%
 \contentsline {section}{\numberline {4.6}Concluziile capitolului}{37}{section.4.6}%
-\contentsline {chapter}{Concluzii}{38}{chapter*.9}%
-\contentsline {section}{Sinteza rezultatelor}{38}{section*.10}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{39}{section*.11}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{39}{section*.12}%
-\contentsline {section}{Reflecție finală}{40}{section*.13}%
-\contentsline {unnumberedsection}{Bibliografie}{41}{chapter*.14}%
+\contentsline {chapter}{Concluzii}{38}{chapter*.10}%
+\contentsline {section}{Sinteza rezultatelor}{38}{section*.11}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{39}{section*.12}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{39}{section*.13}%
+\contentsline {section}{Reflecție finală}{40}{section*.14}%
+\contentsline {unnumberedsection}{Bibliografie}{41}{chapter*.15}%
 \contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{43}{appendix.A}%
 \contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{49}{appendix.B}%
