@@ -4,6 +4,7 @@
 % In text se face referinta la Listing A.X / Listing B.X.
 %==============================================================================
 
+
 \chapter{Arhitectura sistemului}
 \label{cap:arhitectura}
 
@@ -46,6 +47,14 @@ prin cereri HTTP către un set de servicii de tip REST, datele fiind
 transferate în format JSON. Această alegere asigură un cuplaj redus între
 client și server: orice modificare internă a backend-ului rămâne transparentă
 pentru frontend, atât timp cât contractul serviciilor este respectat.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{figuri/flux_autentificare.pdf}
+    \caption{Arhitectura sistemului ETTIway pe trei niveluri}
+    \label{fig:flux-auth}
+\end{figure}
 
 \section{Nivelul de servicii (backend)}
 \label{sec:backend}
@@ -338,6 +347,13 @@ structura hărții de la backend, care o extrage din baza de date și o
 transmite în format JSON. Pe baza acestor date, clientul construiește graful
 de navigare și afișează harta interactivă.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{figuri/flux_autentificare.pdf}
+    \caption{Fluxul detaliat de autentificare al unei cereri HTTP}
+    \label{fig:flux-auth}
+\end{figure}
+
 Atunci când utilizatorul selectează un punct de plecare și unul de
 destinație, calculul traseului se realizează integral pe partea de client,
 prin construirea grafului, asocierea punctelor cu cele mai apropiate noduri
@@ -348,12 +364,16 @@ structurii hărții de către un administrator sunt, în schimb, transmise cătr
 backend și stocate în baza de date, devenind astfel disponibile tuturor
 utilizatorilor la accesările ulterioare.
 
+
+
+
+
 \section{Concluziile capitolului}
 \label{sec:concluzii-cap2}
 
 În acest capitol a fost prezentată arhitectura platformei ETTIway, organizată
 pe trei niveluri: prezentare, servicii și date. A fost descris backend-ul
-realizat cu Spring Boot, cu accesul la date prin JPA și cu cu stocarea de date în
+realizat cu Spring Boot, cu accesul la date prin JPA și cu stocarea de date în
 PostgreSQL. Precum și cele două entități principale ale sistemului - pentru
 utilizatori și pentru datele hărții campusului. Aceasta din urmă cuprinzând
 atât informația despre exterior, cât și planurile de etaj din interior. 

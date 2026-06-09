@@ -24,6 +24,8 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{subcaption}
+\usepackage{svg}
+
 \linespread{1.3}
 \AtBeginDocument{\justifying}
  
@@ -121,20 +123,153 @@ XSS & Cross-Site Scripting \\
  
 \chapter*{Introducere}
 \addcontentsline{toc}{chapter}{Introducere}
-\section{Contextul Proiectului}
-Într-un campus universitar, navigarea în exterior (între corpurile de clădiri) și cea în interior (între săli și laboratoare) sunt de regulă tratate ca probleme separate. ETTIway le reunește într-un singur flux digital, gândit atât pentru studenți, cât și pentru personalul universitar. Platforma oferă localizare în funcție de context, căutarea punctelor de interes și rutare între locațiile din campus.
-Backendul, construit cu Spring Boot, se ocupă de date și de expunerea serviciilor, iar interfața web folosește JavaScript și Leaflet. Datele spațiale provin din OpenStreetMap, ceea ce permite reprezentarea exactă a infrastructurii și adăugarea de zone noi cu efort minim. Pe lângă funcțiile de bază, platforma afișează informații despre clădiri și spații în funcție de locația aleasă și conține o componentă de rutare între puncte. Datele geografice pot fi administrate direct, astfel încât hărțile, denumirile și punctele de interes să fie actualizate rapid, cu efect minim pentru utilizator.
  
-\section{Motivația și Obiectivele}
-Motivația principală a proiectului pornește din dificultățile reale întâlnite în orientarea zilnică din campus: identificarea rapidă a clădirilor, localizarea corectă a sălilor și parcurgerea eficientă a traseelor dintre puncte relevante. În absența unei soluții unificate, utilizatorii sunt nevoiți să combine surse multiple de informație, adesea incomplete sau necorelate între ele. Din această perspectivă, ETTIway urmărește să ofere o experiență digitală coerentă, care să reducă timpul de căutare și să îmbunătățească orientarea atât pentru utilizatorii noi, cât și pentru cei familiarizați cu infrastructura universitară.
+Campusurile universitare moderne reprezintă spații complexe, formate din zeci
+de clădiri, sute de săli și o rețea densă de alei și puncte de interes.
+Orientarea într-un astfel de mediu, în special pentru studenții din primii ani
+sau pentru vizitatori, este adesea dificilă: identificarea unei clădiri după
+denumirea uzuală, găsirea celui mai scurt drum pe alei sau localizarea unei
+săli concrete într-un corp pe care nu îl cunoști sunt sarcini care pot consuma
+timp și pot conduce la întârzieri sau confuzii. Soluțiile generale de hărți
+(Google Maps, OpenStreetMap) acoperă bine deplasarea între adrese, dar nu sunt
+adaptate la nivelul de detaliu necesar într-un campus: nu arată sălile,
+laboratoarele și caracteristicile lor, iar planificarea unui drum pe aleile
+interne nu este întotdeauna corectă.
  
-Obiectivele urmărite în dezvoltarea platformei au fost definite pe două direcții complementare: utilitatea practică pentru utilizatorul final și mentenabilitatea tehnică a sistemului. Astfel, platforma a fost proiectată pentru a integra harta campusului cu date indoor/outdoor într-o interfață unitară, pentru a permite căutarea contextuală a punctelor de interes și pentru a susține rutarea între locații relevante. În paralel, arhitectura aplicației a fost gândită astfel încât actualizarea datelor geografice și extinderea către noi clădiri sau zone să poată fi realizate rapid, fără modificări majore în fluxul de utilizare.
+Plecând de la această observație, lucrarea propune ETTIway, o platformă web
+dezvoltată în mod intenționat pentru navigarea într-un campus universitar.
+Aplicația oferă atât o componentă pentru spațiul exterior, cu hartă, căutare
+și calcul de traseu pe aleile campusului, cât și o componentă pentru spațiul
+interior al clădirilor, cu planuri de etaj editabile și rutare între camere
+pe același etaj.
  
-\section{Metodologia și contribuția proprie}
-Metodologia de dezvoltare a fost structurată în etape succesive, astfel încât fiecare componentă a sistemului să poată fi validată înainte de integrarea finală. În prima etapă a fost realizată analiza cerințelor funcționale și nefuncționale, cu accent pe scenariile reale de utilizare: localizarea rapidă a unei clădiri, identificarea unei săli și parcurgerea unui traseu relevant în campus. Pe baza acestei analize a fost definită arhitectura aplicației, separată pe nivelul de prezentare (frontend), nivelul serviciilor (backend) și nivelul datelor geografice. Implementarea a fost realizată incremental, prin dezvoltarea și testarea separată a modulelor de vizualizare, căutare și gestiune a datelor indoor, urmată de integrarea lor într-un flux unitar.
+\section{Obiectivele generale ale proiectului}
+\label{sec:intro-obiective}
  
-Contribuția proprie vizează atât partea tehnică, cât și partea de organizare a datelor spațiale. La nivel de date, contribuția include structurarea seturilor geospațiale utilizate de aplicație, adaptarea lor pentru scenariile de navigare și construirea unei baze extensibile pentru adăugarea de noi clădiri, niveluri și elemente de infrastructură. Rezultatul este o soluție funcțională, ușor de extins, orientată spre utilizare practică în mediul universitar.
-
+Obiectivul principal al proiectului a fost dezvoltarea unei platforme web
+funcționale, ușor de utilizat de pe dispozitive mobile, care să acopere
+nevoile specifice de orientare într-un campus universitar. Pentru atingerea
+acestui obiectiv au fost formulate mai multe obiective secundare, care au
+ghidat deciziile de proiectare pe tot parcursul dezvoltării.
+ 
+Primul obiectiv secundar a fost realizarea unei interfețe de hartă interactivă
+pentru spațiul exterior al campusului, peste un strat de date provenit din
+OpenStreetMap, cu posibilitatea de a calcula traseul optim între două puncte
+prin algoritmul lui Dijkstra. Al doilea obiectiv a fost implementarea unei
+componente dedicate pentru spațiul interior, în care un administrator poate
+desena planurile de etaj ale clădirilor, iar un utilizator obișnuit poate
+căuta o cameră și poate obține traseul către aceasta pe planul respectiv.
+Al treilea obiectiv a fost separarea clară a rolurilor de utilizator
+(administrator și utilizator obișnuit) printr-un mecanism de autentificare
+solid, care să permită editarea hărții doar de către persoane autorizate.
+Al patrulea obiectiv a fost asigurarea unui mecanism de acces sigur la
+aplicație, fără expunerea serverului pe internetul public, prin folosirea
+unei rețele private de tip mesh.
+ 
+Pe lângă obiectivele funcționale, au fost urmărite și obiective tehnice:
+codul să fie organizat în niveluri clar separate (prezentare, servicii, date).
+Datele să poată fi extinse fără modificări de schemă în baza de date, iar
+aplicația să funcționeze corect pe o varietate de dispozitive, de la laptop
+și până la telefon mobil cu acces la internet.
+ 
+\section{Metodologia folosită}
+\label{sec:intro-metodologie}
+ 
+Dezvoltarea platformei ETTIway a urmat o metodologie incrementală, în care
+fiecare componentă a fost proiectată, implementată și testată separat,
+înainte de a fi integrată în fluxul de ansamblu al aplicației. Această
+abordare a permis identificarea și corectarea timpurie a problemelor și a
+asigurat o evoluție controlată a proiectului.
+ 
+În prima etapă au fost studiate fundamentele teoretice și tehnologiile
+disponibile, cu accent pe sistemele de coordonate geografice, formatele de
+date geospațiale (în special GeoJSON), algoritmii de calcul al drumului
+minim în grafuri și framework-urile web moderne pentru construirea aplicațiilor
+de tip client-server. În urma acestei documentări am ales tehnologiile
+folosite: Spring Boot pentru backend, datorită maturității ecosistemului Java
+și a suportului foarte bun pentru securitate; PostgreSQL pentru stocare,
+pentru fiabilitatea sa și pentru suportul nativ al câmpurilor text de dimensiune
+mare. Leaflet pentru afișarea hărții, datorita faptului că este o unealtă open-source și pentru
+suportul nativ al gesturilor tactile pe dispozitivele mobile.
+ 
+În a doua etapă am construit componenta exterioară: încărcarea unei hărți
+OpenStreetMap centrate pe campusul universitar, definirea rețelei de alei sub
+forma unui graf editabil de către administrator, și implementarea algoritmului
+lui Dijkstra în JavaScript pentru calculul traseelor între două puncte.
+Persistența grafului a fost realizată într-o coloană text de tip JSON a unei
+entități unice MapData, decizie de proiectare orientată spre flexibilitate.
+ 
+În a treia etapă am extins aplicația cu o componentă pentru spațiul interior
+al clădirilor. Pentru această componentă am proiectat un model de date
+separat, structurat ierarhic pe clădiri, etaje și elemente (camere, noduri,
+coridoare), păstrat în aceeași entitate MapData prin adăugarea unei a doua
+coloane JSON. Rutarea în interior folosește o instanță dedicată a
+algoritmului Dijkstra, adaptată pentru lucrul cu coordonate pixel în loc de
+coordonate geografice.
+ 
+În a patra etapă am abordat aspectele legate de deployment și securitate.
+Am configurat un server propriu pentru găzduirea aplicației și am ales
+folosirea rețelei private virtuale Tailscale pentru a evita expunerea
+serverului pe internetul public. Această decizie a fost luată în mod
+intenționat: pentru un proiect academic, cu un număr limitat de utilizatori,
+o rețea privată oferă atât simplitate de configurare cât și un nivel ridicat
+de securitate, fără necesitatea unor măsuri suplimentare specifice expunerii
+publice. Certificatele HTTPS pe domeniul \texttt{.ts.net} sunt obținute
+automat, fără configurări manuale.
+ 
+Pe tot parcursul dezvoltării am acordat o atenție constantă testării:
+fiecare componentă nouă a fost verificată separat, prin scenarii reprezentative,
+iar la finalul fiecărei etape a fost realizată o testare de integrare,
+inclusiv prin folosirea efectivă a aplicației în campus, pe un dispozitiv
+mobil conectat la rețeaua privată.
+ 
+\section{Contribuția studentului și rezultatele obținute}
+\label{sec:intro-contributie}
+ 
+Lucrarea de față prezintă o aplicație web pe care am dezvoltat-o integral,
+de la analiza cerințelor până la implementare, testare și deployment.
+Contribuția mea acoperă toate componentele platformei:
+ 
+La nivelul de backend, am implementat structura proiectului Spring Boot,
+entitățile JPA, repository-urile pentru accesul la date, configurația de
+securitate cu Spring Security și rolurile de administrator și utilizator
+obișnuit, precum și controllerele REST care expun serviciile aplicației.
+ 
+La nivelul de frontend, am scris codul JavaScript pentru afișarea hărții
+interactive, am implementat algoritmul lui Dijkstra atât pentru rutarea
+exterioară, cât și pentru rutarea în interior. Am construit modulele de
+editare a hărții cu ajutorul bibliotecii Leaflet, am proiectat interfața
+de căutare cu sugestii dinamice și am gestionat detectarea dispozitivului
+mobil pentru o experiență adaptată.
+ 
+La nivelul de date, am structurat modelul folosit pentru graf și pentru
+planurile indoor, am ales formatul GeoJSON ca standard intern de schimb,
+și am implementat fluxurile de salvare și încărcare a datelor între
+client și server.
+ 
+La nivelul de deployment, am configurat serverul propriu, am instalat și
+configurat rețeaua privată Tailscale și am realizat conectarea
+dispozitivelor mobile pentru testare în condiții reale.
+ 
+Rezultatul este o aplicație funcțională, care a fost testată în campus și
+care răspunde tuturor obiectivelor formulate la începutul proiectului.
+Componenta exterioară permite căutarea clădirilor, calculul traseelor pe
+alei și afișarea poziției utilizatorului pe hartă. Componenta interioară
+permite editarea planurilor de etaj de către administrator și calculul
+traseelor între camere pentru utilizatorul obișnuit. Mecanismul de
+autentificare separă corect rolurile, iar accesul prin rețea privată
+asigură atât securitatea, cât și posibilitatea utilizării aplicației de
+pe dispozitive mobile.
+ 
+Lucrarea este structurată în patru capitole, urmate de concluzii. Capitolul 1
+prezintă fundamentele teoretice și tehnologiile pe care se bazează ETTIway.
+Capitolul 2 descrie arhitectura sistemului, cu cele trei niveluri și
+deciziile de proiectare adoptate. Capitolul 3 detaliază implementarea
+funcționalităților, atât pentru spațiul exterior, cât și pentru spațiul
+interior. Capitolul 4 prezintă metodologia și rezultatele testării.
+Concluziile sintetizează rezultatele obținute și schițează direcțiile de
+dezvoltare ulterioară. Codul sursă este disponibil în anexele A
+(componente Java) și B (componente JavaScript).
 
 % \chapter{Fundamente teoretice și tehnologii utilizate}
 % \label{cap:fundamente}
