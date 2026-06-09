@@ -79,6 +79,7 @@ inițializarea contextului Spring, aplicația execută și o componentă de
 inițializare a datelor, care
 asigură existența unui cont de administrator în baza de date.
 
+\newpage
 \subsection{Accesul la date prin JPA}
 \label{subsec:jpa}
 
@@ -97,6 +98,45 @@ semnătură. Tipul de retur \texttt{Optional} exprimă explicit faptul că un
 utilizator căutat ar putea să nu existe, obligând codul apelant să trateze
 acest caz și reducând astfel riscul de erori.
 
+\subsection{Strategia de tratare a erorilor}
+\label{subsec:erori}
+ 
+Aplicația trebuie să gestioneze diverse situații de eroare, atât anticipate
+(date invalide, resurse inexistente, autentificare eșuată), cât și
+neanticipate (excepții la nivelul bazei de date, erori de rețea). În cadrul
+ETTIway, tratarea erorilor a fost organizată pe trei niveluri, fiecare cu
+rol distinct.
+ 
+La nivelul backend-ului, controllerele REST returnează coduri HTTP
+standardizate, conform convențiilor REST. Pentru operațiile reușite, codul
+de răspuns este 200 (OK), pentru resursele inexistente 404 (Not Found),
+pentru cererile invalide 400 (Bad Request), iar pentru tentativele de acces
+neautorizat 401 (Unauthorized) sau 403 (Forbidden). Această standardizare
+face ca frontend-ul să poată trata uniform diferitele tipuri de erori, fără
+a se baza pe formate proprietare de mesaje.
+ 
+La nivelul accesului la date, excepțiile aruncate de stratul JPA (de exemplu,
+violări de constrângeri de unicitate, conexiuni întrerupte) sunt prinse în
+blocurile try-catch ale serviciilor și transformate în răspunsuri HTTP
+adecvate. De exemplu, o tentativă de a crea un cont cu un nume de utilizator
+deja existent este detectată prin excepția de violare a constrângerii
+\texttt{UNIQUE} pe coloana \texttt{username} și convertită într-un cod 400.
+ 
+La nivelul frontend-ului, fiecare apel către API este însoțit de un bloc
+\texttt{.catch} care interceptează erorile de rețea sau erorile returnate de
+server. În cazul în care o operație eșuează, utilizatorului i se afișează o
+fereastră modală cu un mesaj clar și acționabil, în loc de a-l lăsa în fața
+unei interfețe care pare să nu răspundă. Aceste mesaje sunt formulate într-un
+limbaj accesibil, evitând termenii tehnici care nu ar fi de folos
+utilizatorului obișnuit.
+ 
+Această abordare pe trei niveluri urmărește principiul \textit{fail fast}:
+erorile sunt detectate și raportate cât mai aproape de sursa lor, fără a
+permite propagarea unor stări inconsistente prin aplicație. În același timp,
+prin folosirea codurilor HTTP standard, sistemul rămâne deschis pentru
+integrarea ulterioară cu alte clienți (de exemplu, o aplicație mobilă nativă)
+fără a impune un format propriu de comunicare.
+
 \section{Nivelul de date}
 \label{sec:date}
 
@@ -106,6 +146,54 @@ bazei de date și obiectele din aplicație este realizată prin adnotări JPA pe
 clasele de tip entitate. În cadrul ETTIway există două entități principale:
 utilizatorii și datele hărții campusului, aceasta din urmă stocând atât
 informația despre exterior, cât și planurile de etaj din interior.
+
+
+\subsection{Alegerea bazei de date}
+\label{subsec:alegere-db}
+ 
+Pe parcursul analizei tehnologice am evaluat mai multe variante pentru
+componenta de persistență a datelor, comparând atât baze de date relaționale,
+cât și soluții de tip NoSQL. Această secțiune sintetizează compromisurile
+considerate și justifică alegerea finală.
+ 
+Alternativa cea mai evidentă a fost o bază de date relațională clasică, fie
+PostgreSQL, fie MySQL. Ambele oferă maturitate, performanță și un ecosistem
+solid de unelte și biblioteci. Comparativ, MySQL este mai răspândit în
+aplicații web mai simple, iar PostgreSQL excelează în suportul pentru tipuri
+de date avansate, în special pentru câmpurile JSON, pentru indexare flexibilă
+și pentru extensibilitate. Având în vedere că structura datelor stocate de
+ETTIway include atât valori scalare clasice (nume utilizator, parolă, rol),
+cât și documente JSON complexe (graful campusului, planurile indoor),
+PostgreSQL a fost mai bine adaptat pentru cerințele aplicației.
+ 
+O a doua opțiune evaluată a fost o bază de date orientată pe documente, cum
+sunt MongoDB sau CouchDB. Aceste sisteme sunt construite în jurul ideii de
+stocare flexibilă a documentelor JSON, fără schemă fixă, ceea ce ar fi
+corespuns natural modelului adoptat pentru graful și planurile indoor. În
+schimb, ele introduc dependențe suplimentare, complexitatea unei tehnologii
+separate pentru fiecare tip de date și necesitatea de a gestiona două sisteme
+diferite în deployment (unul pentru utilizatori și autentificare, unul pentru
+datele geospațiale). Pentru un proiect de această dimensiune, această
+diversificare nu se justifică.
+ 
+O a treia opțiune, considerată dar respinsă, a fost SQLite. SQLite este o
+bază de date integrată direct în aplicație, fără server separat, ceea ce
+simplifică dezvoltarea. Totuși, modelul său de concurență (un singur
+scriitor activ la un moment dat) o face mai puțin potrivită pentru o
+aplicație web care trebuie să gestioneze cereri simultane de la mai mulți
+utilizatori. În plus, SQLite nu oferă mecanismele de gestionare a
+utilizatorilor și a privilegiilor pe care PostgreSQL le pune la dispoziție
+nativ.
+ 
+Astfel, am ales PostgreSQL pentru combinația sa unică: stabilitatea unei baze
+relaționale tradiționale, suportul pentru documente JSON la nivel de coloană
+care a permis stocarea flexibilă a grafului, și disponibilitatea ca soluție
+deschisă, gratuită și matură. Mai mult, această alegere lasă deschisă o
+direcție viitoare de optimizare prin trecerea de la tipul de date \texttt{TEXT}
+(folosit în versiunea actuală) la tipul nativ \texttt{JSONB}, care oferă
+indexare în interiorul documentelor JSON și interogări mai eficiente, fără
+să necesite o modificare arhitecturală a aplicației.
+
 
 \subsection{Entitatea utilizator}
 \label{subsec:user-entity}
@@ -122,7 +210,7 @@ obiectul atunci când citește o înregistrare din baza de date, iar metodele de
 tip getter și setter permit citirea și scrierea câmpurilor. Parola nu este
 niciodată stocată în clar, ci doar în forma sa criptată, aspect detaliat în
 secțiunea despre securitate.
-
+\newpage
 \subsection{Entitatea pentru datele hărții}
 \label{subsec:mapdata-entity}
 
@@ -209,14 +297,14 @@ vizualizare. Securitatea este implementată folosind Spring Security
 
 \subsection{Criptarea parolelor}
 \label{subsec:bcrypt}
-
+ 
 Parolele utilizatorilor nu sunt stocate în clar în baza de date, ci sunt
 criptate folosind algoritmul BCrypt \cite{BCrypt}, prin intermediul unei
 componente dedicate de codare a parolelor. BCrypt este un algoritm de tip
 funcție de derivare a cheii, conceput special pentru stocarea parolelor: el
 este lent în mod intenționat și încorporează un factor aleatoriu, ceea ce
 îngreunează semnificativ atacurile prin forță brută.
-
+ 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figuri/Tabel Utilizatori.png}
@@ -224,12 +312,52 @@ este lent în mod intenționat și încorporează un factor aleatoriu, ceea ce
     \label{fig:2.a}
 \end{figure}
 
+Alegerea BCrypt în detrimentul altor funcții de hash a fost una conștientă.
+Funcțiile generale de hash criptografic, precum MD5 sau SHA-256, sunt
+proiectate pentru a fi rapide, ceea ce le face potrivite pentru verificarea
+integrității fișierelor sau pentru semnături digitale, dar dezavantajoase
+pentru stocarea parolelor. Viteza lor permite unui atacator cu hardware
+modern să calculeze miliarde de hash-uri pe secundă, ceea ce face fezabile
+atacurile prin dicționar pe parole obișnuite. BCrypt, în schimb, este
+proiectat să fie lent prin construcție și are doi parametri suplimentari
+care îi conferă rezistența: \textit{salt}-ul și \textit{cost factor}-ul.
+ 
+\textit{Salt}-ul este o secvență aleatoare care este atașată parolei înainte
+de calculul hash-ului. Acest mecanism garantează că două parole identice
+produc hash-uri diferite și, mai important, blochează atacurile cu
+\textit{rainbow tables}, care sunt tabele precalculate de hash-uri pentru
+parolele uzuale. Fiecare hash BCrypt include automat un salt unic, generat
+aleator la criptare, ceea ce înseamnă că dezvoltatorul nu trebuie să se
+preocupe explicit de gestionarea sa. Salt-ul este stocat ca parte a hash-ului
+final, iar la verificare este extras automat pentru a recompune comparația.
+ 
+\textit{Cost factor}-ul controlează numărul de iterații pe care le execută
+algoritmul. La fiecare incrementare a valorii cu 1, calculul durează de două
+ori mai mult, conform unei progresii exponențiale. Configurația implicită
+folosită în Spring Security 6 este 10, ceea ce înseamnă $2^{10} = 1024$ de
+iterații pentru fiecare verificare. Pe hardware modern, această configurație
+oferă un timp de verificare de aproximativ o sutime de secundă, suficient de
+rapid pentru un login normal, dar suficient de lent încât atacurile prin forță
+brută să fie costisitoare. Pe măsură ce hardware-ul devine mai rapid, valoarea
+acestui parametru poate fi crescută fără modificări structurale ale aplicației
+sau ale bazei de date.
+ 
 Componenta de criptare este definită ca un bean Spring (vezi Listing~A.5 din
 Anexa~A), ceea ce permite injectarea sa automată în orice altă componentă
 care are nevoie de criptarea sau verificarea parolelor. La crearea unui cont,
 parola este trecută prin această componentă înainte de a fi salvată, iar la
 autentificare, parola introdusă este comparată cu cea criptată din baza de
-date.
+date prin metoda \texttt{matches}, care extrage automat salt-ul și cost
+factor-ul din hash-ul stocat și recompune verificarea.
+ 
+În cazul în care, la o dată viitoare, BCrypt ar fi considerat depășit, Spring
+Security oferă mecanisme de migrare progresivă a hash-urilor către un alt
+algoritm prin componenta 
+\texttt{\seqsplit{DelegatingPasswordEncoder}}. Fără a impune
+resetarea tuturor parolelor existente. Această flexibilitate, oferită prin
+prefixarea hash-urilor cu un identificator de algoritm, asigură că soluția
+adoptată astăzi nu blochează evoluții ulterioare ale platformei.
+ 
 
 \subsection{Configurarea regulilor de acces}
 \label{subsec:reguli-acces}
@@ -276,7 +404,7 @@ propriu-zisă, frontend-ul încorporează și o parte importantă din logica
 aplicației, în special construirea grafului de navigare și calculul
 traseelor. Această secțiune descrie elementele principale ale interfeței și
 mecanismele de prelucrare implementate pe partea de client.
-
+\newpage
 \subsection{Inițializarea hărții și delimitarea zonei}
 \label{subsec:init-harta}
 
@@ -335,6 +463,8 @@ traseu - de exemplu, atunci când o porțiune a rețelei este izolată -
 algoritmul returnează o valoare care semnalează absența unei rute, iar
 interfața poate informa utilizatorul în consecință.
 
+\newpage
+
 \section{Fluxul de comunicare între componente}
 \label{sec:flux}
 
@@ -365,9 +495,7 @@ backend și stocate în baza de date, devenind astfel disponibile tuturor
 utilizatorilor la accesările ulterioare.
 
 
-
-
-
+\newpage
 \section{Concluziile capitolului}
 \label{sec:concluzii-cap2}
 

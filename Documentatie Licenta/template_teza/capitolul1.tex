@@ -23,7 +23,7 @@ aplicației.
 Un sistem de navigare digitală reprezintă un ansamblu de componente software și
 de date care permite unui utilizator să se localizeze într-un spațiu, să
 identifice puncte de interes și să determine trasee între acestea. Spre
-deosebire de hărțile tipărite, hărțile digitale sunt interactive: utilizatorul
+deosebire de hărțile tipărite, hărțile digitale sunt interactive, astfel încât utilizatorul
 poate mări sau micșora nivelul de detaliu, poate filtra informația afișată și
 poate interoga elementele de pe hartă pentru a obține date suplimentare. Această
 interactivitate este esențială într-un mediu complex, cum este un campus
@@ -44,7 +44,7 @@ Hărțile digitale interactive au cunoscut o dezvoltare accentuată odată cu
 apariția bibliotecilor de cartografie web, care permit afișarea hărților direct
 în browser, fără instalarea unor aplicații dedicate. Acest model, în care harta
 este servită ca o aplicație web, prezintă avantaje semnificative din punct de
-vedere al accesibilității: utilizatorul are nevoie doar de un browser modern și
+vedere al accesibilității, utilizatorul având nevoie doar de un browser modern și
 de o conexiune la internet, fără să depindă de un sistem de operare sau de hardware
 specializat. ETTIway adoptă tocmai acest model, fiind o aplicație web ce poate
 fi accesată de pe orice dispozitiv cu un browser compatibil.
@@ -120,7 +120,7 @@ organizare pe niveluri.
 În cadrul ETTIway, navigarea interioară este tratată prin asocierea fiecărei
 clădiri cu un set de planuri de etaj, fiecare plan corespunzând unui nivel
 distinct al clădirii. Utilizatorul poate selecta o clădire de pe harta
-exterioară și poate apoi naviga între etajele acesteia, vizualizând dispunerea
+exterioară și poate apoi naviga pe etajele acesteia, vizualizând dispunerea
 sălilor și a spațiilor relevante. Această abordare, în care nivelul exterior și
 cel interior sunt corelate prin intermediul entității „clădire”, permite o
 tranziție coerentă între cele două perspective și constituie nucleul
@@ -186,6 +186,8 @@ face explicit la nivelul fiecărei interacțiuni cu date GeoJSON, pentru a evita
 inversiunea accidentală care ar plasa, de exemplu, un punct din București în
 mijlocul oceanului.
  
+ETTIway folosește sistemul de coordonate WGS84 (World Geodetic System 1984), standardul global pentru localizarea punctelor pe Pământ. Acest sistem este folosit de GPS, Google Maps, OpenStreetMap și majoritatea aplicațiilor cu hărți.
+
 Pe lângă WGS84, există sute de sisteme de coordonate proiectate locale, optimizate
 pentru regiuni geografice specifice, care minimizează distorsiunile de distanță
 sau de suprafață într-o anumită zonă. Pentru România, sistemul oficial folosit în
@@ -219,8 +221,8 @@ clădiri și zone fără modificări majore în logica aplicației.
 \subsection{OpenStreetMap ca sursă de date}
 \label{subsec:osm}
 
-OpenStreetMap (OSM) este un proiect care pune la dispoziție date
-geografice deschise \cite{OSM}, contribuite și întreținute de o comunitate largă de
+OpenStreetMap (OSM) este o baza de date care pune la dispoziție date
+geografice open-source \cite{OSM}, contribuite și întreținute de o comunitate largă de
 utilizatori din întreaga lume. Datele OSM acoperă o gamă variată de elemente:
 drumuri, clădiri, alei pietonale, puncte de interes și multe altele. 
 Aceste date sunt deschise (open-source). Din aceasta cauză pot fi descărcate și prelucrate liber, ceea ce le face o
@@ -344,6 +346,15 @@ sunt nenegative. La final, traseul optim se reconstruiește pornind de la nodul 
 destinație și urmărind, în sens invers, lanțul nodurilor precedente până la
 sursă. Acest mod de funcționare îl face potrivit pentru calculul traseelor într-o
 rețea de dimensiuni moderate, cum este cea a unui campus universitar.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figuri/dijkstra_exemplu.pdf}
+    \caption{Exemplu de aplicare a algoritmului lui Dijkstra: drumul minim de la nodul A la nodul F este evidențiat cu roșu. Algoritmul găsește traseul A → B → D → F cu cost total 9, în detrimentul alternativei mai lungi prin C și E (cost 15).}
+    \label{fig:dijkstra}
+\end{figure}
+
+Pentru a ilustra modul de funcționare a algoritmului, Figura~\ref{fig:dijkstra} prezintă un graf cu șase noduri (A până la F) și un set de muchii cu costuri asociate. Algoritmul lui Dijkstra explorează sistematic toate căile posibile de la nodul de plecare și identifică drumul de cost minim către fiecare nod destinație. Pentru exemplul ilustrat, drumul de la A la F cu cost minim este A → B → D → F, cu un cost total de 9 unități, în detrimentul alternativei A → C → E → F, care are un cost total de 15 unități.
+
 
 \subsection{Performanță și optimizări}
 \label{subsec:performanta-rutare}
@@ -372,7 +383,7 @@ dimensiunea unor orașe întregi.
 \label{sec:mobil}
 
 Un sistem de navigare în campus este utilizat, natural, preponderent de pe
-dispozitive mobile: utilizatorul are nevoie de orientare tocmai atunci când se
+dispozitive mobile, utilizatorul având nevoie de orientare tocmai atunci când se
 deplasează prin campus, telefonul fiind dispozitivul aflat permanent la îndemână.
 Din acest motiv, proiectarea interfeței trebuie să țină cont, încă de la început,
 de constrângerile specifice ecranelor de mici dimensiuni și ale interacțiunii
@@ -395,6 +406,7 @@ folosită pentru afișarea hărții în ETTIway oferă suport nativ pentru acest
 gesturi, ceea ce simplifică obținerea unei experiențe fluide pe dispozitivele
 mobile.
 
+\newpage
 \section{Arhitecturi de aplicații web}
 \label{sec:arhitecturi-web}
 

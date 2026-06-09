@@ -34,7 +34,6 @@
 \LoadClass[\@pointsize]{report}
 \usepackage{array}
 \usepackage{setspace}
-\doublespacing
 
 % ***********************************************************************
 % Sumary of New Commands (many are not to be used outside of the style file)
@@ -137,7 +136,7 @@
 
 % *******  Documentstyle Modifications *******
 \brokenpenalty=10000 % Do not break pages at hyphens.
-\def\baselinestretch{1.6}  % 1.6 space document ~ doublespace.
+  % 1.6 space document ~ doublespace.
 \@addtoreset{equation}{chapter} % Set things up so that theequation, 
         % thefigure, and thetable counters are reset by incrementing 
         % thechaphter. (The others are correct in the report style.)
@@ -459,8 +458,8 @@ Catedra \@catedra} \par\nobreak % DN - denumire actualizata
 
         \vfil
 
-             \begin{tabular}
-               {>{\raggedright}p{0.7\textwidth}r}
+             \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+               
                \Large{Conducător științific} & \Large{Absolvent}\\
                {\@director} & {\@author}\\
              \end{tabular}

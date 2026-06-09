@@ -25,8 +25,10 @@
 \usepackage{longtable}
 \usepackage{subcaption}
 \usepackage{svg}
+\usepackage{seqsplit}
 
-\linespread{1.3}
+
+\singlespacing
 \AtBeginDocument{\justifying}
  
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -127,19 +129,19 @@ XSS & Cross-Site Scripting \\
 Campusurile universitare moderne reprezintă spații complexe, formate din zeci
 de clădiri, sute de săli și o rețea densă de alei și puncte de interes.
 Orientarea într-un astfel de mediu, în special pentru studenții din primii ani
-sau pentru vizitatori, este adesea dificilă: identificarea unei clădiri după
+sau pentru vizitatori, este adesea dificilă. Identificarea unei clădiri după
 denumirea uzuală, găsirea celui mai scurt drum pe alei sau localizarea unei
-săli concrete într-un corp pe care nu îl cunoști sunt sarcini care pot consuma
-timp și pot conduce la întârzieri sau confuzii. Soluțiile generale de hărți
+anumite săli într-un corp pe care nu îl cunoști sunt sarcini care pot consuma
+timp și pot duce la întârzieri sau confuzii. Soluțiile clasice de hărți
 (Google Maps, OpenStreetMap) acoperă bine deplasarea între adrese, dar nu sunt
-adaptate la nivelul de detaliu necesar într-un campus: nu arată sălile,
+adaptate la nivelul de detaliu necesar într-un campus. Acestea nu arată sălile,
 laboratoarele și caracteristicile lor, iar planificarea unui drum pe aleile
 interne nu este întotdeauna corectă.
  
 Plecând de la această observație, lucrarea propune ETTIway, o platformă web
-dezvoltată în mod intenționat pentru navigarea într-un campus universitar.
+dezvoltată în acest sens, pentru navigarea într-un campus universitar.
 Aplicația oferă atât o componentă pentru spațiul exterior, cu hartă, căutare
-și calcul de traseu pe aleile campusului, cât și o componentă pentru spațiul
+și calculul traseelor de pe aleile campusului, cât și o componentă pentru spațiul
 interior al clădirilor, cu planuri de etaj editabile și rutare între camere
 pe același etaj.
  
@@ -149,16 +151,16 @@ pe același etaj.
 Obiectivul principal al proiectului a fost dezvoltarea unei platforme web
 funcționale, ușor de utilizat de pe dispozitive mobile, care să acopere
 nevoile specifice de orientare într-un campus universitar. Pentru atingerea
-acestui obiectiv au fost formulate mai multe obiective secundare, care au
+acestui scop au fost formulate mai multe obiective secundare, care au
 ghidat deciziile de proiectare pe tot parcursul dezvoltării.
  
 Primul obiectiv secundar a fost realizarea unei interfețe de hartă interactivă
-pentru spațiul exterior al campusului, peste un strat de date provenit din
+pentru spațiul exterior al campusului, peste un set de date provenit din
 OpenStreetMap, cu posibilitatea de a calcula traseul optim între două puncte
 prin algoritmul lui Dijkstra. Al doilea obiectiv a fost implementarea unei
 componente dedicate pentru spațiul interior, în care un administrator poate
-desena planurile de etaj ale clădirilor, iar un utilizator obișnuit poate
-căuta o cameră și poate obține traseul către aceasta pe planul respectiv.
+desena planurile de etaj ale clădirilor. Urmând ca un utilizator obișnuit să poată
+căuta o cameră și să poată obține traseul către aceasta pe planul respectiv.
 Al treilea obiectiv a fost separarea clară a rolurilor de utilizator
 (administrator și utilizator obișnuit) printr-un mecanism de autentificare
 solid, care să permită editarea hărții doar de către persoane autorizate.
@@ -169,8 +171,8 @@ unei rețele private de tip mesh.
 Pe lângă obiectivele funcționale, au fost urmărite și obiective tehnice:
 codul să fie organizat în niveluri clar separate (prezentare, servicii, date).
 Datele să poată fi extinse fără modificări de schemă în baza de date, iar
-aplicația să funcționeze corect pe o varietate de dispozitive, de la laptop
-și până la telefon mobil cu acces la internet.
+aplicația să funcționeze corect pe o varietate de dispozitive, de la laptopuri
+și până la telefoane mobile cu acces la internet.
  
 \section{Metodologia folosită}
 \label{sec:intro-metodologie}
@@ -178,7 +180,7 @@ aplicația să funcționeze corect pe o varietate de dispozitive, de la laptop
 Dezvoltarea platformei ETTIway a urmat o metodologie incrementală, în care
 fiecare componentă a fost proiectată, implementată și testată separat,
 înainte de a fi integrată în fluxul de ansamblu al aplicației. Această
-abordare a permis identificarea și corectarea timpurie a problemelor și a
+abordare a permis identificarea și corectarea din timp a problemelor și a
 asigurat o evoluție controlată a proiectului.
  
 În prima etapă au fost studiate fundamentele teoretice și tehnologiile
@@ -189,7 +191,7 @@ de tip client-server. În urma acestei documentări am ales tehnologiile
 folosite: Spring Boot pentru backend, datorită maturității ecosistemului Java
 și a suportului foarte bun pentru securitate; PostgreSQL pentru stocare,
 pentru fiabilitatea sa și pentru suportul nativ al câmpurilor text de dimensiune
-mare. Leaflet pentru afișarea hărții, datorita faptului că este o unealtă open-source și pentru
+mare. Leaflet pentru afișarea hărții, datorită faptului că este o unealtă open-source și pentru
 suportul nativ al gesturilor tactile pe dispozitivele mobile.
  
 În a doua etapă am construit componenta exterioară: încărcarea unei hărți
@@ -204,21 +206,21 @@ al clădirilor. Pentru această componentă am proiectat un model de date
 separat, structurat ierarhic pe clădiri, etaje și elemente (camere, noduri,
 coridoare), păstrat în aceeași entitate MapData prin adăugarea unei a doua
 coloane JSON. Rutarea în interior folosește o instanță dedicată a
-algoritmului Dijkstra, adaptată pentru lucrul cu coordonate pixel în loc de
+algoritmului Dijkstra, adaptată pentru lucrul cu coordonate sub formă de pixeli în loc de
 coordonate geografice.
  
 În a patra etapă am abordat aspectele legate de deployment și securitate.
 Am configurat un server propriu pentru găzduirea aplicației și am ales
 folosirea rețelei private virtuale Tailscale pentru a evita expunerea
 serverului pe internetul public. Această decizie a fost luată în mod
-intenționat: pentru un proiect academic, cu un număr limitat de utilizatori,
+intenționat, pentru un proiect academic, cu un număr limitat de utilizatori,
 o rețea privată oferă atât simplitate de configurare cât și un nivel ridicat
 de securitate, fără necesitatea unor măsuri suplimentare specifice expunerii
 publice. Certificatele HTTPS pe domeniul \texttt{.ts.net} sunt obținute
 automat, fără configurări manuale.
  
-Pe tot parcursul dezvoltării am acordat o atenție constantă testării:
-fiecare componentă nouă a fost verificată separat, prin scenarii reprezentative,
+Pe tot parcursul dezvoltării am acordat o atenție constantă testării.
+Fiecare componentă nouă a fost verificată separat, prin scenarii reprezentative,
 iar la finalul fiecărei etape a fost realizată o testare de integrare,
 inclusiv prin folosirea efectivă a aplicației în campus, pe un dispozitiv
 mobil conectat la rețeaua privată.
@@ -228,7 +230,7 @@ mobil conectat la rețeaua privată.
  
 Lucrarea de față prezintă o aplicație web pe care am dezvoltat-o integral,
 de la analiza cerințelor până la implementare, testare și deployment.
-Contribuția mea acoperă toate componentele platformei:
+Contribuția mea acoperă toate componentele platformei.
  
 La nivelul de backend, am implementat structura proiectului Spring Boot,
 entitățile JPA, repository-urile pentru accesul la date, configurația de

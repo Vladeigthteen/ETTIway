@@ -52,6 +52,9 @@ de utilizare. Această experiență, mai mult decât rezultatul tehnic în sine,
 constituie o componentă importantă a contribuției personale, expunându-mă la
 deciziile concrete care apar la fiecare nivel al unui sistem software complet.
 
+
+\newpage
+
 \section*{Opinia personală asupra rezultatelor}
 \addcontentsline{toc}{section}{Opinia personală asupra rezultatelor}
 
@@ -127,7 +130,7 @@ campus.
 
 \section*{Reflecție finală}
 \addcontentsline{toc}{section}{Reflecție finală}
-
+ 
 Dincolo de rezultatul tehnic, lucrarea a reprezentat o experiență formativă în
 care am avut ocazia să parcurg, în mod integrat, etape pe care, în mod normal,
 le abordăm separat pe parcursul anilor de studiu: proiectare software,
@@ -135,5 +138,48 @@ programare web, baze de date, securitate, administrare de sisteme. Această
 integrare, dificilă la început, mi-a oferit o înțelegere mai matură a modului în
 care o soluție tehnică reală se construiește prin succesiunea unor decizii la
 mai multe niveluri, fiecare cu propriile sale considerații și compromisuri.
-Consider că tocmai acest tip de experiență integrativă este cel mai prețios
-beneficiu pe care l-am obținut prin elaborarea acestei lucrări.
+ 
+Pe parcursul proiectului am întâlnit mai multe situații care m-au făcut să
+înțeleg mai bine echilibrul dintre alegerile teoretice ideale și constrângerile
+practice. Decizia de a stoca graful campusului sub formă de JSON serializat,
+și nu într-o schemă relațională cu mai multe tabele, a fost luată după o
+analiză a complexității necesare versus flexibilitatea câștigată; în
+retrospectivă, această decizie s-a dovedit corectă, pentru că extinderea către
+componenta indoor s-a făcut natural, prin adăugarea unei a doua coloane JSON,
+fără modificări de schemă. La fel, alegerea de a folosi JavaScript vanilla
+în loc de un framework modern precum React a impus o disciplină mai mare în
+organizarea codului, dar a păstrat dependențele externe minime și mi-a permis
+să înțeleg în profunzime fiecare mecanism al aplicației, fără să mă bazez pe
+„magia" unui framework.
+ 
+Una dintre cele mai surprinzătoare lecții a fost legată de aspectele
+non-funcționale ale proiectului. Inițial, atenția mea s-a concentrat pe
+funcționalitățile vizibile: cum desenez harta, cum implementez căutarea, cum
+calculez traseul. Pe parcurs am descoperit că la fel de importante sunt
+deciziile despre cum punem aplicația în funcțiune, cum o protejăm de accese
+neautorizate, cum o facem accesibilă de pe dispozitive mobile reale.
+Descoperirea că accesul la poziția GPS din browser cere obligatoriu un context
+securizat HTTPS a fost un moment în care am înțeles că proiectarea unei
+aplicații web moderne presupune o cunoaștere a infrastructurii la fel de
+solidă ca a algoritmilor de bază. Această observație a modelat decisiv
+alegerea de a folosi Tailscale, care a rezolvat simultan problema accesului
+HTTPS automat și pe cea a expunerii sigure a serverului.
+ 
+Lucrând la indoor, am realizat că soluțiile pentru spațiul interior diferă
+fundamental de cele pentru exterior, în pofida similarității aparente.
+Coordonatele pixel ale unui plan desenat manual nu pot fi tratate cu aceleași
+funcții ca latitudinile și longitudinile reale; toleranța de \textit{snapping}
+folosită pentru a conecta puncte aproximate la rețeaua de coridoare este o
+soluție pragmatică, iar valoarea de 25 pixeli a fost stabilită experimental,
+încercând mai multe valori până când rezultatul a devenit predictibil. Astfel
+de detalii, care nu apar în cărțile despre algoritmi, sunt cele care fac
+diferența între o demonstrație academică și o aplicație utilizabilă.
+ 
+Consider că tocmai acest tip de experiență integrativă, în care am parcurs
+toate straturile, de la algoritm la deployment, de la backend la mobile, de
+la teoretic la practic, este cel mai prețios beneficiu pe care l-am obținut
+prin elaborarea acestei lucrări. ETTIway nu este doar un produs software, ci
+și o oportunitate de a verifica cunoștințele acumulate într-un proiect care
+îmbină multe domenii și care, prin punerea sa în funcțiune în campus, devine
+o soluție reală, nu doar o exercitare academică.
+ 

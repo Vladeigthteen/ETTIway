@@ -234,6 +234,8 @@ INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\generic\pgf\systemlayer\p
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\generic\pgf\systemlayer\pgfsysprotocol.code.tex
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\generic\pgf\systemlayer\pgfsysprotocol.code.tex
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\generic\pgf\systemlayer\pgfsysprotocol.code.tex
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\seqsplit\seqsplit.sty
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\seqsplit\seqsplit.sty
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
@@ -402,6 +404,17 @@ OUTPUT capitolul1.aux
 INPUT .\capitolul1.tex
 INPUT .\capitolul1.tex
 INPUT capitolul1.tex
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT .\figuri\dijkstra_exemplu.pdf
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\ts1lmr.fd
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ts1-lmr12.tfm
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-ts1.enc
 INPUT .\capitolul2.tex
 INPUT .\capitolul2.tex
 OUTPUT capitolul2.aux
@@ -421,6 +434,7 @@ INPUT .\figuri\Tabel Utilizatori.png
 INPUT .\figuri\Tabel Utilizatori.png
 INPUT .\figuri\Tabel Utilizatori.png
 INPUT .\figuri\Tabel Utilizatori.png
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
 INPUT .\figuri\flux_autentificare.pdf
 INPUT .\figuri\flux_autentificare.pdf
 INPUT .\figuri\flux_autentificare.pdf
@@ -492,6 +506,12 @@ INPUT .\figuri\mesaj_consola.png
 INPUT .\figuri\mesaj_consola.png
 INPUT .\figuri\mesaj_consola.png
 INPUT .\figuri\mesaj_consola.png
+INPUT .\figuri\flux_testare.pdf
+INPUT .\figuri\flux_testare.pdf
+INPUT .\figuri\flux_testare.pdf
+INPUT .\figuri\flux_testare.pdf
+INPUT .\figuri\flux_testare.pdf
+INPUT .\figuri\flux_testare.pdf
 INPUT .\concluzii.tex
 INPUT .\concluzii.tex
 OUTPUT concluzii.aux
@@ -557,6 +577,8 @@ INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr6.pf
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr6.pfb
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr7.pfb
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr7.pfb
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr8.pfb
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmr8.pfb
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmri12.pfb
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmri12.pfb
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\type1\public\lm\lmri7.pfb

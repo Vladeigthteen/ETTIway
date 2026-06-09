@@ -48,7 +48,7 @@ conlucrează.
 Aplicația rulează pe un server propriu, configurat să pornească automat la repornirea sistemului. Figura~\ref{fig:spring-startup} prezintă output-ul tipic al unei porniri reușite, în care se observă inițializarea componentelor Spring Boot.
 
 
-
+\newpage
 
 \section{Scenarii de testare funcțională}
 \label{sec:scenarii}
@@ -80,7 +80,7 @@ practicilor uzuale de securizare a aplicațiilor web.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.65\textwidth]{figuri/mesaj_consola.png}
+    \includegraphics[width=0.8\textwidth]{figuri/mesaj_consola.png}
     \caption{Mesaj afisat in consola la incercarea de salvare a hărții de un cont de user obișnuit}
     \label{fig:mesaj-consola}
 \end{figure}
@@ -176,19 +176,33 @@ contextul principal de utilizare a platformei într-un campus.
 
 \section{Comportamentul în condiții reale de utilizare}
 \label{sec:conditii-reale}
-
+ 
 Pe lângă scenariile individuale de testare, platforma a fost folosită în
 condiții reale, parcurgând efectiv campusul cu un dispozitiv mobil pe care rula
 aplicația. Acest tip de evaluare, dificil de înlocuit prin teste automate, a
 oferit informații valoroase despre comportamentul de ansamblu și despre
 experiența reală a utilizatorului.
-
+ 
 În spațiile deschise, în care recepția GPS este bună, poziția utilizatorului
 afișată pe hartă urmărește fidel deplasarea reală, iar traseele calculate către
 diferite destinații sunt afișate fluid, în timp real. Tranziția între pașii
 fluxului de utilizare, autentificare, alegerea destinației, calculul traseului,
 afișarea sa pe hartă, se desfășoară fără întreruperi vizibile, iar timpul de
 răspuns al aplicației nu a constituit, în testele efectuate, un factor limitativ.
+ 
+Trecerea de la spațiul exterior la interiorul unei clădiri, deși nu este
+tratată automat în versiunea actuală, se face cu o experiență fluidă din
+perspectiva utilizatorului: o singură interacțiune (deschiderea planului
+clădirii dorite) marchează tranziția între cele două moduri de navigare, iar
+contextul vizual al hărții exterioare este păstrat în fundal, oferind un
+sentiment de continuitate.
+ 
+În contextul utilizării prin rețeaua privată Tailscale, latența suplimentară
+introdusă de criptarea VPN și de tranzitul prin serverele de coordonare nu a
+fost perceptibilă pentru utilizator. Comparativ cu accesarea aplicației
+direct, prin rețeaua locală, diferențele de timp de răspuns au fost de ordinul
+zecilor de milisecunde, sub pragul de percepție umană pentru interacțiunile
+cu o interfață web.
 
 % [SUGESTIE CAPTURA 4.3: captura de pe telefon facuta in campus, in aer liber,
 % aratand pozitia utilizatorului pe harta si traseul calculat. Plaseaz-o aici.]
@@ -220,6 +234,8 @@ contextului principal de utilizare a unei aplicații de navigare în campus,
 adică deplasarea între clădiri, pe alei. Pentru orientarea în interiorul clădirilor,
 soluții complementare, bazate pe alte tehnologii de localizare, ar putea fi
 integrate în versiuni viitoare, aspect discutat în capitolul de concluzii.
+
+\newpage
 
 \subsection{Acoperirea actuală a datelor}
 \label{subsec:limitare-date}
@@ -253,3 +269,11 @@ GPS, care delimitează în mod natural domeniul de utilizare optimă a aplicați
 navigarea în spațiile exterioare ale campusului. Această observație, formulată
 explicit, oferă o bază clară pentru direcțiile de dezvoltare ulterioară, discutate
 în concluziile finale ale lucrării.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{figuri/flux_testare.pdf}
+    \caption{Diagrama fluxului de testare a platformei }
+    \label{fig:flux-auth}
+\end{figure}

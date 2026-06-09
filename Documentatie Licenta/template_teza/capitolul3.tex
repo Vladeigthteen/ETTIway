@@ -120,7 +120,7 @@ context, ceea ce evită duplicarea codului și asigură consistența informație
 
 \section{Securitatea la nivelul interfeței}
 \label{sec:securitate-frontend-impl}
-
+ 
 Pe lângă mecanismele de securitate de la nivelul backend-ului, descrise în
 capitolul anterior, platforma aplică măsuri de protecție și la nivelul
 interfeței. O preocupare frecventă în aplicațiile web care afișează date este
@@ -128,7 +128,7 @@ prevenirea injectării de cod prin conținut nesigur, o categorie de
 vulnerabilități cunoscută sub numele de cross-site scripting. Problema apare
 când date provenite dintr-o sursă externă sunt inserate direct în pagină fără
 prelucrare, ceea ce permite execuția unui cod neintenționat.
-
+ 
 Pentru a preveni astfel de situații, valorile text, numele unei săli,
 descrierea acesteia, sunt trecute, înainte de a fi inserate în pagină,
 printr-o funcție de prelucrare care transformă caracterele speciale în
@@ -139,6 +139,28 @@ browser: textul este atribuit unui element printr-o proprietate care îl
 tratează exclusiv ca text, iar apoi este extras în forma sa deja
 neutralizată. Soluția este simplă, dar suficientă pentru scenariul de față,
 și contribuie la robustețea generală a platformei.
+ 
+O a doua măsură de securitate aplicată la nivelul interfeței privește
+restricționarea accesului la modul de editare. În versiunile inițiale,
+activarea controalelor de editare se făcea exclusiv pe baza unui parametru
+din URL (\texttt{?edit=1}), ceea ce însemna că orice utilizator autentificat
+putea, prin manipularea URL-ului, să intre în interfața de editare. Deși
+operațiile efective de modificare a hărții erau respinse de Spring Security
+la nivel de backend, faptul că un utilizator obișnuit vedea totuși controalele
+de editare crea o impresie incorectă despre permisiunile sale.
+ 
+Pentru a remedia această situație, am adăugat o verificare suplimentară la
+nivelul frontend-ului. Înainte de activarea controalelor de editare, codul
+JavaScript interoghează endpoint-ul \texttt{/api/auth/me}, care returnează
+informațiile despre utilizatorul curent, inclusiv rolul acestuia. Doar dacă
+rolul returnat este de administrator, interfața este adaptată pentru editare,
+iar butoanele de salvare devin vizibile. În caz contrar, chiar dacă URL-ul
+conține parametrul de activare, modul de editare nu este activat și
+utilizatorului i se afișează un mesaj informativ. Această verificare dublă,
+pe frontend și pe backend, este un exemplu de aplicare a principiului
+\textit{defense in depth}, conform căruia protecțiile sunt aplicate pe
+multiple niveluri, astfel încât eșecul unei verificări nu compromite întreaga
+securitate.
 
 \section{Rutarea exterioară și afișarea vizuală a traseului}
 \label{sec:rutare-exterior}
@@ -244,7 +266,91 @@ acestei extinderi este pregătită la nivel de model de date, nodurile de tip
 scară sunt deja prevăzute, dar conectarea lor între etaje rămâne o
 dezvoltare ulterioară.
 
-% [CAPTURA 3.6: traseu indoor calculat si afisat pe planul de etaj]
+\subsection{Detectarea dispozitivului și adaptarea interfeței}
+\label{subsec:mobile}
+ 
+Având în vedere că utilizarea principală a aplicației se face în deplasare,
+direct din campus, am acordat o atenție specială experienței pe dispozitive
+mobile. Spre deosebire de utilizarea de pe laptop sau desktop, navigarea de
+pe telefon are constrângeri specifice: ecranul mai mic, controlul prin atingere
+în loc de cursor de mouse, ținerea aparatului cu o singură mână și nevoia ca
+informațiile critice să fie accesibile rapid.
+ 
+Pentru a oferi o experiență adaptată, aplicația detectează dispozitivul pe
+care rulează printr-o verificare simplă a lățimii ferestrei, folosind
+\texttt{window.innerWidth}. Praguri sub valoarea de 768 pixeli sunt considerate
+dispozitive mobile, ceea ce activează modificări structurale ale interfeței.
+Această abordare evită nevoia detecției explicite a user-agent-ului, care este
+fragilă (multe dispozitive moderne raportează agenți modificați), și se bazează
+pe o proprietate observabilă direct: spațiul vizual disponibil.
+ 
+Pe dispozitive mobile, panoul lateral cu lista clădirilor și controalele de
+căutare nu mai este afișat permanent în partea stângă, ci este înlocuit cu un
+panou de tip \textit{bottom sheet}, care apare dinspre partea de jos a
+ecranului atunci când utilizatorul interacționează cu el. Acest model este
+familiar din aplicațiile native mobile (Google Maps, Waze, Uber) și permite
+ca harta să ocupe cea mai mare parte a ecranului, oferind context vizual maxim,
+în timp ce informațiile suplimentare sunt accesibile la cerere.
+ 
+Butoanele și elementele interactive au fost dimensionate respectând recomandarea
+standard pentru interfețele tactile, cu o suprafață minimă de aproximativ 48
+pixeli, suficient de mare pentru a fi atinse confortabil cu degetul fără riscul
+unor atingeri accidentale pe elementele adiacente. Distanțele dintre elementele
+acționabile sunt suficiente pentru a evita confuzia în cazul gesturilor rapide.
+ 
+\subsection{Gestionarea stării partajate în aplicație}
+\label{subsec:stare}
+ 
+Aplicația frontend este organizată în mai multe module JavaScript independente
+(harta, căutarea, rutarea exterioară, indoor, autentificarea), care trebuie să
+poată accesa și actualiza informații comune: graful campusului, datele indoor
+încărcate, starea de navigare curentă. Pentru a permite această partajare
+între module, am ales o abordare simplă, fără biblioteci suplimentare, bazată
+pe obiecte globale expuse pe obiectul \texttt{window}: \texttt{window.campusData},
+\texttt{window.floorData} și \texttt{window.navigationData}.
+ 
+Aplicația este scrisă în JavaScript vanilla, fără framework-uri precum React
+sau Vue, ceea ce a permis păstrarea unei dependențe minime de cod extern și
+o foarte bună înțelegere asupra modului în care fiecare componentă se
+inițializează și interacționează cu celelalte. Pentru un proiect de această
+dimensiune, modelul cu obiecte globale rămâne lizibil și ușor de urmărit, iar
+fiecare modul își documentează clar ce câmpuri citește și ce câmpuri
+actualizează.
+ 
+Sincronizarea între componente se face prin convenții simple: după ce un modul
+modifică starea (de exemplu, după salvarea unui plan indoor), apelează direct
+funcțiile de actualizare ale celorlalte module afectate. Astfel, modificările
+sunt propagate explicit, fără mecanisme automate de tip reactivity, ceea ce
+păstrează codul predictibil și ușor de depanat.
+ 
+\subsection{Verificarea autorizării pe două niveluri}
+\label{subsec:dubla-verificare}
+ 
+Pe lângă protecția implementată la nivelul backend-ului prin Spring Security
+(descrisă în Capitolul~\ref{cap:arhitectura}), aplicația realizează o
+verificare suplimentară a rolului utilizatorului și la nivelul frontend-ului,
+înainte de a activa modul de editare. Această abordare, cunoscută sub numele
+de \textit{defense in depth} (apărare pe mai multe niveluri), garantează că
+un utilizator obișnuit nu poate accesa interfața de editare nici măcar prin
+manipularea URL-ului (de exemplu, prin adăugarea parametrului \texttt{?edit=1}).
+ 
+În implementarea actuală, atunci când o pagină este încărcată, codul JavaScript
+verifică rolul utilizatorului curent printr-un apel către endpoint-ul
+\texttt{/api/auth/me}, care returnează informațiile despre sesiunea activă.
+Doar dacă rolul returnat este de administrator, controalele de editare sunt
+adăugate la hartă, iar butoanele de salvare devin vizibile. În caz contrar,
+chiar dacă URL-ul conține parametrul de activare a editării, interfața rămâne
+în modul de vizualizare și utilizatorul primește un mesaj informativ care
+explică restricția.
+ 
+Această dublă verificare îmbunătățește experiența utilizatorului prin
+afișarea unor mesaje clare în cazul accesului neautorizat, în loc să afișeze
+controale care nu funcționează la prima încercare de salvare. În același timp,
+nu înlocuiește protecția de pe server: chiar dacă cineva ar manipula codul
+JavaScript din browser pentru a forța afișarea controalelor, orice încercare
+de modificare a hărții ar fi respinsă de Spring Security la nivelul
+endpoint-urilor REST, returnând codul HTTP 403 (Forbidden).
+
 
 \section{Punerea în funcțiune prin rețea privată virtuală}
 \label{sec:deployment-impl}
@@ -323,6 +429,58 @@ izolarea față de internet oferă, în același timp, certificatul HTTPS necesa
 pentru accesul la GPS.
 
 % [CAPTURA 3.8: telefon cu .ts.net + HTTPS + pozitia GPS pe harta]
+
+
+\section{Gestionarea serviciilor pe server}
+\label{sec:systemd}
+ 
+Pe lângă configurarea rețelei și a accesului securizat, un aspect important
+al punerii în funcțiune este modul în care aplicația este gestionată pe
+serverul gazdă. Lansarea manuală a aplicației prin comanda
+\texttt{java -jar} și păstrarea ei activă printr-o sesiune SSH deschisă nu
+este o soluție acceptabilă pentru un serviciu care trebuie să fie permanent
+disponibil, la prima deconectare, la o repornire accidentală a sistemului sau
+la o eroare nerecuperabilă, aplicația ar deveni indisponibilă fără
+intervenție manuală.
+ 
+Pentru a rezolva această problemă, am configurat aplicația ETTIway ca
+serviciu \texttt{systemd}, managerul de servicii standard pe distribuțiile
+moderne de Linux. \texttt{systemd} este primul proces care pornește la
+inițializarea sistemului de operare și are rolul de a coordona pornirea
+celorlalte componente, inclusiv a serviciilor definite de utilizator.
+Configurarea sa se face printr-un fișier text simplu, plasat în directorul
+\texttt{/etc/systemd/system/}, care specifică comanda de pornire, utilizatorul
+sub care rulează procesul, dependențele de alte servicii și politica de
+recuperare în caz de eșec.
+ 
+Pentru ETTIway, fișierul de serviciu definește mai multe aspecte importante.
+În primul rând, aplicația este configurată să pornească automat după ce
+sistemul de operare a inițializat rețeaua și serviciul de bază de date,
+folosind directiva \texttt{After}, care exprimă explicit aceste dependențe.
+În al doilea rând, în caz de eșec al procesului Java (de exemplu, o eroare de
+memorie sau o excepție necaptată), \texttt{systemd} repornește automat
+aplicația după un interval de zece secunde, conform directivei
+\texttt{Restart=on-failure}. Acest comportament transformă o cădere
+ocazională într-o întrerupere foarte scurtă, fără intervenție manuală.
+ 
+În al treilea rând, am ales să rulez aplicația sub un utilizator dedicat
+(\texttt{ettiway}), nu sub utilizatorul \texttt{root} care are toate
+drepturile pe sistem. Această decizie urmărește principiul \textit{least
+privilege}: chiar dacă ar exista o vulnerabilitate exploatabilă în aplicație,
+un eventual atacator ar obține doar drepturile limitate ale utilizatorului
+\texttt{ettiway}, nu controlul complet asupra serverului. Această izolare
+suplimentară reduce semnificativ impactul potențial al unei breșe de
+securitate.
+ 
+Un beneficiu suplimentar al configurării ca serviciu \texttt{systemd} este
+integrarea cu jurnalul centralizat \texttt{journalctl}, prin care toate
+mesajele de output ale aplicației (inclusiv cele generate de Spring Boot la
+pornire și de Hibernate la fiecare interogare) sunt agregate și pot fi
+consultate uniform. Comanda \texttt{journalctl -u ettiway} afișează
+istoricul recent al aplicației, iar \texttt{journalctl -u ettiway -f}
+permite urmărirea în timp real a noilor mesaje, util pentru depanare.
+ 
+\newpage
 
 \section{Concluziile capitolului}
 \label{sec:concluzii-cap3-impl}
