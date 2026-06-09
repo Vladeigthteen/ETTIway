@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 17:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 17:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1323,40 +1323,54 @@ Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 352.
 
  (capitolul3.tex
 Capitolul 3.
-[25
+<figuri/vizualizare_admin.png, id=787, 1099.10625pt x 645.91313pt>
+File: figuri/vizualizare_admin.png Graphic file (type png)
+<use figuri/vizualizare_admin.png>
+Package pdftex.def Info: figuri/vizualizare_admin.png  used on input line 40.
+(pdftex.def)             Requested size: 386.95897pt x 227.40352pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [25
 
 
 
 
 ]
-<figuri/harta-edit.png, id=791, 1440.13031pt x 710.655pt>
+<figuri/harta-edit.png, id=792, 1440.13031pt x 710.655pt>
 File: figuri/harta-edit.png Graphic file (type png)
 <use figuri/harta-edit.png>
-Package pdftex.def Info: figuri/harta-edit.png  used on input line 69.
+Package pdftex.def Info: figuri/harta-edit.png  used on input line 75.
 (pdftex.def)             Requested size: 241.84843pt x 119.335pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 70.
-<figuri/manager-etaje.png, id=792, 450.18187pt x 267.24844pt>
+(Font)              <10.95> on input line 76.
+<figuri/manager-etaje.png, id=793, 450.18187pt x 267.24844pt>
 File: figuri/manager-etaje.png Graphic file (type png)
 <use figuri/manager-etaje.png>
-Package pdftex.def Info: figuri/manager-etaje.png  used on input line 76.
+Package pdftex.def Info: figuri/manager-etaje.png  used on input line 82.
 (pdftex.def)             Requested size: 241.84843pt x 143.57391pt.
-<figuri/editare-etaje.png, id=793, 1438.6247pt x 704.6325pt>
+<figuri/editare-etaje.png, id=794, 1438.6247pt x 704.6325pt>
 File: figuri/editare-etaje.png Graphic file (type png)
 <use figuri/editare-etaje.png>
-Package pdftex.def Info: figuri/editare-etaje.png  used on input line 83.
+Package pdftex.def Info: figuri/editare-etaje.png  used on input line 89.
 (pdftex.def)             Requested size: 241.84843pt x 118.45271pt.
- [26 <./figuri/harta-edit.png> <./figuri/manager-etaje.png> <./figuri/editare-etaje.png>] [27]
-Overfull \hbox (9.80125pt too wide) in paragraph at lines 166--172
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [26 <./figuri/vizualizare_admin.png>] [27 <./figuri/harta-edit.png> <./figuri/manager-etaje.png> <./figuri/editare-etaje.png>]
+Overfull \hbox (9.80125pt too wide) in paragraph at lines 172--178
 \T1/lmr/m/n/12 O com-po-nent  im-por-tant  a plat-for-mei este ru-ta-rea în in-te-ri-o-rul cl -di-ri-lor, care ex-tinde experien[]a
  []
 
-[28]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 267--277
+
+Underfull \vbox (badness 6380) has occurred while \output is active []
+
+ [28] [29]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 273--283
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-[29]) [30] [31]
+[30]) [31] [32]
 \openout2 = `capitolul4.aux'.
 
  (capitolul4.tex
@@ -1364,31 +1378,31 @@ Capitolul 4.
 
 Underfull \vbox (badness 4899) has occurred while \output is active []
 
- [32
+ [33
 
 
 
 
-] [33] [34] [35]) [36]
+] [34] [35] [36]) [37]
 \openout2 = `concluzii.aux'.
 
- (concluzii.tex [37
+ (concluzii.tex [38
 
 
 
 
-] [38]) [39]
+] [39]) [40]
 Bibliografie
 
 Underfull \hbox (badness 10000) in paragraph at lines 1785--1791
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[40
+[41
 
 
 
-] [41]
+] [42]
 \openout2 = `anexa_a.aux'.
 
  (anexa_a.tex
@@ -1413,10 +1427,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 19.
- [42
+ [43
 
 
-] [43] [44] [45] [46]) [47]
+] [44] [45] [46] [47]) [48]
 \openout2 = `anexa_b.aux'.
 
  (anexa_b.tex
@@ -1437,12 +1451,12 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\hbox' on input line 8.
 
-[48
+[49
 
 
 
 
-] [49] [50] [51] [52]) [53] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
+] [50] [51] [52] [53]) [54] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1452,20 +1466,20 @@ L3 programming layer <2025-12-24>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: D2703332F3EC774A79ECA72A47742ED7;20946.
+(rerunfilecheck)             Checksum: 31638C2756C79ECAA062763DD6A34B80;20947.
  ) 
 Here is how much of TeX's memory you used:
- 20259 strings out of 467871
- 339909 string characters out of 5418377
- 1298489 words of memory out of 5000000
- 48107 multiletter control sequences out of 15000+600000
+ 20269 strings out of 467871
+ 340201 string characters out of 5418377
+ 1298620 words of memory out of 5000000
+ 48115 multiletter control sequences out of 15000+600000
  728843 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,93p,525b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (61 pages, 991391 bytes).
+Output written on teza.pdf (62 pages, 1153300 bytes).
 PDF statistics:
- 1559 PDF objects out of 1728 (max. 8388607)
- 611 named destinations out of 1000 (max. 500000)
- 778 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1568 PDF objects out of 1728 (max. 8388607)
+ 613 named destinations out of 1000 (max. 500000)
+ 783 words of extra memory for PDF output out of 10000 (max. 10000000)
 
