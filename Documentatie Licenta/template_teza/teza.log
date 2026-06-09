@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 17:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  9 JUN 2026 18:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1384,12 +1384,12 @@ Underfull \vbox (badness 4899) has occurred while \output is active []
 
 
 ]
-<figuri/eroare_editare_user.png, id=845, 569.12625pt x 484.05844pt>
-File: figuri/eroare_editare_user.png Graphic file (type png)
-<use figuri/eroare_editare_user.png>
-Package pdftex.def Info: figuri/eroare_editare_user.png  used on input line 69.
-(pdftex.def)             Requested size: 290.22107pt x 246.85176pt.
- [34 <./figuri/eroare_editare_user.png>] [35] [36]) [37]
+<figuri/mesaj_consola.png, id=845, 573.64313pt x 225.84375pt>
+File: figuri/mesaj_consola.png Graphic file (type png)
+<use figuri/mesaj_consola.png>
+Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 70.
+(pdftex.def)             Requested size: 314.40001pt x 123.78023pt.
+ [34 <./figuri/mesaj_consola.png>] [35] [36]) [37]
 \openout2 = `concluzii.aux'.
 
  (concluzii.tex [38
@@ -1476,14 +1476,14 @@ Package rerunfilecheck Info: File `teza.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  20278 strings out of 467871
- 340499 string characters out of 5418377
- 1298793 words of memory out of 5000000
+ 340454 string characters out of 5418377
+ 1298798 words of memory out of 5000000
  48123 multiletter control sequences out of 15000+600000
  728843 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,93p,525b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (62 pages, 1194490 bytes).
+Output written on teza.pdf (62 pages, 1168367 bytes).
 PDF statistics:
  1571 PDF objects out of 1728 (max. 8388607)
  614 named destinations out of 1000 (max. 500000)

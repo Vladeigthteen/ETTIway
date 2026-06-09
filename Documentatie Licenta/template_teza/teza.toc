@@ -72,10 +72,10 @@
 \contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{33}{section.4.2}%
 \contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{34}{subsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{34}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{35}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{34}{subsection.4.2.3}%
 \contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{35}{subsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.2.5}Editarea și rutarea în interior}{35}{subsection.4.2.5}%
-\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{36}{section.4.3}%
+\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{35}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{36}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Limitări identificate}{36}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{36}{subsection.4.5.1}%
