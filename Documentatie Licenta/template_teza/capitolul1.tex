@@ -10,7 +10,7 @@
 Acest capitol prezintă fundamentul teoretic și tehnologic pe care se sprijină
 platforma ETTIway. Sunt abordate, în mod gradual, conceptele de bază ale
 sistemelor de navigare digitală, particularitățile navigării în spații
-exterioare și interioare, modul de reprezentare a datelor geospațiale, precum
+exterioare și interioare, modul de reprezentare a datelor geo-spațiale, precum
 și tehnologiile concrete folosite în implementare. Scopul acestui capitol este
 de a oferi contextul necesar pentru a înțelege deciziile de
 proiectare descrise în capitolele următoare. Vom pleca de la principiile generale
@@ -65,7 +65,7 @@ Acest mecanism de afișare are mai multe avantaje practice. În primul rând,
 reduce volumul de date transferat la un moment dat, deoarece se transmit doar
 porțiunile vizibile ale hărții. În al doilea rând, permite stocarea în memoria
 cache a dalelor deja descărcate, ceea ce accelerează navigarea repetată prin
-aceeași zonă. În al treilea rând, sistemul de dale se pretează foarte bine la
+aceeași zonă. De asemenea, sistemul de dale se pretează foarte bine la
 mai multe niveluri de detaliu: la niveluri mici de zoom se afișează contururi
 generale, iar la niveluri mari apar detalii fine, precum clădiri individuale,
 intrări sau trasee pietonale. Această organizare a datelor este
@@ -140,10 +140,10 @@ fir narativ continuu pentru utilizator. Această integrare reprezintă una dintr
 contribuțiile practice principale ale lucrării și este detaliată în capitolele
 dedicate arhitecturii și implementării.
 
-\section{Date geospațiale și modelarea informației geografice}
+\section{Date geo-spațiale și modelarea informației geografice}
 \label{sec:date-geospatiale}
 
-Fundamentul oricărui sistem de navigare îl constituie datele geospațiale, adică
+Fundamentul oricărui sistem de navigare îl constituie datele geo-spațiale, adică
 informația care descrie poziția și forma obiectelor în spațiu. Modul în care
 aceste date sunt structurate, stocate și interogate influențează direct
 performanța și flexibilitatea întregului sistem. În această secțiune sunt
@@ -179,7 +179,7 @@ componente, perechea de coordonate este scrisă în ordinea
 hărții în ETTIway, folosește ordinea
 \texttt{[latitudine, longitudine]}, conform convenției geografice
 clasice. Această asimetrie reprezintă o sursă frecventă de erori în
-aplicațiile care procesează date geospațiale, iar identificarea corectă a
+aplicațiile care procesează date geo-spațiale, iar identificarea corectă a
 ordinii așteptate de fiecare strat este esențială pentru afișarea corectă a
 geometriilor. În implementarea ETTIway, conversia între cele două convenții se
 face explicit la nivelul fiecărei interacțiuni cu date GeoJSON, pentru a evita
@@ -233,12 +233,12 @@ costisitoare.
 În cadrul ETTIway, datele provenite din OpenStreetMap sunt folosite pentru
 reprezentarea infrastructurii exterioare a campusului, în special pentru
 afișarea drumurilor și a aleilor. Modelul de date OSM organizează informația în
-jurul a trei tipuri de elemente fundamentale. Primul ar fi  nodurile , care reprezintă puncte
+jurul a trei tipuri de elemente fundamentale. Primul ar fi  nodurile, care reprezintă puncte
 individuale definite prin coordonate. Al doilea ar fi căile, care reprezintă secvențe ordonate de
 noduri și pot descrie atât linii, cât și conturul unor suprafețe. Al treilea tip sunt relațiile,
 care grupează mai multe elemente pentru a descrie structuri complexe. Fiecărui
 element i se pot asocia etichete sub formă de perechi cheie–valoare, care îi
-descriu semnificația, de exemplu tipul de drum sau funcția unei clădiri.
+descriu semnificația. De exemplu, tipul de drum sau funcția unei clădiri.
 Această structură flexibilă permite filtrarea și selectarea elementelor
 relevante pentru navigarea în campus. Datele extrase din OpenStreetMap sunt
 adaptate scenariilor de navigare din campus, fiind reținute doar elementele
@@ -410,12 +410,12 @@ mobile.
 \section{Arhitecturi de aplicații web}
 \label{sec:arhitecturi-web}
 
-Platforma ETTIway este construită pe o arhitectură de tip client–server, în care
+Platforma ETTIway este construită pe o arhitectură de tip client-server, în care
 responsabilitățile sunt separate clar între componenta care rulează în browserul
 utilizatorului și componenta care rulează pe server. Această separare este o
 practică des întâlnită în dezvoltarea aplicațiilor web moderne.
 
-\subsection{Separarea frontend–backend}
+\subsection{Separarea frontend-backend}
 \label{subsec:frontend-backend}
 
 Frontend-ul, adică partea aplicației care rulează în browserul utilizatorului,

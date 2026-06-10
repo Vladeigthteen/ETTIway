@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {1.2.1}Navigarea exterioară}{5}{subsection.1.2.1}%
 \contentsline {subsection}{\numberline {1.2.2}Navigarea interioară}{5}{subsection.1.2.2}%
 \contentsline {subsection}{\numberline {1.2.3}Integrarea celor două niveluri}{6}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Date geospațiale și modelarea informației geografice}{6}{section.1.3}%
+\contentsline {section}{\numberline {1.3}Date geo-spațiale și modelarea informației geografice}{6}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}Sisteme de coordonate și sisteme de referință spațială}{6}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}Reprezentarea geometriilor: WKT și WKB}{7}{subsection.1.3.2}%
 \contentsline {subsection}{\numberline {1.3.3}OpenStreetMap ca sursă de date}{7}{subsection.1.3.3}%
@@ -24,7 +24,7 @@
 \contentsline {subsection}{\numberline {1.5.3}Performanță și optimizări}{10}{subsection.1.5.3}%
 \contentsline {section}{\numberline {1.6}Interfețe pentru dispozitive mobile}{10}{section.1.6}%
 \contentsline {section}{\numberline {1.7}Arhitecturi de aplicații web}{11}{section.1.7}%
-\contentsline {subsection}{\numberline {1.7.1}Separarea frontend–backend}{11}{subsection.1.7.1}%
+\contentsline {subsection}{\numberline {1.7.1}Separarea frontend-backend}{11}{subsection.1.7.1}%
 \contentsline {subsection}{\numberline {1.7.2}Servicii REST și formatul JSON}{11}{subsection.1.7.2}%
 \contentsline {subsection}{\numberline {1.7.3}Rețele private virtuale și topologii de tip mesh}{11}{subsection.1.7.3}%
 \contentsline {section}{\numberline {1.8}Tehnologii utilizate în implementare}{12}{section.1.8}%
