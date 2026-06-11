@@ -26,6 +26,13 @@
 \usepackage{subcaption}
 \usepackage{svg}
 \usepackage{seqsplit}
+\usepackage[romanian]{babel}
+
+% Forțare nume corecte pentru română (Tabelul, Figura)
+\addto\captionsromanian{%
+    \renewcommand{\tablename}{Tabelul}%
+    \renewcommand{\figurename}{Figura}%
+}
 
 
 \singlespacing
@@ -1886,6 +1893,13 @@ Mozilla Developer Network,
 \textit{Secure contexts},
 \\\url{https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts},
 accesat la data: 28 mai 2026.
+
+
+\bibitem{Ubuntu2404}
+Canonical Ltd.,
+\emph{Ubuntu 24.04 LTS (Noble Numbat) release notes},
+\url{https://documentation.ubuntu.com/release-notes/24.04/},
+accesat la data: 11.06.2026.
 
 \end{thebibliography}
  

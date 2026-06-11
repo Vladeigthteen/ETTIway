@@ -186,7 +186,13 @@ raportată la traseul calculat. Atunci când nu există un traseu valid, de
 exemplu între puncte aflate pe porțiuni neconectate ale rețelei, aplicația
 informează utilizatorul în loc să afișeze un rezultat eronat.
 
-% [CAPTURA 3.4: traseu exterior pe harta]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.30\textwidth]{figuri/afisare_rutare.jpeg}
+    \caption{Afișarea vizuală a traseului calculat pe hartă cu locația live}
+    \label{fig:flux-auth}
+\end{figure}
+
 
 \section{Rutarea în interiorul clădirilor}
 \label{sec:indoor}
@@ -364,6 +370,58 @@ adresa 127.0.0.1. Pentru a deveni utilizabilă în campus, aplicația trebuie
 să fie accesibilă de pe alte dispozitive, fără a fi expusă riscurilor
 asociate publicării directe pe internet.
 
+
+\section{Configurarea serverului}
+\label{sec:deployment-impl}
+
+Serverul gazdă rulează pe distribuția Ubuntu 24.04.4 LTS (\textit{Long Term Support}) \cite{Ubuntu2404}. Aceasta a fost aleasă
+pentru pachetele preinstalate care au ajutat la o integrare mai rapidă a platformei. Printre acestea
+se numeră Java 17.0.19, care ajuta la rularea aplicației Spring Boot și Postgre SQL 16.14, care asigură stocarea datelor.
+
+Parametrii de retea include o adresa de IP statică în detrimnetulu protocolului de alocare
+dinamic DHCP. Această alegere a fost facută pentru stabilitatea serverului si pentru a evita
+probleme de conectivitate la restart sau in cazul in care se intrerupe alimentarea. Gatway-ul implicit este 
+adresa de IP a ruterului din reteaua locală, care asigură conexiunea la internet pentru server.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figuri/Topologie_retea.png}
+    \caption{Topologia rețelei platformei ETTIway.}
+    \label{fig:topologie}
+\end{figure}
+
+
+Pe langă interfata fizica, serverul rulează clientul Tailscale, care creează o interfata virtuală spulimentară.
+Aceasta interfață area atribuită o adresă IP  \texttt{100.X.X.X} rezervată de Tailscale pentru retele sale private.
+Acastă adresă este atribuita din spațiul CGNAT (Carrier-Grade NAT, definit în RFC 6598) care este folosit tocmai 
+pentru a garanta că adresele nu intră în conflict nici cu rețelele publice de internet, nici cu rețelele locale uzuale, eliminând orice ambiguitate 
+de rutare.
+
+Pe serverul gazdă rulează un set restrâns de servicii, fiecare cu 
+un rol bine definit în arhitectura platformei. Tabelul~\ref{tab:porturi} 
+prezintă porturile principale pe care ascultă serverul:
+
+\begin{table}[htbp]
+    \centering
+    
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{Port} & \textbf{Protocol} & \textbf{Serviciu} & \textbf{Acces} \\
+        \midrule
+        22    & TCP & SSH (OpenSSH)            & Toate interfețele \\
+        53    & TCP/UDP & DNS (systemd-resolved) & Loopback (cache local) \\
+        5432  & TCP & PostgreSQL               & Doar loopback (127.0.0.1) \\
+        8443  & TCP & Spring Boot (HTTPS)      & Toate interfețele \\
+        \bottomrule
+        
+    \end{tabular}
+    \caption{Porturile principale ale serverului ETTIway}
+    \label{tab:porturi}
+\end{table}
+
+
+
+
 \subsection{Rețeaua privată cu Tailscale}
 \label{subsec:tailscale-impl}
 
@@ -480,7 +538,7 @@ consultate uniform. Comanda \texttt{journalctl -u ettiway} afișează
 istoricul recent al aplicației, iar \texttt{journalctl -u ettiway -f}
 permite urmărirea în timp real a noilor mesaje, util pentru depanare.
  
-\newpage
+
 
 \section{Concluziile capitolului}
 \label{sec:concluzii-cap3-impl}
