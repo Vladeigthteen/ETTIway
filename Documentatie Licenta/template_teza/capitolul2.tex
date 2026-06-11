@@ -11,14 +11,12 @@
 Acest capitol prezintă arhitectura platformei ETTIway, plecând de la o vedere de
 ansamblu asupra componentelor și ajungând la detalierea fiecărui nivel al
 sistemului. Sunt descrise separarea responsabilităților între frontend și
-backend, structura datelor, mecanismul de autentificare și
-autorizare. Totodată, sunt prezentate și fluxurile principale prin care componentele comunică între
+backend. Cat și structura datelor, mecanismul de autentificare și
+autorizare, sunt prezentate și fluxurile principale prin care componentele comunică între
 ele. Deciziile de proiectare sunt motivate prin raportare la ideeile
 formulate în capitolul anterior, cu accent pe securitate și
 claritate a fluxului de utilizare. 
-Fragmentele de cod care ilustrează aceste
-mecanisme se găsesc în Anexa~A (cod Java pentru backend) și Anexa~B (cod
-JavaScript pentru frontend).
+
 
 \section{Vedere de ansamblu asupra arhitecturii}
 \label{sec:ansamblu}
@@ -27,7 +25,7 @@ Platforma ETTIway este construită pe o arhitectură de tip client–server,
 organizată pe trei niveluri logice distincte. Primul nivel este cel de
 prezentare (frontend), realizat în HTML, CSS și JavaScript, care rulează în
 browserul utilizatorului și se ocupă de afișarea hărții interactive, de
-interacțiunea cu utilizatorul și de calculul traseelor. Al doilea nivel este
+interacțiunea cu utilizatorul și de calculul traseelor. Următorul nivel este
 cel al serviciilor (backend), realizat cu Spring Boot, care expune servicii
 web, gestionează autentificarea și autorizarea utilizatorilor și mediază
 accesul la date. Al treilea nivel este cel al datelor, reprezentat de o bază
@@ -36,10 +34,10 @@ utilizatorilor, cât și informația despre structura hărții.
 
 Separarea pe aceste trei niveluri aduce mai multe avantaje. În primul rând,
 permite dezvoltarea și testarea independentă a fiecărei componente, deoarece
-interfața dintre niveluri este bine definită. În al doilea rând, izolează
+interfața dintre niveluri este bine definită. Un alt motiv ar fi ca izolează
 logica de securitate la nivelul backend-ului, astfel încât regulile de acces
 nu pot fi ocolite din interfața clientului. În al treilea rând, facilitează
-extinderea sistemului: adăugarea de noi servicii sau de noi tipuri de date nu
+extinderea sistemului prin adăugarea de noi servicii sau de noi tipuri de date nu
 necesită rescrierea componentelor existente, ci doar completarea celor noi.
 
 Comunicarea dintre nivelul de prezentare și cel al serviciilor se realizează
@@ -62,7 +60,7 @@ pentru frontend, atât timp cât contractul serviciilor este respectat.
 Backend-ul aplicației este realizat cu ajutorul framework-ului Spring Boot \cite{Walls2022},
 structurată pe pachete distincte în funcție de responsabilități. Pachetul de
 configurare conține clasele de inițializare, de securitate și de pornire a
-aplicației. Pachetul de entități conține clasele care modelează datele. Pachetul de repository conține interfețele de acces la baza de
+aplicației iar pachetul de entități conține clasele care modelează datele. Pachetul de repository conține interfețele de acces la baza de
 date. Această organizare urmează convențiile de bază ale ecosistemului
 Spring și face codul ușor de parcurs și de extins.
 
@@ -72,7 +70,7 @@ Spring și face codul ușor de parcurs și de extins.
 Pornirea aplicației este gestionată de clasa principală, adnotată cu
 \texttt{@SpringBootApplication}. Această adnotare activează mecanismele de
 configurare automată ale Spring Boot, prin care componentele sunt descoperite
-și inițializate fără configurare manuală explicită. Codul punctului de intrare
+și inițializate fără configurare manuală explicită. In ceea ce privește codul punctului de intrare, acesta
 este minimal, întreaga logică de configurare fiind delegată claselor
 specializate (vezi Listing~A.1 din Anexa~A). La pornire, pe lângă
 inițializarea contextului Spring, aplicația execută și o componentă de
@@ -130,20 +128,19 @@ unei interfețe care pare să nu răspundă. Aceste mesaje sunt formulate într-
 limbaj accesibil, evitând termenii tehnici care nu ar fi de folos
 utilizatorului obișnuit.
  
-Această abordare pe trei niveluri urmărește principiul \textit{fail fast}:
+Această abordare pe trei niveluri urmărește principiul \textit{fail fast} adică
 erorile sunt detectate și raportate cât mai aproape de sursa lor, fără a
 permite propagarea unor stări inconsistente prin aplicație. În același timp,
 prin folosirea codurilor HTTP standard, sistemul rămâne deschis pentru
-integrarea ulterioară cu alți clienți (de exemplu, o aplicație mobilă nativă)
-fără a impune un format propriu de comunicare.
+integrarea ulterioară cu alți clienți (de exemplu, o aplicație mobilă nativă).
 
 \section{Nivelul de date}
 \label{sec:date}
 
 Datele sunt stocate într-o bază de date relațională PostgreSQL
-\cite{PostgreSQL}, aleasă pentru suportul robust al tipurilor de date și pentru caracterul său open-source. Maparea dintre tabelele
+\cite{PostgreSQL}, aleasă pentru suportul tipurilor diferite de date și pentru caracterul său open-source. Maparea dintre tabelele
 bazei de date și obiectele din aplicație este realizată prin adnotări JPA pe
-clasele de tip entitate. În cadrul ETTIway există două entități principale:
+clasele de tip entitate. În cadrul ETTIway există două entități principale. Acestea sunt
 utilizatorii și datele hărții campusului, aceasta din urmă stocând atât
 informația despre exterior, cât și planurile de etaj din interior.
 
@@ -153,11 +150,11 @@ informația despre exterior, cât și planurile de etaj din interior.
  
 Pe parcursul analizei tehnologice am evaluat mai multe variante pentru
 componenta de persistență a datelor, comparând atât baze de date relaționale,
-cât și soluții de tip NoSQL. Această secțiune sintetizează compromisurile
-considerate și justifică alegerea finală.
+cât și soluții de tip NoSQL. În acest subcapitol vom sintetiza compromisurile
+considerate și se va justifica alegerea finală.
  
 Alternativa cea mai evidentă a fost o bază de date relațională clasică, fie
-PostgreSQL, fie MySQL. Ambele oferă maturitate, performanță și un ecosistem
+PostgreSQL, fie MySQL, ambele oferind maturitate, performanță și un ecosistem
 solid de unelte și biblioteci. Comparativ, MySQL este mai răspândit în
 aplicații web mai simple, iar PostgreSQL excelează în suportul pentru tipuri
 de date avansate, în special pentru câmpurile JSON, pentru indexare flexibilă
@@ -176,7 +173,7 @@ diferite în deployment (unul pentru utilizatori și autentificare, unul pentru
 datele geospațiale). Pentru un proiect de această dimensiune, această
 diversificare nu se justifică.
  
-O a treia opțiune, considerată dar respinsă, a fost SQLite. SQLite este o
+Încă o opțiune posibilă, ar fi fost SQLite, fiind  o
 bază de date integrată direct în aplicație, fără server separat, ceea ce
 simplifică dezvoltarea. Totuși, modelul său de concurență (un singur
 scriitor activ la un moment dat) o face mai puțin potrivită pentru o
@@ -188,7 +185,7 @@ nativ.
 Astfel, am ales PostgreSQL pentru combinația sa unică: stabilitatea unei baze
 relaționale tradiționale, suportul pentru documente JSON la nivel de coloană
 care a permis stocarea flexibilă a grafului, și disponibilitatea ca soluție
-deschisă, gratuită și matură. Mai mult, această alegere lasă deschisă o
+open-source, gratuită. Mai mult, această alegere lasă deschisă o
 direcție viitoare de optimizare prin trecerea de la tipul de date \texttt{TEXT}
 (folosit în versiunea actuală) la tipul nativ \texttt{JSONB}, care oferă
 indexare în interiorul documentelor JSON și interogări mai eficiente, fără

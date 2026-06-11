@@ -404,6 +404,12 @@ OUTPUT capitolul1.aux
 INPUT .\capitolul1.tex
 INPUT .\capitolul1.tex
 INPUT capitolul1.tex
+INPUT .\figuri\trilaterare_gps.pdf
+INPUT .\figuri\trilaterare_gps.pdf
+INPUT .\figuri\trilaterare_gps.pdf
+INPUT .\figuri\trilaterare_gps.pdf
+INPUT .\figuri\trilaterare_gps.pdf
+INPUT .\figuri\trilaterare_gps.pdf
 INPUT .\figuri\dijkstra_exemplu.pdf
 INPUT .\figuri\dijkstra_exemplu.pdf
 INPUT .\figuri\dijkstra_exemplu.pdf

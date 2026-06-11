@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 09:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 11:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1283,110 +1283,113 @@ Capitolul 1.
 [4
 
 
-] [5] [6]
-Underfull \vbox (badness 3919) has occurred while \output is active []
-
- [7] [8]
-<figuri/dijkstra_exemplu.pdf, id=647, 511.9125pt x 286.06876pt>
+] [5] [6] [7]
+<figuri/trilaterare_gps.pdf, id=642, 511.9125pt x 361.35pt>
+File: figuri/trilaterare_gps.pdf Graphic file (type pdf)
+<use figuri/trilaterare_gps.pdf>
+Package pdftex.def Info: figuri/trilaterare_gps.pdf  used on input line 284.
+(pdftex.def)             Requested size: 362.77264pt x 256.07509pt.
+ [8 <./figuri/trilaterare_gps.pdf>]
+<figuri/dijkstra_exemplu.pdf, id=682, 511.9125pt x 286.06876pt>
 File: figuri/dijkstra_exemplu.pdf Graphic file (type pdf)
 <use figuri/dijkstra_exemplu.pdf>
-Package pdftex.def Info: figuri/dijkstra_exemplu.pdf  used on input line 351.
+Package pdftex.def Info: figuri/dijkstra_exemplu.pdf  used on input line 364.
 (pdftex.def)             Requested size: 411.14528pt x 229.75888pt.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 352.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 365.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [9{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc} <./figuri/dijkstra_exemplu.pdf>] [10]
-Overfull \hbox (3.5258pt too wide) in paragraph at lines 413--417
+) [9] [10{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ts1.enc} <./figuri/dijkstra_exemplu.pdf>] [11]
+Overfull \hbox (3.5258pt too wide) in paragraph at lines 426--430
 \T1/lmr/m/n/12 Platforma ET-TI-way este con-stru-it  pe o ar-hi-tec-tur  de tip client-server, în care responsabilit []ile
  []
 
-[11] [12]) [13]
+[12] [13]) [14]
 \openout2 = `capitolul2.aux'.
 
  (capitolul2.tex
 Capitolul 2.
-<figuri/flux_autentificare.pdf, id=782, 511.9125pt x 451.6875pt>
+<figuri/flux_autentificare.pdf, id=821, 511.9125pt x 451.6875pt>
 File: figuri/flux_autentificare.pdf Graphic file (type pdf)
 <use figuri/flux_autentificare.pdf>
-Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 54.
+Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 52.
 (pdftex.def)             Requested size: 362.77264pt x 320.09384pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14
+ [15
 
 
 
 
-] [15 <./figuri/flux_autentificare.pdf>]
-Overfull \hbox (8.53345pt too wide) in paragraph at lines 86--93
+] [16 <./figuri/flux_autentificare.pdf>]
+Overfull \hbox (8.53345pt too wide) in paragraph at lines 84--91
 \T1/lmtt/m/n/12 JpaRepository\T1/lmr/m/n/12 , Spring ge-ne-rând auto-mat im-ple-men-t -rile ne-ce-sare. Pen-tru uti-li-za-tor, repository-
  []
 
 
-Overfull \hbox (9.50757pt too wide) in paragraph at lines 154--158
+Overfull \hbox (9.50757pt too wide) in paragraph at lines 151--155
 \T1/lmr/m/n/12 Pe par-cur-sul ana-li-zei teh-no-lo-gice am eva-luat mai multe va-ri-ante pen-tru com-po-nenta de persisten[] 
  []
 
-[16] [17]
-Overfull \hbox (7.538pt too wide) in paragraph at lines 291--297
+[17] [18]
+Overfull \hbox (7.538pt too wide) in paragraph at lines 288--294
 \T1/lmr/m/n/12 Un as-pect cen-tral al ar-hi-tec-tu-rii ET-TI-way îl con-sti-tuie me-ca-nis-mul de se-cu-ri-tate, care diferen[]iaz 
  []
 
-[18]
-<figuri/Tabel Utilizatori.png, id=893, 645.16031pt x 57.96657pt>
+[19]
+<figuri/Tabel Utilizatori.png, id=932, 645.16031pt x 57.96657pt>
 File: figuri/Tabel Utilizatori.png Graphic file (type png)
 <use figuri/Tabel Utilizatori.png>
-Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 310.
+Package pdftex.def Info: figuri/Tabel Utilizatori.png  used on input line 307.
 (pdftex.def)             Requested size: 386.95897pt x 34.76692pt.
- [19{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc} <./figuri/Tabel Utilizatori.png>]
-Overfull \hbox (0.6866pt too wide) in paragraph at lines 381--387
+ [20{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc} <./figuri/Tabel Utilizatori.png>]
+Overfull \hbox (0.6866pt too wide) in paragraph at lines 378--384
 \T1/lmr/m/n/12 com-po-nent  im-ple-men-teaz  interfa[]a \T1/lmtt/m/n/12 UserDetailsService []\T1/lmr/m/n/12 i trans-form  en-ti-ta-tea pro-prie \T1/lmtt/m/n/12 User
  []
 
-[20] [21]
+[21] [22]
 File: figuri/flux_autentificare.pdf Graphic file (type pdf)
 <use figuri/flux_autentificare.pdf>
-Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 482.
+Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 479.
 (pdftex.def)             Requested size: 386.95897pt x 341.43205pt.
- [22]) [23]
+ [23]) [24]
 \openout2 = `capitolul3.aux'.
 
  (capitolul3.tex
 Capitolul 3.
-<figuri/vizualizare_admin.png, id=927, 1099.10625pt x 645.91313pt>
+<figuri/vizualizare_admin.png, id=966, 1099.10625pt x 645.91313pt>
 File: figuri/vizualizare_admin.png Graphic file (type png)
 <use figuri/vizualizare_admin.png>
 Package pdftex.def Info: figuri/vizualizare_admin.png  used on input line 40.
 (pdftex.def)             Requested size: 386.95897pt x 227.40352pt.
-[24
+[25
 
 
 
 
  <./figuri/vizualizare_admin.png>]
-<figuri/harta-edit.png, id=934, 1440.13031pt x 710.655pt>
+<figuri/harta-edit.png, id=973, 1440.13031pt x 710.655pt>
 File: figuri/harta-edit.png Graphic file (type png)
 <use figuri/harta-edit.png>
 Package pdftex.def Info: figuri/harta-edit.png  used on input line 75.
 (pdftex.def)             Requested size: 241.84843pt x 119.335pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 76.
-<figuri/manager-etaje.png, id=935, 450.18187pt x 267.24844pt>
+<figuri/manager-etaje.png, id=974, 450.18187pt x 267.24844pt>
 File: figuri/manager-etaje.png Graphic file (type png)
 <use figuri/manager-etaje.png>
 Package pdftex.def Info: figuri/manager-etaje.png  used on input line 82.
 (pdftex.def)             Requested size: 241.84843pt x 143.57391pt.
-<figuri/editare-etaje.png, id=936, 1438.6247pt x 704.6325pt>
+<figuri/editare-etaje.png, id=975, 1438.6247pt x 704.6325pt>
 File: figuri/editare-etaje.png Graphic file (type png)
 <use figuri/editare-etaje.png>
 Package pdftex.def Info: figuri/editare-etaje.png  used on input line 89.
 (pdftex.def)             Requested size: 241.84843pt x 118.45271pt.
- [25 <./figuri/harta-edit.png> <./figuri/manager-etaje.png> <./figuri/editare-etaje.png>]
+ [26 <./figuri/harta-edit.png> <./figuri/manager-etaje.png> <./figuri/editare-etaje.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [26]
-<figuri/afisare_rutare.jpeg, id=950, 794.97pt x 1606.0pt>
+ [27]
+<figuri/afisare_rutare.jpeg, id=989, 794.97pt x 1606.0pt>
 File: figuri/afisare_rutare.jpeg Graphic file (type jpg)
 <use figuri/afisare_rutare.jpeg>
 Package pdftex.def Info: figuri/afisare_rutare.jpeg  used on input line 191.
@@ -1396,73 +1399,73 @@ Overfull \hbox (9.80125pt too wide) in paragraph at lines 200--206
 \T1/lmr/m/n/12 O com-po-nent  im-por-tant  a plat-for-mei este ru-ta-rea în in-te-ri-o-rul cl -di-ri-lor, care ex-tinde experien[]a
  []
 
-[27 <./figuri/afisare_rutare.jpeg>]
+[28 <./figuri/afisare_rutare.jpeg>]
 Underfull \vbox (badness 2573) has occurred while \output is active []
 
- [28] [29]
-<figuri/versiuni.png, id=967, 566.86781pt x 185.94469pt>
+ [29] [30]
+<figuri/versiuni.png, id=1006, 566.86781pt x 185.94469pt>
 File: figuri/versiuni.png Graphic file (type png)
 <use figuri/versiuni.png>
-Package pdftex.def Info: figuri/versiuni.png  used on input line 383.
+Package pdftex.def Info: figuri/versiuni.png  used on input line 382.
 (pdftex.def)             Requested size: 290.22107pt x 95.20221pt.
-<figuri/Topologie_retea.png, id=968, 364.36125pt x 315.42844pt>
+<figuri/Topologie_retea.png, id=1007, 364.36125pt x 315.42844pt>
 File: figuri/Topologie_retea.png Graphic file (type png)
 <use figuri/Topologie_retea.png>
-Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 396.
+Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 395.
 (pdftex.def)             Requested size: 193.47578pt x 167.48912pt.
- [30 <./figuri/versiuni.png>]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 445--455
+ [31 <./figuri/versiuni.png>]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 444--454
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-<figuri/systemctl_status.png, id=980, 878.53218pt x 155.83218pt>
+<figuri/systemctl_status.png, id=1019, 878.53218pt x 155.83218pt>
 File: figuri/systemctl_status.png Graphic file (type png)
 <use figuri/systemctl_status.png>
-Package pdftex.def Info: figuri/systemctl_status.png  used on input line 460.
+Package pdftex.def Info: figuri/systemctl_status.png  used on input line 459.
 (pdftex.def)             Requested size: 411.14528pt x 72.92964pt.
-[31 <./figuri/Topologie_retea.png>] [32 <./figuri/systemctl_status.png>]) [33]
+[32 <./figuri/Topologie_retea.png>] [33 <./figuri/systemctl_status.png>]) [34]
 \openout2 = `capitolul4.aux'.
 
  (capitolul4.tex
 Capitolul 4.
-<figuri/Springboot.png, id=1006, 1919.67188pt x 430.60875pt>
+<figuri/Springboot.png, id=1045, 1919.67188pt x 430.60875pt>
 File: figuri/Springboot.png Graphic file (type png)
 <use figuri/Springboot.png>
 Package pdftex.def Info: figuri/Springboot.png  used on input line 43.
 (pdftex.def)             Requested size: 483.69687pt x 108.49951pt.
-[34
+[35
 
 
 
 
  <./figuri/Springboot.png>]
-<figuri/mesaj_consola.png, id=1014, 573.64313pt x 225.84375pt>
+<figuri/mesaj_consola.png, id=1054, 573.64313pt x 225.84375pt>
 File: figuri/mesaj_consola.png Graphic file (type png)
 <use figuri/mesaj_consola.png>
 Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 83.
 (pdftex.def)             Requested size: 386.95897pt x 152.34834pt.
- [35 <./figuri/mesaj_consola.png>] [36] [37]
-<figuri/flux_testare.pdf, id=1030, 511.9125pt x 286.06876pt>
+ [36 <./figuri/mesaj_consola.png>] [37] [38]
+<figuri/flux_testare.pdf, id=1069, 511.9125pt x 286.06876pt>
 File: figuri/flux_testare.pdf Graphic file (type pdf)
 <use figuri/flux_testare.pdf>
 Package pdftex.def Info: figuri/flux_testare.pdf  used on input line 276.
 (pdftex.def)             Requested size: 483.69687pt x 270.30148pt.
-) [38 <./figuri/flux_testare.pdf>]
+) [39 <./figuri/flux_testare.pdf>]
 \openout2 = `concluzii.aux'.
 
- (concluzii.tex [39
+ (concluzii.tex [40
 
 
 
 
-] [40]) [41]
+] [41]) [42]
 Bibliografie
 
 Underfull \hbox (badness 10000) in paragraph at lines 1794--1800
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
-[42
+[43
 
 
 
@@ -1471,7 +1474,7 @@ Underfull \hbox (badness 6188) in paragraph at lines 1899--1903
 []\T1/lmr/m/n/12 Canonical Ltd., \T1/lmr/m/it/12 Ubu-ntu 24.04 LTS (No-ble Nu-m-bat) re-lease no-tes\T1/lmr/m/n/12 , []$\T1/lmtt/m/n/12 https : / /
  []
 
-[43]
+[44]
 \openout2 = `anexa_a.aux'.
 
  (anexa_a.tex
@@ -1496,13 +1499,13 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 File: lstlang1.sty 2025/11/14 1.11b listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 19.
- [44
+ [45
 
 
 ]
 Underfull \vbox (badness 1009) has occurred while \output is active []
 
- [45] [46] [47]) [48]
+ [46] [47] [48]) [49]
 \openout2 = `anexa_b.aux'.
 
  (anexa_b.tex
@@ -1523,12 +1526,12 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\hbox' on input line 8.
 
-[49
+[50
 
 
 
 
-] [50] [51] [52]) [53] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
+] [51] [52] [53]) [54] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1538,20 +1541,20 @@ L3 programming layer <2025-12-24>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 35022359D6218D3D79B403DAA97AB7E0;22653.
+(rerunfilecheck)             Checksum: 7415B47EBE3F038B7DBBE5224D4301F6;22653.
  ) 
 Here is how much of TeX's memory you used:
- 20431 strings out of 467871
- 344328 string characters out of 5418377
- 1429628 words of memory out of 5000000
- 48251 multiletter control sequences out of 15000+600000
+ 20441 strings out of 467871
+ 344623 string characters out of 5418377
+ 1429752 words of memory out of 5000000
+ 48259 multiletter control sequences out of 15000+600000
  729218 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,93p,641b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (61 pages, 1526563 bytes).
+Output written on teza.pdf (62 pages, 1543953 bytes).
 PDF statistics:
- 1785 PDF objects out of 2073 (max. 8388607)
- 629 named destinations out of 1000 (max. 500000)
- 879 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1825 PDF objects out of 2073 (max. 8388607)
+ 631 named destinations out of 1000 (max. 500000)
+ 884 words of extra memory for PDF output out of 10000 (max. 10000000)
 

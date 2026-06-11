@@ -308,15 +308,15 @@ acționabile sunt suficiente pentru a evita confuzia în cazul gesturilor rapide
 \label{subsec:stare}
  
 Aplicația frontend este organizată în mai multe module JavaScript independente
-(harta, căutarea, rutarea exterioară, indoor, autentificarea), care trebuie să
+(harta, căutarea, rutarea exterioară, indoor, autentificarea). Acestea trebuie să
 poată accesa și actualiza informații comune: graful campusului, datele indoor
 încărcate, starea de navigare curentă. Pentru a permite această partajare
 între module, am ales o abordare simplă, fără biblioteci suplimentare, bazată
-pe obiecte globale expuse pe obiectul \texttt{window}: \texttt{window.campusData},
+pe obiecte globale expuse pe obiectul \texttt{window}. Cum ar fi \texttt{window.campusData},
 \texttt{window.floorData} și \texttt{window.navigationData}.
  
 Aplicația este scrisă în JavaScript vanilla, fără framework-uri precum React
-sau Vue, ceea ce a permis păstrarea unei dependențe minime de cod extern și
+sau Vue, ceea ce a permis păstrarea unei dependențe minime de cod extern. Toodată,
 o foarte bună înțelegere asupra modului în care fiecare componentă se
 inițializează și interacționează cu celelalte. Pentru un proiect de această
 dimensiune, modelul cu obiecte globale rămâne lizibil și ușor de urmărit, iar
@@ -352,7 +352,7 @@ explică restricția.
 Această dublă verificare îmbunătățește experiența utilizatorului prin
 afișarea unor mesaje clare în cazul accesului neautorizat, în loc să afișeze
 controale care nu funcționează la prima încercare de salvare. În același timp,
-nu înlocuiește protecția de pe server: chiar dacă cineva ar manipula codul
+nu înlocuiește protecția de pe server. Dacă cineva ar manipula codul
 JavaScript din browser pentru a forța afișarea controalelor, orice încercare
 de modificare a hărții ar fi respinsă de Spring Security la nivelul
 endpoint-urilor REST, returnând codul HTTP 403 (Forbidden).
@@ -365,8 +365,7 @@ Dincolo de implementarea funcționalităților, o componentă importantă a
 contribuției practice o reprezintă punerea în funcțiune a platformei într-un
 mediu accesibil de pe dispozitivele mobile ale utilizatorilor. În timpul
 dezvoltării, întreaga aplicație rulează pe o singură mașină, clientul și
-serverul comunicând prin interfața de buclă locală (\textit{loopback}), la
-adresa 127.0.0.1. Pentru a deveni utilizabilă în campus, aplicația trebuie
+serverul comunicând prin interfața de buclă locală (\textit{loopback}). Pentru a deveni utilizabilă în campus, aplicația trebuie
 să fie accesibilă de pe alte dispozitive, fără a fi expusă riscurilor
 asociate publicării directe pe internet.
 
@@ -436,9 +435,9 @@ prezintă porturile principale pe care ascultă serverul:
 Pentru ETTIway, am ales Tailscale \cite{Tailscale}, o rețea privată virtuală
 construită peste protocolul de criptare WireGuard \cite{WireGuard}. Spre
 deosebire de un VPN clasic, în care tot traficul trece printr-un server
-central, Tailscale realizează o rețea de tip \textit{mesh}: dispozitivele
+central, Tailscale realizează o rețea de tip \textit{mesh}. Dispozitivele
 înrolate, serverul pe care rulează aplicația și telefoanele de pe care este
-accesată, comunică direct între ele, printr-un tunel criptat punct-la-punct.
+accesată, comunică direct între ele, printr-un tunel criptat punct-la-punct (\textit{point-to-point}).
 Fiecare dispozitiv primește o adresă privată stabilă, validă doar în
 interiorul rețelei virtuale.
 
@@ -447,7 +446,7 @@ publică și niciun port deschis către internet. În arhitectura clasică,
 expunerea unui server presupune redirecționarea porturilor pe ruterul rețelei
 locale și deschiderea acestora către internet, ceea ce face serverul vizibil
 și potențial atacabil de oriunde în lume. La ETTIway, această expunere
-este eliminată: serverul, împreună cu baza de date PostgreSQL care ascultă pe
+este eliminată. Serverul, împreună cu baza de date PostgreSQL care ascultă pe
 portul 5432 și cu aplicația Spring Boot, rămâne accesibil exclusiv
 dispozitivelor autentificate în rețeaua privată. Pentru un proiect
 administrat de o singură persoană, această configurație reduce semnificativ
@@ -468,7 +467,7 @@ Pentru a asigura disponibilitatea continuă a aplicației, am configurat-o ca se
 Pentru a evita memorarea adreselor numerice din rețeaua privată, Tailscale
 oferă un mecanism propriu de rezolvare a numelor, denumit MagicDNS. Acesta
 atribuie fiecărui dispozitiv un nume ușor de reținut, sub forma unui
-subdomeniu în spațiul \texttt{.ts.net}, valabil doar în interiorul rețelei.
+subdomeniu în spațiul \texttt{.ts.net}. El este valabil doar în interiorul rețelei.
 Serverul ETTIway este accesat printr-un nume stabil, care rămâne neschimbat
 indiferent de rețeaua din care se conectează dispozitivele.
 
@@ -477,11 +476,10 @@ indiferent de rețeaua din care se conectează dispozitivele.
 
 Comunicarea dintre dispozitiv și server este criptată prin protocolul HTTPS,
 folosind un certificat digital emis automat de Tailscale prin autoritatea
-Let's Encrypt \cite{LetsEncrypt}, pentru numele \texttt{.ts.net} al
-serverului. Nu este nevoie de un domeniu public sau de o adresă IP publică
+Let's Encrypt \cite{LetsEncrypt}, pentru numele \texttt{.ts.net}. Nu este nevoie de un domeniu public sau de o adresă IP publică
 proprie. Certificatul este recunoscut de browsere ca fiind valid, iar
 gestionarea sa, emiterea și reînnoirea periodică, este preluată automat de
-infrastructura Tailscale, ceea ce reduce la minimum efortul de administrare.
+infrastructura Tailscale. Acest lucru este ceea ce reduce la minimum efortul de administrare.
 
 Criptarea HTTPS are aici și o consecință tehnică ce depășește simpla
 protecție a datelor. Browserele moderne impun ca interfețele sensibile,
@@ -489,7 +487,7 @@ precum cea de geolocalizare folosită pentru obținerea poziției prin GPS
 \cite{MDN_Geolocation}, să poată fi utilizate doar într-un context securizat
 \cite{MDN_SecureContext}, adică numai peste o conexiune criptată HTTPS. Fără
 o astfel de conexiune, codul JavaScript al aplicației nu ar putea solicita
-poziția utilizatorului, iar funcționalitatea de localizare exterioară ar fi
+poziția utilizatorului. Ulterior, funcționalitatea de localizare exterioară ar fi
 indisponibilă. Aici se observă cum aceeași infrastructură care asigură
 izolarea față de internet oferă, în același timp, certificatul HTTPS necesar
 pentru accesul la GPS.
@@ -509,9 +507,8 @@ disponibil, la prima deconectare, la o repornire accidentală a sistemului sau
 la o eroare nerecuperabilă, aplicația ar deveni indisponibilă fără
 intervenție manuală.
  
-Pentru a rezolva această problemă, am configurat aplicația ETTIway ca
-serviciu \texttt{systemd}, managerul de servicii standard pe distribuțiile
-moderne de Linux. \texttt{systemd} este primul proces care pornește la
+Pentru a rezolva această problemă, am configurat aplicația ETTIway cu un manager de servicii standard pe distribuțiile
+moderne de Linux, serviciul \texttt{systemd}. Acesta este primul proces care pornește la
 inițializarea sistemului de operare și are rolul de a coordona pornirea
 celorlalte componente, inclusiv a serviciilor definite de utilizator.
 Configurarea sa se face printr-un fișier text simplu, plasat în directorul
@@ -523,23 +520,23 @@ Pentru ETTIway, fișierul de serviciu definește mai multe aspecte importante.
 În primul rând, aplicația este configurată să pornească automat după ce
 sistemul de operare a inițializat rețeaua și serviciul de bază de date,
 folosind directiva \texttt{After}, care exprimă explicit aceste dependențe.
-În al doilea rând, în caz de eșec al procesului Java (de exemplu, o eroare de
+În caz de eșec al procesului Java (de exemplu, o eroare de
 memorie sau o excepție necaptată), \texttt{systemd} repornește automat
 aplicația după un interval de zece secunde, conform directivei
 \texttt{Restart=on-failure}. Acest comportament transformă o cădere
 ocazională într-o întrerupere foarte scurtă, fără intervenție manuală.
  
-În al treilea rând, am ales să rulez aplicația sub un utilizator dedicat
+Personal am ales să rulez aplicația sub un utilizator dedicat
 (\texttt{ettiway}), nu sub utilizatorul \texttt{root} care are toate
 drepturile pe sistem. Această decizie urmărește principiul \textit{least
-privilege}: chiar dacă ar exista o vulnerabilitate exploatabilă în aplicație,
+privilege}, adică, chiar dacă ar exista o vulnerabilitate exploatabilă în aplicație,
 un eventual atacator ar obține doar drepturile limitate ale utilizatorului
-\texttt{ettiway}, nu controlul complet asupra serverului. Această izolare
+\texttt{ettiway} ci nu controlul complet asupra serverului. Această izolare
 suplimentară reduce semnificativ impactul potențial al unei breșe de
 securitate.
  
 Un beneficiu suplimentar al configurării ca serviciu \texttt{systemd} este
-integrarea cu jurnalul centralizat \texttt{journalctl}, prin care toate
+integrarea cu jurnalul centralizat \texttt{journalctl}. Toate
 mesajele de output ale aplicației (inclusiv cele generate de Spring Boot la
 pornire și de Hibernate la fiecare interogare) sunt agregate și pot fi
 consultate uniform. Comanda \texttt{journalctl -u ettiway} afișează
@@ -555,7 +552,7 @@ permite urmărirea în timp real a noilor mesaje, util pentru depanare.
 principale și punerea în funcțiune a platformei ETTIway. La nivelul
 funcționalităților, au fost descrise gestionarea rolurilor de utilizator și
 administrator, editarea hărții direct din interfață cu persistarea
-modificărilor în baza de date, căutarea unificată a clădirilor și a camerelor
+modificărilor în baza de date. Totodată, a fost prezentată  si căutarea unificată a clădirilor și a camerelor
 indoor, măsurile de securitate aplicate la nivelul interfeței pentru
 prevenirea injectării de cod, rutarea exterioară cu afișarea vizuală a
 traseului pe hartă și rutarea în interiorul clădirilor, bazată pe planuri de
@@ -568,6 +565,4 @@ elimină expunerea serverului pe internetul public și asigură, prin
 certificatul HTTPS emis automat, contextul securizat necesar accesului la
 poziția GPS a utilizatorului. Aceste elemente transformă aplicația dintr-un
 prototip local într-o platformă funcțională, sigură și ușor de administrat,
-în care securitatea este obținută prin proiectare. Fragmentele de cod care
-implementează aceste mecanisme sunt grupate în Anexele~A și~B, pentru
-cititorul care dorește detaliile tehnice.
+în care securitatea este obținută prin proiectare. 

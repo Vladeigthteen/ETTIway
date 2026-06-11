@@ -21,13 +21,13 @@ aplicației.
 \label{sec:sisteme-navigare}
 
 Un sistem de navigare digitală reprezintă un ansamblu de componente software și
-de date care permite unui utilizator să se localizeze într-un spațiu, să
+date care permit unui utilizator să se localizeze într-un spațiu, să
 identifice puncte de interes și să determine trasee între acestea. Spre
 deosebire de hărțile tipărite, hărțile digitale sunt interactive, astfel încât utilizatorul
 poate mări sau micșora nivelul de detaliu, poate filtra informația afișată și
-poate interoga elementele de pe hartă pentru a obține date suplimentare. Această
-interactivitate este esențială într-un mediu complex, cum este un campus
-universitar, unde densitatea informației relevante este ridicată, iar nevoile
+poate interoga elementele de pe hartă pentru a obține date suplimentare. Aceast
+lucru este esențial într-un mediu complex, cum este un campus
+universitar. În locațiile unde densitatea informației relevante este ridicată, iar nevoile
 utilizatorilor variază considerabil de la o situație la alta.
 
 În general, un sistem de navigare modern se construiește pe trei piloni
@@ -43,8 +43,8 @@ bine structurate.
 Hărțile digitale interactive au cunoscut o dezvoltare accentuată odată cu
 apariția bibliotecilor de cartografie web, care permit afișarea hărților direct
 în browser, fără instalarea unor aplicații dedicate. Acest model, în care harta
-este servită ca o aplicație web, prezintă avantaje semnificative din punct de
-vedere al accesibilității, utilizatorul având nevoie doar de un browser modern și
+este prezentată ca o aplicație web are avantaje semnificative din punct de
+vedere al accesibilității. Utilizatorul are nevoie doar de un browser modern și
 de o conexiune la internet, fără să depindă de un sistem de operare sau de hardware
 specializat. ETTIway adoptă tocmai acest model, fiind o aplicație web ce poate
 fi accesată de pe orice dispozitiv cu un browser compatibil.
@@ -63,10 +63,10 @@ iar cele care ies din câmpul vizual sunt eliberate din memorie.
 
 Acest mecanism de afișare are mai multe avantaje practice. În primul rând,
 reduce volumul de date transferat la un moment dat, deoarece se transmit doar
-porțiunile vizibile ale hărții. În al doilea rând, permite stocarea în memoria
+porțiunile vizibile ale hărții. Permite stocarea în memoria
 cache a dalelor deja descărcate, ceea ce accelerează navigarea repetată prin
 aceeași zonă. De asemenea, sistemul de dale se pretează foarte bine la
-mai multe niveluri de detaliu: la niveluri mici de zoom se afișează contururi
+mai multe niveluri de detaliu cum ar fi, la niveluri mici de zoom se afișează contururi
 generale, iar la niveluri mari apar detalii fine, precum clădiri individuale,
 intrări sau trasee pietonale. Această organizare a datelor este
 folosită de majoritatea serviciilor de hărți web și constituie fundamentul pe
@@ -76,11 +76,11 @@ care se construiește și experiența vizuală din ETTIway.
 \label{sec:exterior-interior}
 
 O distincție esențială în domeniul navigării este cea dintre navigarea
-exterioară (\textit{outdoor}) și cea interioară (\textit{indoor}). Cele două
+exterioară  și cea interioară. Cele două
 tipuri de navigare ridică probleme diferite atât din punct de vedere al
-achiziției datelor, cât și din punct de vedere al reprezentării și al modului de
+modalității de procurare a  datelor, cât și din punct de vedere al modului de
 interacțiune cu utilizatorul. Una dintre contribuțiile centrale ale lucrării de
-față este tocmai integrarea acestor două dimensiuni într-un flux unitar, astfel
+față este tocmai integrarea acestor două dimensiuni, astfel
 încât utilizatorul să poată trece în mod natural de la nivelul campusului la
 nivelul unei clădiri și, mai departe, la nivelul unei săli sau al unui laborator.
 
@@ -277,6 +277,19 @@ telefonie mobilă și punctele de acces de tip Wi-Fi, pentru a oferi o estimare 
 poziției chiar și atunci când semnalul satelitar este slab. Această interfață
 furnizează, pe lângă coordonatele propriu-zise, și o estimare a preciziei,
 exprimată ca o rază de incertitudine în jurul poziției raportate.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figuri/trilaterare_gps.pdf}
+    \caption{Principiul trilaterării GPS}
+    \label{fig:trilaterare}
+\end{figure}
+
+
+Este important de menționat că platforma ETTIway nu implementează principiul de trilaterare.
+Procesul matematic de calcul al poziției pe baza semnalelor recepționate de la sateliți este realizat la un nivel mult mai jos, 
+în chipset-ul GPS al dispozitivului mobil.
 
 \subsection{Precizia și limitările localizării}
 \label{subsec:precizie}
