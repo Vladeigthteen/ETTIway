@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 09:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  11 JUN 2026 09:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1400,27 +1400,32 @@ Overfull \hbox (9.80125pt too wide) in paragraph at lines 200--206
 Underfull \vbox (badness 2573) has occurred while \output is active []
 
  [28] [29]
-<figuri/Topologie_retea.png, id=967, 364.36125pt x 315.42844pt>
+<figuri/versiuni.png, id=967, 566.86781pt x 185.94469pt>
+File: figuri/versiuni.png Graphic file (type png)
+<use figuri/versiuni.png>
+Package pdftex.def Info: figuri/versiuni.png  used on input line 383.
+(pdftex.def)             Requested size: 290.22107pt x 95.20221pt.
+<figuri/Topologie_retea.png, id=968, 364.36125pt x 315.42844pt>
 File: figuri/Topologie_retea.png Graphic file (type png)
 <use figuri/Topologie_retea.png>
-Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 388.
+Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 396.
 (pdftex.def)             Requested size: 193.47578pt x 167.48912pt.
- [30 <./figuri/Topologie_retea.png>]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 437--447
+ [30 <./figuri/versiuni.png>]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 445--455
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-<figuri/systemctl_status.png, id=979, 878.53218pt x 155.83218pt>
+<figuri/systemctl_status.png, id=980, 878.53218pt x 155.83218pt>
 File: figuri/systemctl_status.png Graphic file (type png)
 <use figuri/systemctl_status.png>
-Package pdftex.def Info: figuri/systemctl_status.png  used on input line 452.
+Package pdftex.def Info: figuri/systemctl_status.png  used on input line 460.
 (pdftex.def)             Requested size: 411.14528pt x 72.92964pt.
-[31 <./figuri/systemctl_status.png>] [32]) [33]
+[31 <./figuri/Topologie_retea.png>] [32 <./figuri/systemctl_status.png>]) [33]
 \openout2 = `capitolul4.aux'.
 
  (capitolul4.tex
 Capitolul 4.
-<figuri/Springboot.png, id=1003, 1919.67188pt x 430.60875pt>
+<figuri/Springboot.png, id=1006, 1919.67188pt x 430.60875pt>
 File: figuri/Springboot.png Graphic file (type png)
 <use figuri/Springboot.png>
 Package pdftex.def Info: figuri/Springboot.png  used on input line 43.
@@ -1431,13 +1436,13 @@ Package pdftex.def Info: figuri/Springboot.png  used on input line 43.
 
 
  <./figuri/Springboot.png>]
-<figuri/mesaj_consola.png, id=1011, 573.64313pt x 225.84375pt>
+<figuri/mesaj_consola.png, id=1014, 573.64313pt x 225.84375pt>
 File: figuri/mesaj_consola.png Graphic file (type png)
 <use figuri/mesaj_consola.png>
 Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 83.
 (pdftex.def)             Requested size: 386.95897pt x 152.34834pt.
  [35 <./figuri/mesaj_consola.png>] [36] [37]
-<figuri/flux_testare.pdf, id=1027, 511.9125pt x 286.06876pt>
+<figuri/flux_testare.pdf, id=1030, 511.9125pt x 286.06876pt>
 File: figuri/flux_testare.pdf Graphic file (type pdf)
 <use figuri/flux_testare.pdf>
 Package pdftex.def Info: figuri/flux_testare.pdf  used on input line 276.
@@ -1533,20 +1538,20 @@ L3 programming layer <2025-12-24>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 1430EC9689F65B813F002257850DA370;22653.
+(rerunfilecheck)             Checksum: 35022359D6218D3D79B403DAA97AB7E0;22653.
  ) 
 Here is how much of TeX's memory you used:
- 20422 strings out of 467871
- 344116 string characters out of 5418377
- 1429469 words of memory out of 5000000
- 48243 multiletter control sequences out of 15000+600000
+ 20431 strings out of 467871
+ 344328 string characters out of 5418377
+ 1429628 words of memory out of 5000000
+ 48251 multiletter control sequences out of 15000+600000
  729218 words of font info for 114 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,93p,641b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (61 pages, 1512092 bytes).
+Output written on teza.pdf (61 pages, 1526563 bytes).
 PDF statistics:
- 1782 PDF objects out of 2073 (max. 8388607)
- 628 named destinations out of 1000 (max. 500000)
- 874 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1785 PDF objects out of 2073 (max. 8388607)
+ 629 named destinations out of 1000 (max. 500000)
+ 879 words of extra memory for PDF output out of 10000 (max. 10000000)
 

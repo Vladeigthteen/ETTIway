@@ -88,11 +88,11 @@
 \contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{37}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{38}{subsection.4.5.2}%
 \contentsline {section}{\numberline {4.6}Concluziile capitolului}{38}{section.4.6}%
-\contentsline {chapter}{Concluzii}{39}{chapter*.17}%
-\contentsline {section}{Sinteza rezultatelor}{39}{section*.18}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{40}{section*.19}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{40}{section*.20}%
-\contentsline {section}{Reflecție finală}{41}{section*.21}%
-\contentsline {unnumberedsection}{Bibliografie}{42}{chapter*.22}%
+\contentsline {chapter}{Concluzii}{39}{chapter*.18}%
+\contentsline {section}{Sinteza rezultatelor}{39}{section*.19}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{40}{section*.20}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{40}{section*.21}%
+\contentsline {section}{Reflecție finală}{41}{section*.22}%
+\contentsline {unnumberedsection}{Bibliografie}{42}{chapter*.23}%
 \contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{44}{appendix.A}%
 \contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{49}{appendix.B}%
