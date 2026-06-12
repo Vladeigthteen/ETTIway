@@ -158,7 +158,7 @@ iar butoanele de salvare devin vizibile. În caz contrar, chiar dacă URL-ul
 conține parametrul de activare, modul de editare nu este activat și
 utilizatorului i se afișează un mesaj informativ. Această verificare dublă,
 pe frontend și pe backend, este un exemplu de aplicare a principiului
-\textit{defense in depth}, conform căruia protecțiile sunt aplicate pe
+\textit{defense in depth} \cite{NIST_DefenseInDepth}, conform căruia protecțiile sunt aplicate pe
 multiple niveluri, astfel încât eșecul unei verificări nu compromite întreaga
 securitate.
 
@@ -542,6 +542,15 @@ pornire și de Hibernate la fiecare interogare) sunt agregate și pot fi
 consultate uniform. Comanda \texttt{journalctl -u ettiway} afișează
 istoricul recent al aplicației, iar \texttt{journalctl -u ettiway -f}
 permite urmărirea în timp real a noilor mesaje, util pentru depanare.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{figuri/Springboot.png}
+    \caption{Pornirea aplicației Spring Boot pe serverul propriu.}
+    \label{fig:spring-startup}
+\end{figure}
+
+Aplicația rulează pe un server propriu, configurat să pornească automat la repornirea sistemului. Figura~\ref{fig:spring-startup} prezintă output-ul tipic al unei porniri reușite, în care se observă inițializarea componentelor Spring Boot.
  
 
 

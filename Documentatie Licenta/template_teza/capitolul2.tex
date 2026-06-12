@@ -326,8 +326,7 @@ produc hash-uri diferite și, mai important, blochează atacurile cu
 parolele uzuale. Fiecare hash BCrypt include automat un salt unic, generat
 aleator la criptare, ceea ce înseamnă că dezvoltatorul nu trebuie să se
 preocupe explicit de gestionarea sa. Salt-ul este stocat ca parte a hash-ului
-final, iar la verificare este extras automat pentru a recompune comparația.
- 
+final, iar la verificare este extras automat pentru a recompune comparația.\cite{Provos1999}
 \textit{Cost factor}-ul controlează numărul de iterații pe care le execută
 algoritmul. La fiecare incrementare a valorii cu 1, calculul durează de două
 ori mai mult, conform unei progresii exponențiale. Configurația implicită
@@ -502,7 +501,7 @@ realizat cu Spring Boot, cu accesul la date prin JPA și cu stocarea de date în
 PostgreSQL. Precum și cele două entități principale ale sistemului - pentru
 utilizatori și pentru datele hărții campusului. Aceasta din urmă cuprinzând
 atât informația despre exterior, cât și planurile de etaj din interior. 
-S-a detaliat mecanismul de securitate, bazat pe Spring Security, cu
+Am detaliat mecanismul de securitate, bazat pe Spring Security, cu
 criptarea parolelor prin BCrypt. Am prezentat si diferențierea rolurilor și inițializarea
 automată a contului de administrator. La nivelul de prezentare au fost
 prezentate inițializarea hărții, construirea grafului de navigare din date

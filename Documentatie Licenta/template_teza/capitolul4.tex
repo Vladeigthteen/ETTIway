@@ -20,7 +20,7 @@ ulterioară.
 \section{Metodologia de testare}
 \label{sec:metodologie-testare}
 
-Pentru evaluarea platformei ETTIway a fost adoptată o abordare de testare
+Pentru evaluarea platformei ETTIway am adoptat o abordare de testare
 preponderent manuală, orientată spre scenarii reale de utilizare. Această alegere
 este motivată de natura aplicației: ETTIway este o platformă cu o componentă
 vizuală și interactivă semnificativă, iar comportamentul său în condiții reale
@@ -29,7 +29,7 @@ claritatea afișării) nu poate fi evaluat automat, ci necesită observare direc
 pe dispozitivele țintă.
 
 
-Testarea s-a desfășurat pe două direcții complementare. Prima direcție a vizată
+Testarea am desfășurat-o pe două direcții complementare. Prima direcție a vizată
 verificarea funcțională a fiecărei capabilități în parte. Autentificarea în cele
 două roluri, căutarea unei săli, afișarea detaliilor, editarea hărții de către
 administrator, persistarea modificărilor în baza de date și calculul traseului
@@ -38,17 +38,6 @@ utilizare, parcurgând scenariile complete de la deschiderea aplicației până 
 afișarea unui traseu pe hartă, pentru a observa modul în care componentele
 conlucrează.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=1\textwidth]{figuri/Springboot.png}
-    \caption{Pornirea aplicației Spring Boot pe serverul propriu.}
-    \label{fig:spring-startup}
-\end{figure}
-
-Aplicația rulează pe un server propriu, configurat să pornească automat la repornirea sistemului. Figura~\ref{fig:spring-startup} prezintă output-ul tipic al unei porniri reușite, în care se observă inițializarea componentelor Spring Boot.
-
-
-\newpage
 
 \section{Scenarii de testare funcțională}
 \label{sec:scenarii}
@@ -69,7 +58,9 @@ este readus la pagina de autentificare, fără a primi informații care ar putea
 ajuta la identificarea cauzei refuzului, un aspect important din punct de vedere
 al securității.
 
-A fost verificată, de asemenea, izolarea funcționalităților rezervate
+\newpage
+
+Am verificat, de asemenea, izolarea funcționalităților rezervate
 administratorului. Încercarea de a accesa direct, prin manipularea adresei,
 rutele administrative din contul unui utilizator obișnuit este blocată la
 nivelul backend-ului, confirmând că diferențierea rolurilor nu se bazează doar pe
@@ -88,9 +79,9 @@ practicilor uzuale de securizare a aplicațiilor web.
 \subsection{Căutarea și afișarea detaliilor}
 \label{subsec:test-cautare}
 
-Funcția de căutare a fost evaluată prin introducerea unor termeni
+Funcția de căutare am evaluat-o prin introducerea unor termeni
 reprezentativi, nume de clădiri și de săli din campus, și observarea
-rezultatelor afișate. Au fost verificate atât potrivirile exacte, cât și
+rezultatelor afișate. Am verificat atât potrivirile exacte, cât și
 potrivirile parțiale, pentru a confirma că aplicația găsește elementele corecte
 chiar și atunci când utilizatorul introduce doar o parte a denumirii. La
 selectarea unui rezultat, detaliile asociate, clădirea, etajul, capacitatea,
@@ -102,7 +93,7 @@ ferestrele de tip pop-up atașate locațiilor pe hartă.
 \subsection{Editarea și persistarea modificărilor}
 \label{subsec:test-editare}
 
-Pentru rolul de administrator, a fost verificat ciclul complet de editare a
+Pentru rolul de administrator, am verificat ciclul complet de editare a
 hărții: autentificare ca administrator, intrarea în modul de editare, adăugarea
 și modificarea unor noduri și legături, salvarea modificărilor și verificarea
 persistenței acestora. Modificările sunt vizibile imediat după salvare, iar
@@ -116,33 +107,33 @@ frontend, backend și stratul de persistență.
 \subsection{Calculul și afișarea traseului}
 \label{subsec:test-traseu}
 
-Componenta de rutare a fost evaluată prin selectarea unor perechi de puncte
+Componenta de rutare am evaluat-o prin selectarea unor perechi de puncte
 distribuite în campus și verificarea traseelor calculate. În toate cazurile în
 care punctele se află pe porțiuni conectate ale rețelei, algoritmul returnează un
 traseu, iar acesta este desenat clar pe hartă, urmărind rețeaua de alei și
 drumuri. Pentru cazurile particulare, punct de plecare identic cu cel de
 destinație, puncte foarte apropiate, puncte aflate pe componente neconectate ale
-grafului, comportamentul a fost de asemenea verificat, aplicația tratând corect
+grafului, am verificat comportamentul aplicației, aceasta tratând corect
 fiecare situație, fie prin afișarea unui traseu degenerat la un singur punct, fie
 prin semnalarea absenței unui drum.
 
 \subsection{Editarea și rutarea în interior}
 \label{subsec:test-indoor}
 
-Componenta de rutare indoor a fost verificată folosind date reale: o clădire
+Componenta de rutare indoor am verificat-o folosind date reale: o clădire
 din campus, pentru care administratorul a desenat planul unui etaj cu mai multe
 camere, un set de coridoare conectate prin intersecții și nodurile de intrare
-asociate fiecărei camere. Au fost parcurse, pe rând, cele două roluri ale
+asociate fiecărei camere. Am parcurs, pe rând, cele două roluri ale
 fluxului indoor.
 
-Pentru rolul de administrator, a fost verificat ciclul complet de editare:
+Pentru rolul de administrator, am verificat ciclul complet de editare:
 desenarea camerelor cu introducerea numelui, plasarea markerilor cu alegerea
 tipului (intrare cameră, intersecție sau scară), trasarea coridoarelor între
 markeri și salvarea planului. La reîncărcarea aplicației, planul a fost
-restaurat fidel din baza de date, incluzând proprietățile fiecărui element și
+încărcat corect din baza de date, incluzând proprietățile fiecărui element și
 ferestrele de tip tooltip atașate camerelor.
 
-Pentru rolul de utilizator obișnuit, a fost verificat fluxul de căutare și
+Pentru rolul de utilizator obișnuit, am verificat fluxul de căutare și
 rutare. Căutarea unei camere a deschis automat planul etajului corespunzător,
 cu camera țintă evidențiată vizual. Selectarea unui punct de plecare din
 lista de noduri disponibile și apăsarea butonului de calcul al traseului a
@@ -177,7 +168,7 @@ contextul principal de utilizare a platformei într-un campus.
 \section{Comportamentul în condiții reale de utilizare}
 \label{sec:conditii-reale}
  
-Pe lângă scenariile individuale de testare, platforma a fost folosită în
+Pe lângă scenariile individuale de testare, am folosit aplicația în
 condiții reale, parcurgând efectiv campusul cu un dispozitiv mobil pe care rula
 aplicația. Acest tip de evaluare, dificil de înlocuit prin teste automate, a
 oferit informații valoroase despre comportamentul de ansamblu și despre
@@ -225,6 +216,25 @@ interiorul clădirilor, însă, semnalul satelitar este atenuat și reflectat de
 structurile de beton și metal, ceea ce conduce la o degradare semnificativă a
 preciziei, eroarea putând ajunge la zeci de metri.
 
+\begin{table}[htbp]
+    \centering
+    \caption{Precizia GPS măsurată în diferite contexte de testare}
+    \label{tab:precizie-gps}
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Locație testare} & \textbf{Precizie raportată (m)} & \textbf{Observații} \\
+        \midrule
+        Curtea ETTI (spațiu deschis)          & 4-8        & Funcționare optimă \\
+        Aleea principală campus               & 5-10       & Precizie acceptabilă \\
+        Lângă corpul A (clădire înaltă)       & 10-20      & Multipath vizibil \\
+        Intrare corp B                        & 15-25      & Tranziție exterior-interior \\
+        Hol corp B (interior)                 & 30-50      & Eroare semnificativă \\
+        Sală de curs (interior adânc)         & 50-100+    & Practic inutilizabil \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+
 Această limitare nu este specifică implementării ETTIway, ci este o caracteristică
 fundamentală a tehnologiei GPS, întâlnită în orice aplicație care depinde de
 poziționarea satelitară. Ea a fost descrisă, din punct de vedere teoretic, în
@@ -234,8 +244,6 @@ contextului principal de utilizare a unei aplicații de navigare în campus,
 adică deplasarea între clădiri, pe alei. Pentru orientarea în interiorul clădirilor,
 soluții complementare, bazate pe alte tehnologii de localizare, ar putea fi
 integrate în versiuni viitoare, aspect discutat în capitolul de concluzii.
-
-\newpage
 
 \subsection{Acoperirea actuală a datelor}
 \label{subsec:limitare-date}

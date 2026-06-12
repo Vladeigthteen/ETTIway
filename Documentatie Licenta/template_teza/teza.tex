@@ -27,6 +27,12 @@
 \usepackage{svg}
 \usepackage{seqsplit}
 \usepackage[romanian]{babel}
+\usepackage{titlesec}
+
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+
+
 
 % Forțare nume corecte pentru română (Tabelul, Figura)
 \addto\captionsromanian{%
@@ -1790,6 +1796,64 @@ dezvoltare ulterioară. Codul sursă este disponibil în anexele A
 \include{capitolul4}
 \include{concluzii}\begin{thebibliography}{99}
 
+
+\bibitem{LuacesGIS}
+M. R. Luaces, J. R. R. Viqueira, T. R. Cotos, J. R. P. Pérez,
+\emph{A Generic Architecture for Geographic Information Systems},
+ResearchGate, 2004,
+\url{https://www.researchgate.net/publication/228982330_A_Generic_Architecture_for_Geographic_Information_Systems},
+
+
+
+\bibitem{OSMTileNames}
+OpenStreetMap Foundation,
+\emph{Slippy map tilenames},
+OpenStreetMap Wiki,
+\url{https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames},
+
+
+\bibitem{WGS84_UN}
+National Geospatial-Intelligence Agency (NGA),
+\emph{World Geodetic System 1984},
+United Nations Office for Outer Space Affairs, International Committee on GNSS, 2012,
+\url{https://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf}
+
+\bibitem{EPSG3844}
+European Petroleum Survey Group,
+\emph{Pulkovo 1942(58) / Stereo70 - EPSG:3844},
+EPSG Geodetic Parameter Dataset,
+\url{https://epsg.io/3844}
+
+
+\bibitem{OGCSimpleFeatures}
+Open Geospatial Consortium,
+\emph{OGC Simple Feature Access - Part 1: Common Architecture},
+OGC Implementation Standard 06-103r4, Version 1.2.1,
+\url{https://docs.ogc.org/is/06-103r4/06-103r4.pdf}
+
+
+\bibitem{OSM}
+OpenStreetMap Foundation,
+\textit{OpenStreetMap Wiki: Map Features},
+\\\url{https://wiki.openstreetmap.org/wiki/Map_Features},
+accesat la data: 15 mai 2026.
+
+
+
+\bibitem{SEOS_GPS}
+SEOS Project,
+\emph{Satellite Navigation with GPS},
+Science Education through Earth Observation for High Schools,
+\url{https://seos-project.eu/GPS/GPS-c01-p02.html},
+accesat la data: 11.06.2026.
+
+
+\bibitem{W3CGeolocation}
+World Wide Web Consortium (W3C),
+\emph{Geolocation API Specification},
+W3C Editor's Draft,
+\url{https://w3c.github.io/geolocation/}
+
 \bibitem{Madkour2017}
 A. Madkour, W. G. Aref, F. U. Rehman, M. A. Rahman, S. Basalamah,
 \textit{A Survey of Shortest-Path Algorithms},
@@ -1797,6 +1861,12 @@ ResearchGate, 2017.
 \\Disponibil la: \url{https://www.researchgate.net/publication/316736456},
 DOI: 10.48550/arXiv.1705.02044,
 accesat la data: 1 iunie 2026.
+
+\bibitem{Columbia_Dijkstra}
+Columbia University,
+\emph{Finding Shortest Paths: Dijkstra's Algorithm - CS W3137 Class Notes},
+Department of Computer Science,
+\url{https://www.cs.columbia.edu/~allen/S14/NOTES/shortestpath.pdf}
 
 \bibitem{Chen2022}
 B. Chen,
@@ -1812,34 +1882,50 @@ D. Luxen, C. Vetter,
 on Advances in Geographic Information Systems}, ACM, 2011, pp. 513-516,
 DOI: 10.1145/2093973.2094062.
 
+\bibitem{JSONorg}
+D. Crockford,
+\emph{Introducing JSON},
+JSON.org,
+\url{https://www.json.org/json-en.html}
+
+
+
+\bibitem{NIST_VPN}
+E. Barker, Q. Dang, S. Frankel, K. Scarfone, P. Wouters,
+\emph{Guide to IPsec VPNs},
+NIST Special Publication 800-77 Revision 1,
+National Institute of Standards and Technology, 2020,
+\url{https://doi.org/10.6028/NIST.SP.800-77r1}
+
+\bibitem{Tailscale}
+Tailscale Inc.,
+\emph{How Tailscale Works},
+\url{https://tailscale.com/blog/how-tailscale-works}
+\bibitem{Donenfeld2017}
+
+J. A. Donenfeld,
+\emph{WireGuard: Next Generation Kernel Network Tunnel},
+Network and Distributed System Security Symposium (NDSS), San Diego, USA, 2017,
+\url{https://www.wireguard.com/papers/wireguard.pdf}
+
+\bibitem{RFC8489}
+M. Petit-Huguenin, G. Salgueiro, J. Rosenberg, D. Wing, R. Mahy, P. Matthews,
+\emph{Session Traversal Utilities for NAT (STUN), RFC 8489},
+Internet Engineering Task Force, 2020,
+\url{https://datatracker.ietf.org/doc/html/rfc8489}
+
+
+\bibitem{SpringBoot}
+VMware Tanzu,
+\emph{Spring Boot - Reference Documentation},
+\url{https://spring.io/projects/spring-boot}
+
+
+
 \bibitem{Walls2022}
 C. Walls,
 \textit{Spring in Action}, 6th Edition,
 Manning Publications, 2022, ISBN 978-1617297571.
-
-\bibitem{Crickard2014}
-P. Crickard III,
-\textit{Leaflet.js Essentials},
-Packt Publishing, 2014, ISBN 978-1783554812.
-
-\bibitem{OSM}
-OpenStreetMap Foundation,
-\textit{OpenStreetMap Wiki: Map Features},
-\\\url{https://wiki.openstreetmap.org/wiki/Map_Features},
-accesat la data: 15 mai 2026.
-
-\bibitem{Leaflet}
-V. Agafonkin et al.,
-\textit{Leaflet - a JavaScript library for interactive maps},
-documentație oficială,
-\\\url{https://leafletjs.com/reference.html},
-accesat la data: 20 mai 2026.
-
-\bibitem{SpringSecurity}
-Spring Team,
-\textit{Spring Security Reference Documentation},
-\\\url{https://docs.spring.io/spring-security/reference/},
-accesat la data: 22 mai 2026.
 
 \bibitem{PostgreSQL}
 PostgreSQL Global Development Group,
@@ -1847,32 +1933,58 @@ PostgreSQL Global Development Group,
 \\\url{https://www.postgresql.org/docs/},
 accesat la data: 22 mai 2026.
 
+
+\bibitem{SpringSecurity}
+Spring Team,
+\textit{Spring Security Reference Documentation},
+\\\url{https://docs.spring.io/spring-security/reference/}
+
+
+
 \bibitem{BCrypt}
 N. Provos, D. Mazi\`eres,
 ``A Future-Adaptable Password Scheme'',
 în \textit{Proceedings of the 1999 USENIX Annual Technical Conference},
 USENIX Association, 1999, pp. 81-91.
 
+\bibitem{Provos1999}
+N. Provos, D. Mazières,
+\emph{A Future-Adaptable Password Scheme},
+1999 USENIX Annual Technical Conference (USENIX ATC '99), Monterey, USA,
+pp. 81-91, 1999,
+\url{https://www.usenix.org/legacy/event/usenix99/provos/provos.pdf}
+
+
+
+\bibitem{Leaflet}
+V. Agafonkin et al.,
+\textit{Leaflet - a JavaScript library for interactive maps},
+documentație oficială,
+\\\url{https://leafletjs.com/reference.html},
+
+
 \bibitem{GeoJSON}
 H. Butler, M. Daly, A. Doyle, S. Gillies, S. Hagen, T. Schaub,
 \textit{The GeoJSON Format},
 RFC 7946, Internet Engineering Task Force, 2016,
-\\\url{https://datatracker.ietf.org/doc/html/rfc7946},
-accesat la data: 18 mai 2026.
+\\\url{https://datatracker.ietf.org/doc/html/rfc7946}
 
-\bibitem{WireGuard}
-J. A. Donenfeld,
-``WireGuard: Next Generation Kernel Network Tunnel'',
-în \textit{Proceedings of the 2017 Network and Distributed System Security
-Symposium (NDSS)}, Internet Society, 2017,
-\\\url{https://www.wireguard.com/papers/wireguard.pdf},
-accesat la data: 25 mai 2026.
 
-\bibitem{Tailscale}
-Tailscale Inc.,
-\textit{Tailscale Documentation: How Tailscale Works},
-\\\url{https://tailscale.com/kb/1151/what-is-tailscale},
-accesat la data: 25 mai 2026.
+
+\bibitem{NIST_DefenseInDepth}
+National Institute of Standards and Technology,
+\emph{Defense-in-Depth - Glossary},
+NIST Computer Security Resource Center,
+\url{https://csrc.nist.gov/glossary/term/defense_in_depth}
+
+
+
+
+\bibitem{Ubuntu2404}
+Canonical Ltd.,
+\emph{Ubuntu 24.04 LTS (Noble Numbat) release notes},
+\url{https://documentation.ubuntu.com/release-notes/24.04/}
+
 
 \bibitem{LetsEncrypt}
 J. Aas, R. Barnes, B. Case, Z. Durumeric, P. Eckersley, A. Flores-López,
@@ -1882,24 +1994,32 @@ B. Warren,
 în \textit{Proceedings of the 2019 ACM SIGSAC Conference on Computer
 and Communications Security (CCS)}, ACM, 2019, pp. 2473-2487.
 
+
 \bibitem{MDN_Geolocation}
 Mozilla Developer Network,
 \textit{Geolocation API},
-\\\url{https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API},
-accesat la data: 28 mai 2026.
+\\\url{https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API}
+
+
 
 \bibitem{MDN_SecureContext}
 Mozilla Developer Network,
 \textit{Secure contexts},
-\\\url{https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts},
-accesat la data: 28 mai 2026.
+\\\url{https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts}
 
 
-\bibitem{Ubuntu2404}
-Canonical Ltd.,
-\emph{Ubuntu 24.04 LTS (Noble Numbat) release notes},
-\url{https://documentation.ubuntu.com/release-notes/24.04/},
-accesat la data: 11.06.2026.
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{thebibliography}
  
