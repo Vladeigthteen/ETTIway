@@ -46,7 +46,7 @@ apariția bibliotecilor de cartografie web, care permit afișarea hărților dir
 este prezentată ca o aplicație web are avantaje semnificative din punct de
 vedere al accesibilității. Utilizatorul are nevoie doar de un browser modern și
 de o conexiune la internet, fără să depindă de un sistem de operare sau de hardware
-specializat. ETTIway adoptă tocmai acest model, fiind o aplicație web ce poate
+specializat. ETTIway adoptă întocmai acest model, fiind o aplicație web ce poate
 fi accesată de pe orice dispozitiv cu un browser compatibil.
 
 \subsection{Reprezentarea hărților prin dale (tiles)}
@@ -66,7 +66,7 @@ reduce volumul de date transferat la un moment dat, deoarece se transmit doar
 porțiunile vizibile ale hărții. Permite stocarea în memoria
 cache a dalelor deja descărcate, ceea ce accelerează navigarea repetată prin
 aceeași zonă. De asemenea, sistemul de dale se pretează foarte bine la
-mai multe niveluri de detaliu cum ar fi, la niveluri mici de zoom se afișează contururi
+mai multe niveluri de detaliu cum ar fi: la niveluri mici de zoom se afișează contururi
 generale, iar la niveluri mari apar detalii fine, precum clădiri individuale,
 intrări sau trasee pietonale. Această organizare a datelor este
 folosită de majoritatea serviciilor de hărți web și constituie fundamentul pe
@@ -87,7 +87,7 @@ nivelul unei clădiri și, mai departe, la nivelul unei săli sau al unui labora
 \subsection{Navigarea exterioară}
 \label{subsec:outdoor}
 
-Navigarea exterioară se referă la orientarea în spațiul deschis: identificarea
+Navigarea exterioară se referă la orientarea în spațiul deschis. Printre care se enumeră: identificarea
 clădirilor, a aleilor, a intrărilor și a traseelor dintre diferite puncte de
 interes ale campusului. La acest nivel, datele geografice sunt în general
 disponibile prin servicii cartografice publice și pot fi reprezentate în
@@ -205,17 +205,17 @@ Stereo70 (cum sunt platformele cadastrale).
 \label{subsec:wkt-wkb}
 
 Obiectele geografice, puncte, linii și poligoane, sunt descrise prin
-geometrii. O clădire poate fi reprezentată ca un poligon, o alee ca o linie, iar
-un punct de interes ca un singur punct. Pentru a stoca și a transmite aceste
+geometrii. O clădire poate fi reprezentată ca un poligon, o alee se poate identifica sub formă de linie, iar
+un punct de interes îl putem vizualiza ca un singur punct. Pentru a stoca și a transmite aceste
 geometrii există formate standardizate. Formatul textual WKT (\textit{Well-Known
-Text}) descrie geometriile într-o formă lizibilă pentru om. În timp ce formatul
+Text}) descrie geometriile într-o formă lizibilă pentru om, iar formatul
 binar WKB (\textit{Well-Known Binary}) le codifică într-o reprezentare compactă,
 optimizată pentru stocare și transfer\cite{OGCSimpleFeatures}. Ambele formate sunt larg acceptate de
 bazele de date spațiale și de bibliotecile de procesare geografică, ceea ce
 asigură compatibilitatea între componentele sistemului.
 
 Folosirea unor formate standardizate de reprezentare a geometriilor este
-importantă pentru a putea extinde aplicația: datele pot fi importate din surse
+importantă pentru a putea extinde aplicația prin importarea datelor din surse
 externe, prelucrate cu instrumente specializate și apoi consumate de aplicație. Acest aspect susține unul dintre
 obiectivele proiectului, și anume capacitatea de a adăuga ușor noi
 clădiri și zone fără modificări majore în logica aplicației.
@@ -224,11 +224,11 @@ clădiri și zone fără modificări majore în logica aplicației.
 \label{subsec:osm}
 
 OpenStreetMap (OSM) este o baza de date care pune la dispoziție date
-geografice open-source \cite{OSM}, contribuite și întreținute de o comunitate largă de
+geografice open-source \cite{OSM} și întreținute de o comunitate largă de
 utilizatori din întreaga lume. Datele OSM acoperă o gamă variată de elemente:
 drumuri, clădiri, alei pietonale, puncte de interes și multe altele. 
 Aceste date sunt deschise (open-source). Din aceasta cauză pot fi descărcate și prelucrate liber, ceea ce le face o
-sursă valoroasă pentru aplicațiile de navigare. În special în contextul în care
+sursă valoroasă pentru aplicațiile de navigare, mai ales în contextul în care
 construirea de la zero a unui set complet de date geografice ar fi extrem de
 costisitoare.
 
@@ -236,8 +236,8 @@ costisitoare.
 reprezentarea infrastructurii exterioare a campusului, în special pentru
 afișarea drumurilor și a aleilor. Modelul de date OSM organizează informația în
 jurul a trei tipuri de elemente fundamentale. Primul ar fi  nodurile, care reprezintă puncte
-individuale definite prin coordonate. Al doilea ar fi căile, care reprezintă secvențe ordonate de
-noduri și pot descrie atât linii, cât și conturul unor suprafețe. Al treilea tip sunt relațiile,
+individuale definite prin coordonate, urmează căile, care reprezintă secvențe ordonate de
+noduri și pot descrie atât linii, cât și conturul unor suprafețe. Ultimul tip sunt relațiile,
 care grupează mai multe elemente pentru a descrie structuri complexe. Fiecărui
 element i se pot asocia etichete sub formă de perechi cheie–valoare, care îi
 descriu semnificația. De exemplu, tipul de drum sau funcția unei clădiri.
@@ -263,9 +263,9 @@ din locația curentă.
 
 Determinarea poziției în spațiul exterior se bazează, de obicei, pe sistemul
 de poziționare globală (GPS). Aceasta utilizează o infrastructură de sateliți care permite unui
-receptor să își calculeze coordonatele pe baza semnalelor recepționate. Fiecare
-satelit transmite continuu informații privind poziția sa și momentul exact al
-emisiei. Receptorul măsoară diferențele de timp dintre semnalele provenite de la
+receptor să își calculeze coordonatele pe baza semnalelor recepționate, fiecare
+satelit transmițând continuu informații privind poziția sa și momentul exact al
+emisiei. Ulterior, receptorul măsoară diferențele de timp dintre semnalele provenite de la
 mai mulți sateliți. Cu aceste diferențe de timp, cu ajutorul trilaterării se deduce propria poziție în coordonate de
 latitudine și longitudine. Pentru o estimare bidimensională a poziției sunt
 necesare semnale de la cel puțin trei sateliți, iar pentru includerea altitudinii
@@ -309,7 +309,7 @@ Din această cauză, un sistem de navigare solid trebuie să trateze explicit
 situațiile de imprecizie sau de lipsă temporară a semnalului, evitând afișarea
 unei poziții înșelător de exacte și informând utilizatorul cu privire la gradul
 de încredere al localizării. În cadrul ETTIway, poziția utilizatorului este
-folosită ca punct de plecare pentru calculul traseului, fiind asociată celui mai
+folosită ca un punct de plecare pentru calculul traseului, fiind asociată celui mai
 apropiat punct de pe rețeaua de trasee a campusului, astfel încât micile erori de
 localizare să nu împiedice funcționarea rutării.
 
@@ -319,7 +319,7 @@ localizare să nu împiedice funcționarea rutării.
 Componenta de rutare reprezintă nucleul funcțional al oricărui sistem de
 navigare. Odată ce infrastructura campusului este reprezentată sub forma unui
 graf, problema găsirii celui mai scurt traseu între două puncte devine o
-problemă clasică de teoria grafurilor: determinarea drumului de cost minim între
+problemă clasică de teoria grafurilor, ce constă în determinarea drumului de cost minim între
 două noduri. Această secțiune prezintă fundamentele teoretice ale problemei și
 algoritmii care o rezolvă. Vom pune accent pe soluția folosită în implementare.
 
@@ -327,11 +327,11 @@ algoritmii care o rezolvă. Vom pune accent pe soluția folosită în implementa
 \label{subsec:graf-teoretic}
 
 Un graf este o structură formată dintr-un set de noduri și un set de muchii care
-leagă perechi de noduri. În contextul navigării, nodurile corespund punctelor de
+leagă perechi de noduri între ele. În contextul navigării, nodurile corespund punctelor de
 decizie, intersecții, intrări, capete de alei, iar muchiile corespund
-segmentelor de traseu care le unesc. Fiecărei muchii i se asociază o pondere,
-care exprimă costul parcurgerii segmentului respectiv; în cazul cel mai simplu,
-ponderea este distanța geografică reală dintre cele două noduri, dar pot fi
+segmentelor de traseu care le unesc, fiecărei muchii i se asociază o pondere,
+care exprimă costul parcurgerii segmentului respectiv. În cazul cel mai simplu,
+ponderea reprezintă distanța geografică reală dintre cele două noduri, dar pot fi
 folosite și alte criterii, precum timpul estimat de parcurgere sau gradul de
 accesibilitate.
 
@@ -339,13 +339,14 @@ Atunci când ponderile reprezintă distanțe, graful este nedirecționat, deoare
 alee poate fi parcursă în ambele sensuri cu același cost. Problema centrală
 devine astfel găsirea, în acest graf ponderat, a lanțului de muchii care leagă
 nodul de start de nodul de destinație și a cărui sumă a ponderilor este minimă.
-Această formulare permite aplicarea unor algoritmi cunoscuți\cite{Madkour2017}. 
+Această formulare permite aplicarea unor algoritmi cunoscuți, cum ar fi algoritmul
+Dijkstra\cite{Madkour2017}. 
 
 \subsection{Algoritmul Dijkstra}
 \label{subsec:dijkstra-teoretic}
 
 Cel mai cunoscut algoritm pentru determinarea drumului minim de la un nod sursă
-către celelalte noduri ale unui graf cu ponderi nenegative este algoritmul
+către celelalte noduri ale unui graf cu ponderi pozitive este algoritmul
 Dijkstra. Principiul său de funcționare este unul de tip lacom (\textit{greedy}).
 Algoritmul menține, pentru fiecare nod, cea mai mică distanță cunoscută până la
 acel moment față de nodul sursă, precum și nodul precedent pe traseul optim. La
@@ -357,18 +358,20 @@ este atins sau până când toate nodurile accesibile au fost vizitate.
 Corectitudinea algoritmului se bazează pe observația că, atunci când un nod este
 selectat ca având distanța minimă dintre cele nevizitate, această distanță este
 deja optimă și nu mai poate fi îmbunătățită ulterior, întrucât toate ponderile
-sunt nenegative. La final, traseul optim se reconstruiește pornind de la nodul de
+sunt pozitive. La final, traseul optim se reconstruiește pornind de la nodul de
 destinație și urmărind, în sens invers, lanțul nodurilor precedente până la
 sursă. Acest mod de funcționare îl face potrivit pentru calculul traseelor într-o
 rețea de dimensiuni moderate, cum este cea a unui campus universitar\cite{Columbia_Dijkstra}.
+
+Pentru a ilustra modul de funcționare a algoritmului, Figura~\ref{fig:dijkstra} prezintă un graf cu șase noduri (A până la F) și un set de muchii cu costuri asociate. Algoritmul lui Dijkstra explorează sistematic toate căile posibile de la nodul de plecare și identifică drumul de cost minim către fiecare nod destinație. Pentru exemplul ilustrat, drumul de la A la F cu cost minim este A → B → D → F, cu un cost total de 9 unități, în detrimentul alternativei A → C → E → F, care are un cost total de 15 unități.
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{figuri/dijkstra_exemplu.pdf}
-    \caption{Exemplu de aplicare a algoritmului lui Dijkstra: drumul minim de la nodul A la nodul F este evidențiat cu roșu. Algoritmul găsește traseul A → B → D → F cu cost total 9, în detrimentul alternativei mai lungi prin C și E (cost 15).}
+    \caption{Exemplu de aplicare a algoritmului lui Dijkstra.}
     \label{fig:dijkstra}
 \end{figure}
 
-Pentru a ilustra modul de funcționare a algoritmului, Figura~\ref{fig:dijkstra} prezintă un graf cu șase noduri (A până la F) și un set de muchii cu costuri asociate. Algoritmul lui Dijkstra explorează sistematic toate căile posibile de la nodul de plecare și identifică drumul de cost minim către fiecare nod destinație. Pentru exemplul ilustrat, drumul de la A la F cu cost minim este A → B → D → F, cu un cost total de 9 unități, în detrimentul alternativei A → C → E → F, care are un cost total de 15 unități.
 
 
 \subsection{Performanță și optimizări}
@@ -385,9 +388,9 @@ rapidă a nodului minim \cite{Chen2022}.
 
 Pentru rețeaua unui campus universitar, în care numărul de noduri este relativ
 redus, implementarea directă a algoritmului oferă timpi de răspuns acceptabili,
-calculul traseului fiind perceput ca instantaneu de către utilizator. Tocmai
+calculul traseului fiind perceput instantaneu de către utilizator. Tocmai
 din acest motiv, în cadrul ETTIway s-a optat pentru o implementare clară și ușor
-de urmărit a algoritmului, prioritizând lizibilitatea codului în detrimentul unor
+de urmărit a algoritmului. S-a pus accent pe prioritizarea lizibilității codului în detrimentul unor
 optimizări care nu ar fi adus beneficii practice la această scară. Aceleași
 principii stau la baza serviciilor de rutare la scară largă construite peste date
 deschise precum cele din OpenStreetMap \cite{Luxen2011}, care însă necesită
@@ -395,7 +398,7 @@ structuri de date și optimizări mult mai complexe pentru a trata rețele de
 dimensiunea unor orașe întregi.
 
 
-\newpage
+
 
 \section{Interfețe pentru dispozitive mobile}
 \label{sec:mobil}
@@ -416,15 +419,15 @@ disponibilă, iar elementele de control (căutarea, lista de clădiri, detaliile
 să fie organizate astfel încât să nu obtureze harta, putând fi afișate sau
 ascunse după nevoie.
 
-Pe lângă adaptarea vizuală, interacțiunea tactilă impune constrângeri proprii:
+Pe lângă adaptarea vizuală, interacțiunea tactilă impune constrângeri proprii cum ar fi:
 elementele care pot fi atinse trebuie să fie suficient de mari pentru a fi
 acționate cu degetul, iar gesturile uzuale, deplasarea hărții prin glisare,
-mărirea prin apropierea degetelor, trebuie să funcționeze natural. Biblioteca
+mărirea prin apropierea degetelor, trebuie să funcționeze natural. Biblioteca, Leaflet,
 folosită pentru afișarea hărții în ETTIway oferă suport nativ pentru aceste
 gesturi, ceea ce simplifică obținerea unei experiențe fluide pe dispozitivele
-mobile.
+mobile\cite{Leaflet}.
 
-\newpage
+
 \section{Arhitecturi de aplicații web}
 \label{sec:arhitecturi-web}
 
@@ -446,7 +449,7 @@ logicii de prelucrare necesare.
 
 Această separare a responsabilităților permite dezvoltarea și testarea
 independentă a celor două componente. Frontend-ul poate fi modificat fără a
-afecta logica de date, iar backend-ul poate fi extins cu noi servicii fără a
+afecta logica de date, iar backend-ul poate fi extins prin adaugarea unor noi servicii fără a
 necesita rescrierea interfeței. Comunicarea dintre cele două straturi se
 realizează printr-o interfață bine definită de servicii, ceea ce reduce
 cuplarea dintre componente și facilitează evoluția independentă a acestora.
@@ -459,7 +462,7 @@ tip REST (\textit{Representational State Transfer}). Acest stil arhitectural se
 bazează pe protocolul HTTP și organizează accesul la date în jurul noțiunii de
 resurse. Fiecare resursă este identificată printr-o adresă și manipulată prin
 operațiile standard ale protocolului. Avantajul acestui model constă în
-simplitatea pe care o aduce: un serviciu REST poate fi
+simplitatea pe care o aduce. Un serviciu REST poate fi
 consumat de orice client capabil să efectueze cereri HTTP, indiferent de
 tehnologia pe care este construit.
 
@@ -489,7 +492,7 @@ Există două topologii principale pentru rețele private virtuale, care diferă
 prin modul în care traficul circulă între dispozitive. În topologia clasică, de
 tip \textbf{hub-and-spoke} (stea), tot traficul trece printr-un server central,
 care actionează ca punct de tranzit între toate dispozitivele conectate. Această
-arhitectură este simplă din punct de vedere conceptual, dar suferă de două
+arhitectură este simplă din punct de vedere conceptual, dar prezintă
 limitări: serverul central este atât un punct unic de eșec, cât si un dezavantaj pentru lățimea de bandă, deoarece tot traficul trebuie să treacă prin el.
  
 Topologia alternativă, de tip \textbf{mesh peer-to-peer}, înlocuiește serverul
@@ -521,7 +524,7 @@ publice. Soluțiile moderne folosesc tehnici precum \textit{STUN} (descoperirea
 adresei externe)\cite{RFC8489} și \textit{hole punching} (deschiderea simultană a unor porturi
 de către ambele capete), iar în cazurile în care traversarea directă nu este
 posibilă, traficul este redirecționat printr-un server intermediar (relay).
-Astfel de servere de tranzit sunt folosite ca soluție de rezervă, traficul
+Astfel de servere de tranzit sunt folosite ca o soluție de rezervă, traficul
 rămânând criptat capăt-la-capăt, fără ca operatorul relay-ului să poată descifra
 conținutul.
  
@@ -553,7 +556,7 @@ logicii aplicației, nu asupra detaliilor de infrastructură. Printre avantajele
 sale se numără un server web încorporat, un sistem solid de gestiune a
 dependențelor și o integrare facilă cu bazele de date.\cite{SpringBoot}
 
-\newpage
+
 
 În cadrul ETTIway, Spring Boot este folosit pentru a expune serviciile REST prin
 care frontend-ul obține datele despre clădiri și despre infrastructura
@@ -609,7 +612,6 @@ flux unitar. S-au discutat apoi conceptele esențiale legate de datele
 geospațiale, sisteme de referință, reprezentarea geometriilor și sursele de
 date open-source. A fost analizat mecanismul de poziționare a utilizatorului prin
 sistemul GPS, împreună cu limitările sale de precizie în mediul construit. Am atins si subiectul algoritmilor de determinare a drumului minim, cu
-fost prezentate fundamentele algoritmilor de determinare a drumului minim, cu
 accent pe algoritmul Dijkstra, folosit pentru calculul traseelor. În final,
 au fost discutate cerințele de proiectare a interfețelor pentru dispozitive
 mobile și tehnologiile concrete utilizate în implementare. De la cadrul Spring

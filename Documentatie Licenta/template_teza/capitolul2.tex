@@ -34,10 +34,10 @@ utilizatorilor, cât și informația despre structura hărții.
 
 Separarea pe aceste trei niveluri aduce mai multe avantaje. În primul rând,
 permite dezvoltarea și testarea independentă a fiecărei componente, deoarece
-interfața dintre niveluri este bine definită. Un alt motiv ar fi ca izolează
+interfața dintre niveluri este bine definită. Un alt motiv ar fi că izolează
 logica de securitate la nivelul backend-ului, astfel încât regulile de acces
 nu pot fi ocolite din interfața clientului. În al treilea rând, facilitează
-extinderea sistemului prin adăugarea de noi servicii sau de noi tipuri de date nu
+extinderea sistemului prin adăugarea de noi servicii sau de noi tipuri de date care nu
 necesită rescrierea componentelor existente, ci doar completarea celor noi.
 
 Comunicarea dintre nivelul de prezentare și cel al serviciilor se realizează
@@ -58,7 +58,7 @@ pentru frontend, atât timp cât contractul serviciilor este respectat.
 \label{sec:backend}
 
 Backend-ul aplicației este realizat cu ajutorul framework-ului Spring Boot \cite{Walls2022},
-structurată pe pachete distincte în funcție de responsabilități. Pachetul de
+structurat pe pachete distincte în funcție de responsabilități. Pachetul de
 configurare conține clasele de inițializare, de securitate și de pornire a
 aplicației iar pachetul de entități conține clasele care modelează datele. Pachetul de repository conține interfețele de acces la baza de
 date. Această organizare urmează convențiile de bază ale ecosistemului
@@ -107,9 +107,9 @@ rol distinct.
  
 La nivelul backend-ului, controllerele REST returnează coduri HTTP
 standardizate, conform convențiilor REST. Pentru operațiile reușite, codul
-de răspuns este 200 (OK), pentru resursele inexistente 404 (Not Found),
-pentru cererile invalide 400 (Bad Request), iar pentru tentativele de acces
-neautorizat 401 (Unauthorized) sau 403 (Forbidden). Această standardizare
+de răspuns este 200 (OK), pentru resursele inexistente avem 404 (Not Found),
+pentru cererile invalide este 400 (Bad Request), iar pentru tentativele de acces
+neautorizat avem urmatoarele: 401 (Unauthorized) sau 403 (Forbidden). Această standardizare
 face ca frontend-ul să poată trata uniform diferitele tipuri de erori, fără
 a se baza pe formate proprietare de mesaje.
  
@@ -149,7 +149,7 @@ informația despre exterior, cât și planurile de etaj din interior.
 \label{subsec:alegere-db}
  
 Pe parcursul analizei tehnologice am evaluat mai multe variante pentru
-componenta de persistență a datelor, comparând atât baze de date relaționale,
+componenta de menținere a datelor, comparând atât baze de date relaționale,
 cât și soluții de tip NoSQL. În acest subcapitol vom sintetiza compromisurile
 considerate și se va justifica alegerea finală.
  
@@ -202,7 +202,7 @@ determină nivelul de acces. Constrângerile de unicitate și de obligativitate
 sunt exprimate direct prin adnotări la nivel de coloană (vezi Listing~A.3 din
 Anexa~A).
 
-Constructorul fără argumente este necesar pentru ca JPA să poată instanția
+Constructorul fără argumente este necesar pentru ca JPA să poată mapa
 obiectul atunci când citește o înregistrare din baza de date, iar metodele de
 tip getter și setter permit citirea și scrierea câmpurilor. Parola nu este
 niciodată stocată în clar, ci doar în forma sa criptată, aspect detaliat în
@@ -211,7 +211,7 @@ secțiunea despre securitate.
 \subsection{Entitatea pentru datele hărții}
 \label{subsec:mapdata-entity}
 
-A doua entitate, \texttt{MapData}, este responsabilă de persistarea structurii
+A doua entitate, \texttt{MapData}, este responsabilă de menținerea structurii
 hărții campusului. Pentru a permite o reprezentare flexibilă a grafului de
 noduri și muchii pe care se bazează rutarea, structura este serializată în
 format JSON și stocată într-o coloană de tip text. Aceeași entitate cuprinde
@@ -296,7 +296,7 @@ vizualizare. Securitatea este implementată folosind Spring Security
 \label{subsec:bcrypt}
  
 Parolele utilizatorilor nu sunt stocate în clar în baza de date, ci sunt
-criptate folosind algoritmul BCrypt \cite{BCrypt}, prin intermediul unei
+criptate folosind algoritmul BCrypt\cite{Provos1999}, prin intermediul unei
 componente dedicate de codare a parolelor. BCrypt este un algoritm de tip
 funcție de derivare a cheii, conceput special pentru stocarea parolelor: el
 este lent în mod intenționat și încorporează un factor aleatoriu, ceea ce

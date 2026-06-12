@@ -29,7 +29,7 @@ claritatea afișării) nu poate fi evaluat automat, ci necesită observare direc
 pe dispozitivele țintă.
 
 
-Testarea am desfășurat-o pe două direcții complementare. Prima direcție a vizată
+Testarea am desfășurat-o pe două direcții complementare. Prima direcție a vizat
 verificarea funcțională a fiecărei capabilități în parte. Autentificarea în cele
 două roluri, căutarea unei săli, afișarea detaliilor, editarea hărții de către
 administrator, persistarea modificărilor în baza de date și calculul traseului
@@ -90,17 +90,17 @@ ferestrele de tip pop-up atașate locațiilor pe hartă.
 
 
 
-\subsection{Editarea și persistarea modificărilor}
+\subsection{Editarea și persistența modificărilor}
 \label{subsec:test-editare}
 
 Pentru rolul de administrator, am verificat ciclul complet de editare a
 hărții: autentificare ca administrator, intrarea în modul de editare, adăugarea
 și modificarea unor noduri și legături, salvarea modificărilor și verificarea
-persistenței acestora. Modificările sunt vizibile imediat după salvare, iar
-reîncărcarea aplicației, chiar și de pe alt dispozitiv, confirmă că noile date
+menținerii acestora în baza de date. Modificările sunt vizibile imediat după salvare, iar
+reîncărcarea aplicației, chiar și de pe alt dispozitiv, confirmă faptul că noile date
 sunt preluate corect din baza de date și prezentate consistent tuturor
 utilizatorilor. Acest scenariu confirmă funcționarea fluxului complet între
-frontend, backend și stratul de persistență.
+frontend și backend.
 
 
 

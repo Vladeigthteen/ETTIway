@@ -29,7 +29,10 @@
 \usepackage[romanian]{babel}
 \usepackage{titlesec}
 \usepackage{placeins}
+\usepackage{tikz}
 
+
+\usetikzlibrary{positioning, arrows.meta}
 
 
 \titlespacing*{\section}{0pt}{12pt}{6pt}
@@ -184,7 +187,7 @@ Al patrulea obiectiv a fost asigurarea unui mecanism de acces sigur la
 aplicație, fără expunerea serverului pe internetul public, prin folosirea
 unei rețele private de tip mesh.
  
-Pe lângă obiectivele funcționale, au fost urmărite și obiective tehnice:
+Pe lângă obiectivele funcționale, au fost urmărite și obiective tehnice, spre exemplu:
 codul să fie organizat în niveluri clar separate (prezentare, servicii, date).
 Datele să poată fi extinse fără modificări de schemă în baza de date, iar
 aplicația să funcționeze corect pe o varietate de dispozitive, de la laptopuri
@@ -1928,7 +1931,8 @@ VMware Tanzu,
 \bibitem{Walls2022}
 C. Walls,
 \textit{Spring in Action}, 6th Edition,
-Manning Publications, 2022, ISBN 978-1617297571.
+Manning Publications, 2022, ISBN 978-1617297571.,
+\url{https://linux.ime.usp.br/~henrick/[ebook]%20Manning%20-%20Spring%20in%20Action.pdf}
 
 \bibitem{PostgreSQL}
 PostgreSQL Global Development Group,
@@ -1943,12 +1947,6 @@ Spring Team,
 \\\url{https://docs.spring.io/spring-security/reference/}
 
 
-
-\bibitem{BCrypt}
-N. Provos, D. Mazi\`eres,
-``A Future-Adaptable Password Scheme'',
-în \textit{Proceedings of the 1999 USENIX Annual Technical Conference},
-USENIX Association, 1999, pp. 81-91.
 
 \bibitem{Provos1999}
 N. Provos, D. Mazières,
