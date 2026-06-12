@@ -63,36 +63,36 @@
 \contentsline {section}{\numberline {3.6}Rutarea în interiorul clădirilor}{29}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Modelul de date al planurilor de etaj}{29}{subsection.3.6.1}%
 \contentsline {subsection}{\numberline {3.6.2}Editarea planurilor și salvarea în baza de date}{30}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Calculul traseului indoor}{30}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}Detectarea dispozitivului și adaptarea interfeței}{30}{subsection.3.6.4}%
-\contentsline {subsection}{\numberline {3.6.5}Gestionarea stării partajate în aplicație}{31}{subsection.3.6.5}%
-\contentsline {subsection}{\numberline {3.6.6}Verificarea autorizării pe două niveluri}{31}{subsection.3.6.6}%
+\contentsline {subsection}{\numberline {3.6.3}Calculul traseului indoor}{31}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Detectarea dispozitivului și adaptarea interfeței}{31}{subsection.3.6.4}%
+\contentsline {subsection}{\numberline {3.6.5}Gestionarea stării partajate în aplicație}{32}{subsection.3.6.5}%
+\contentsline {subsection}{\numberline {3.6.6}Verificarea autorizării pe două niveluri}{32}{subsection.3.6.6}%
 \contentsline {section}{\numberline {3.7}Punerea în funcțiune prin rețea privată virtuală}{32}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Configurarea serverului}{32}{section.3.8}%
+\contentsline {section}{\numberline {3.8}Configurarea serverului}{33}{section.3.8}%
 \contentsline {subsection}{\numberline {3.8.1}Rețeaua privată cu Tailscale}{33}{subsection.3.8.1}%
-\contentsline {subsection}{\numberline {3.8.2}Adresarea prin MagicDNS}{33}{subsection.3.8.2}%
+\contentsline {subsection}{\numberline {3.8.2}Adresarea prin MagicDNS}{34}{subsection.3.8.2}%
 \contentsline {subsection}{\numberline {3.8.3}Criptarea HTTPS și accesul la GPS}{34}{subsection.3.8.3}%
-\contentsline {section}{\numberline {3.9}Gestionarea serviciilor pe server}{34}{section.3.9}%
+\contentsline {section}{\numberline {3.9}Gestionarea serviciilor pe server}{35}{section.3.9}%
 \contentsline {section}{\numberline {3.10}Concluziile capitolului}{35}{section.3.10}%
-\contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{36}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Metodologia de testare}{36}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{36}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{36}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{37}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{37}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{37}{subsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.2.5}Editarea și rutarea în interior}{38}{subsection.4.2.5}%
-\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{38}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{38}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Limitări identificate}{39}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{39}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{39}{subsection.4.5.2}%
-\contentsline {section}{\numberline {4.6}Concluziile capitolului}{40}{section.4.6}%
-\contentsline {chapter}{Concluzii}{41}{chapter*.20}%
-\contentsline {section}{Sinteza rezultatelor}{41}{section*.21}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{42}{section*.21}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{42}{section*.21}%
-\contentsline {section}{Reflecție finală}{43}{section*.21}%
-\contentsline {unnumberedsection}{Bibliografie}{44}{chapter*.22}%
-\contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{47}{appendix.A}%
-\contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{52}{appendix.B}%
+\contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{37}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Metodologia de testare}{37}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{37}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Autentificarea și diferențierea rolurilor}{37}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Căutarea și afișarea detaliilor}{38}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Editarea și persistarea modificărilor}{38}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Calculul și afișarea traseului}{38}{subsection.4.2.4}%
+\contentsline {subsection}{\numberline {4.2.5}Editarea și rutarea în interior}{39}{subsection.4.2.5}%
+\contentsline {section}{\numberline {4.3}Testarea pe mai multe dispozitive și browsere}{39}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Comportamentul în condiții reale de utilizare}{39}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Limitări identificate}{40}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{40}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{40}{subsection.4.5.2}%
+\contentsline {section}{\numberline {4.6}Concluziile capitolului}{41}{section.4.6}%
+\contentsline {chapter}{Concluzii}{42}{chapter*.21}%
+\contentsline {section}{Sinteza rezultatelor}{42}{section*.22}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{43}{section*.22}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{43}{section*.22}%
+\contentsline {section}{Reflecție finală}{44}{section*.22}%
+\contentsline {unnumberedsection}{Bibliografie}{45}{chapter*.23}%
+\contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{48}{appendix.A}%
+\contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{53}{appendix.B}%

@@ -238,6 +238,8 @@ INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\seqsplit\seqsplit.s
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\seqsplit\seqsplit.sty
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\titlesec\titlesec.sty
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\titlesec\titlesec.sty
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\placeins\placeins.sty
+INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\placeins\placeins.sty
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\tex\latex\lm\t1lmr.fd
@@ -494,6 +496,12 @@ INPUT .\figuri\afisare_rutare.jpeg
 INPUT .\figuri\afisare_rutare.jpeg
 INPUT .\figuri\afisare_rutare.jpeg
 INPUT .\figuri\afisare_rutare.jpeg
+INPUT .\figuri\uml_flow_salvare.pdf
+INPUT .\figuri\uml_flow_salvare.pdf
+INPUT .\figuri\uml_flow_salvare.pdf
+INPUT .\figuri\uml_flow_salvare.pdf
+INPUT .\figuri\uml_flow_salvare.pdf
+INPUT .\figuri\uml_flow_salvare.pdf
 INPUT .\figuri\versiuni.png
 INPUT .\figuri\versiuni.png
 INPUT .\figuri\versiuni.png

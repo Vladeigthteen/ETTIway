@@ -225,6 +225,7 @@ calcula traseul către ea, este suficient să se cunoască nodul ei de intrare.
 \subsection{Editarea planurilor și salvarea în baza de date}
 \label{subsec:indoor-editare}
 
+
 Administratorul construiește planul unui etaj direct din interfață, folosind
 uneltele de desen ale bibliotecii Leaflet.PM. Camerele sunt desenate ca
 dreptunghiuri sau poligoane, iar la fiecare creare aplicația cere
@@ -232,6 +233,17 @@ administratorului numele camerei și îl atașează ca proprietate a formei.
 Nodurile sunt plasate ca markeri, iar tipul lor, intrare, intersecție sau
 scară, este ales tot printr-un dialog scurt la momentul plasării.
 Coridoarele sunt desenate ca linii între noduri.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figuri/uml_flow_salvare.pdf}
+    \caption{Diagrama UML de activitate care prezintă fluxul de editare 
+    și salvare a hărții. }
+    \label{fig:flux-salvare}
+\end{figure}
+
+\FloatBarrier
+
 
 La salvare, întregul conținut al planului este serializat în GeoJSON și
 trimis către backend printr-o cerere dedicată, care îl persistă în entitatea
@@ -241,7 +253,7 @@ proprietățile. Acest ciclu complet de desenare, salvare și reîncărcare
 funcționează autonom, fără ca administratorul să fie nevoit să exporte sau să
 încarce manual fișiere.
 
-% [CAPTURA 3.5: admin desenand un plan de etaj cu camere si coridoare]
+
 
 \subsection{Calculul traseului indoor}
 \label{subsec:indoor-rutare}
