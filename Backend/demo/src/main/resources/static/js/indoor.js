@@ -423,6 +423,7 @@ function openFloorPlanEditor(buildingName, floorIndex) {
     currentIndoorFloor = floorIndex;
     modal.style.display = 'flex'; // or block based on CSS
     setTimeout(() => {
+        document.body.classList.add('indoor-open');
         modal.classList.add('open');
         initIndoorMap();
         if (indoorBorderLayer && !indoorMap.hasLayer(indoorBorderLayer)) {
@@ -466,6 +467,7 @@ function openFloorPlanViewer(buildingName, floorIndex, roomNameToHighlight = nul
     currentIndoorFloor = floorIndex;
     modal.style.display = 'flex';
     setTimeout(() => {
+        document.body.classList.add('indoor-open');
         modal.classList.add('open');
         initIndoorMap();
         if (indoorBorderLayer && indoorBorderLayer.pm) {
@@ -675,6 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
 window.closeIndoor = function() {
     const modal = document.getElementById('indoor-modal');
     if (modal) {
+        document.body.classList.remove('indoor-open');
         modal.classList.remove('open');
         setTimeout(() => modal.style.display = 'none', 300);
     }
