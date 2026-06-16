@@ -21,25 +21,16 @@ function recenterMap() {
 function setupMobileResponsiveLayout() {
     const mobileQuery = window.matchMedia('(max-width: 768px)');
     const sidebar = document.getElementById('sidebar');
-    const searchContainer = document.querySelector('#sidebar .search-container');
-    const mobileSearchContainer = document.getElementById('mobile-search-container');
     const searchBuilding = document.getElementById('search-building');
     const searchRoom = document.getElementById('search-room');
     const roomDetails = document.getElementById('room-details');
 
-    if (!sidebar || !searchContainer || !mobileSearchContainer || !searchBuilding || !searchRoom) {
+    if (!sidebar || !searchBuilding || !searchRoom) {
         return;
     }
 
     function syncSearchPlacement() {
-        if (mobileQuery.matches) {
-            if (!mobileSearchContainer.contains(searchContainer)) {
-                mobileSearchContainer.appendChild(searchContainer);
-            }
-        } else {
-            if (!sidebar.contains(searchContainer)) {
-                sidebar.insertBefore(searchContainer, roomDetails || sidebar.firstChild);
-            }
+        if (!mobileQuery.matches) {
             document.body.classList.remove('sidebar-open');
         }
 
@@ -54,11 +45,35 @@ function setupMobileResponsiveLayout() {
         }
     }
 
+    const mobileSingleSearch = document.getElementById('mobile-single-search');
+    if (mobileSingleSearch) {
+        mobileSingleSearch.addEventListener('focus', openMobileBottomSheet);
+        mobileSingleSearch.addEventListener('input', openMobileBottomSheet);
+    }
+    
     searchBuilding.addEventListener('focus', openMobileBottomSheet);
     searchBuilding.addEventListener('input', openMobileBottomSheet);
     
     searchRoom.addEventListener('focus', openMobileBottomSheet);
     searchRoom.addEventListener('input', openMobileBottomSheet);
+    
+    const bottomSheetHandle = document.querySelector('.bottom-sheet-handle');
+    if (bottomSheetHandle) {
+        bottomSheetHandle.addEventListener('click', () => {
+             if (mobileQuery.matches) {
+                 document.body.classList.toggle('sidebar-open');
+             }
+        });
+    }
+    
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+             if (mobileQuery.matches) {
+                 document.body.classList.remove('sidebar-open');
+             }
+        });
+    }
 
     if (typeof mobileQuery.addEventListener === 'function') {
         mobileQuery.addEventListener('change', syncSearchPlacement);

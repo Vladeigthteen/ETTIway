@@ -248,6 +248,88 @@ function showAppAlert(message) {
 function initializeSearch() {
     const searchBuilding = document.getElementById('search-building');
     const searchRoom = document.getElementById('search-room');
+    const mobileSingleSearch = document.getElementById('mobile-single-search');
+    const segmentBuilding = document.getElementById('segment-building');
+    const segmentRoom = document.getElementById('segment-room');
+    
+    const desktopSingleSearch = document.getElementById('desktop-single-search');
+    const segmentBuildingDesktop = document.getElementById('segment-building-desktop');
+    const segmentRoomDesktop = document.getElementById('segment-room-desktop');
+
+    let currentMobileMode = 'building';
+    let currentDesktopMode = 'building';
+
+    if (segmentBuilding && segmentRoom && mobileSingleSearch) {
+        segmentBuilding.addEventListener('click', () => {
+            currentMobileMode = 'building';
+            segmentBuilding.classList.add('active');
+            segmentRoom.classList.remove('active');
+            mobileSingleSearch.placeholder = 'Caută clădire pe ETTIway';
+            mobileSingleSearch.value = searchBuilding.value;
+        });
+
+        segmentRoom.addEventListener('click', () => {
+            currentMobileMode = 'room';
+            segmentRoom.classList.add('active');
+            segmentBuilding.classList.remove('active');
+            mobileSingleSearch.placeholder = 'Caută cameră (ex. A101)';
+            mobileSingleSearch.value = searchRoom.value;
+        });
+
+        mobileSingleSearch.addEventListener('change', (e) => {
+            if (currentMobileMode === 'building') {
+                searchBuilding.value = e.target.value;
+                searchBuilding.dispatchEvent(new Event('change'));
+            } else {
+                searchRoom.value = e.target.value;
+                searchRoom.dispatchEvent(new Event('change'));
+            }
+        });
+    }
+
+    if (segmentBuildingDesktop && segmentRoomDesktop && desktopSingleSearch) {
+        segmentBuildingDesktop.addEventListener('click', () => {
+            currentDesktopMode = 'building';
+            segmentBuildingDesktop.classList.add('active');
+            segmentRoomDesktop.classList.remove('active');
+            desktopSingleSearch.placeholder = 'Caută Clădire pe ETTIway';
+            desktopSingleSearch.value = searchBuilding.value;
+        });
+
+        segmentRoomDesktop.addEventListener('click', () => {
+            currentDesktopMode = 'room';
+            segmentRoomDesktop.classList.add('active');
+            segmentBuildingDesktop.classList.remove('active');
+            desktopSingleSearch.placeholder = 'Caută Cameră';
+            desktopSingleSearch.value = searchRoom.value;
+        });
+
+        desktopSingleSearch.addEventListener('change', (e) => {
+            if (currentDesktopMode === 'building') {
+                searchBuilding.value = e.target.value;
+                searchBuilding.dispatchEvent(new Event('change'));
+            } else {
+                searchRoom.value = e.target.value;
+                searchRoom.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        desktopSingleSearch.addEventListener('keyup', (e) => {
+             if (currentDesktopMode === 'building') {
+                 searchBuilding.value = e.target.value;
+                 searchBuilding.dispatchEvent(new Event('change'));
+             } else {
+                 searchRoom.value = e.target.value;
+                 searchRoom.dispatchEvent(new Event('change'));
+             }
+        });
+    }
+
+    window.addEventListener('resize', () => {
+        if (typeof campusMap !== 'undefined' && campusMap) {
+            campusMap.invalidateSize();
+        }
+    });
 
     if (searchBuilding) {
         searchBuilding.addEventListener('change', async (e) => {

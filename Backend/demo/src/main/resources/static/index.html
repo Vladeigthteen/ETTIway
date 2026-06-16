@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ETTIway - Campus Navigation</title>
     <link rel="icon" type="image/svg+xml" href="Icons/tab-logo.svg">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
@@ -15,7 +14,15 @@
 <body>
     <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Toggle sidebar">☰</button>
     <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-    <div id="mobile-search-container" class="mobile-search-container" aria-hidden="true"></div>
+    <div id="mobile-search-container" class="mobile-search-container" aria-hidden="true">
+        <div class="segmented-control">
+            <button class="segment active" id="segment-building">Clădire</button>
+            <button class="segment" id="segment-room">Cameră</button>
+        </div>
+        <div class="search-container mobile-search-box">
+            <input type="text" id="mobile-single-search" placeholder="Caută clădire pe ETTIway" />
+        </div>
+    </div>
     <div id="sidebar">
         <div class="sidebar-header">
             <img src="Icons/logo.svg" alt="ETTIway Logo" class="sidebar-logo">
@@ -25,9 +32,14 @@
                 <button type="submit" class="logout-btn">Logout</button>
             </form>
         </div>
-        <div class="search-container">
-            <input type="text" id="search-building" placeholder="Caută Clădire pe ETTIway" />
-            <input type="text" id="search-room" placeholder="Caută Cameră" />
+        <div class="search-container desktop-search-container">
+            <div class="segmented-control desktop-segmented-control" style="margin-bottom: 10px;">
+                <button class="segment active" id="segment-building-desktop">Clădire</button>
+                <button class="segment" id="segment-room-desktop">Cameră</button>
+            </div>
+            <input type="text" id="desktop-single-search" placeholder="Caută Clădire pe ETTIway" />
+            <input type="hidden" id="search-building" />
+            <input type="hidden" id="search-room" />
         </div>
         <div id="room-details">
             <h3>Building Details</h3>
