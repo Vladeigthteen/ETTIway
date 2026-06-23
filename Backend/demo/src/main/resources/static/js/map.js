@@ -1,11 +1,9 @@
-
-
 let campusMap;
 let buildingsLayer;
 let buildingsData = [];
 let entrancesLayer;
 
-let shouldAutoCenter = true; // NEW: global flag to track if we should auto-center
+let shouldAutoCenter = true; // global flag to track if we should auto-center
 let geoWarningTimeout = null;
 let geoWarningShownThisSession = false;
 
@@ -50,13 +48,13 @@ function setupMobileResponsiveLayout() {
         mobileSingleSearch.addEventListener('focus', openMobileBottomSheet);
         mobileSingleSearch.addEventListener('input', openMobileBottomSheet);
     }
-    
+
     searchBuilding.addEventListener('focus', openMobileBottomSheet);
     searchBuilding.addEventListener('input', openMobileBottomSheet);
-    
+
     searchRoom.addEventListener('focus', openMobileBottomSheet);
     searchRoom.addEventListener('input', openMobileBottomSheet);
-    
+
     const bottomSheetHandle = document.querySelector('.bottom-sheet-handle');
     if (bottomSheetHandle) {
         bottomSheetHandle.addEventListener('click', () => {
@@ -65,7 +63,7 @@ function setupMobileResponsiveLayout() {
              }
         });
     }
-    
+
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     if (sidebarOverlay) {
         sidebarOverlay.addEventListener('click', () => {
@@ -119,14 +117,14 @@ const STYLES = {};
   @returns {Object} 
  */
 function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom = DEFAULT_ZOOM_LEVEL) {
-    
+
     campusMap = L.map('map', {
         maxBounds: MAP_BOUNDS,
-        maxBoundsViscosity: 1.0, 
-        minZoom: 16 
+        maxBoundsViscosity: 1.0,
+        minZoom: 16
     }).setView([lat, lon], zoom);
-    
-    
+
+
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
@@ -136,38 +134,30 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
 
     setupMobileResponsiveLayout();
     fitMobileMapToBounds();
-    
-    // NEW: Listen for manual map interactions to halt auto-centering
-    let manualMapInteraction = false;
 
-    function markManualInteraction() {
-        manualMapInteraction = true;
-    }
-
+    // Oprește auto-centrarea când utilizatorul trage MANUAL de hartă.
+    // 'dragstart' se declanșează atât la drag de mouse, cât și la drag cu degetul
+    // (touch), dar NU la setView/flyTo/panTo apelate din cod. Astfel centrarea
+    // programatică din callback-ul GPS nu se mai dezactivează singură, iar pe
+    // telefon utilizatorul poate muta liber harta fără să fie tras înapoi.
     function stopAutoCenter() {
-        if (!manualMapInteraction) return;
-        manualMapInteraction = false;
-
         shouldAutoCenter = false;
         const btn = document.getElementById('recenter-btn');
-        if (btn && typeof watchId !== 'undefined' && watchId !== null) {
+        if (btn && watchId !== null) {
             btn.style.display = 'flex';
         }
     }
 
-    campusMap.on('movestart', stopAutoCenter);
-    campusMap.on('zoomstart', stopAutoCenter);
-    campusMap.on('mousedown', markManualInteraction);
-    campusMap.on('touchstart', markManualInteraction);
-    
+    campusMap.on('dragstart', stopAutoCenter);
+
     // Create a layer group for buildings (allows easy management)
     buildingsLayer = L.layerGroup().addTo(campusMap);
     // Layer for entrances (gates/parking/pedestrian)
     entrancesLayer = L.layerGroup().addTo(campusMap);
-    
+
     // -- Map Editor --
     const drawnGroup = L.featureGroup().addTo(campusMap);
-    
+
     // Check for edit mode
     const urlParams = new URLSearchParams(window.location.search);
     const isEditMode = urlParams.get('edit') === '1';
@@ -186,9 +176,9 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
                 const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
                 container.style.backgroundColor = 'white';
                 container.style.cursor = 'pointer';
-                
+
                 const btn = document.createElement('a');
-                btn.innerHTML = '🏢'; 
+                btn.innerHTML = '🏢';
                 btn.title = 'Editare Etaje';
                 btn.style.display = 'flex';
                 btn.style.justifyContent = 'center';
@@ -198,7 +188,7 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
                 btn.style.textDecoration = 'none';
                 btn.style.color = '#333';
                 btn.style.fontSize = '18px';
-                
+
                 btn.onclick = (e) => {
                     L.DomEvent.stop(e);
                     if (window.openFloorManager) {
@@ -208,18 +198,18 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
                         alert("Eroare: Modulul de editare etaje nu este incarcat.");
                     }
                 };
-                
+
                 container.appendChild(btn);
                 return container;
             }
         });
         campusMap.addControl(new FloorControl());
     }
-    
+
     console.log('Map initialized successfully');
 
-    return { 
-        map: campusMap, 
+    return {
+        map: campusMap,
         drawnGroup: drawnGroup,
     };
 }
@@ -274,7 +264,7 @@ function createBuildingPolygon(building) {
         console.warn(`Invalid points for building ${building.id}`);
         return null;
     }
-    
+
     // Create polygon with building information
     const polygon = L.polygon(building.points, {
         color: building.color || "#ff7800",
@@ -282,7 +272,7 @@ function createBuildingPolygon(building) {
         fillOpacity: 0.2,
         buildingId: building.id // Store building ID for reliable identification
     });
-    
+
     // Add permanent text label by default (keeps map readable)
     const labelContent = building.name || '';
     if (labelContent) {
@@ -320,7 +310,7 @@ function createBuildingPolygon(building) {
         polygon._iconMarker = imgMarker;
         buildingsLayer.addLayer(imgMarker);
     }
-    
+
     // Add interactions
     polygon.on('mouseover', function() {
         this.setStyle({
@@ -338,7 +328,7 @@ function createBuildingPolygon(building) {
 
     polygon.on('click', function() {
         displayBuildingDetails(building);
-        
+
         // Open indoor viewing mode directly - EXCLUSIV PENTRU MODAL, FĂRĂ RUTARE AICI
         if (typeof window.openFloorPlanViewer === 'function') {
             // Default to floor 0
@@ -347,7 +337,7 @@ function createBuildingPolygon(building) {
             console.warn("Indoor Viewer not available");
         }
     });
-    
+
     return polygon;
 }
 
@@ -358,10 +348,10 @@ function createBuildingPolygon(building) {
 function loadBuildingPolygons(buildings) {
     // Clear existing layers
     buildingsLayer.clearLayers();
-    
+
     // Store buildings data globally
     buildingsData = buildings;
-    
+
     // Create and add polygons for each building
     let validBuildings = 0;
     buildings.forEach(building => {
@@ -371,7 +361,7 @@ function loadBuildingPolygons(buildings) {
             validBuildings++;
         }
     });
-    
+
     console.log(`Loaded ${validBuildings} building polygons out of ${buildings.length} buildings`);
 }
 
@@ -389,10 +379,10 @@ function focusOnBuilding(building) {
     });
 
     if (targetLayer) {
-        
+
         campusMap.fitBounds(targetLayer.getBounds());
-        
-        
+
+
         targetLayer.setStyle({ weight: 3, fillOpacity: 0.5 });
         setTimeout(() => {
             targetLayer.setStyle({ weight: 1, fillOpacity: 0.2 });
@@ -406,7 +396,7 @@ function focusOnBuilding(building) {
  */
 function displayBuildingDetails(building) {
     const detailsDiv = document.getElementById('room-details');
-    
+
     // Create HTML for building details
     const detailsHTML = `
         <h3>Building Details</h3>
@@ -419,9 +409,9 @@ function displayBuildingDetails(building) {
             <span class="room-info-value">${escapeHtml(building.description)}</span>
         </div>
     `;
-    
+
     detailsDiv.innerHTML = detailsHTML;
-    
+
     // Show the details section (if hidden)
     detailsDiv.style.display = 'block';
 }
@@ -432,7 +422,7 @@ function displayBuildingDetails(building) {
  */
 function drawCampusBoundary(boundaryPoints) {
     if (!boundaryPoints || boundaryPoints.length < 3) return;
-    
+
     L.polygon(boundaryPoints, {
         color: '#1466b8ff',
         weight: 2,
@@ -455,12 +445,12 @@ function drawCampusBoundary(boundaryPoints) {
  */
 function isPointInPolygon(point, vs) {
     let x = point[0], y = point[1];
-    
+
     let inside = false;
     for (let i = 0, j = vs.length - 1; i < vs.length; j = i++) {
         let xi = vs[i][0], yi = vs[i][1];
         let xj = vs[j][0], yj = vs[j][1];
-        
+
         let intersect = ((yi > y) != (yj > y))
             && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
@@ -478,7 +468,7 @@ let currentHeading = 0;
 function handleOrientation(event) {
     let alpha = event.alpha;
     let webkitHeading = event.webkitCompassHeading;
-    
+
     // Fallback and normalizations pt iOS/Android
     if (webkitHeading) {
         currentHeading = webkitHeading;
@@ -486,7 +476,7 @@ function handleOrientation(event) {
         // Pentru Android deviceorientationabsolute, alpha arată gradele față de nord (standard: 360 - alpha)
         currentHeading = 360 - alpha;
     }
-    
+
     if (userMarker && userMarker._icon) {
         const svgArrow = userMarker._icon.querySelector('.user-direction-svg');
         if (svgArrow) {
@@ -540,11 +530,11 @@ function toggleLocation() {
         // Dacă este mod test, simulăm watchId, ascultăm click-ul și nu folosim geolocation
         if (window.isTestMode) {
             watchId = "test_mode";
-            
+
             shouldAutoCenter = true;
             let recenterBtn = document.getElementById('recenter-btn');
             if (recenterBtn) recenterBtn.style.display = 'none';
-            
+
             if (btn) {
                 btn.style.backgroundColor = 'blue';
                 btn.style.color = 'white';
@@ -662,10 +652,10 @@ function toggleLocation() {
             btn.style.color = 'white';
             btn.innerText = 'Find Me';
         }
-        
+
         let recenterBtn = document.getElementById('recenter-btn');
         if (recenterBtn) recenterBtn.style.display = 'none';
-        
+
         if (warning) warning.style.display = 'none';
         geoWarningShownThisSession = false;
         if (geoWarningTimeout) {
@@ -674,4 +664,3 @@ function toggleLocation() {
         }
     }
 }
-
