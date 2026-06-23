@@ -302,13 +302,23 @@ funcție de derivare a cheii, conceput special pentru stocarea parolelor: el
 este lent în mod intenționat și încorporează un factor aleatoriu, ceea ce
 îngreunează semnificativ atacurile prin forță brută.
  
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{figuri/Tabel Utilizatori.png}
-    \caption{Structura tabelului de utilizatori în baza de date, evidențiind câmpurile pentru numele de utilizator, parola criptată și rolul asociat.}
-    \label{fig:2.a}
-\end{figure}
-
+    
+    \label{tab:utilizatori}
+    \footnotesize
+    \begin{tabularx}{\textwidth}{@{}c l l X@{}}
+        \toprule
+        \textbf{ID} & \textbf{Nume utilizator} & \textbf{Rol} & \textbf{Parolă (hash bcrypt)} \\
+        \midrule
+        1 & admin   & ROLE\_ADMIN & \texttt{\seqsplit{\$2a\$10\$Sj9PXuxG1OR.3E0rOO9UNOLaSoktDIGfKBzS5ehMvFlc/9E83put.}} \\
+        2 & student & ROLE\_ADMIN & \texttt{\seqsplit{\$2a\$10\$fX3vR7jrl4ZiB85Ybpx/iuu9mUjSvX7XVm8hqYW/xHjpCw6ObSW...}} \\
+        3 & vlad    & ROLE\_ADMIN & \texttt{\seqsplit{\$2a\$10\$GYFuTn4iOns4woYy9F1.rup7A.QeloQF1jRMWV.woK6v6GQdq.rpi}} \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Structura tabelului de utilizatori în baza de date, evidențiind
+    câmpurile pentru numele de utilizator, parola criptată și rolul asociat.}
+\end{table}
 Alegerea BCrypt în detrimentul altor funcții de hash a fost una conștientă.
 Funcțiile generale de hash criptografic, precum MD5 sau SHA-256, sunt
 proiectate pentru a fi rapide, ceea ce le face potrivite pentru verificarea

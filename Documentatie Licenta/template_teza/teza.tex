@@ -87,13 +87,12 @@
  
 \begin{document}
  
-\author{Fraticiu Vlad-Alexandru}
-\title{ETTIway - Sistem de Navigare Interactivă Campus}
+\author{Vlad-Alexandru FRĂTICIU}
+\title{ETTIway. Platformă Web pentru Localizarea și Ghidarea Utilizatorilor în Campusul Universitar}
 \facultatea{Facultatea de Electronică, Telecomunicații și Tehnologia Informației}
-\tiplucrare{licență}
-\domeniu{Electronică, Telecomunicații și Tehnologia Informației}
-\catedra{Telecomunicații}
-\campus{Leu}
+\tiplucrare{diplomă}
+\domeniu{Inginerie electronică, telecomunicații și tehnologii
+informaționale}
 \program{Rețele și Software de Telecomunicații}
 \titlulobtinut{Inginer}
 \director{ș.l. dr. ing. Laurențiu BOICESCU}
@@ -103,9 +102,17 @@
 \pagenumbering{roman}
 \pagestyle{empty}
 \titlep
-\includepdf[pages={1,2}]{Anexa1.2.pdf}
-\declaratiep
+
+\pagestyle{plain}
+\includepdf[pages={1,2}, pagecommand={\thispagestyle{plain}}]{Anexa1.2.pdf}
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{Copyright (1).pdf}
+\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{declaratie de onestitate.pdf}
+
 \tableofcontents
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
 \pagestyle{plain}
  
 \abbreviations{

@@ -403,13 +403,13 @@
          }
 
         \vskip 20mm
-        {\centering\bfseries{\Huge Lucrare de {\@tiplucrare}}
+        {\centering\bfseries{\Huge Proiect de {\@tiplucrare}}
           \nobreak
           \vskip 4ex plus 2ex minus 2ex 
           \ifdraft%
             {VERSIUNEA DRAFT CREATĂ LA \uppercase\expandafter{\today}\\}
           \else %
-            Prezentată ca cerință parțială pentru obținerea\\ 
+            Prezentat ca cerință parțială pentru obținerea\\ 
             titlului de {\it {\@titlulobtinut}}\\ 
             în domeniul {\it\@domeniu}\\
             programul de studii {\it\@program}
@@ -417,8 +417,8 @@
         \vfil
 
              \begin{tabular}
-               {>{\raggedright}p{0.7\textwidth}r}
-               \Large{Conducător științific} & \Large{Absolvent}\\
+               {>{\raggedright}p{0.6\textwidth}r}
+               \Large{Conducător științific} & \Large{Absolvent}\\[3mm]
                {\@director} & {\@author}\\
              \end{tabular}
  \vfil
