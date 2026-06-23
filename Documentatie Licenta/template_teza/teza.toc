@@ -100,3 +100,4 @@
 \contentsline {unnumberedsection}{Bibliografie}{44}{chapter*.25}%
 \contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{47}{appendix.A}%
 \contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{53}{appendix.B}%
+\contentsline {chapter}{\appnumberline {C}Cod HTML (Structura interfeței)}{59}{appendix.C}%

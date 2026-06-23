@@ -304,7 +304,7 @@ pe o proprietate observabilă direct: spațiul vizual disponibil.
  
 Pe dispozitive mobile, panoul lateral cu lista clădirilor și controalele de
 căutare nu mai este afișat permanent în partea stângă, ci este înlocuit cu un
-panou de tip \textit{bottom sheet}, care apare dinspre partea de jos a
+panou de tip \textit{bottom sheet} (vezi Listing~C.1 din Anexa~C), care apare dinspre partea de jos a
 ecranului atunci când utilizatorul interacționează cu el. Acest model este
 familiar din aplicațiile native mobile (Google Maps, Waze, Uber) și permite
 ca harta să ocupe cea mai mare parte a ecranului, oferind context vizual maxim,
@@ -354,7 +354,7 @@ manipularea URL-ului (de exemplu, prin adăugarea parametrului \texttt{?edit=1})
  
 În implementarea actuală, atunci când o pagină este încărcată, codul JavaScript
 verifică rolul utilizatorului curent printr-un apel către endpoint-ul
-\texttt{/api/auth/me}, care returnează informațiile despre sesiunea activă.
+\texttt{/api/auth/me} (vezi Listing~C.2 din Anexa~C), care returnează informațiile despre sesiunea activă.
 Doar dacă rolul returnat este de administrator, controalele de editare sunt
 adăugate la hartă, iar butoanele de salvare devin vizibile. În caz contrar,
 chiar dacă URL-ul conține parametrul de activare a editării, interfața rămâne

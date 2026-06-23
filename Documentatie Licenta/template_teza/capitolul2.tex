@@ -436,23 +436,28 @@ GeoJSON \cite{GeoJSON}, în care elementele de tip linie descriu aleile și
 drumurile.
 
 Fiecare nod este identificat printr-o cheie obținută din coordonatele sale,
-rotunjite la o precizie fixă, pentru a asigura că puncte foarte apropiate
-sunt tratate ca un singur nod. Pentru fiecare segment al unei linii se
-adaugă o muchie între nodurile adiacente, ponderea muchiei fiind distanța
-geografică reală dintre cele două puncte. Graful rezultat este
-nedirecționat, deoarece o alee poate fi parcursă în ambele sensuri.
-Implementarea construirii grafului este prezentată în Listing~B.2 din
-Anexa~B. Observația importantă privind formatul GeoJSON este că acesta
-exprimă coordonatele în ordinea longitudine–latitudine, în timp ce Leaflet le
-așteaptă în ordinea latitudine–longitudine. Conversia corectă între cele două
-este necesară pentru ca punctele să fie plasate corect pe hartă.
+rotunjite la o precizie fixă. Pentru a corecta micile imprecizii inerente
+datelor desenate manual, vârfurile aflate la o distanță mai mică decât o
+toleranță prestabilită sunt tratate ca un singur nod, ceea ce împiedică
+apariția unor noduri duplicate care ar fragmenta rețeaua. În plus, segmentele
+care se intersectează fără a avea un vârf comun sunt tăiate automat în punctul
+de intersecție, unde se inserează un nod nou; astfel, două alei care se
+încrucișează devin efectiv conectate în graf, iar rutarea poate „coti" la acea
+intersecție (vezi Listing B.2 și Listing B.3).
+Pentru fiecare segment rezultat se adaugă o muchie între nodurile adiacente,
+ponderea muchiei fiind distanța geografică reală dintre cele două puncte.
+Graful rezultat este nedirecționat, deoarece o alee poate fi parcursă în
+ambele sensuri. O observație importantă privind formatul GeoJSON este că
+acesta exprimă coordonatele în ordinea longitudine–latitudine, în timp ce
+Leaflet le așteaptă în ordinea latitudine–longitudine. Conversia corectă între
+cele două este necesară pentru ca punctele să fie plasate corect pe hartă.
 
 \subsection{Calculul traseului prin algoritmul Dijkstra}
 \label{subsec:dijkstra}
 
 Determinarea celui mai scurt traseu între două puncte se realizează prin
 algoritmul Dijkstra, implementat direct pe partea de client (vezi
-Listing~B.3 din Anexa~B). Plecând de la nodul de start, algoritmul menține
+Listing B.4 din Anexa~B). Plecând de la nodul de start, algoritmul menține
 pentru fiecare nod distanța minimă cunoscută și nodul precedent pe traseul
 optim. Apoi alege la fiecare pas nodul nevizitat cu distanța cea mai mică și
 actualizează distanțele vecinilor săi. Atunci când nodul de destinație este
@@ -460,14 +465,16 @@ atins, traseul este reconstruit parcurgând în sens invers lanțul nodurilor
 precedente.
 
 Deoarece punctele alese de utilizator nu coincid, în general, exact cu
-nodurile grafului, este necesară o etapă de asociere a fiecărui punct cu cel
-mai apropiat nod existent (vezi Listing~B.4 din Anexa~B). Aceasta se
-realizează printr-o căutare a nodului aflat la distanța minimă față de
-punctul țintă, asigurând că rutarea pornește și se încheie în puncte aflate
-efectiv pe rețeaua de trasee. Dacă între cele două puncte nu există niciun
-traseu - de exemplu, atunci când o porțiune a rețelei este izolată -
-algoritmul returnează o valoare care semnalează absența unei rute, iar
-interfața poate informa utilizatorul în consecință.
+nodurile grafului, este necesară o etapă de asociere a fiecărui punct cu
+rețeaua de trasee. Spre deosebire de o simplă apropiere de cel mai apropiat
+vârf existent, punctul este proiectat pe cea mai apropiată muchie, iar în
+punctul de proiecție se inserează un nod temporar conectat la capetele acelei
+muchii (vezi Listing B.5). Astfel, rutarea pornește și se încheie
+exact în dreptul poziției reale, nu la un capăt de segment aflat eventual
+departe. Dacă între cele două puncte nu există niciun traseu ca de exemplu,
+atunci când o porțiune a rețelei este izolată, algoritmul returnează o
+valoare care semnalează absența unei rute, iar interfața poate informa
+utilizatorul în consecință.
 
 \newpage
 

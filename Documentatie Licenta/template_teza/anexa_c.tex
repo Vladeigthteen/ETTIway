@@ -1,0 +1,145 @@
+
+
+\chapter{Cod HTML (Structura interfeței)}
+\label{anexa:html}
+
+Această anexă reunește fragmentele reprezentative din pagina principală
+\texttt{index.html}, scrise de absolvent. Pentru concizie, stilurile inline
+extinse au fost omise (acestea se află în fișierul \texttt{css/style.css}),
+păstrând structura elementelor și identificatorii la care fac referire
+modulele JavaScript din Anexa~B.
+
+\section*{Structura paginii principale}
+
+\begin{lstlisting}[language=HTML, caption={Scheletul interfetei: panou lateral, harta si controale (extras din index.html)}, label={lst:htmlskeleton}]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ETTIway - Campus Navigation</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <button id="sidebar-toggle" class="sidebar-toggle">&#9776;</button>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Cautare mobila: comutator Cladire / Camera -->
+    <div id="mobile-search-container" class="mobile-search-container">
+        <div class="segmented-control">
+            <button class="segment active" id="segment-building">Cladire</button>
+            <button class="segment" id="segment-room">Camera</button>
+        </div>
+        <div class="search-container mobile-search-box">
+            <input type="text" id="mobile-single-search"
+                   placeholder="Cauta cladire pe ETTIway" />
+        </div>
+    </div>
+
+    <!-- Panou lateral (devine bottom sheet pe mobil) -->
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <img src="Icons/logo.svg" alt="ETTIway Logo" class="sidebar-logo">
+            <p class="subtitle">Campus Navigation</p>
+            <p id="logged-user" class="logged-user" style="display: none;"></p>
+            <form action="/logout" method="post" class="logout-form">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+        <div class="search-container desktop-search-container">
+            <div class="segmented-control desktop-segmented-control">
+                <button class="segment active" id="segment-building-desktop">Cladire</button>
+                <button class="segment" id="segment-room-desktop">Camera</button>
+            </div>
+            <input type="text" id="desktop-single-search"
+                   placeholder="Cauta Cladire pe ETTIway" />
+            <input type="hidden" id="search-building" />
+            <input type="hidden" id="search-room" />
+        </div>
+        <div id="room-details">
+            <h3>Building Details</h3>
+            <p class="info-text">Click on a building to view details</p>
+        </div>
+        <div id="room-list">
+            <div class="bottom-sheet-handle"></div>
+            <h3>Available Buildings</h3>
+            <div id="room-list-container">
+                <p class="info-text">Loading buildings...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Harta si controalele plutitoare -->
+    <div id="map"></div>
+    <div id="geo-warning" style="display: none;">
+        Atentie: Ai parasit perimetrul campusului ETTI.
+    </div>
+    <button id="find-me-btn" onclick="toggleLocation()">Find Me</button>
+    <button id="recenter-btn" onclick="recenterMap()"
+            style="display: none;">Recenter</button>
+
+    <!-- Modale pentru planurile de etaj (continut omis pentru concizie) -->
+    <div id="indoor-modal" class="indoor-modal"> ... </div>
+    <div id="floor-manager-modal" class="indoor-modal"> ... </div>
+    <div id="auth-error-overlay" style="display: none;"> ... </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/graph-editor.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/routing.js"></script>
+    <script src="js/indoor.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+\end{lstlisting}
+
+\section*{Verificarea rolului pe partea de client}
+
+\begin{lstlisting}[language=JavaScript, caption={Verificarea rolului utilizatorului inainte de activarea modului de editare (defense-in-depth)}, label={lst:authcheck}]
+function showAuthError(message) {
+    document.getElementById('auth-error-message').textContent = message;
+    document.getElementById('auth-error-overlay').style.display = 'flex';
+}
+
+async function loadLoggedUser() {
+    const isEditMode = new URLSearchParams(window.location.search).get('edit') === '1';
+    try {
+        const response = await fetch('/api/auth/me', {
+            method: 'GET',
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            if (isEditMode) {
+                showAuthError('Trebuie sa fii logat ca Administrator pentru editare.');
+            }
+            return;
+        }
+
+        const data = await response.json();
+        if (data && data.authenticated && data.username) {
+            const role = (data.role || 'ROLE_USER').replace('ROLE_', '').toUpperCase();
+
+            // Verificare frontend: doar ADMIN poate intra in modul de editare
+            if (isEditMode && role !== 'ADMIN') {
+                showAuthError('Contul tau (' + data.username +
+                    ') nu are drepturi de Administrator.');
+                return;
+            }
+
+            const userEl = document.getElementById('logged-user');
+            userEl.textContent = 'Logat ca: ' + data.username + ' (' + role + ')';
+            userEl.style.display = 'block';
+        } else if (isEditMode) {
+            showAuthError('Trebuie sa fii logat ca Administrator pentru editare.');
+        }
+    } catch (error) {
+        if (isEditMode) {
+            showAuthError('Eroare de conexiune la server.');
+        }
+    }
+}
+loadLoggedUser();
+\end{lstlisting}

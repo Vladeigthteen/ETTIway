@@ -27,53 +27,105 @@ const MAP_BOUNDS = [
 
 \section*{Construirea grafului și algoritmul Dijkstra (exterior)}
 
-\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON (routing.js)}, label={lst:b2}]
+\begin{lstlisting}[language=JavaScript, caption={Construirea grafului din date GeoJSON, cu tratarea intersectiilor}, label={lst:b2}]
 const COORD_PRECISION = 6;
+const SNAP_TOLERANCE = 0.5; // metri: varfuri mai apropiate = acelasi nod
 
 function getCoordKey(lat, lng) {
     return `${Number(lat).toFixed(COORD_PRECISION)},${Number(lng).toFixed(COORD_PRECISION)}`;
 }
 
-function buildGraphFromGeoJSON(geoJSON) {
+function extractSegments(geoJSON) {
+    const segments = [];
+    if (!geoJSON || !geoJSON.features) return segments;
+    function addLine(coords) {
+        for (let i = 0; i < coords.length - 1; i++) {
+            segments.push({
+                a: { lat: coords[i][1],   lng: coords[i][0] },
+                b: { lat: coords[i+1][1], lng: coords[i+1][0] }
+            });
+        }
+    }
+    geoJSON.features.forEach(feature => {
+        if (!feature.geometry) return;
+        const g = feature.geometry;
+        if (g.type === 'LineString') addLine(g.coordinates);
+        else if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
+    });
+    return segments;
+}
+
+function buildGraphFromGeoJSON(geoJSON, { splitIntersections = true } = {}) {
     const graph = {};
     const nodesMap = {};
+    const nodeList = [];
 
-    function addNode(lat, lng) {
+    function getOrCreateNode(lat, lng) {
+        const ll = L.latLng(lat, lng);
+        for (const key of nodeList) {
+            if (ll.distanceTo(nodesMap[key]) <= SNAP_TOLERANCE) return key;
+        }
         const key = getCoordKey(lat, lng);
         if (!graph[key]) {
             graph[key] = [];
-            nodesMap[key] = L.latLng(lat, lng);
+            nodesMap[key] = ll;
+            nodeList.push(key);
         }
         return key;
     }
 
-    function addEdge(key1, key2, dist) {
-        graph[key1].push({ node: key2, weight: dist });
-        graph[key2].push({ node: key1, weight: dist });
+    function addEdge(k1, k2) {
+        if (k1 === k2) return;
+        const dist = nodesMap[k1].distanceTo(nodesMap[k2]);
+        if (!graph[k1].some(e => e.node === k2)) graph[k1].push({ node: k2, weight: dist });
+        if (!graph[k2].some(e => e.node === k1)) graph[k2].push({ node: k1, weight: dist });
     }
 
-    if (!geoJSON || !geoJSON.features) return { graph, nodesMap };
-
-    geoJSON.features.forEach(feature => {
-        if (feature.geometry.type === 'LineString') {
-           
-            const coords = feature.geometry.coordinates;
-            for (let i = 0; i < coords.length - 1; i++) {
-                const lat1 = coords[i][1],   lng1 = coords[i][0];
-                const lat2 = coords[i+1][1], lng2 = coords[i+1][0];
-                const key1 = addNode(lat1, lng1);
-                const key2 = addNode(lat2, lng2);
-                const dist = nodesMap[key1].distanceTo(nodesMap[key2]);
-                addEdge(key1, key2, dist);
-            }
-        } else if (feature.geometry.type === 'Point') {
-            
-            const lat = feature.geometry.coordinates[1];
-            const lng = feature.geometry.coordinates[0];
-            addNode(lat, lng);
-        }
+    let segments = extractSegments(geoJSON);
+    if (splitIntersections) segments = splitSegmentsAtIntersections(segments);
+    segments.forEach(seg => {
+        const k1 = getOrCreateNode(seg.a.lat, seg.a.lng);
+        const k2 = getOrCreateNode(seg.b.lat, seg.b.lng);
+        addEdge(k1, k2);
     });
     return { graph, nodesMap };
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript, caption={Taierea segmentelor la intersectii (planarizarea retelei)}, label={lst:split}]
+function lineParams(p1, p2, p3, p4) {
+    const x1=p1.lng, y1=p1.lat, x2=p2.lng, y2=p2.lat;
+    const x3=p3.lng, y3=p3.lat, x4=p4.lng, y4=p4.lat;
+    const denom = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4);
+    if (Math.abs(denom) < 1e-12) return null;
+    const t = ((x1-x3)*(y3-y4) - (y1-y3)*(x3-x4)) / denom;
+    const u = ((x1-x3)*(y1-y2) - (y1-y3)*(x1-x2)) / denom;
+    return { t, u, point: { lat: y1 + t*(y2-y1), lng: x1 + t*(x2-x1) } };
+}
+
+function splitSegmentsAtIntersections(segments) {
+    const eps = 1e-9;
+    const splitPoints = segments.map(() => []);
+    for (let i = 0; i < segments.length; i++) {
+        for (let j = i + 1; j < segments.length; j++) {
+            const r = lineParams(segments[i].a, segments[i].b, segments[j].a, segments[j].b);
+            if (!r) continue;
+            const { t, u, point } = r;
+            const tInterior = t > eps && t < 1 - eps;
+            const uInterior = u > eps && u < 1 - eps;
+            if (tInterior && u >= -eps && u <= 1 + eps) splitPoints[i].push(point);
+            if (uInterior && t >= -eps && t <= 1 + eps) splitPoints[j].push(point);
+        }
+    }
+    const result = [];
+    segments.forEach((seg, idx) => {
+        const pts = splitPoints[idx];
+        if (pts.length === 0) { result.push(seg); return; }
+        const all = [seg.a, ...pts, seg.b];
+        all.sort((m, n) => dist2(seg.a, m) - dist2(seg.a, n));
+        for (let k = 0; k < all.length - 1; k++) result.push({ a: all[k], b: all[k+1] });
+    });
+    return result;
 }
 \end{lstlisting}
 
@@ -125,18 +177,40 @@ function runDijkstra(graph, nodesMap, startKey, endKey) {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=JavaScript, caption={Gasirea celui mai apropiat nod din graf (routing.js)}, label={lst:b4}]
-function findNearestNode(targetLatLng, nodesMap) {
-    let nearestKey = null;
-    let minDistance = Infinity;
-    for (const key in nodesMap) {
-        const dist = targetLatLng.distanceTo(nodesMap[key]);
-        if (dist < minDistance) {
-            minDistance = dist;
-            nearestKey = key;
+\begin{lstlisting}[language=JavaScript, caption={Conectarea punctelor de start/destinatie la cea mai apropiata muchie}, label={lst:snap}]
+function projectPointOnSegment(p, a, b) {
+    const ax=a.lng, ay=a.lat, bx=b.lng, by=b.lat, px=p.lng, py=p.lat;
+    const dx = bx-ax, dy = by-ay;
+    const len2 = dx*dx + dy*dy;
+    let t = len2 === 0 ? 0 : ((px-ax)*dx + (py-ay)*dy) / len2;
+    t = Math.max(0, Math.min(1, t));
+    return { lat: ay + t*dy, lng: ax + t*dx };
+}
+
+function addTemporaryNode(targetLatLng, graph, nodesMap) {
+    let best = null;
+    const seen = new Set();
+    for (const k1 in graph) {
+        for (const edge of graph[k1]) {
+            const k2 = edge.node;
+            const pairId = k1 < k2 ? `${k1}|${k2}` : `${k2}|${k1}`;
+            if (seen.has(pairId)) continue;
+            seen.add(pairId);
+            const proj = projectPointOnSegment(targetLatLng, nodesMap[k1], nodesMap[k2]);
+            const snapped = L.latLng(proj.lat, proj.lng);
+            const d = targetLatLng.distanceTo(snapped);
+            if (!best || d < best.distance) best = { snapped, distance: d, k1, k2 };
         }
     }
-    return nearestKey;
+    if (!best) return null;
+    const key = 'tmp:' + getCoordKey(best.snapped.lat, best.snapped.lng);
+    if (!graph[key]) { graph[key] = []; nodesMap[key] = best.snapped; }
+    [best.k1, best.k2].forEach(endKey => {
+        const d = best.snapped.distanceTo(nodesMap[endKey]);
+        if (!graph[key].some(e => e.node === endKey)) graph[key].push({ node: endKey, weight: d });
+        if (!graph[endKey].some(e => e.node === key)) graph[endKey].push({ node: key, weight: d });
+    });
+    return key;
 }
 \end{lstlisting}
 
