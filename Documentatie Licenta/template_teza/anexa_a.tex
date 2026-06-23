@@ -128,41 +128,42 @@ public PasswordEncoder passwordEncoder() {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=Java, caption={Definirea regulilor de autorizare (extras din SecurityConfig)}, label={lst:a6}]
-@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(csrf -> csrf
-            .ignoringRequestMatchers("/api/graph/**")
-            .disable()
-        )
-        .authorizeHttpRequests(auth -> auth
-            
-            .requestMatchers("/login.html", "/auth.html", "/api/auth/**",
-                             "/css/**", "/js/**", "/icons/**", "/data/**").permitAll()
-            
-            
-            .requestMatchers("/api/graph/**").permitAll()
-            
-            
-            .requestMatchers("/api/admin/**").hasRole("ADMIN")
-            
-            
-            .anyRequest().authenticated()
-        )
-        .formLogin(form -> form
-            .loginPage("/login.html")
-            .loginProcessingUrl("/login")
-            .defaultSuccessUrl("/success", true)
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/login.html")
-            .permitAll()
-        );
+\begin{lstlisting}[language=Java, caption={Definirea regulilor de autorizare (SecurityConfig)}, label={lst:security}]
+@Configuration
+public class SecurityConfig {
 
-    return http.build();
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/login.html", "/auth.html", "/api/auth/**", "/css/**", "/js/**", "/icons/**", "/Icons/**", "/data/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/graph/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/graph/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/graph/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/indoor/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/api/indoor/**").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/success", true)
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login.html")
+                .permitAll()
+            );
+        return http.build();
+    }
 }
 \end{lstlisting}
 
@@ -229,6 +230,8 @@ public interface MapDataRepository extends JpaRepository<MapData, Long> {
 }
 \end{lstlisting}
 
+
+
 \begin{lstlisting}[language=Java, caption={Controller REST pentru salvarea si incarcarea planurilor indoor}, label={lst:a10}]
 package com.example.demo.controller;
 
@@ -265,6 +268,44 @@ public class IndoorMapController {
             return ResponseEntity.ok(mapDataOpt.get().getIndoorJson());
         }
         return ResponseEntity.ok("{}");
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, caption={Controller REST pentru salvarea, incarcarea si stergerea grafului exterior}, label={lst:a11}]
+@RestController
+@RequestMapping("/api/graph")
+public class GraphController {
+
+    @Autowired
+    private MapDataRepository mapDataRepository;
+
+    @PostMapping("/save")
+    public ResponseEntity<String> saveGraph(@RequestBody String graphJson) {
+        MapData mapData = mapDataRepository.findById(1L).orElse(new MapData());
+        mapData.setId(1L);
+        mapData.setGraphJson(graphJson);
+        mapData.setUpdatedAt(LocalDateTime.now());
+        mapDataRepository.save(mapData);
+        return ResponseEntity.ok("Graph saved successfully.");
+    }
+
+    @GetMapping("/load")
+    public ResponseEntity<String> loadGraph() {
+        Optional<MapData> mapDataOpt = mapDataRepository.findById(1L);
+        if (mapDataOpt.isPresent() && mapDataOpt.get().getGraphJson() != null) {
+            return ResponseEntity.ok(mapDataOpt.get().getGraphJson());
+        }
+        return ResponseEntity.ok("{}");
+    }
+
+    @DeleteMapping("/erase")
+    public ResponseEntity<String> eraseGraph() {
+        if (mapDataRepository.existsById(1L)) {
+            mapDataRepository.deleteById(1L);
+            return ResponseEntity.ok("Graph erased successfully.");
+        }
+        return ResponseEntity.ok("No graph found to erase.");
     }
 }
 \end{lstlisting}

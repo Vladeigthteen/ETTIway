@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  23 JUN 2026 20:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  23 JUN 2026 21:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1774,7 +1774,7 @@ Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on in
 ]
 Underfull \vbox (badness 1009) has occurred while \output is active []
 
- [48] [49] [50]) [51]
+ [48] [49] [50] [51]) [52]
 \openout2 = `anexa_b.aux'.
 
  (anexa_b.tex
@@ -1795,12 +1795,12 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\hbox' on input line 8.
 
-[52
+[53
 
 
 
 
-] [53] [54] [55]) [56] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
+] [54] [55] [56]) [57] (teza.aux (capitolul1.aux) (capitolul2.aux) (capitolul3.aux) (capitolul4.aux) (concluzii.aux) (anexa_a.aux) (anexa_b.aux))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -1816,17 +1816,17 @@ Package rerunfilecheck Info: File `teza.out' has not changed.
 (rerunfilecheck)             Checksum: 3D28D100908120E63BED96CF1ECBE18E;23158.
  ) 
 Here is how much of TeX's memory you used:
- 29980 strings out of 467871
- 553063 string characters out of 5418377
- 1619189 words of memory out of 5000000
- 57608 multiletter control sequences out of 15000+600000
+ 30030 strings out of 467871
+ 553848 string characters out of 5418377
+ 1619285 words of memory out of 5000000
+ 57620 multiletter control sequences out of 15000+600000
  720885 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,94p,762b,2047s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (67 pages, 8646904 bytes).
+Output written on teza.pdf (68 pages, 8654697 bytes).
 PDF statistics:
- 1977 PDF objects out of 2073 (max. 8388607)
- 639 named destinations out of 1000 (max. 500000)
+ 2026 PDF objects out of 2073 (max. 8388607)
+ 677 named destinations out of 1000 (max. 500000)
  946 words of extra memory for PDF output out of 10000 (max. 10000000)
 
