@@ -534,12 +534,12 @@ OUTPUT capitolul2.aux
 INPUT .\capitolul2.tex
 INPUT .\capitolul2.tex
 INPUT capitolul2.tex
-INPUT .\figuri\flux_autentificare.pdf
-INPUT .\figuri\flux_autentificare.pdf
-INPUT .\figuri\flux_autentificare.pdf
-INPUT .\figuri\flux_autentificare.pdf
-INPUT .\figuri\flux_autentificare.pdf
-INPUT .\figuri\flux_autentificare.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
+INPUT .\figuri\arhitectura_ettiway_v2.pdf
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmr10.tfm
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\rm-lmr5.tfm
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\lmmi5.tfm
@@ -548,6 +548,8 @@ INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\sym
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\tfm\public\lm\ec-lmtt10.tfm
 INPUT C:\Users\frati\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\lm\lm-rm.enc
+INPUT .\figuri\flux_autentificare.pdf
+INPUT .\figuri\flux_autentificare.pdf
 INPUT .\figuri\flux_autentificare.pdf
 INPUT .\figuri\flux_autentificare.pdf
 INPUT .\figuri\flux_autentificare.pdf
