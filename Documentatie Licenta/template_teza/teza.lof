@@ -7,9 +7,11 @@
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Fluxul de editare în modul administrator}}{28}{figure.caption.12}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Afișarea vizuală a traseului calculat pe hartă cu locația live}}{30}{figure.caption.13}%
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Diagrama UML de activitate care prezintă fluxul de editare și salvare a hărții. }}{31}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Versiunile principale ale componentelor serverului ETTIway.}}{34}{figure.caption.15}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Topologia rețelei platformei ETTIway.}}{34}{figure.caption.16}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Aplicația ETTIway configurată ca serviciu systemd.}}{35}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Pornirea aplicației Spring Boot pe serverul propriu.}}{37}{figure.caption.19}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Mesaj afișat în consola la încercarea de salvare a hărții de un cont de user obișnuit}}{40}{figure.caption.20}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama fluxului de testare a platformei }}{43}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Traseul calculat pe planul unui etaj, de la un nod de plecare la intrarea unei săli.}}{32}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Afișarea interfeței pe un dispozitiv mobil, cu panoul de căutare și lista clădirilor}}{33}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Versiunile principale ale componentelor serverului ETTIway.}}{35}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Topologia rețelei platformei ETTIway.}}{35}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Aplicația ETTIway configurată ca serviciu systemd.}}{36}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Pornirea aplicației Spring Boot pe serverul propriu.}}{37}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Mesaj afișat în consola la încercarea de salvare a hărții de un cont de user obișnuit}}{40}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Diagrama fluxului de testare a platformei }}{43}{figure.caption.24}%

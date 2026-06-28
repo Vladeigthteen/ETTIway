@@ -188,7 +188,7 @@ informează utilizatorul în loc să afișeze un rezultat eronat.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.30\textwidth]{figuri/afisare_rutare.jpeg}
+    \includegraphics[width=0.30\textwidth]{figuri/afisare_rutare.png }
     \caption{Afișarea vizuală a traseului calculat pe hartă cu locația live}
     \label{fig:flux-auth}
 \end{figure}
@@ -277,6 +277,13 @@ plecare, aplicația construiește graful etajului din GeoJSON-ul stocat,
 rulează algoritmul lui Dijkstra între nodul de plecare și nodul de intrare al
 camerei destinație și desenează traseul rezultat pe plan.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{figuri/traseu_etaj.png}
+    \caption{Traseul calculat pe planul unui etaj, de la un nod de plecare la intrarea unei săli.}
+    \label{fig:traseu-etaj}
+\end{figure}
+
 Versiunea actuală tratează rutarea pe un singur etaj. Pentru deplasări între
 etaje, ar fi necesare noduri de tip scară sau lift, conectate între etaje
 prin muchii speciale care reprezintă tranziții verticale. Implementarea
@@ -315,6 +322,13 @@ standard pentru interfețele tactile, cu o suprafață minimă de aproximativ 48
 pixeli, suficient de mare pentru a fi atinse confortabil cu degetul fără riscul
 unor atingeri accidentale pe elementele adiacente. Distanțele dintre elementele
 acționabile sunt suficiente pentru a evita confuzia în cazul gesturilor rapide.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{figuri/afisare_mobil.png}
+    \caption{Afișarea interfeței pe un dispozitiv mobil, cu panoul de căutare și lista clădirilor}
+    \label{fig:afisare-mobile}
+\end{figure}
  
 \subsection{Gestionarea stării partajate în aplicație}
 \label{subsec:stare}

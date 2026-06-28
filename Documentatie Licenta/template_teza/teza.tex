@@ -106,17 +106,34 @@ informaționale}
 
 \pagestyle{plain}
 
+
+\clearpage
+\thispagestyle{empty}\null\clearpage
 \includepdf[pages={1,2}, pagecommand={\thispagestyle{plain}}]{Anexa1.2.pdf}
-\includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{Copyright (1).pdf}
+
+
+
 
 \includepdf[pages=-, pagecommand={\thispagestyle{plain}}]{declaratie de onestitate.pdf}
 
-\tableofcontents
+\clearpage
+\thispagestyle{empty}\null\clearpage
 
+
+\tableofcontents
+\clearpage
+\thispagestyle{empty}\null\clearpage
 \listoffigures
+
+\clearpage
+\thispagestyle{empty}\null\clearpage
+
 
 \listoftables
 \pagestyle{plain}
+
+\clearpage
+\thispagestyle{empty}\null\clearpage
  
 \abbreviations{
 \begin{tabular}{p{2.5cm} l}
@@ -146,7 +163,6 @@ OSM & OpenStreetMap \\
 PID & Process Identifier \\
 REST & Representational State Transfer \\
 RFC & Request for Comments \\
-RST & Rețele și Software de Telecomunicații \\
 SHA & Secure Hash Algorithm \\
 SQL & Structured Query Language \\
 SRS & Spatial Reference System \\
@@ -335,10 +351,7 @@ dezvoltare ulterioară. Codul sursă este disponibil în anexele A
 \clearpage
 \include{capitolul2}
 \include{capitolul3}
-\clearpage
-\thispagestyle{empty}
-\mbox{}
-\clearpage
+
 \include{capitolul4}
 \clearpage
 \thispagestyle{empty}

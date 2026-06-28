@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  24 JUN 2026 19:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.4.1)  24 JUN 2026 21:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1326,13 +1326,15 @@ Overfull \hbox (29.73232pt too wide) in paragraph at lines 104--104
 
 [1
 
-{C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}]
+{C:/Users/frati/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc}] [2
+
+]
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=415, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=419, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf>
-Package pdftex.def Info: Anexa1.2.pdf  used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf  used on input line 112.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 
 
@@ -1340,91 +1342,55 @@ pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version
 
 
 pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=417, page=1, 614.295pt x 794.97pt>
+<Anexa1.2.pdf, id=421, page=1, 614.295pt x 794.97pt>
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
-Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 112.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
-Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 112.
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
-Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 112.
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
-Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 112.
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Anexa1.2.pdf Graphic file (type pdf)
 <use Anexa1.2.pdf, page 1>
-Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 109.
-(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-[2
-
- <./Anexa1.2.pdf>]
-
-pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Anexa1.2.pdf, id=468, page=2, 614.295pt x 794.97pt>
-File: Anexa1.2.pdf Graphic file (type pdf)
-<use Anexa1.2.pdf, page 2>
-Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 109.
-(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-File: Anexa1.2.pdf Graphic file (type pdf)
-<use Anexa1.2.pdf, page 2>
-Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 109.
-(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-File: Anexa1.2.pdf Graphic file (type pdf)
-<use Anexa1.2.pdf, page 2>
-Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 109.
+Package pdftex.def Info: Anexa1.2.pdf , page1 used on input line 112.
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 [3
 
+
  <./Anexa1.2.pdf>]
 
-pdfTeX warning: pdflatex (file ./Copyright (1).pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Copyright (1).pdf, id=497, 598.27513pt x 845.67947pt>
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf>
-Package pdftex.def Info: Copyright (1).pdf  used on input line 110.
-(pdftex.def)             Requested size: 598.27367pt x 845.67741pt.
-
-
-pdfTeX warning: pdflatex (file ./Copyright (1).pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-
-
-pdfTeX warning: pdflatex (file ./Copyright (1).pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Copyright (1).pdf, id=499, page=1, 598.27513pt x 845.67947pt>
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf, page 1>
-Package pdftex.def Info: Copyright (1).pdf , page1 used on input line 110.
-(pdftex.def)             Requested size: 598.27367pt x 845.67741pt.
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf, page 1>
-Package pdftex.def Info: Copyright (1).pdf , page1 used on input line 110.
-(pdftex.def)             Requested size: 597.7807pt x 844.98059pt.
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf, page 1>
-Package pdftex.def Info: Copyright (1).pdf , page1 used on input line 110.
-(pdftex.def)             Requested size: 597.7807pt x 844.98059pt.
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf, page 1>
-Package pdftex.def Info: Copyright (1).pdf , page1 used on input line 110.
-(pdftex.def)             Requested size: 597.7807pt x 844.98059pt.
-File: Copyright (1).pdf Graphic file (type pdf)
-<use Copyright (1).pdf, page 1>
-Package pdftex.def Info: Copyright (1).pdf , page1 used on input line 110.
-(pdftex.def)             Requested size: 597.7807pt x 844.98059pt.
+pdfTeX warning: pdflatex (file ./Anexa1.2.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
+<Anexa1.2.pdf, id=472, page=2, 614.295pt x 794.97pt>
+File: Anexa1.2.pdf Graphic file (type pdf)
+<use Anexa1.2.pdf, page 2>
+Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 112.
+(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
+File: Anexa1.2.pdf Graphic file (type pdf)
+<use Anexa1.2.pdf, page 2>
+Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 112.
+(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
+File: Anexa1.2.pdf Graphic file (type pdf)
+<use Anexa1.2.pdf, page 2>
+Package pdftex.def Info: Anexa1.2.pdf , page2 used on input line 112.
+(pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 [4
 
- <./Copyright (1).pdf>]
+ <./Anexa1.2.pdf>]
 
 pdfTeX warning: pdflatex (file ./declaratie de onestitate.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<declaratie de onestitate.pdf, id=530, 597.23125pt x 844.15375pt>
+<declaratie de onestitate.pdf, id=501, 597.23125pt x 844.15375pt>
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf>
-Package pdftex.def Info: declaratie de onestitate.pdf  used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf  used on input line 117.
 (pdftex.def)             Requested size: 597.22978pt x 844.15169pt.
 
 
@@ -1432,63 +1398,75 @@ pdfTeX warning: pdflatex (file ./declaratie de onestitate.pdf): PDF inclusion: f
 
 
 pdfTeX warning: pdflatex (file ./declaratie de onestitate.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<declaratie de onestitate.pdf, id=532, page=1, 597.23125pt x 844.15375pt>
+<declaratie de onestitate.pdf, id=503, page=1, 597.23125pt x 844.15375pt>
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf, page 1>
-Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 117.
 (pdftex.def)             Requested size: 597.22978pt x 844.15169pt.
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf, page 1>
-Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 117.
 (pdftex.def)             Requested size: 597.73099pt x 844.86012pt.
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf, page 1>
-Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 117.
 (pdftex.def)             Requested size: 597.73099pt x 844.86012pt.
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf, page 1>
-Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 117.
 (pdftex.def)             Requested size: 597.73099pt x 844.86012pt.
 File: declaratie de onestitate.pdf Graphic file (type pdf)
 <use declaratie de onestitate.pdf, page 1>
-Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 112.
+Package pdftex.def Info: declaratie de onestitate.pdf , page1 used on input line 117.
 (pdftex.def)             Requested size: 597.73099pt x 844.86012pt.
 [5
 
- <./declaratie de onestitate.pdf>] (teza.toc
+ <./declaratie de onestitate.pdf>] [6
+
+] (teza.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 2.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 2.
- [6
+ [7
 
-{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}] [7])
+
+{C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}] [8])
 \tf@toc=\write5
 \openout5 = `teza.toc'.
 
- [8] (teza.lof)
+ [9] [10
+
+] (teza.lof)
 \tf@lof=\write6
 \openout6 = `teza.lof'.
 
- [9
+ [11
+
+
+] [12
 
 ] (teza.lot)
 \tf@lot=\write7
 \openout7 = `teza.lot'.
 
- [10
+ [13
+
+
+] [14
 
 ]
 
 Package hyperref Warning: bookmark level for unknown unnumberedsection defaults to 0.
 
 Lista acronimelor
-[11
+[15
+
 
 ] [1
 
 ]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 265.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 281.
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [2] [3] [4
@@ -1503,7 +1481,7 @@ Capitolul 1.
 
 
 ] [6] [7] [8]
-<figuri/trilaterare_gps.pdf, id=751, 511.9125pt x 361.35pt>
+<figuri/trilaterare_gps.pdf, id=742, 511.9125pt x 361.35pt>
 File: figuri/trilaterare_gps.pdf Graphic file (type pdf)
 <use figuri/trilaterare_gps.pdf>
 Package pdftex.def Info: figuri/trilaterare_gps.pdf  used on input line 286.
@@ -1513,7 +1491,7 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 36
  (C:\Users\frati\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [10]
-<figuri/dijkstra_exemplu.pdf, id=800, 511.9125pt x 286.06876pt>
+<figuri/dijkstra_exemplu.pdf, id=792, 511.9125pt x 286.06876pt>
 File: figuri/dijkstra_exemplu.pdf Graphic file (type pdf)
 <use figuri/dijkstra_exemplu.pdf>
 Package pdftex.def Info: figuri/dijkstra_exemplu.pdf  used on input line 370.
@@ -1535,7 +1513,7 @@ Underfull \vbox (badness 2469) has occurred while \output is active []
 
  (capitolul2.tex
 Capitolul 2.
-<figuri/arhitectura_ettiway_v2.pdf, id=949, 511.9125pt x 331.2375pt>
+<figuri/arhitectura_ettiway_v2.pdf, id=941, 511.9125pt x 331.2375pt>
 File: figuri/arhitectura_ettiway_v2.pdf Graphic file (type pdf)
 <use figuri/arhitectura_ettiway_v2.pdf>
 Package pdftex.def Info: figuri/arhitectura_ettiway_v2.pdf  used on input line 52.
@@ -1571,7 +1549,7 @@ Overfull \hbox (0.6866pt too wide) in paragraph at lines 387--393
  []
 
 [23] [24]
-<figuri/flux_autentificare.pdf, id=1015, 511.9125pt x 451.6875pt>
+<figuri/flux_autentificare.pdf, id=1007, 511.9125pt x 451.6875pt>
 File: figuri/flux_autentificare.pdf Graphic file (type pdf)
 <use figuri/flux_autentificare.pdf>
 Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 495.
@@ -1581,7 +1559,7 @@ Package pdftex.def Info: figuri/flux_autentificare.pdf  used on input line 495.
 
  (capitolul3.tex
 Capitolul 3.
-<figuri/vizualizare_admin.png, id=1106, 1099.10625pt x 645.91313pt>
+<figuri/vizualizare_admin.png, id=1097, 1099.10625pt x 645.91313pt>
 File: figuri/vizualizare_admin.png Graphic file (type png)
 <use figuri/vizualizare_admin.png>
 Package pdftex.def Info: figuri/vizualizare_admin.png  used on input line 40.
@@ -1595,78 +1573,84 @@ Underfull \vbox (badness 5475) has occurred while \output is active []
 
 
  <./figuri/vizualizare_admin.png>]
-<figuri/harta-edit.png, id=1113, 1440.13031pt x 710.655pt>
+<figuri/harta-edit.png, id=1104, 1440.13031pt x 710.655pt>
 File: figuri/harta-edit.png Graphic file (type png)
 <use figuri/harta-edit.png>
 Package pdftex.def Info: figuri/harta-edit.png  used on input line 62.
 (pdftex.def)             Requested size: 241.84843pt x 119.335pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10.95> on input line 63.
-<figuri/manager-etaje.png, id=1114, 450.18187pt x 267.24844pt>
+<figuri/manager-etaje.png, id=1105, 450.18187pt x 267.24844pt>
 File: figuri/manager-etaje.png Graphic file (type png)
 <use figuri/manager-etaje.png>
 Package pdftex.def Info: figuri/manager-etaje.png  used on input line 69.
 (pdftex.def)             Requested size: 241.84843pt x 143.57391pt.
-<figuri/editare-etaje.png, id=1115, 1438.6247pt x 704.6325pt>
+<figuri/editare-etaje.png, id=1106, 1438.6247pt x 704.6325pt>
 File: figuri/editare-etaje.png Graphic file (type png)
 <use figuri/editare-etaje.png>
 Package pdftex.def Info: figuri/editare-etaje.png  used on input line 76.
 (pdftex.def)             Requested size: 241.84843pt x 118.45271pt.
  [28 <./figuri/harta-edit.png> <./figuri/manager-etaje.png> <./figuri/editare-etaje.png>] [29]
-<figuri/afisare_rutare.jpeg, id=1129, 794.97pt x 1606.0pt>
-File: figuri/afisare_rutare.jpeg Graphic file (type jpg)
-<use figuri/afisare_rutare.jpeg>
-Package pdftex.def Info: figuri/afisare_rutare.jpeg  used on input line 191.
-(pdftex.def)             Requested size: 145.11053pt x 293.13545pt.
+<figuri/afisare_rutare.png, id=1121, 591.71063pt x 1282.7925pt>
+File: figuri/afisare_rutare.png Graphic file (type png)
+<use figuri/afisare_rutare.png>
+Package pdftex.def Info: figuri/afisare_rutare.png  used on input line 191.
+(pdftex.def)             Requested size: 145.11053pt x 314.5903pt.
 
 Overfull \hbox (9.80125pt too wide) in paragraph at lines 200--206
 \T1/lmr/m/n/12 O com-po-nent  im-por-tant  a plat-for-mei este ru-ta-rea în in-te-ri-o-rul cl -di-ri-lor, care ex-tinde experien[]a
  []
 
-[30 <./figuri/afisare_rutare.jpeg>]
-<figuri/uml_flow_salvare.pdf, id=1134, 526.96875pt x 752.8125pt>
+[30 <./figuri/afisare_rutare.png>]
+<figuri/uml_flow_salvare.pdf, id=1126, 526.96875pt x 752.8125pt>
 File: figuri/uml_flow_salvare.pdf Graphic file (type pdf)
 <use figuri/uml_flow_salvare.pdf>
 Package pdftex.def Info: figuri/uml_flow_salvare.pdf  used on input line 239.
 (pdftex.def)             Requested size: 314.40001pt x 449.16385pt.
- [31 <./figuri/uml_flow_salvare.pdf>] [32]
-Underfull \vbox (badness 1881) has occurred while \output is active []
-
- [33]
-<figuri/versiuni.png, id=1165, 566.86781pt x 185.94469pt>
+ [31 <./figuri/uml_flow_salvare.pdf>]
+<figuri/traseu_etaj.png, id=1146, 1440.13031pt x 703.12688pt>
+File: figuri/traseu_etaj.png Graphic file (type png)
+<use figuri/traseu_etaj.png>
+Package pdftex.def Info: figuri/traseu_etaj.png  used on input line 282.
+(pdftex.def)             Requested size: 386.95897pt x 188.9241pt.
+ [32 <./figuri/traseu_etaj.png>]
+<figuri/afisare_mobil.png, id=1152, 591.71063pt x 1282.7925pt>
+File: figuri/afisare_mobil.png Graphic file (type png)
+<use figuri/afisare_mobil.png>
+Package pdftex.def Info: figuri/afisare_mobil.png  used on input line 328.
+(pdftex.def)             Requested size: 145.11053pt x 314.5903pt.
+ [33 <./figuri/afisare_mobil.png>]
+<figuri/versiuni.png, id=1159, 566.86781pt x 185.94469pt>
 File: figuri/versiuni.png Graphic file (type png)
 <use figuri/versiuni.png>
-Package pdftex.def Info: figuri/versiuni.png  used on input line 394.
+Package pdftex.def Info: figuri/versiuni.png  used on input line 408.
 (pdftex.def)             Requested size: 290.22107pt x 95.20221pt.
+ [34]
 <figuri/Topologie_retea.png, id=1166, 364.36125pt x 315.42844pt>
 File: figuri/Topologie_retea.png Graphic file (type png)
 <use figuri/Topologie_retea.png>
-Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 407.
+Package pdftex.def Info: figuri/Topologie_retea.png  used on input line 421.
 (pdftex.def)             Requested size: 193.47578pt x 167.48912pt.
- [34 <./figuri/versiuni.png> <./figuri/Topologie_retea.png>]
-Overfull \hbox (11.25456pt too wide) in paragraph at lines 456--466
+
+Underfull \vbox (badness 1546) has occurred while \output is active []
+
+ [35 <./figuri/versiuni.png> <./figuri/Topologie_retea.png>]
+Overfull \hbox (11.25456pt too wide) in paragraph at lines 470--480
 \T1/lmr/m/n/12 port des-chis c -tre in-ter-net. În ar-hi-tec-tura cla-sic , ex-pu-ne-rea unui ser-ver pre-su-pune redirec[]ionarea
  []
 
-<figuri/systemctl_status.png, id=1178, 878.53218pt x 155.83218pt>
+<figuri/systemctl_status.png, id=1177, 878.53218pt x 155.83218pt>
 File: figuri/systemctl_status.png Graphic file (type png)
 <use figuri/systemctl_status.png>
-Package pdftex.def Info: figuri/systemctl_status.png  used on input line 471.
+Package pdftex.def Info: figuri/systemctl_status.png  used on input line 485.
 (pdftex.def)             Requested size: 411.14528pt x 72.92964pt.
-[35 <./figuri/systemctl_status.png>]
-<figuri/Springboot.png, id=1188, 1919.67188pt x 430.60875pt>
+[36 <./figuri/systemctl_status.png>]
+<figuri/Springboot.png, id=1189, 1919.67188pt x 430.60875pt>
 File: figuri/Springboot.png Graphic file (type png)
 <use figuri/Springboot.png>
-Package pdftex.def Info: figuri/Springboot.png  used on input line 560.
+Package pdftex.def Info: figuri/Springboot.png  used on input line 574.
 (pdftex.def)             Requested size: 483.69687pt x 108.49951pt.
-
-Underfull \vbox (badness 2591) has occurred while \output is active []
-
- [36]) [37 <./figuri/Springboot.png>] [38
-
-
-
-]
+ [37 <./figuri/Springboot.png>]) [38]
 \openout2 = `capitolul4.aux'.
 
  (capitolul4.tex
@@ -1675,14 +1659,15 @@ Capitolul 4.
 
 
 
+
 ]
-<figuri/mesaj_consola.png, id=1210, 573.64313pt x 225.84375pt>
+<figuri/mesaj_consola.png, id=1204, 573.64313pt x 225.84375pt>
 File: figuri/mesaj_consola.png Graphic file (type png)
 <use figuri/mesaj_consola.png>
 Package pdftex.def Info: figuri/mesaj_consola.png  used on input line 74.
 (pdftex.def)             Requested size: 386.95897pt x 152.34834pt.
  [40 <./figuri/mesaj_consola.png>] [41] [42]
-<figuri/flux_testare.pdf, id=1224, 511.9125pt x 286.06876pt>
+<figuri/flux_testare.pdf, id=1219, 511.9125pt x 286.06876pt>
 File: figuri/flux_testare.pdf Graphic file (type pdf)
 <use figuri/flux_testare.pdf>
 Package pdftex.def Info: figuri/flux_testare.pdf  used on input line 285.
@@ -1710,22 +1695,22 @@ Package hyperref Warning: The anchor of a bookmark and its parent's must not
 ]
 Bibliografie
 
-Underfull \hbox (badness 4378) in paragraph at lines 358--362
+Underfull \hbox (badness 4378) in paragraph at lines 371--375
 []\T1/lmr/m/n/12 M. R. Lu-a-ces, J. R. R. Vi-qu-eira, T. R. Co-tos, J. R. P. Pérez, \T1/lmr/m/it/12 A Ge-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 358--362
+Underfull \hbox (badness 10000) in paragraph at lines 371--375
 \T1/lmr/m/it/12 ne-ric Ar-chi-tec-ture for Ge-o-gra-phic In-for-ma-tion Sys-tems\T1/lmr/m/n/12 , Re-sear-ch-Gate, 2004,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 358--362
+Underfull \hbox (badness 10000) in paragraph at lines 371--375
 []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 228982330 _ A _ Generic _ Architecture _
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--421
+Underfull \hbox (badness 10000) in paragraph at lines 428--434
 \T1/lmr/m/n/12 Disponibil la: []$\T1/lmtt/m/n/12 https : / / www . researchgate . net / publication / 316736456$[]\T1/lmr/m/n/12 , DOI:
  []
 
@@ -1733,17 +1718,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 415--421
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 458--461
+Underfull \hbox (badness 10000) in paragraph at lines 471--474
 []\T1/lmr/m/n/12 Tailscale Inc., \T1/lmr/m/it/12 How Ta-ils-cale Works\T1/lmr/m/n/12 , []$\T1/lmtt/m/n/12 https : / / tailscale . com / blog /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 483--487
+Underfull \hbox (badness 10000) in paragraph at lines 496--500
 \T1/lmr/m/n/12 1617297571., []$\T1/lmtt/m/n/12 https : / / linux . ime . usp . br / ~henrick / [ebook ] %20Manning % 20-[] %
  []
 
 
-Underfull \hbox (badness 6188) in paragraph at lines 536--539
+Underfull \hbox (badness 6188) in paragraph at lines 549--552
 []\T1/lmr/m/n/12 Canonical Ltd., \T1/lmr/m/it/12 Ubu-ntu 24.04 LTS (No-ble Nu-m-bat) re-lease no-tes\T1/lmr/m/n/12 , []$\T1/lmtt/m/n/12 https : / /
  []
 
@@ -1850,20 +1835,20 @@ L3 programming layer <2025-12-24>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `teza.out' has not changed.
-(rerunfilecheck)             Checksum: 84871BE6C7B66C6F4D6C5827E72AE738;23169.
+(rerunfilecheck)             Checksum: 09B39EE612C947A5ED454BDF2CA4B317;23169.
  ) 
 Here is how much of TeX's memory you used:
- 30588 strings out of 467871
- 561750 string characters out of 5418377
- 1678124 words of memory out of 5000000
- 57957 multiletter control sequences out of 15000+600000
+ 30599 strings out of 467871
+ 561954 string characters out of 5418377
+ 1678310 words of memory out of 5000000
+ 57962 multiletter control sequences out of 15000+600000
  720885 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,17n,94p,762b,2246s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri7.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb><C:/Users/frati/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on teza.pdf (78 pages, 8696442 bytes).
+Output written on teza.pdf (82 pages, 9169656 bytes).
 PDF statistics:
- 2319 PDF objects out of 2487 (max. 8388607)
- 887 named destinations out of 1000 (max. 500000)
- 943 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2315 PDF objects out of 2487 (max. 8388607)
+ 893 named destinations out of 1000 (max. 500000)
+ 938 words of extra memory for PDF output out of 10000 (max. 10000000)
 

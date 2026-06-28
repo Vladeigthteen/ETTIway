@@ -1,7 +1,7 @@
 \babel@toc {romanian}{}\relax 
-\contentsline {chapter}{Lista figurilor}{ix}{chapter*.2}%
-\contentsline {chapter}{Lista tabelelor}{x}{chapter*.3}%
-\contentsline {unnumberedsection}{Lista acronimelor}{xi}{chapter*.4}%
+\contentsline {chapter}{Lista figurilor}{xi}{chapter*.2}%
+\contentsline {chapter}{Lista tabelelor}{xiii}{chapter*.3}%
+\contentsline {unnumberedsection}{Lista acronimelor}{xv}{chapter*.4}%
 \contentsline {chapter}{Introducere}{1}{chapter*.5}%
 \contentsline {section}{\numberline {0.1}Obiectivele generale ale proiectului}{1}{section.0.1}%
 \contentsline {section}{\numberline {0.2}Metodologia folosită}{1}{section.0.2}%
@@ -68,14 +68,14 @@
 \contentsline {subsection}{\numberline {3.6.3}Calculul traseului indoor}{32}{subsection.3.6.3}%
 \contentsline {subsection}{\numberline {3.6.4}Detectarea dispozitivului și adaptarea interfeței}{32}{subsection.3.6.4}%
 \contentsline {subsection}{\numberline {3.6.5}Gestionarea stării partajate în aplicație}{33}{subsection.3.6.5}%
-\contentsline {subsection}{\numberline {3.6.6}Verificarea autorizării pe două niveluri}{33}{subsection.3.6.6}%
-\contentsline {section}{\numberline {3.7}Punerea în funcțiune prin rețea privată virtuală}{33}{section.3.7}%
+\contentsline {subsection}{\numberline {3.6.6}Verificarea autorizării pe două niveluri}{34}{subsection.3.6.6}%
+\contentsline {section}{\numberline {3.7}Punerea în funcțiune prin rețea privată virtuală}{34}{section.3.7}%
 \contentsline {section}{\numberline {3.8}Configurarea serverului}{34}{section.3.8}%
-\contentsline {subsection}{\numberline {3.8.1}Rețeaua privată cu Tailscale}{34}{subsection.3.8.1}%
-\contentsline {subsection}{\numberline {3.8.2}Adresarea prin MagicDNS}{35}{subsection.3.8.2}%
-\contentsline {subsection}{\numberline {3.8.3}Criptarea HTTPS și accesul la GPS}{35}{subsection.3.8.3}%
-\contentsline {section}{\numberline {3.9}Gestionarea serviciilor pe server}{36}{section.3.9}%
-\contentsline {section}{\numberline {3.10}Concluziile capitolului}{36}{section.3.10}%
+\contentsline {subsection}{\numberline {3.8.1}Rețeaua privată cu Tailscale}{36}{subsection.3.8.1}%
+\contentsline {subsection}{\numberline {3.8.2}Adresarea prin MagicDNS}{36}{subsection.3.8.2}%
+\contentsline {subsection}{\numberline {3.8.3}Criptarea HTTPS și accesul la GPS}{36}{subsection.3.8.3}%
+\contentsline {section}{\numberline {3.9}Gestionarea serviciilor pe server}{37}{section.3.9}%
+\contentsline {section}{\numberline {3.10}Concluziile capitolului}{38}{section.3.10}%
 \contentsline {chapter}{\numberline {4}Testarea și evaluarea sistemului}{39}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Metodologia de testare}{39}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Scenarii de testare funcțională}{39}{section.4.2}%
@@ -90,12 +90,12 @@
 \contentsline {subsection}{\numberline {4.5.1}Precizia poziționării în interiorul clădirilor}{42}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Acoperirea actuală a datelor}{42}{subsection.4.5.2}%
 \contentsline {section}{\numberline {4.6}Concluziile capitolului}{43}{section.4.6}%
-\contentsline {chapter}{Concluzii}{45}{chapter*.23}%
-\contentsline {section}{Sinteza rezultatelor}{45}{section*.24}%
-\contentsline {section}{Opinia personală asupra rezultatelor}{46}{section*.24}%
-\contentsline {section}{Direcții viitoare de dezvoltare}{46}{section*.24}%
-\contentsline {section}{Reflecție finală}{47}{section*.24}%
-\contentsline {unnumberedsection}{Bibliografie}{49}{chapter*.25}%
+\contentsline {chapter}{Concluzii}{45}{chapter*.25}%
+\contentsline {section}{Sinteza rezultatelor}{45}{section*.26}%
+\contentsline {section}{Opinia personală asupra rezultatelor}{46}{section*.26}%
+\contentsline {section}{Direcții viitoare de dezvoltare}{46}{section*.26}%
+\contentsline {section}{Reflecție finală}{47}{section*.26}%
+\contentsline {unnumberedsection}{Bibliografie}{49}{chapter*.27}%
 \contentsline {chapter}{\appnumberline {A}Cod Java (Backend)}{53}{appendix.A}%
 \contentsline {chapter}{\appnumberline {B}Cod JavaScript (Frontend)}{59}{appendix.B}%
 \contentsline {chapter}{\appnumberline {C}Cod HTML (Structura interfeței)}{65}{appendix.C}%
