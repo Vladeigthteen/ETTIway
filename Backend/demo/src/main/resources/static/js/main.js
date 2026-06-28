@@ -315,13 +315,15 @@ function initializeSearch() {
         });
         
         desktopSingleSearch.addEventListener('keyup', (e) => {
-             if (currentDesktopMode === 'building') {
-                 searchBuilding.value = e.target.value;
-                 searchBuilding.dispatchEvent(new Event('change'));
-             } else {
-                 searchRoom.value = e.target.value;
-                 searchRoom.dispatchEvent(new Event('change'));
-             }
+            if (e.key === 'Enter') {
+                 if (currentDesktopMode === 'building') {
+                     searchBuilding.value = e.target.value;
+                     searchBuilding.dispatchEvent(new Event('change'));
+                 } else {
+                     searchRoom.value = e.target.value;
+                     searchRoom.dispatchEvent(new Event('change'));
+                 }
+            }
         });
     }
 
