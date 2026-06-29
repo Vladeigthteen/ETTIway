@@ -15,7 +15,6 @@ ETTIway este un sistem de navigare campus care permite utilizatorilor să:
 ## 🚀 Funcționalități
 
 ### Implementate
-- ✅ Repository GitHub creat
 - ✅ Hartă interactivă bazată pe Leaflet.js
 - ✅ Interfață sidebar cu detalii despre clădiri
 - ✅ Sistem de afișare a planurilor interioare (indoor maps)
