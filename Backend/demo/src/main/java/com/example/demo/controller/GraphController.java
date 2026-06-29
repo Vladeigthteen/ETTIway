@@ -32,7 +32,7 @@ public class GraphController {
         if (mapDataOpt.isPresent() && mapDataOpt.get().getGraphJson() != null) {
             return ResponseEntity.ok(mapDataOpt.get().getGraphJson());
         }
-        return ResponseEntity.ok("{}"); // Default empty JSON object
+        return ResponseEntity.ok("{}"); 
     }
 
     @DeleteMapping("/erase")

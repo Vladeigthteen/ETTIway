@@ -4,7 +4,7 @@ const API_GRAPH_LOAD = '/api/graph/load';
 window.isTestMode = false;
 window.currentStartPoint = null;
 window.currentDestinationPoint = null;
-window.calculateRouteTest = calculateRouteTest; // Exportăm pentru a fi apelat din map.js
+window.calculateRouteTest = calculateRouteTest; 
 window.toggleTestModeGlobal = function() {
     window.isTestMode = !window.isTestMode;
     const btn = document.getElementById('test-mode-btn');
@@ -78,7 +78,7 @@ function populateBuildingList(buildings) {
     listContainer.innerHTML = '';
     buildings.forEach(building => {
         const item = document.createElement('div');
-        item.className = 'room-item'; // Keeping class name for style compatibility
+        item.className = 'room-item'; 
         item.innerHTML = `
             <div class="room-item-name">${escapeHtml(building.name)}</div>
             <div class="room-item-building">${escapeHtml(building.description)}</div>
@@ -340,7 +340,7 @@ function initializeSearch() {
             if (!searchTerm) return;
             
             let targetPoint = null;
-            let finalBuildingName = searchTerm; // Fallback nume pentru afișaj
+            let finalBuildingName = searchTerm; 
             let matchingEntrances = [];
             if (window.campusData && window.campusData.entrances) {
                 for (let ent of window.campusData.entrances) {
@@ -372,7 +372,7 @@ function initializeSearch() {
                     finalBuildingName = matchingEntrances[0].name;
                 } else {
                     e.target.value = '';
-                    return; // User has cancelled
+                    return; 
                 }
             } else if (matchingEntrances.length > 1) {
                 let choiceIdx = await showAppPrompt(`S-au găsit mai multe intrări pentru clădirea aleasă. Alege una dintre ele:`, matchingEntrances);
@@ -388,7 +388,7 @@ function initializeSearch() {
                     }
                 } else {
                     e.target.value = '';
-                    return; // User has cancelled / invalid
+                    return; 
                 }
             }
             if (!targetPoint && window.campusData && window.campusData.buildings) {
@@ -418,8 +418,8 @@ function initializeSearch() {
                         }
                     }
     
-                    // Chiar daca nu i-a putut deduce o intrare cu targetPoint, b este gasit.
-                    // Facem sa se duca pe cladire direct.
+                    
+                    
                     if (!targetPoint && b.points) {
                         targetPoint = L.latLngBounds(b.points).getCenter(); 
                         finalBuildingName = b.name;
@@ -428,7 +428,7 @@ function initializeSearch() {
             }
     
             if (targetPoint) {
-                // Dacă am găsit o clădire, rutăm la ea
+                
                 window.currentDestinationPoint = targetPoint;
                 if (typeof userMarker !== 'undefined' && userMarker && userMarker.getLatLng) {
                     window.currentStartPoint = userMarker.getLatLng();
@@ -472,9 +472,9 @@ function initializeSearch() {
                             if (floorObj.geoJson && floorObj.geoJson.features) {
                                 for (let feat of floorObj.geoJson.features) {
                                     if (feat.properties && feat.properties.name && feat.properties.name.toLowerCase().includes(searchTerm)) {
-                                        // Filtram markerele ca sa nu gaseasca "intrare Corp B"
+                                        
                                         if (feat.properties.markerType) {
-                                            continue; // Ignoram markerele de intrare / scari / etc in search-ul de camere
+                                            continue; 
                                         }
                                         
                                         foundRoom = {
@@ -570,7 +570,7 @@ function initializeSidebarToggle(mapRef) {
 async function initialize() {
     console.log('Initializing ETTIway application...');
     const data = await loadCampusData();
-    window.campusData = data; // Expose globally for other modules (e.g., indoor.js)
+    window.campusData = data; 
     let mapInstance;
     if (data.campus && data.campus.location) {
         mapInstance = initializeMap(
@@ -639,7 +639,7 @@ function setupTestModeRouting(map, graphGroup) {
         if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
             layer.on('click', function(e) {
                 if (!window.isTestMode || watchId !== 'test_mode') return;
-                L.DomEvent.stop(e); // Blochează emiterea de propagare catre harta
+                L.DomEvent.stop(e); 
                 if (!window.currentStartPoint || (window.currentStartPoint && window.currentDestinationPoint)) {
                     window.currentStartPoint = e.latlng;
                     window.currentDestinationPoint = null;
@@ -685,7 +685,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
     const endKey = findNearestNode(endLatLng, nodesMap);
     const fallbackNode = findNearestNode(startLatLng, nodesMap);
 
-    // Creare Virtual Start Node bazat pe locația utilizatorului
+    
     const startKey = 'VIRTUAL_START_NODE';
     nodesMap[startKey] = startLatLng;
     graph[startKey] = [];
@@ -695,7 +695,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
     const p0 = map.project(startLatLng);
     const seenEdges = new Set();
     
-    // Căutare cel mai apropiat segment (A-B)
+    
     for (const nodeKey in graph) {
         if (nodeKey === startKey) continue;
         const p1LatLng = nodesMap[nodeKey];
@@ -714,7 +714,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
             if (!p2LatLng) continue;
             const p2 = map.project(p2LatLng);
             
-            // Folosim L.LineUtil furnizat de Leaflet pentru distanța punct-segment
+            
             const dist = L.LineUtil.pointToSegmentDistance(p0, p1, p2);
             if (dist < minPixDist) {
                 minPixDist = dist;
@@ -723,7 +723,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         }
     }
     
-    // Conectăm nodul virtual la segmentul cel mai apropiat, luând în calcul costurile (Haversine)
+    
     if (closestEdge) {
         const distA = startLatLng.distanceTo(nodesMap[closestEdge.A]);
         const distB = startLatLng.distanceTo(nodesMap[closestEdge.B]);
@@ -733,7 +733,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         graph[closestEdge.A].push({ node: startKey, weight: distA });
         graph[closestEdge.B].push({ node: startKey, weight: distB });
     } else {
-        // Fallback: doar puncte izolate
+        
         if (fallbackNode) {
             const dist = startLatLng.distanceTo(nodesMap[fallbackNode]);
             graph[startKey].push({ node: fallbackNode, weight: dist });
@@ -749,7 +749,7 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
 
     const pathCoords = runDijkstra(graph, nodesMap, startKey, endKey);
     
-    // Cleanup: Eliminăm nodul virtual și muchiile sale temporare din structura grafului
+    
     if (closestEdge) {
         if (closestEdge.A && graph[closestEdge.A]) {
             graph[closestEdge.A] = graph[closestEdge.A].filter(e => e.node !== startKey);
@@ -766,8 +766,8 @@ function calculateRouteTest(map, graphGroup, startLatLng, endLatLng) {
         return;
     }
     const path = L.polyline(pathCoords, {
-        color: '#460DFA',    // Culoarea cerută pentru rută
-        weight: 8,           // Puțin mai gros pentru vizibilitate
+        color: '#460DFA',    
+        weight: 8,           
         opacity: 0.9,
         lineJoin: 'round',
         lineCap: 'round'

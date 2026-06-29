@@ -94,7 +94,7 @@ async function saveGraph(drawnItems) {
             showToast('Succes! Graful a fost salvat în baza de date.', 'success');
         } else {
             showToast('Eroare la server (' + response.status + '). Funcția fallback: descărcare locală.', 'error');
-            downloadJSON(geoJSON, 'graph_backup.json'); // Siguranță
+            downloadJSON(geoJSON, 'graph_backup.json'); 
         }
     } catch (error) {
         showToast('Eroare de rețea. Am descărcat fișierul local.', 'error');
@@ -157,7 +157,7 @@ function showToast(message, type = 'success') {
     if (type === 'error') toast.style.backgroundColor = '#f44336';
     else if (type === 'warning') toast.style.backgroundColor = '#ff9800';
     else if (type === 'info') toast.style.backgroundColor = '#2196F3';
-    else toast.style.backgroundColor = '#4CAF50'; // success default
+    else toast.style.backgroundColor = '#4CAF50'; 
     toast.style.color = 'white';
     toast.style.padding = '15px 20px';
     toast.style.borderRadius = '5px';
@@ -172,6 +172,6 @@ function showToast(message, type = 'success') {
     }, 10);
     setTimeout(() => {
         toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 500); // curăță DOM-ul
+        setTimeout(() => toast.remove(), 500); 
     }, 5000);
 }

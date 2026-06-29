@@ -1,10 +1,10 @@
 ﻿
 const DEFAULT_CAMPUS_LAT = 44.433215;
 const DEFAULT_CAMPUS_LON = 26.056764;
-const DEFAULT_ZOOM_LEVEL = 18; // Increased zoom since the area is smaller
+const DEFAULT_ZOOM_LEVEL = 18; 
 const MAP_BOUNDS = [
-    [44.432102, 26.054500], // South-West
-    [44.434329, 26.059028]  // North-East
+    [44.432102, 26.054500], 
+    [44.434329, 26.059028]  
 ];
 function escapeHtml(text) {
     if (text == null) return '';

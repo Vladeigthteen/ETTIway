@@ -64,7 +64,7 @@ function handleBuildingChange(e) {
         for (let i = 0; i < window.floorData[building.name].count; i++) {
              window.floorData[building.name].floors.push({ 
                  id: i, 
-                 label: `Etaj ${i}` // "Floor" in Romanian to match user language
+                 label: `Etaj ${i}` 
              });
         }
     }
@@ -109,13 +109,13 @@ function renderFloorList(buildingName) {
         label.style.fontWeight = 'bold';
         label.textContent = floor.label || `Etaj ${index}`;
         const editBtn = document.createElement('button');
-        editBtn.textContent = 'Editeaza Plan'; // "Edit Plan"
+        editBtn.textContent = 'Editeaza Plan'; 
         editBtn.style.cssText = 'background: #2ecc71; color: white; border: none; padding: 6px 12px; border-radius: 3px; cursor: pointer; transition: background 0.2s;';
         editBtn.onmouseover = () => editBtn.style.background = '#27ae60';
         editBtn.onmouseout = () => editBtn.style.background = '#2ecc71';
         editBtn.onclick = () => openFloorPlanEditor(buildingName, index);
         const viewBtn = document.createElement('button');
-        viewBtn.textContent = 'Vezi Plan'; // "View Plan"
+        viewBtn.textContent = 'Vezi Plan'; 
         viewBtn.style.cssText = 'background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 3px; cursor: pointer; margin-right: 5px;';
         viewBtn.onclick = () => openFloorPlanViewer(buildingName, index);
         const btnContainer = document.createElement('div');
@@ -134,9 +134,9 @@ let indoorBorderLayer = null;
 let indoorRoutePolyline = null;
 
 function getCustomMarkerIcon(typeId) {
-    let bgColor = '#3498db'; // Default type 1
-    if (typeId === '2') bgColor = '#e67e22'; // Type 2
-    if (typeId === '3') bgColor = '#2ecc71'; // Type 3
+    let bgColor = '#3498db'; 
+    if (typeId === '2') bgColor = '#e67e22'; 
+    if (typeId === '3') bgColor = '#2ecc71'; 
     
     const htmlString = `<div style="background-color: ${bgColor}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.5);"></div>`;
     
@@ -150,7 +150,7 @@ function getCustomMarkerIcon(typeId) {
 }
 
 function initIndoorMap() {
-    if (indoorMap) return; // Already initialized
+    if (indoorMap) return; 
     indoorMap = L.map('indoor-map', {
         crs: L.CRS.Simple,
         minZoom: -2,
@@ -169,7 +169,7 @@ function initIndoorMap() {
         snapDistance: 20
     });
 
-    // Add legend to map
+   
     const legend = L.control({ position: 'bottomright' });
     legend.onAdd = function () {
         const div = L.DomUtil.create('div', 'indoor-legend');
@@ -222,7 +222,7 @@ function initIndoorMap() {
                 }
             });
         } else if (e.shape === 'Line' || e.shape === 'Polyline') {
-            // Nu dorim să cerem nume pentru Polyline, acestea sunt doar rute
+            
             layer.feature = layer.feature || { type: "Feature", properties: {} };
             layer.feature.properties = layer.feature.properties || {};
             layer.feature.properties.type = "route";
@@ -239,7 +239,7 @@ function initIndoorMap() {
                         className: "room-tooltip"
                     }).openTooltip();
                 } else {
-                    // Remove the drawing if user canceled the naming
+                    
                     indoorLayers.removeLayer(layer);
                 }
             });
@@ -275,7 +275,7 @@ function showCustomPrompt(message, callback) {
     const btnOk = document.getElementById('custom-prompt-ok');
     const btnCancel = document.getElementById('custom-prompt-cancel');
 
-    // Clean old event listeners by cloning
+    
     const newBtnOk = btnOk.cloneNode(true);
     const newBtnCancel = btnCancel.cloneNode(true);
     btnOk.parentNode.replaceChild(newBtnOk, btnOk);
@@ -302,7 +302,7 @@ function showCustomAlert(message) {
     if (!modal) {
         modal = document.createElement('div');
         modal.id = 'custom-alert-modal';
-        modal.className = 'custom-prompt-modal'; // refolosim design-ul din custom prompt
+        modal.className = 'custom-prompt-modal'; 
         modal.innerHTML = `
             <div class="custom-prompt-content">
                 <h3 id="custom-alert-message" style="margin-bottom: 25px; line-height: 1.4;"></h3>
@@ -325,7 +325,7 @@ function showCustomAlert(message) {
         modal.style.display = 'none';
     };
 
-    // Apăsarea tastei Enter sau Escape închide alerta
+    
     document.addEventListener('keydown', function tempListener(e) {
         if (modal.style.display === 'flex' && (e.key === 'Enter' || e.key === 'Escape')) {
             newBtnOk.click();
@@ -415,13 +415,13 @@ function openFloorPlanEditor(buildingName, floorIndex) {
         saveBtn.onclick = () => saveCurrentFloorPlan(); 
     }
     
-    // Ascundem controalele de rutare in modul editor
+    
     const routingControls = document.getElementById('indoor-routing-controls');
     if (routingControls) routingControls.style.display = 'none';
 
     currentIndoorBuilding = buildingName;
     currentIndoorFloor = floorIndex;
-    modal.style.display = 'flex'; // or block based on CSS
+    modal.style.display = 'flex'; 
     setTimeout(() => {
         document.body.classList.add('indoor-open');
         modal.classList.add('open');
@@ -456,7 +456,7 @@ function openFloorPlanViewer(buildingName, floorIndex, roomNameToHighlight = nul
     const saveBtn = document.getElementById('indoor-save-btn');
     if (saveBtn) saveBtn.style.display = 'none';
 
-    // Afisam controalele de rutare in modul viewer
+    
     const routingControls = document.getElementById('indoor-routing-controls');
     if (routingControls) {
         routingControls.style.display = 'flex';
@@ -549,7 +549,7 @@ function disableEditorTools() {
     indoorMap.pm.disableGlobalEditMode();
 }
 function saveCurrentFloorPlan() {
-    if (!window.floorData || !currentIndoorBuilding) return; // Should exist if we are here
+    if (!window.floorData || !currentIndoorBuilding) return; 
     const geoJson = indoorLayers.toGeoJSON();
     const bData = window.floorData[currentIndoorBuilding];
     if (bData && bData.floors) {
@@ -606,7 +606,7 @@ function loadIndoorData() {
                 console.log("Loaded indoor data from database:", data);
                 window.floorData = data;
             } else {
-                // Fallback to local default file if DB is empty
+                
                 return fetch('data/indoor-data.json')
                     .then(res => res.ok ? res.json() : {})
                     .then(localData => {
@@ -661,7 +661,7 @@ function loadFloorData(buildingName, floorIndex, roomNameToHighlight = null) {
             });
             
             if (layerToHighlight && layerToHighlight.getBounds) {
-                // Focusăm harta pe cameră
+                
                 indoorMap.fitBounds(layerToHighlight.getBounds(), { padding: [20, 20], maxZoom: 1 });
             }
         }
@@ -714,19 +714,19 @@ function populateIndoorRoutingDropdowns(buildingName) {
             floor.geoJson.features.forEach(feature => {
                 if (feature.properties && feature.properties.name) {
                     const name = feature.properties.name;
-                    const markerType = feature.properties.markerType; // 1 = intrare, 2 = intersectie, 3 = scari
+                    const markerType = feature.properties.markerType; 
                     
                     const optionText = `${name} (Etaj ${floor.id})`;
 
                     if (!markerType) {
-                        // it's a room polygon/rectangle
+                        
                         startItems.push({ val: `${floor.id}|||${name}`, text: optionText });
                         destItems.push({ val: `${floor.id}|||${name}`, text: optionText });
                     } else if (markerType === "1" || markerType === "3") {
-                        // Intrarea sau scara se poate alege ca starting point
+                        
                         startItems.push({ val: `${floor.id}|||${name}`, text: optionText });
-                        // Eventual si la destinatie daca se vrea scari, dar in cerinta scrie (room list pt destinatie)
-                        // Destinatia doar room list
+                        
+                        
                     }
                 }
             });
@@ -785,7 +785,7 @@ function calculateIndoorRoute() {
     let startCoord = null;
     let destCoord = null;
 
-    // Localizăm coordonatele pt start și dest
+    
     L.geoJSON(floorObj.geoJson, {
         onEachFeature: function (feature, layer) {
             if (feature.properties && feature.properties.name) {
@@ -804,13 +804,13 @@ function calculateIndoorRoute() {
         return;
     }
 
-    // Extragem din geoJson doar rutele pentru graf
+    
     const roateFeatures = floorObj.geoJson.features.filter(f => 
         f.geometry && f.geometry.type === 'LineString'
     );
     console.log("Segment de rute găsite:", roateFeatures.length);
 
-    // Construim personalizat graful cu funcție avansată de "snapping"
+    
     const graph = {};
     const nodesMap = {};
     const COORD_PRECISION = 2; 
@@ -832,7 +832,7 @@ function calculateIndoorRoute() {
         return Math.sqrt((p2.lat - p1.lat)**2 + (p2.lng - p1.lng)**2);
     }
     
-    // Funcție pentru distanța de la un punct la un segment și obținerea proiecției
+    
     function distToSegment(p, v, w) {
         const l2 = (w.lng - v.lng)**2 + (w.lat - v.lat)**2;
         if (l2 === 0) return { dist: euclidean(p, v), proj: v };
@@ -884,7 +884,7 @@ function calculateIndoorRoute() {
             }
         });
         
-        // Toleranță de 25 pixeli pt a lipi liniile desenate "la ochi" care s-au oprit la pereți / intersecții, nu în vertex.
+        
         if (bestEdge && (minDist < 25 || nKey === startKey || nKey === destKey)) {
             const projKey = addIndoorNode(bestProj.lat, bestProj.lng);
             
@@ -892,14 +892,14 @@ function calculateIndoorRoute() {
             const distK2 = euclidean(bestEdge.p2, bestProj);
             const distN = euclidean(p, bestProj);
 
-            // Tăiem virtual muchia și inserăm intersecția
+            
             graph[bestEdge.k1].push({ node: projKey, weight: distK1 });
             graph[projKey].push({ node: bestEdge.k1, weight: distK1 });
             
             graph[bestEdge.k2].push({ node: projKey, weight: distK2 });
             graph[projKey].push({ node: bestEdge.k2, weight: distK2 });
             
-            // Conectăm punctul nostru suspendat la noul nod de pe muchie
+            
             graph[nKey].push({ node: projKey, weight: distN });
             graph[projKey].push({ node: nKey, weight: distN });
         }
@@ -910,7 +910,7 @@ function calculateIndoorRoute() {
         connectNodeToNetwork(nKey);
     });
 
-    // Dijkstra dedicat pentru fisierul curent (nu afecteaza exteriorul)
+    
     function indoorDijkstra(graphMap, nodesList, sKey, eKey) {
         const distances = {};
         const previous = {};
@@ -961,7 +961,7 @@ function calculateIndoorRoute() {
         return;
     }
 
-    const renderPath = path; // path contine deja de la camera start la camera destinație direct
+    const renderPath = path; 
     clearIndoorRoute();
 
     indoorRoutePolyline = L.polyline(renderPath, {

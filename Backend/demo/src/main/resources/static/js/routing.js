@@ -16,7 +16,7 @@ function extractSegments(geoJSON) {
     if (!geoJSON || !geoJSON.features) return segments;
 
     function addLine(coords) {
-        // GeoJSON da coordonatele ca [lng, lat]
+        
         for (let i = 0; i < coords.length - 1; i++) {
             segments.push({
                 a: { lat: coords[i][1],   lng: coords[i][0] },
@@ -26,11 +26,11 @@ function extractSegments(geoJSON) {
     }
 
     geoJSON.features.forEach(feature => {
-        if (!feature.geometry) return;            // FIX: geometry null nu mai da crash
+        if (!feature.geometry) return;            
         const g = feature.geometry;
         if (g.type === 'LineString') {
             addLine(g.coordinates);
-        } else if (g.type === 'MultiLineString') { // FIX: MultiLineString
+        } else if (g.type === 'MultiLineString') { 
             g.coordinates.forEach(line => addLine(line));
         }
         
@@ -41,17 +41,17 @@ function extractSegments(geoJSON) {
 
 
 function lineParams(p1, p2, p3, p4) {
-    // lat/lng tratate ca y/x in plan - suficient la scara de campus
+    
     const x1=p1.lng, y1=p1.lat, x2=p2.lng, y2=p2.lat;
     const x3=p3.lng, y3=p3.lat, x4=p4.lng, y4=p4.lat;
     const denom = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4);
-    if (Math.abs(denom) < 1e-12) return null; // paralele / coliniare
+    if (Math.abs(denom) < 1e-12) return null; 
     const t = ((x1-x3)*(y3-y4) - (y1-y3)*(x3-x4)) / denom;
     const u = ((x1-x3)*(y1-y2) - (y1-y3)*(x1-x2)) / denom;
     return { t, u, point: { lat: y1 + t*(y2-y1), lng: x1 + t*(x2-x1) } };
 }
 
-function dist2(p, q) { // distanta la patrat (doar pentru ordonare)
+function dist2(p, q) { 
     const dx = p.lng - q.lng, dy = p.lat - q.lat;
     return dx*dx + dy*dy;
 }
@@ -69,7 +69,7 @@ function splitSegmentsAtIntersections(segments) {
             const uInterior = u > eps && u < 1 - eps;
             const tOnSeg = t >= -eps && t <= 1 + eps;
             const uOnSeg = u >= -eps && u <= 1 + eps;
-            // taiem segmentul i daca intersectia cade in interiorul lui si pe segmentul j
+            
             if (tInterior && uOnSeg) splitPoints[i].push(point);
             if (uInterior && tOnSeg) splitPoints[j].push(point);
         }
@@ -80,7 +80,7 @@ function splitSegmentsAtIntersections(segments) {
         const pts = splitPoints[idx];
         if (pts.length === 0) { result.push(seg); return; }
         const all = [seg.a, ...pts, seg.b];
-        all.sort((m, n) => dist2(seg.a, m) - dist2(seg.a, n)); // ordoneaza de-a lungul segmentului
+        all.sort((m, n) => dist2(seg.a, m) - dist2(seg.a, n)); 
         for (let k = 0; k < all.length - 1; k++) {
             result.push({ a: all[k], b: all[k+1] });
         }
@@ -96,7 +96,7 @@ function buildGraphFromGeoJSON(geoJSON, { splitIntersections = true } = {}) {
 
     function getOrCreateNode(lat, lng) {
         const ll = L.latLng(lat, lng);
-        // FIX conectivitate: refoloseste un nod existent daca e in raza SNAP_TOLERANCE
+        
         for (const key of nodeList) {
             if (ll.distanceTo(nodesMap[key]) <= SNAP_TOLERANCE) return key;
         }
@@ -110,7 +110,7 @@ function buildGraphFromGeoJSON(geoJSON, { splitIntersections = true } = {}) {
     }
 
     function addEdge(k1, k2) {
-        if (k1 === k2) return; // ignora muchiile de lungime zero
+        if (k1 === k2) return; 
         const dist = nodesMap[k1].distanceTo(nodesMap[k2]);
         if (!graph[k1].some(e => e.node === k2)) graph[k1].push({ node: k2, weight: dist });
         if (!graph[k2].some(e => e.node === k1)) graph[k2].push({ node: k1, weight: dist });
@@ -156,11 +156,11 @@ function findNearestPointOnGraph(targetLatLng, graph, nodesMap) {
             if (!best || d < best.distance) best = { snapped, distance: d, k1, k2 };
         }
     }
-    return best; // {snapped, distance, k1, k2} sau null daca graful e gol
+    return best; 
 }
 
-// Insereaza un nod temporar exact in punctul de snap, conectat la capetele muchiei.
-// Foloseste-l pentru start (locatia utilizatorului) si sfarsit (cladirea).
+
+
 function addTemporaryNode(targetLatLng, graph, nodesMap) {
     const near = findNearestPointOnGraph(targetLatLng, graph, nodesMap);
     if (!near) return null;
@@ -174,7 +174,7 @@ function addTemporaryNode(targetLatLng, graph, nodesMap) {
     return key;
 }
 
-// Curata nodurile temporare dupa o rutare, ca sa nu se acumuleze.
+
 function removeTemporaryNodes(graph, nodesMap) {
     for (const key in graph) {
         if (key.startsWith('tmp:')) { delete graph[key]; delete nodesMap[key]; }
@@ -221,7 +221,7 @@ function runDijkstra(graph, nodesMap, startKey, endKey) {
             }
         }
     }
-    if (distances[endKey] === Infinity) return null; // drum izolat topografic
+    if (distances[endKey] === Infinity) return null; 
     const path = [];
     let curr = endKey;
     while (curr) { path.unshift(nodesMap[curr]); curr = previous[curr]; }

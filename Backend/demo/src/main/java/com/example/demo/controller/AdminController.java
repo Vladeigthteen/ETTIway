@@ -18,17 +18,17 @@ public String directAfterLogin(Authentication auth) {
     if (auth == null) return "redirect:/login";
 
     if (auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-        // În loc de pagina de test, trimitem la index.html cu parametrul edit
+        
         return "redirect:/?edit=1"; 
     }
     
-    // Trimitem studentul la harta normală
+    
     return "redirect:/"; 
 }
 
 @GetMapping("/")
 public String home() {
-    // Aceasta va căuta index.html în folderul static
+    
     return "index.html";
 }
 }

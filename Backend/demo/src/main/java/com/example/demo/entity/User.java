@@ -15,12 +15,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String role; // "ROLE_ADMIN"
+    private String role; 
 
-    // Constructor gol necesar pentru JPA
+    
     public User() {}
 
-    // Getters și Setters (necesari pentru ca Java să citească datele)
+    
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getUsername() { return username; }

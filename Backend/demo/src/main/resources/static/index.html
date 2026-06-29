@@ -173,7 +173,7 @@
                     
                     if (isEditMode && role !== 'ADMIN') {
                         showAuthError('Atenție: Contul tău (' + data.username + ') nu are drepturi de Administrator pentru a edita harta.');
-                        return; // Oprește executia UI-ului rămas pe cât posibil
+                        return; 
                     }
                     
                     const userEl = document.getElementById('logged-user');

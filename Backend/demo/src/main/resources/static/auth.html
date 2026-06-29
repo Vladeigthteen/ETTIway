@@ -6,7 +6,7 @@
     <title>ETTIway - Sign Up</title>
     <link rel="icon" type="image/svg+xml" href="Icons/tab-logo.svg">
     <style>
-        /* Global styles */
+        
         * {
             margin: 0;
             padding: 0;
@@ -20,13 +20,13 @@
             align-items: center;
             justify-content: center;
         }
-        /* Auth Container */
+        
         .auth-container {
             width: 100%;
             max-width: 400px;
             padding: 20px;
         }
-        /* Card styles */
+        
         .card {
             background-color: #2c3e50;
             border-radius: 8px;
@@ -34,7 +34,7 @@
             padding: 40px;
             color: #ecf0f1;
         }
-        /* Header */
+        
         .card-header {
             text-align: center;
             margin-bottom: 30px;
@@ -48,7 +48,7 @@
             font-size: 14px;
             color: #bdc3c7;
         }
-        /* Form group */
+        
         .form-group {
             margin-bottom: 20px;
         }
@@ -77,7 +77,7 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             background-color: #3e5871;
         }
-        /* Checkbox group */
+        
         .checkbox-group {
             display: flex;
             align-items: center;
@@ -98,7 +98,7 @@
             font-size: 14px;
             color: #ecf0f1;
         }
-        /* Buttons */
+        
         .button-group {
             display: flex;
             flex-direction: column;
@@ -142,7 +142,7 @@
             background-color: #3e5871;
             transform: translateY(-2px);
         }
-        /* Loading state */
+        
         .btn-primary.loading {
             opacity: 0.7;
             pointer-events: none;
@@ -160,7 +160,7 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        /* Error message */
+        
         .error-message {
             background-color: #c0392b;
             color: #ecf0f1;
@@ -173,7 +173,7 @@
         .error-message.show {
             display: block;
         }
-        /* Success message */
+        
         .success-message {
             background-color: #27ae60;
             color: #ecf0f1;
@@ -186,7 +186,7 @@
         .success-message.show {
             display: block;
         }
-        /* Links */
+        
         .login-link {
             text-align: center;
             font-size: 14px;
@@ -264,7 +264,7 @@
         </div>
     </div>
     <script>
-        // Get form elements
+        
         const signupForm = document.getElementById('signupForm');
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
@@ -272,15 +272,15 @@
         const signupBtn = document.getElementById('signupBtn');
         const errorMessage = document.getElementById('errorMessage');
         const successMessage = document.getElementById('successMessage');
-        // Handle form submission
+        
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Clear previous messages
+            
             errorMessage.classList.remove('show');
             errorMessage.textContent = '';
             successMessage.classList.remove('show');
             successMessage.textContent = '';
-            // Validate inputs
+            
             if (!usernameInput.value.trim()) {
                 showError('Username is required');
                 return;
@@ -293,19 +293,19 @@
                 showError('Password must be at least 6 characters long');
                 return;
             }
-            // Disable button and show loading state
+            
             signupBtn.disabled = true;
             signupBtn.classList.add('loading');
             const originalText = signupBtn.textContent;
             signupBtn.innerHTML = '<span class="spinner"></span>Signing up...';
             try {
-                // Prepare data
+                
                 const data = {
                     username: usernameInput.value.trim(),
                     password: passwordInput.value,
                     isAdmin: isAdminCheckbox.checked
                 };
-                // Send request to backend
+                
                 const response = await fetch('/api/auth/signup', {
                     method: 'POST',
                     headers: {
@@ -313,7 +313,7 @@
                     },
                     body: JSON.stringify(data)
                 });
-                // Handle response
+                
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
                     throw new Error(
@@ -321,11 +321,11 @@
                         `Sign up failed: ${response.status} ${response.statusText}`
                     );
                 }
-                // Show success message
+                
                 showSuccess('Sign up successful! Redirecting to login...');
-                // Reset form
+                
                 signupForm.reset();
-                // Redirect to login after 2 seconds
+                
                 setTimeout(() => {
                     window.location.href = '/login.html';
                 }, 2000);
@@ -333,25 +333,25 @@
                 console.error('Sign up error:', error);
                 showError(error.message || 'An error occurred during sign up. Please try again.');
             } finally {
-                // Re-enable button
+                
                 signupBtn.disabled = false;
                 signupBtn.classList.remove('loading');
                 signupBtn.textContent = originalText;
             }
         });
-        // Show error message
+        
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.classList.add('show');
             errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-        // Show success message
+        
         function showSuccess(message) {
             successMessage.textContent = message;
             successMessage.classList.add('show');
             successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-        // Clear error on input change
+        
         usernameInput.addEventListener('input', () => {
             if (errorMessage.classList.contains('show')) {
                 errorMessage.classList.remove('show');

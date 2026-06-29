@@ -22,7 +22,7 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
     return org.springframework.security.core.userdetails.User
             .withUsername(user.getUsername())
             .password(user.getPassword())
-            .authorities(new SimpleGrantedAuthority(user.getRole())) // <--- Forțează conversia corectă
+            .authorities(new SimpleGrantedAuthority(user.getRole())) 
             .build();
 }
 }

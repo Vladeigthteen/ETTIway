@@ -28,7 +28,7 @@ public ResponseEntity<?> signup(@RequestBody Map<String, String> data) {
     boolean isAdmin = Boolean.parseBoolean(data.get("isAdmin"));
 
     if (userRepository.findByUsername(username).isPresent()) {
-        // Returnăm un JSON cu cheia "message"
+       
         return ResponseEntity.badRequest().body(Map.of("message", "Eroare: Utilizatorul exista deja!"));
     }
 
@@ -39,7 +39,7 @@ public ResponseEntity<?> signup(@RequestBody Map<String, String> data) {
 
     userRepository.save(user);
     
-    // Returnăm un JSON de succes
+   
     return ResponseEntity.ok(Map.of("message", "Cont creat cu succes!"));
 }
 

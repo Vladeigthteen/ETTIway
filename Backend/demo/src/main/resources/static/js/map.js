@@ -3,7 +3,7 @@ let buildingsLayer;
 let buildingsData = [];
 let entrancesLayer;
 
-let shouldAutoCenter = true; // global flag to track if we should auto-center
+let shouldAutoCenter = true; 
 let geoWarningTimeout = null;
 let geoWarningShownThisSession = false;
 
@@ -135,11 +135,11 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
     setupMobileResponsiveLayout();
     fitMobileMapToBounds();
 
-    // Oprește auto-centrarea când utilizatorul trage MANUAL de hartă.
-    // 'dragstart' se declanșează atât la drag de mouse, cât și la drag cu degetul
-    // (touch), dar NU la setView/flyTo/panTo apelate din cod. Astfel centrarea
-    // programatică din callback-ul GPS nu se mai dezactivează singură, iar pe
-    // telefon utilizatorul poate muta liber harta fără să fie tras înapoi.
+    
+    
+    
+    
+    
     function stopAutoCenter() {
         shouldAutoCenter = false;
         const btn = document.getElementById('recenter-btn');
@@ -150,25 +150,25 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
 
     campusMap.on('dragstart', stopAutoCenter);
 
-    // Create a layer group for buildings (allows easy management)
+    
     buildingsLayer = L.layerGroup().addTo(campusMap);
-    // Layer for entrances (gates/parking/pedestrian)
+    
     entrancesLayer = L.layerGroup().addTo(campusMap);
 
-    // -- Map Editor --
+    
     const drawnGroup = L.featureGroup().addTo(campusMap);
 
-    // Check for edit mode
+    
     const urlParams = new URLSearchParams(window.location.search);
     const isEditMode = urlParams.get('edit') === '1';
 
     if (isEditMode && typeof initGraphEditor === 'function') {
         initGraphEditor(campusMap, drawnGroup);
     } else if (!isEditMode) {
-        // Hide graph editor if not in edit mode (though initGraphEditor might control this internally too)
+        
     }
 
-    // Add Floor Manager Control (Only visible in Edit Mode)
+    
     if (isEditMode) {
         const FloorControl = L.Control.extend({
             options: { position: 'topleft' },
@@ -221,7 +221,7 @@ function initializeMap(lat = DEFAULT_CAMPUS_LAT, lon = DEFAULT_CAMPUS_LON, zoom 
 function drawEntrances(entrances) {
     if (!entrances || !Array.isArray(entrances) || !campusMap) return;
 
-    // Clear existing entrance markers
+    
     entrancesLayer.clearLayers();
 
     entrances.forEach(ent => {
@@ -229,9 +229,9 @@ function drawEntrances(entrances) {
 
         const latlng = ent.coordinates;
 
-        // Style based on type
-        let fillColor = '#2980b9'; // pedestrian default (blue)
-        if (ent.type === 'vehicle') fillColor = '#27ae60'; // vehicle (green)
+        
+        let fillColor = '#2980b9'; 
+        if (ent.type === 'vehicle') fillColor = '#27ae60'; 
 
         const marker = L.circleMarker(latlng, {
             radius: 6,
@@ -245,7 +245,7 @@ function drawEntrances(entrances) {
         marker.bindTooltip(tooltip, { direction: 'top', permanent: false, className: 'entrance-tooltip' });
 
         marker.on('click', () => {
-            // center map on entrance when clicked
+            
             campusMap.panTo(latlng);
         });
 
@@ -259,21 +259,21 @@ function drawEntrances(entrances) {
  * @returns {L.Polygon|null} Leaflet polygon object or null if invalid coordinates
  */
 function createBuildingPolygon(building) {
-    // Validate points
+    
     if (!building.points || building.points.length < 3) {
         console.warn(`Invalid points for building ${building.id}`);
         return null;
     }
 
-    // Create polygon with building information
+    
     const polygon = L.polygon(building.points, {
         color: building.color || "#ff7800",
         weight: 1,
         fillOpacity: 0.2,
-        buildingId: building.id // Store building ID for reliable identification
+        buildingId: building.id 
     });
 
-    // Add permanent text label by default (keeps map readable)
+    
     const labelContent = building.name || '';
     if (labelContent) {
         polygon.bindTooltip(labelContent, {
@@ -283,35 +283,35 @@ function createBuildingPolygon(building) {
         });
     }
 
-    // If building has an image icon path, create a separate Leaflet marker
-    // positioned at the polygon centroid. Using a marker (L.icon or L.divIcon)
-    // ensures the icon remains a fixed pixel size on screen and doesn't scale
-    // when the user zooms the map.
+    
+    
+    
+    
     if (building.icon && (building.icon.match(/\.(jpeg|jpg|gif|png|svg)$/i) || building.icon.startsWith('http'))) {
-        // compute a sensible center for the icon (centroid of polygon bounds)
-        // polygon must be added to map to compute pixel accurate center; use bounds center
+        
+        
         const center = L.latLngBounds(building.points).getCenter();
 
-        // create a pixel-sized icon (adjust size as needed)
+        
         const ICON_SIZE = [32, 32];
         const icon = L.icon({
             iconUrl: building.icon,
             iconSize: ICON_SIZE,
             iconAnchor: [ICON_SIZE[0] / 2, ICON_SIZE[1] / 2],
-            className: 'building-map-icon' // allows further CSS if desired
+            className: 'building-map-icon' 
         });
 
-        // create marker and add it to the same layer group as the polygon so
-        // it is managed together. Make it non-interactive so it doesn't block
-        // polygon clicks (we still have polygon click handler above).
+        
+        
+        
         const imgMarker = L.marker(center, { icon: icon, interactive: false });
-        // store a reference on the polygon so callers can remove or identify
-        // related marker if needed
+        
+        
         polygon._iconMarker = imgMarker;
         buildingsLayer.addLayer(imgMarker);
     }
 
-    // Add interactions
+    
     polygon.on('mouseover', function() {
         this.setStyle({
             weight: 3,
@@ -329,9 +329,9 @@ function createBuildingPolygon(building) {
     polygon.on('click', function() {
         displayBuildingDetails(building);
 
-        // Open indoor viewing mode directly - EXCLUSIV PENTRU MODAL, FĂRĂ RUTARE AICI
+        
         if (typeof window.openFloorPlanViewer === 'function') {
-            // Default to floor 0
+            
             window.openFloorPlanViewer(building.name, 0);
         } else {
             console.warn("Indoor Viewer not available");
@@ -346,13 +346,13 @@ function createBuildingPolygon(building) {
  * @param {Array} buildings - Array of building objects
  */
 function loadBuildingPolygons(buildings) {
-    // Clear existing layers
+    
     buildingsLayer.clearLayers();
 
-    // Store buildings data globally
+    
     buildingsData = buildings;
 
-    // Create and add polygons for each building
+    
     let validBuildings = 0;
     buildings.forEach(building => {
         const polygon = createBuildingPolygon(building);
@@ -370,7 +370,7 @@ function loadBuildingPolygons(buildings) {
  * @param {Object} building - Building data object
  */
 function focusOnBuilding(building) {
-    // Find the layer corresponding to the building
+    
     let targetLayer = null;
     buildingsLayer.eachLayer(layer => {
         if (layer.options.buildingId === building.id) {
@@ -397,7 +397,7 @@ function focusOnBuilding(building) {
 function displayBuildingDetails(building) {
     const detailsDiv = document.getElementById('room-details');
 
-    // Create HTML for building details
+    
     const detailsHTML = `
         <h3>Building Details</h3>
         <div class="room-info">
@@ -412,7 +412,7 @@ function displayBuildingDetails(building) {
 
     detailsDiv.innerHTML = detailsHTML;
 
-    // Show the details section (if hidden)
+    
     detailsDiv.style.display = 'block';
 }
 
@@ -432,10 +432,10 @@ function drawCampusBoundary(boundaryPoints) {
     }).addTo(campusMap);
 }
 
-// Path Drawing Mode removed per request
 
 
-// Removed OSM logic per request
+
+
 
 /**
  * Point-in-polygon algorithm to check if a coordinate is inside a boundary
@@ -462,18 +462,18 @@ let watchId = null;
 let userMarker = null;
 let accuracyCircle = null;
 
-// Gestiune rotație device
+
 let currentHeading = 0;
 
 function handleOrientation(event) {
     let alpha = event.alpha;
     let webkitHeading = event.webkitCompassHeading;
 
-    // Fallback and normalizations pt iOS/Android
+    
     if (webkitHeading) {
         currentHeading = webkitHeading;
     } else if (alpha !== null) {
-        // Pentru Android deviceorientationabsolute, alpha arată gradele față de nord (standard: 360 - alpha)
+        
         currentHeading = 360 - alpha;
     }
 
@@ -485,14 +485,14 @@ function handleOrientation(event) {
     }
 }
 
-// Hook de rotație general pt busolă
+
 if ('ondeviceorientationabsolute' in window) {
     window.addEventListener('deviceorientationabsolute', handleOrientation, true);
 } else {
     window.addEventListener('deviceorientation', handleOrientation, true);
 }
 
-// Custom Icon cu sageată SVG pentru tracking live
+
 const customUserIcon = L.divIcon({
     className: 'custom-user-indicator',
     html: `
@@ -509,7 +509,7 @@ const customUserIcon = L.divIcon({
     iconAnchor: [16, 16]
 });
 
-// Route lines layer for Dijkstra testing
+
 let routeLayer = null;
 
 /**
@@ -520,14 +520,14 @@ function toggleLocation() {
     const warning = document.getElementById('geo-warning');
 
     if (watchId === null) {
-        // Solicitare permisiune directă (Ex: iOS 13+ pt Gyroscope/Compass)
+        
         if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission().then(permissionState => {
                 if (permissionState !== 'granted') console.warn('Compass permission denied by user.');
             }).catch(console.error);
         }
 
-        // Dacă este mod test, simulăm watchId, ascultăm click-ul și nu folosim geolocation
+        
         if (window.isTestMode) {
             watchId = "test_mode";
 
@@ -549,7 +549,7 @@ function toggleLocation() {
             return;
         }
 
-        // Schimbă aspectul butonului la Activ
+        
         if (btn) {
             btn.style.backgroundColor = 'blue';
             btn.style.color = 'white';
@@ -568,7 +568,7 @@ function toggleLocation() {
                 const accuracy = position.coords.accuracy;
                 const userPoint = [userLat, userLon];
 
-                // Actualizează/creează userMarker și accuracyCircle
+                
                 if (userMarker) {
                     userMarker.setLatLng(userPoint);
                 } else {
@@ -576,7 +576,7 @@ function toggleLocation() {
                     userMarker.bindPopup("Te afli aici.");
                 }
 
-                // NOU: Actualizare traseu dacă s-a mapat pe o clădire!
+                
                 if (window.currentDestinationPoint && typeof window.calculateRouteTest === 'function') {
                     window.currentStartPoint = L.latLng(userPoint[0], userPoint[1]);
                     window.calculateRouteTest(campusMap, L.featureGroup(), window.currentStartPoint, window.currentDestinationPoint);
@@ -597,7 +597,7 @@ function toggleLocation() {
 
                 const boundary = typeof CAMPUS_POINTS !== 'undefined' ? CAMPUS_POINTS : window.campusData?.campus?.boundary;
 
-                // Verifică dacă userul este în CAMPUS_POINTS
+                
                 if (boundary && boundary.length >= 3) {
                     const isInsideCampus = isPointInPolygon(userPoint, boundary);
                     if (isInsideCampus) {
@@ -625,7 +625,7 @@ function toggleLocation() {
             { enableHighAccuracy: true }
         );
     } else {
-        // Oprește monitorizarea
+        
         if (window.isTestMode) {
             watchId = null;
         } else {
@@ -633,7 +633,7 @@ function toggleLocation() {
             watchId = null;
         }
 
-        // Șterge markerul și cercul
+        
         if (userMarker) {
             userMarker.remove();
             userMarker = null;
@@ -646,7 +646,7 @@ function toggleLocation() {
             routeLayer.clearLayers();
         }
 
-        // Resetează butonul
+        
         if (btn) {
             btn.style.backgroundColor = '#3498db';
             btn.style.color = 'white';
