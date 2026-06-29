@@ -1,7 +1,5 @@
 function [ out ] = Cod( varinput )
-% acesta este un comentariu
-% param intrare varinput
-% param iesire out
+
 
 rez = 0;
 n=10;
